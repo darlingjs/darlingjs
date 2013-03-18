@@ -1,0 +1,7 @@
+temp
+dist
+node_modules
+/.idea
+/*.iml
+/*.log
+atlassian-ide-plugin.xml
