@@ -25,13 +25,24 @@ module.exports = function(grunt) {
                 ]
             }
             */
+        },
+        jasmine: {
+            pivotal: {
+                src: 'src/**/*.js',
+                options: {
+                    specs: 'spec/**/*Spec.js',
+                    helpers: 'spec/**/*Helper.js'
+                }
+            }
         }
     });
 
     // Default task(s).
     grunt.registerTask('default', ['concat', 'uglify']);
     grunt.registerTask('build', ['concat']);
+    grunt.registerTask('test', ['jasmine']);
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
 }

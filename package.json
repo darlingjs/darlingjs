@@ -1,6 +1,10 @@
 {
   "name": "gameEngine",
   "version": "0.0.1",
+  "scripts": {
+    "prepublish": "npm prune",
+    "test": "grunt test"
+  },
   "devDependencies": {
     "testacular": "*",
     "jasmine-node": "*",

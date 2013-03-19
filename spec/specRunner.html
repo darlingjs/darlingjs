@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jasmine</title>
+    <link rel="stylesheet" type="text/css" href="../node_modules/grunt-contrib-jasmine/vendor/jasmine-1.3.1/jasmine.css">
+    <script type="text/javascript" src="../node_modules/grunt-contrib-jasmine/vendor/jasmine-1.3.1/jasmine.js"></script>
+    <script type="text/javascript" src="../node_modules/grunt-contrib-jasmine/vendor/jasmine-1.3.1/jasmine-html.js"></script>
+
+    <script type="text/javascript" src="../build/gameEngine.js"></script>
+    <script type="text/javascript" src="suites/worldSpec.js"></script>
+</head>
+<body>
+    <script>
+        var currentWindowOnload = window.onload;
+
+        window.onload = function() {
+            if (currentWindowOnload) {
+                currentWindowOnload();
+            }
+            execJasmine();
+        };
+
+        function execJasmine() {
+            var jasmineEnv = jasmine.getEnv();
+            jasmine.VERBOSE = true;
+            jasmineEnv.updateInterval = 1000;
+
+            var htmlReporter = new jasmine.HtmlReporter();
+
+            //jasmineEnv.addReporter(new jasmine.ConsoleReporter());
+            jasmineEnv.addReporter(htmlReporter);
+
+            jasmineEnv.specFilter = function(spec) {
+                return htmlReporter.specFilter(spec);
+            };
+
+            jasmineEnv.execute();
+        }
+    </script>
+</body>
+</html>
