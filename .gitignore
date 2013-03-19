@@ -1,6 +1,7 @@
 temp
 dist
 node_modules
+build
 /.idea
 /*.iml
 /*.log
