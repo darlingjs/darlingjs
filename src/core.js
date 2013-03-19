@@ -18,7 +18,7 @@ GameEngine.c = GameEngine.component = function() {
 }
 
 /**
- * Declare System
+ * Declare System. Like a filter in AngularJS
  *
  * @type {Function}
  */
@@ -36,7 +36,7 @@ GameEngine.e = GameEngine.entity = function() {
 }
 
 /**
- * Build World
+ * Build World. Like a Module in AngularJS
  *
  * @type {Function}
  */

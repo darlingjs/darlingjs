@@ -7,15 +7,24 @@ module.exports = function(grunt) {
                     'src/core.js',
                     'src/flatworld.js'
                 ],
-                dest: 'build/engine.js'
+                dest: 'build/<%= pkg.name %>.js'
             }
         },
         uglify: {
+            options: {
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+            },
+            build: {
+                src: 'build/<%= pkg.name %>.js',
+                dest: 'build/<%= pkg.name %>.min.js'
+            }
+            /*
             dist: {
                 files: [
                     { dest: 'build/engine.min.js', src: 'build/engine.js' }
                 ]
             }
+            */
         }
     });
 
