@@ -1,4 +1,3 @@
-'use strict';
 /**
  * Project: GameEngine.
  * FlatWorld Extensions
@@ -7,5 +6,7 @@
  */
 
 (function(undefined) {
+    'use strict';
+
     console.log('Hello Flat World!', undefined);
 })();

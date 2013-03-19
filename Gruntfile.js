@@ -4,8 +4,7 @@ module.exports = function(grunt) {
         concat: {
             dist: {
                 src: [
-                    'src/core.js',
-                    'src/flatworld.js'
+                    'src/**/*.js'
                 ],
                 dest: 'build/<%= pkg.name %>.js'
             }
@@ -18,13 +17,12 @@ module.exports = function(grunt) {
                 src: 'build/<%= pkg.name %>.js',
                 dest: 'build/<%= pkg.name %>.min.js'
             }
-            /*
-            dist: {
-                files: [
-                    { dest: 'build/engine.min.js', src: 'build/engine.js' }
-                ]
-            }
-            */
+        },
+        jshint: {
+            all: [
+                'Gruntfile.js',
+                'src/**/*.js'
+            ]
         },
         jasmine: {
             pivotal: {
@@ -38,11 +36,11 @@ module.exports = function(grunt) {
     });
 
     // Default task(s).
-    grunt.registerTask('default', ['concat', 'uglify']);
-    grunt.registerTask('build', ['concat']);
-    grunt.registerTask('test', ['jasmine']);
+    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'test']);
+    grunt.registerTask('test', ['concat', 'jshint', 'jasmine']);
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
-}
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+};
