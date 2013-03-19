@@ -1,7 +1,7 @@
 {
     "name": "GameEngine",
     "version": "0.0.1",
-    "dependencies": {
+    "devDependencies": {
         "testacular": "*",
         "jasmine-node": "*",
         "grunt": "0.4.0",
