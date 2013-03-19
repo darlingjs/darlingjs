@@ -1,6 +1,7 @@
 {
   "name": "gameEngine",
   "version": "0.0.1",
+  "homepage": "http://hyzhak.github.com/",
   "scripts": {
     "prepublish": "npm prune",
     "test": "grunt test"

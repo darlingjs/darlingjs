@@ -1,12 +1,10 @@
+/**
+ * Module
+ * @module core
+ */
+
 (function() {
     'use strict';
-
-    /**
-     * Project: GameEngine.
-     * Core of library
-     *
-     * Copyright (c) 2013, Eugene-Krevenets
-     */
 
     var GameEngine = {};
 

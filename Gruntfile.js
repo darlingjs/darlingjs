@@ -32,15 +32,33 @@ module.exports = function(grunt) {
                     helpers: 'spec/**/*Helper.js'
                 }
             }
+        },
+        clean: {
+            docs: ['docs/']
+        },
+        yuidoc: {
+            compile: {
+                name: '<%= pkg.name %>',
+                description: '<%= pkg.description %>',
+                version: '<%= pkg.version %>',
+                url: '<%= pkg.homepage %>',
+                options: {
+                    paths: 'src/',
+                    outdir: 'docs/'
+                }
+            }
         }
     });
 
     // Default task(s).
     grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'test']);
     grunt.registerTask('test', ['concat', 'jshint', 'jasmine']);
+    grunt.registerTask('docs', ['clean', 'yuidoc']);
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-yuidoc');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 };
