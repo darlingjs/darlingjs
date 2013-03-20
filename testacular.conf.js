@@ -53,8 +53,7 @@ autoWatch = true;
 browsers = [
     'Firefox',
     'Chrome',
-    'IE',
-    'PhantomJS'
+    'IE'
 ];
 
 // Continuous Integration mode

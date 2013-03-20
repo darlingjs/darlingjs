@@ -1,47 +1,50 @@
 'use strict';
 /**
  * Project: GameEngine.
- * Proof of concept v 0.0.0-1
+ * Proof of concept v 0.0.0-2
+ *
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
 //Define Engine
 
-GameEngine.c('ngCollision', {
+var ngModule = GameEngine.module('ngModule');
+
+ngModule.c('ngCollision', {
     fixed: false
 });
 
-GameEngine.c('ngScan', {
+ngModule.c('ngScan', {
     target: 'ngPlayer'
 });
 
-GameEngine.c('ngRamble', {
+ngModule.c('ngRamble', {
     frame: {
         left: 0, right: 0,
         top: 0, bottom: 0
     }
 });
 
-GameEngine.c('ngPlayer', {
+ngModule.c('ngPlayer', {
 });
 
-GameEngine.c('ngDOM', {
+ngModule.c('ngDOM', {
     color: 'rgb(255,0,0)'
 });
 
-GameEngine.c('ng2D', {
+ngModule.c('ng2D', {
     x: 0.0,
     y: 0.0,
     width: 10.0,
     height: 10.0
 });
 
-GameEngine.c('ngControl', {
+ngModule.c('ngControl', {
     speed: 10,
     keys:{ UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}
 });
 
-GameEngine.system('ng2DRamble', {
+ngModule.system('ng2DRamble', {
     require: ['ngRamble', 'ng2D'],
     _updateTarget: function($node) {
         $node._target = {
@@ -90,7 +93,7 @@ GameEngine.system('ng2DRamble', {
     }
 })
 
-GameEngine.system('ng2DCollisionSystem', {
+ngModule.system('ng2DCollisionSystem', {
     require: ['ngCollision', 'ng2D'],
     _isLeftCollision: function(p1, p2) {
         return false;
@@ -131,7 +134,7 @@ GameEngine.system('ng2DCollisionSystem', {
     }
 });
 
-GameEngine.system('ng2DScan', {
+ngModule.system('ng2DScan', {
     require: ['ng2D', 'ngScan'],
     update : function($nodes) {
         //TODO brute-force. just push away after collision
@@ -143,7 +146,7 @@ GameEngine.system('ng2DScan', {
     }
 })
 
-GameEngine.system('ngControlSystem', {
+ngModule.system('ngControlSystem', {
     require: ['ng2D', 'ngControl'],
     _targetElementID: 'game',
     _target:null,
@@ -200,7 +203,7 @@ GameEngine.system('ngControlSystem', {
     }
 });
 
-GameEngine.system('ngDOMSystem', {
+ngModule.system('ngDOMSystem', {
     _targetElementID: 'game',
     _target: null,
     _element: null,
@@ -237,64 +240,39 @@ GameEngine.system('ngDOMSystem', {
 
 //use Engine
 
-var world = GameEngine.world('myGame');
+var world = GameEngine.world('myGame', ['ngModule', 'flatWorld']);
+world.config({
+    fps: 60
+});
 
-world.system('ngDOMSystem', { targetId: 'gameID' });
-world.system('ngFlatControlSystem');
-world.system('ng2DCollisionSystem');
+world.add('ngDOMSystem', { targetId: 'gameID' });
+world.add('ngFlatControlSystem');
+world.add('ng2DCollisionSystem');
 
-    //alternative style:
-    var world = GameEngine.world('myGame', [
-        {fps: 60},
-        'ngDOMSystem', { targetId: 'gameID' },
-        'ngFlatControlSystem',
-        'ng2DCollisionSystem'
-    ]);
-
-    //modules
-    var flatWorld = GameEngine.world('flatWorld', [
-        'ngDOMSystem', { targetId: 'gameID' },
-        'ngFlatControlSystem',
-        'ng2DCollisionSystem'
-    ]);
-
-    var world = GameEngine.world('myGame', ['flatWorld']);
-
-world.add(GameEngine
-    .e('ngDOM', { color: 'rgb(255,0,0)' })
-    .e('ng2D', {x : 0, y: 50})
-    .e('ngControl')
-    .e('ngCollision')
-    .id('player')
-);
-
-    //alternative style:
-    world.add(GameEngine.e('player',
-        [
-            'ngDOM', { color: 'rgb(255,0,0)' },
-            'ng2D', {x : 0, y: 50},
-            'ngControl',
-            'ngCollision'
-        ]));
+world.add(world.e('player', [
+    'ngDOM', { color: 'rgb(255,0,0)' },
+    'ng2D', {x : 0, y: 50},
+    'ngControl',
+    'ngCollision'
+]));
 
 for (var i = 0, l = 10; i < l; i++) {
     var fixed = Math.random() > 0.5;
-    world.add(GameEngine
-        .e('ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'})
-        .e('ng2D', {x : 10 + 80 * Math.random(), y: 10 + 80 * Math.random()})
-        .e('ngCollision', {fixed: fixed})
-        .id('obstacle_' + i)
-    );
+    world.add(world.e('obstacle_' + i, [
+        'ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
+        'ng2D', {x : 10 + 80 * Math.random(), y: 10 + 80 * Math.random()},
+        'ngCollision', {fixed: fixed}
+    ]));
 }
 
-world.add(GameEngine
-    .e('ngDOM', { color: 'rgb(255,0,0)' })
-    .e('ng2D', {x : 99, y: 50})
-    .e('ngRamble', {frame: {
+world.add(world.e('goblin', [
+    'ngDOM', { color: 'rgb(255,0,0)' },
+    'ng2D', {x : 99, y: 50},
+    'ngRamble', {frame: {
         left: 50, right: 99,
         top: 0, bottom: 99
-    }})
-    .e('ngScan', {
+    }},
+    'ngScan', {
         radius: 3,
         target: 'ngPlayer',
         switchTo: {
@@ -303,10 +281,9 @@ world.add(GameEngine
                 switchTo:'ngRamble'
             }
         }
-    })
-    .e('ngCollision')
-    .id('goblin')
-);
+    },
+    'ngCollision'
+]));
 
 world.start();
 
