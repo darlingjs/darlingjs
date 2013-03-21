@@ -4,7 +4,7 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-describe('GameEngine', function() {
+describe('darling', function() {
     afterEach(function() {
         GameEngine.removeAllModules();
         GameEngine.removeAllWorlds();
@@ -98,7 +98,7 @@ describe('GameEngine', function() {
     });
 
     it('should remove world by removeAllModules', function() {
-        GameEngine.world('theWorld')
+        GameEngine.world('theWorld');
         GameEngine.removeAllWorlds();
         expect( function() {
             GameEngine.world('theWorld');

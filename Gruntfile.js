@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     });
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'test']);
+    grunt.registerTask('default', ['jasmine', 'concat', 'uglify']);
     grunt.registerTask('test', ['concat', 'jshint', 'jasmine']);
     grunt.registerTask('docs', ['clean', 'yuidoc']);
 

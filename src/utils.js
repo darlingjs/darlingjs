@@ -2,8 +2,9 @@
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
+ *
+ * Get From AngularJS Project with little changes based on JSHint.
  */
-
 
 var toString = Object.prototype.toString;
 
@@ -16,7 +17,7 @@ function isUndefined(value) {
 }
 
 function isObject(value) {
-    return value != null && typeof value == 'object';
+    return value !== null && typeof value === 'object';
 }
 
 function isArray(value) {
@@ -49,8 +50,10 @@ function isString(value) {
  *     provided, must be of the same type as `source`.
  * @returns {*} The copy or updated `destination`, if `destination` was specified.
  */
-function copy(source, destination){
-    if (isWindow(source)) throw Error("Can't copy Window");
+function copy(source, destination, deleteAllDestinationProperties){
+    if (isWindow(source)) {
+        throw new Error("Can't copy Window");
+    }
     if (!destination) {
         destination = source;
         if (source) {
@@ -63,18 +66,24 @@ function copy(source, destination){
             }
         }
     } else {
-        if (source === destination) throw Error("Can't copy equivalent objects or arrays");
+        if (source === destination) {
+            throw new Error("Can't copy equivalent objects or arrays");
+        }
         if (isArray(source)) {
             destination.length = 0;
             for ( var i = 0; i < source.length; i++) {
                 destination.push(copy(source[i]));
             }
         } else {
-            forEach(destination, function(value, key){
-                delete destination[key];
-            });
+            if (deleteAllDestinationProperties) {
+                forEach(destination, function(value, key){
+                    delete destination[key];
+                });
+            }
             for ( var key in source) {
-                destination[key] = copy(source[key]);
+                if (source.hasOwnProperty(key)) {
+                    destination[key] = copy(source[key]);
+                }
             }
         }
     }
@@ -116,11 +125,13 @@ function copy(source, destination){
  * @return {boolean} Returns true if `obj` is an array or array-like object (NodeList, Arguments, ...)
  */
 function isArrayLike(obj) {
-    if (!obj || (typeof obj.length !== 'number')) return false;
+    if (!obj || (typeof obj.length !== 'number')) {
+        return false;
+    }
 
     // We have on object which has length property. Should we treat it as array?
-    if (typeof obj.hasOwnProperty != 'function' &&
-        typeof obj.constructor != 'function') {
+    if (typeof obj.hasOwnProperty !== 'function' &&
+        typeof obj.constructor !== 'function') {
         // This is here for IE8: it is a bogus object treat it as array;
         return true;
     } else  {
@@ -136,15 +147,16 @@ function forEach(obj, iterator, context) {
     if (obj) {
         if (isFunction(obj)){
             for (key in obj) {
-                if (key != 'prototype' && key != 'length' && key != 'name' && obj.hasOwnProperty(key)) {
+                if (key !== 'prototype' && key !== 'length' && key !== 'name' && obj.hasOwnProperty(key)) {
                     iterator.call(context, obj[key], key);
                 }
             }
         } else if (obj.forEach && obj.forEach !== forEach) {
             obj.forEach(iterator, context);
         } else if (isArrayLike(obj)) {
-            for (key = 0; key < obj.length; key++)
+            for (key = 0; key < obj.length; key++) {
                 iterator.call(context, obj[key], key);
+            }
         } else {
             for (key in obj) {
                 if (obj.hasOwnProperty(key)) {
@@ -179,7 +191,7 @@ function isWindow(obj) {
  * @returns {boolean} True if `value` is a `Date`.
  */
 function isDate(value){
-    return toString.apply(value) == '[object Date]';
+    return toString.apply(value) === '[object Date]';
 }
 
 /**
@@ -193,4 +205,4 @@ function isDate(value){
  * @param {*} value Reference to check.
  * @returns {boolean} True if `value` is a `Function`.
  */
-function isFunction(value){return typeof value == 'function';}
+function isFunction(value){return typeof value === 'function';}

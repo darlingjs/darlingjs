@@ -11,9 +11,9 @@ var Module = function(){
 };
 
 Module.prototype.has = function(name) {
-    return isDefined(this._components[name])
-        || isDefined(this._systems[name]);
-}
+    return isDefined(this._components[name]) ||
+           isDefined(this._systems[name]);
+};
 
 /**
  * Declare Component
@@ -36,17 +36,15 @@ Module.prototype.c = Module.prototype.component = function(name, defaultState) {
  */
 Module.prototype.s = Module.prototype.system = function(name, config) {
     if (isUndefined(name)) {
-        throw Error('System name must to be defined.');
+        throw new Error('System name must to be defined.');
     }
     config = config || {};
     config.name = name;
 
     if (isDefined(this._systems[name])) {
-        throw Error('Module "' + this.name + '" already has system with name "' + name + '".');
+        throw new Error('Module "' + this.name + '" already has system with name "' + name + '".');
     }
-    var instance = new System();
-    instance.name = name;
-    this._systems[name] = copy(config, new System());
+    this._systems[name] = config;
     return this;
 };
 
@@ -56,6 +54,7 @@ var World = function(){
     this._injectedModules = {};
     this._injectedSystems = {};
     this._systems = [];
+    this._entities = [];
 };
 
 World.isInstanceOf = function(instance) {
@@ -65,10 +64,10 @@ World.isInstanceOf = function(instance) {
 World.prototype.name = '';
 
 World.prototype.has = function(name) {
-    return isDefined(this._injectedComponents[name])
-        || isDefined(this._injectedModules[name])
-        || isDefined(this._injectedSystems[name]);
-}
+    return isDefined(this._injectedComponents[name]) ||
+           isDefined(this._injectedModules[name]) ||
+           isDefined(this._injectedSystems[name]);
+};
 
 World.prototype.isUse = function(name) {
     for (var index = 0, count = this._systems.length; index < count; index++) {
@@ -78,7 +77,7 @@ World.prototype.isUse = function(name) {
     }
 
     return false;
-}
+};
 
 World.prototype.add = function(value) {
     var instance;
@@ -86,20 +85,40 @@ World.prototype.add = function(value) {
     if (isString(value)){
         instance = this._injectedSystems[value];
         if (isUndefined(instance)) {
-            throw Error('Instance of "' + value + '" doesn\'t injected in the world "' + this.name + '".');
+            throw new Error('Instance of "' + value + '" doesn\'t injected in the world "' + this.name + '".');
         }
     } else {
         instance = value;
     }
 
+    if (instance instanceof Entity) {
+        this._entities.push(instance);
+    } else if (instance !== null) {
+        var systemInstance = new System();
+        copy(instance, systemInstance, false);
+        this._systems.push(systemInstance);
+    }
+
+    /*
     if (instance instanceof World) {
-        throw Error('TODO');
+        throw new Error('TODO');
     } else if (instance instanceof System) {
         this._systems.push(instance);
     } else {
-        throw Error('You can\'t add to World "' + instance + '" type of "' + (typeof instance) + '"');
+        throw new Error('You can\'t add to World "' + instance + '" type of "' + (typeof instance) + '"');
     }
-}
+    */
+
+    return systemInstance;
+};
+
+World.prototype.numEntities = function() {
+    return this._entities.length;
+};
+
+World.prototype.getEntityByIndex = function(index) {
+    return this._entities[index];
+};
 
 /**
  * @ngdoc function
@@ -129,9 +148,8 @@ World.prototype.e = World.prototype.entity = function() {
         componentsIndex = 1;
     }
 
-    var instance = {
-        name: name
-    };
+    var instance = new Entity();
+    instance.name =  name;
 
     if (isArray(arguments[componentsIndex])) {
         components = arguments[componentsIndex];
@@ -144,7 +162,7 @@ World.prototype.e = World.prototype.entity = function() {
             var componentConfig = {};
 
             if (isUndefined(component)) {
-                throw Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this._injectedComponents);
+                throw new Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this._injectedComponents);
             }
 
             if (isObject(components[index + 1])) {
@@ -154,7 +172,9 @@ World.prototype.e = World.prototype.entity = function() {
 
             var componentInstance = copy(component.defaultState);
             for (var key in componentConfig) {
-                componentInstance[key] = componentConfig[key];
+                if (componentConfig.hasOwnProperty(key)) {
+                    componentInstance[key] = componentConfig[key];
+                }
             }
 
             instance[componentName] = componentInstance;
@@ -164,8 +184,49 @@ World.prototype.e = World.prototype.entity = function() {
     return instance;
 };
 
-var System = function() {
+var Entity = function() {
+    this._components = {};
+};
 
+Entity.prototype.$add = function(name, instance) {
+    if (isUndefined(name) || isUndefined(instance)) {
+        throw new Error('Can\'t add null component.');
+    }
+
+    if (this.$has(name)) {
+        this.$remove(name);
+    }
+
+    this._components[name] = instance;
+    this[name] = instance;
+};
+
+Entity.prototype.$remove = function(name) {
+    if (!this.$has(name)) {
+        return;
+    }
+
+    delete this._components[name];
+    delete this[name];
+};
+
+Entity.prototype.$has = function(name) {
+    return isDefined(this._components[name]);
+};
+
+var System = function() {
+    this._nodes = [];
+};
+
+System.prototype.numNodes = function() {
+    return this._nodes.length;
+};
+
+System.prototype.getNodeByIndex = function(index) {
+    if (this._nodes.length <= index) {
+        throw new Error('System has only ' + this._nodes.length + ' nodes.');
+    }
+    return this._nodes[index];
 };
 
 var GameEngine = window.GameEngine || (window.GameEngine = {});
@@ -175,7 +236,7 @@ var modules = {};
 
 GameEngine.m = GameEngine.module = function(name, requires) {
     if (isDefined(modules[name])) {
-        throw Error('Module "' + name + '" has already been defined.');
+        throw new Error('Module "' + name + '" has already been defined.');
     }
     var moduleInstance = new Module();
     moduleInstance.name = name;
@@ -193,7 +254,7 @@ GameEngine.m = GameEngine.module = function(name, requires) {
  */
 GameEngine.w = GameEngine.world = function(name, requires) {
     if (isDefined(worlds[name])) {
-        throw Error('World "' + name + '" has already been defined.');
+        throw new Error('World "' + name + '" has already been defined.');
     }
 
     var worldInstance = new World();
@@ -205,27 +266,33 @@ GameEngine.w = GameEngine.world = function(name, requires) {
             var moduleName = requires[index];
             var module = modules[moduleName];
             if (module === null) {
-                throw Error('No module: ' + name);
+                throw new Error('No module: ' + name);
             }
 
             worldInstance._injectedModules[moduleName] = module;
 
-            for (var componentName in module._components) {
-                var component = module._components[componentName];
-                if (component === null) {
-                    throw Error('Module: "' + this.name + '" has null component with name "' + componentName + '".');
-                }
+            var components = module._components;
+            for (var componentName in components) {
+                if (components.hasOwnProperty(componentName)) {
+                    var component = module._components[componentName];
+                    if (component === null) {
+                        throw new Error('Module: "' + this.name + '" has null component with name "' + componentName + '".');
+                    }
 
-                worldInstance._injectedComponents[component.name] = component;
+                    worldInstance._injectedComponents[component.name] = component;
+                }
             }
 
-            for (var systemName in module._systems) {
-                var system = module._systems[systemName];
-                if (system === null) {
-                    throw Error('Module: "' + this.name + '" has null system with name "' + systemName + '".');
-                }
+            var systems = module._systems;
+            for (var systemName in systems) {
+                if (systems.hasOwnProperty(systemName)) {
+                    var system = systems[systemName];
+                    if (system === null) {
+                        throw new Error('Module: "' + this.name + '" has null system with name "' + systemName + '".');
+                    }
 
-                worldInstance._injectedSystems[system.name] = system;
+                    worldInstance._injectedSystems[system.name] = system;
+                }
             }
         }
     }
@@ -235,8 +302,8 @@ GameEngine.w = GameEngine.world = function(name, requires) {
 
 GameEngine.removeAllWorlds = function() {
     worlds = {};
-}
+};
 
 GameEngine.removeAllModules = function() {
     modules = {};
-}
+};
