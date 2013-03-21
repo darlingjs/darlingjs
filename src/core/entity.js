@@ -6,7 +6,7 @@
  */
 
 var Entity = function() {
-    this._components = {};
+    this.$$components = {};
 };
 
 Entity.prototype.$add = function(name, instance) {
@@ -18,7 +18,7 @@ Entity.prototype.$add = function(name, instance) {
         this.$remove(name);
     }
 
-    this._components[name] = instance;
+    this.$$components[name] = instance;
     this[name] = instance;
 };
 
@@ -27,10 +27,10 @@ Entity.prototype.$remove = function(name) {
         return;
     }
 
-    delete this._components[name];
+    delete this.$$components[name];
     delete this[name];
 };
 
 Entity.prototype.$has = function(name) {
-    return isDefined(this._components[name]);
+    return isDefined(this.$$components[name]);
 };

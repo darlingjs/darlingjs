@@ -206,3 +206,135 @@ function isDate(value){
  * @returns {boolean} True if `value` is a `Function`.
  */
 function isFunction(value){return typeof value === 'function';}
+
+/**
+ * @ngdoc method
+ * @name AUTO.$injector#annotate
+ * @methodOf AUTO.$injector
+ *
+ * @description
+ * Returns an array of service names which the function is requesting for injection. This API is used by the injector
+ * to determine which services need to be injected into the function when the function is invoked. There are three
+ * ways in which the function can be annotated with the needed dependencies.
+ *
+ * # Argument names
+ *
+ * The simplest form is to extract the dependencies from the arguments of the function. This is done by converting
+ * the function into a string using `toString()` method and extracting the argument names.
+ * <pre>
+ *   // Given
+ *   function MyController($scope, $route) {
+ *     // ...
+ *   }
+ *
+ *   // Then
+ *   expect(injector.annotate(MyController)).toEqual(['$scope', '$route']);
+ * </pre>
+ *
+ * This method does not work with code minfication / obfuscation. For this reason the following annotation strategies
+ * are supported.
+ *
+ * # The `$inject` property
+ *
+ * If a function has an `$inject` property and its value is an array of strings, then the strings represent names of
+ * services to be injected into the function.
+ * <pre>
+ *   // Given
+ *   var MyController = function(obfuscatedScope, obfuscatedRoute) {
+ *     // ...
+ *   }
+ *   // Define function dependencies
+ *   MyController.$inject = ['$scope', '$route'];
+ *
+ *   // Then
+ *   expect(injector.annotate(MyController)).toEqual(['$scope', '$route']);
+ * </pre>
+ *
+ * # The array notation
+ *
+ * It is often desirable to inline Injected functions and that's when setting the `$inject` property is very
+ * inconvenient. In these situations using the array notation to specify the dependencies in a way that survives
+ * minification is a better choice:
+ *
+ * <pre>
+ *   // We wish to write this (not minification / obfuscation safe)
+ *   injector.invoke(function($compile, $rootScope) {
+ *     // ...
+ *   });
+ *
+ *   // We are forced to write break inlining
+ *   var tmpFn = function(obfuscatedCompile, obfuscatedRootScope) {
+ *     // ...
+ *   };
+ *   tmpFn.$inject = ['$compile', '$rootScope'];
+ *   injector.invoke(tempFn);
+ *
+ *   // To better support inline function the inline annotation is supported
+ *   injector.invoke(['$compile', '$rootScope', function(obfCompile, obfRootScope) {
+ *     // ...
+ *   }]);
+ *
+ *   // Therefore
+ *   expect(injector.annotate(
+ *      ['$compile', '$rootScope', function(obfus_$compile, obfus_$rootScope) {}])
+ *    ).toEqual(['$compile', '$rootScope']);
+ * </pre>
+ *
+ * @param {function|Array.<string|Function>} fn Function for which dependent service names need to be retrieved as described
+ *   above.
+ *
+ * @returns {Array.<string>} The names of the services which the function requires.
+ */
+
+var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
+var FN_ARG_SPLIT = /,/;
+var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
+var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+
+function annotate(fn) {
+    var $inject,
+        fnText,
+        argDecl,
+        last;
+
+    if (typeof fn === 'function') {
+        if (!($inject = fn.$inject)) {
+            $inject = [];
+            fnText = fn.toString().replace(STRIP_COMMENTS, '');
+            argDecl = fnText.match(FN_ARGS);
+            forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg){
+                arg.replace(FN_ARG, function(all, underscore, name){
+                    $inject.push(name);
+                });
+            });
+            fn.$inject = $inject;
+        }
+    } else if (isArray(fn)) {
+        last = fn.length - 1;
+        assertArgFn(fn[last], 'fn');
+        $inject = fn.slice(0, last);
+    } else {
+        assertArgFn(fn, 'fn', true);
+    }
+    return $inject;
+}
+
+function assertArgFn(arg, name, acceptArrayAnnotation) {
+    if (acceptArrayAnnotation && isArray(arg)) {
+        arg = arg[arg.length - 1];
+    }
+
+    assertArg(isFunction(arg), name, 'not a function, got ' +
+        (arg && typeof arg === 'object' ? arg.constructor.name || 'Object' : typeof arg));
+    return arg;
+}
+
+/**
+ * throw error of the argument is falsy.
+ */
+function assertArg(arg, name, reason) {
+    if (!arg) {
+        throw new Error("Argument '" + (name || '?') + "' is " + (reason || "required"));
+    }
+    return arg;
+}

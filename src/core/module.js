@@ -5,13 +5,13 @@
  */
 
 var Module = function(){
-    this._components = {};
-    this._systems = {};
+    this.$$components = {};
+    this.$$systems = {};
 };
 
 Module.prototype.has = function(name) {
-    return isDefined(this._components[name]) ||
-        isDefined(this._systems[name]);
+    return isDefined(this.$$components[name]) ||
+           isDefined(this.$$systems[name]);
 };
 
 /**
@@ -24,7 +24,7 @@ Module.prototype.c = Module.prototype.component = function(name, defaultState) {
         name: name,
         defaultState: defaultState
     };
-    this._components[name] = component;
+    this.$$components[name] = component;
     return this;
 };
 
@@ -40,9 +40,9 @@ Module.prototype.s = Module.prototype.system = function(name, config) {
     config = config || {};
     config.name = name;
 
-    if (isDefined(this._systems[name])) {
+    if (isDefined(this.$$systems[name])) {
         throw new Error('Module "' + this.name + '" already has system with name "' + name + '".');
     }
-    this._systems[name] = config;
+    this.$$systems[name] = config;
     return this;
 };

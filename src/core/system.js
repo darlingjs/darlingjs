@@ -5,16 +5,16 @@
  */
 
 var System = function () {
-    this._nodes = [];
+    this.$$nodes = [];
 };
 
-System.prototype.numNodes = function () {
-    return this._nodes.length;
+System.prototype.$numNodes = function () {
+    return this.$$nodes.length;
 };
 
-System.prototype.getNodeByIndex = function (index) {
-    if (this._nodes.length <= index) {
-        throw new Error('System has only ' + this._nodes.length + ' nodes.');
+System.prototype.$getNodeByIndex = function (index) {
+    if (this.$$nodes.length <= index) {
+        throw new Error('System has only ' + this.$$nodes.length + ' nodes.');
     }
-    return this._nodes[index];
+    return this.$$nodes[index];
 };

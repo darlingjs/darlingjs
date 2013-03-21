@@ -36,13 +36,28 @@ describe('system', function() {
 
     it('should has no any nodes by default', function() {
         var system = defaultWorld.add('defaultSystem');
-        expect(system.numNodes()).toBe(0);
+        expect(system.$numNodes()).toBe(0);
         expect(function () {
-            system.getNodeByIndex(0);
+            system.$getNodeByIndex(0);
         }).toThrow();
     });
 
     /*
+    it('should', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent']
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var entity = world.e('theEntity', ['theComponent']);
+        world.add(entity);
+        var system = world.add('testSystem');
+        expect(system.$numNodes()).toBe(1);
+        expect(system.$getNodeByIndex(0)).toBe(entity);
+    });
+
 
     it('should match entity by component in system requirement', function() {
         GameEngine.module('testModule')

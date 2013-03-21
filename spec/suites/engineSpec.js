@@ -30,7 +30,7 @@ describe('darling', function() {
 
         expect(m1).not.toBe(m2);
         expect(m1.name).not.toBe(m2.name);
-        expect(m1._systems).not.toBe(m2._systems);
+        expect(m1.$$systems).not.toBe(m2.$$systems);
     });
 
     it('should set module name', function() {

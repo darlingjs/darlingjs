@@ -3,15 +3,22 @@
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
+ *
+ * DESIGN NOTES
+ * ============
+ *
+ * Because entity can fraquantly be added and removed,
+ * them implemented by list.
+ *
  */
 
 var World = function(){
 
-    this._injectedComponents = {};
-    this._injectedModules = {};
-    this._injectedSystems = {};
-    this._systems = [];
-    this._entities = [];
+    this.$$injectedComponents = {};
+    this.$$injectedModules = {};
+    this.$$injectedSystems = {};
+    this.$$systems = [];
+    this.$$entities = [];
 };
 
 World.isInstanceOf = function(instance) {
@@ -21,14 +28,14 @@ World.isInstanceOf = function(instance) {
 World.prototype.name = '';
 
 World.prototype.has = function(name) {
-    return isDefined(this._injectedComponents[name]) ||
-           isDefined(this._injectedModules[name]) ||
-           isDefined(this._injectedSystems[name]);
+    return isDefined(this.$$injectedComponents[name]) ||
+           isDefined(this.$$injectedModules[name]) ||
+           isDefined(this.$$injectedSystems[name]);
 };
 
 World.prototype.isUse = function(name) {
-    for (var index = 0, count = this._systems.length; index < count; index++) {
-        if (this._systems[index].name === name) {
+    for (var index = 0, count = this.$$systems.length; index < count; index++) {
+        if (this.$$systems[index].name === name) {
             return true;
         }
     }
@@ -40,7 +47,7 @@ World.prototype.add = function(value) {
     var instance;
 
     if (isString(value)){
-        instance = this._injectedSystems[value];
+        instance = this.$$injectedSystems[value];
         if (isUndefined(instance)) {
             throw new Error('Instance of "' + value + '" doesn\'t injected in the world "' + this.name + '".');
         }
@@ -49,11 +56,11 @@ World.prototype.add = function(value) {
     }
 
     if (instance instanceof Entity) {
-        this._entities.push(instance);
+        this.$$entities.push(instance);
     } else if (instance !== null) {
         var systemInstance = new System();
         copy(instance, systemInstance, false);
-        this._systems.push(systemInstance);
+        this.$$systems.push(systemInstance);
         instance = systemInstance;
     }
 
@@ -71,11 +78,11 @@ World.prototype.add = function(value) {
 };
 
 World.prototype.numEntities = function() {
-    return this._entities.length;
+    return this.$$entities.length;
 };
 
 World.prototype.getEntityByIndex = function(index) {
-    return this._entities[index];
+    return this.$$entities[index];
 };
 
 /**
@@ -116,11 +123,11 @@ World.prototype.e = World.prototype.entity = function() {
     for (var index = 0, count = components.length; index < count; index++) {
         if (isString(components[index])) {
             var componentName = components[index];
-            var component = this._injectedComponents[componentName];
+            var component = this.$$injectedComponents[componentName];
             var componentConfig = {};
 
             if (isUndefined(component)) {
-                throw new Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this._injectedComponents);
+                throw new Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this.$$injectedComponents);
             }
 
             if (isObject(components[index + 1])) {

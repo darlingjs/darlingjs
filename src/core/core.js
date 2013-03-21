@@ -45,21 +45,21 @@ GameEngine.w = GameEngine.world = function(name, requires) {
                 throw new Error('No module: ' + name);
             }
 
-            worldInstance._injectedModules[moduleName] = module;
+            worldInstance.$$injectedModules[moduleName] = module;
 
-            var components = module._components;
+            var components = module.$$components;
             for (var componentName in components) {
                 if (components.hasOwnProperty(componentName)) {
-                    var component = module._components[componentName];
+                    var component = module.$$components[componentName];
                     if (component === null) {
                         throw new Error('Module: "' + this.name + '" has null component with name "' + componentName + '".');
                     }
 
-                    worldInstance._injectedComponents[component.name] = component;
+                    worldInstance.$$injectedComponents[component.name] = component;
                 }
             }
 
-            var systems = module._systems;
+            var systems = module.$$systems;
             for (var systemName in systems) {
                 if (systems.hasOwnProperty(systemName)) {
                     var system = systems[systemName];
@@ -67,7 +67,7 @@ GameEngine.w = GameEngine.world = function(name, requires) {
                         throw new Error('Module: "' + this.name + '" has null system with name "' + systemName + '".');
                     }
 
-                    worldInstance._injectedSystems[system.name] = system;
+                    worldInstance.$$injectedSystems[system.name] = system;
                 }
             }
         }
