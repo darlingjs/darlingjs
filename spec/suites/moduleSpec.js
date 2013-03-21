@@ -19,4 +19,9 @@ describe('module', function() {
         module.c('testComponent');
         expect(module.has('testComponent')).toEqual(true);
     });
+
+    it('should create system', function() {
+        var s = module.system('theSystem');
+        expect(s).toBeDefined();
+    });
 });

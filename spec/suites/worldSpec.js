@@ -70,12 +70,9 @@ describe('World', function() {
         expect(e.testComponent1.z).toEqual(2);
     });
 
-    it('should create system', function() {
-        var s = module.system();
-        expect(s).toBeDefined();
-    });
-
+    /*
     it('should match component to corresponding system', function() {
         //TODO:
-    })
+    });
+    */
 });

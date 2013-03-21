@@ -5,8 +5,6 @@
  */
 
 describe('system', function() {
-    var world;
-    var system;
     beforeEach(function() {
     });
 
@@ -15,13 +13,23 @@ describe('system', function() {
         GameEngine.removeAllWorlds();
     });
 
-    it('should be addable to world', function() {
-        GameEngine.module('testModule')
-            .system('testSystem');
-        world = GameEngine.world('testWorld', ['testModule']);
-        world.add('testSystem');
+    it('should be added to the module', function() {
+        var m = GameEngine.module('theModule', {})
+            .system('theSystem');
+
+        expect(m.has('theSystem')).toBe(true);
     });
 
+    it('should be added to the world', function() {
+        GameEngine.module('testModule', {})
+            .system('testSystem');
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        world.add('testSystem');
+        expect(world.isUse('testSystem')).toBe(true);
+    });
+
+    /*
     it('should match component by require', function() {
         GameEngine.module('testModule')
             .system('testSystem', {
@@ -30,7 +38,7 @@ describe('system', function() {
 
                 }
             });
-        world = GameEngine.world('testWorld', ['testModule']);
+        var world = GameEngine.world('testWorld', ['testModule']);
         world.add('testSystem');
     });
 
@@ -42,10 +50,10 @@ describe('system', function() {
 
                 }
             });
-        world = GameEngine.world('testWorld', ['testModule']);
+        var world = GameEngine.world('testWorld', ['testModule']);
         world.add('testSystem');
     });
-
+    */
     //TODO
     //update($node) update($time) update($world)
     //addNode, removeNode
