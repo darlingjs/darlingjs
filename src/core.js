@@ -46,11 +46,12 @@ Module.prototype.s = Module.prototype.system = function(name, config) {
     }
     var instance = new System();
     instance.name = name;
-    this._systems[name] = instance;//copy(config, new System());
+    this._systems[name] = copy(config, new System());
     return this;
 };
 
 var World = function(){
+
     this._injectedComponents = {};
     this._injectedModules = {};
     this._injectedSystems = {};
