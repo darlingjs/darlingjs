@@ -56,6 +56,43 @@ describe('system', function() {
         });
     });
 
+    it('should fetch entity to $nodes after entity been added', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent']
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var entity = world.e('theEntity', ['theComponent']);
+        var system = world.add('testSystem');
+        world.add(entity);
+        expect(system.$nodes.length()).toBe(1);
+        system.$nodes.forEach(function(e) {
+            expect(e).toBe(entity);
+        });
+    });
+
+    it('should remove entity from $nodes after entity been removed', function() {
+
+    });
+
+    it('should fetch entity to $nodes after required component been added to entity', function() {
+
+    });
+
+    it('should remove entity from $nodes after required component been removed from entity', function() {
+
+    });
+
+    it('should inject dependency in $init', function() {
+
+    });
+
+    it('should inject dependency in $update. And run once for $nodes and many for $node request.', function() {
+
+    });
+
     /*
 
     it('should match entity by component in system requirement', function() {

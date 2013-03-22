@@ -44,6 +44,28 @@ ngModule.c('ngControl', {
     keys:{ UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}
 });
 
+//systems dependency annotation
+//with factory function
+
+ngModule.system('ng2DBoil', ['ngKDTree', function(ngKDTree) {
+    return new System({
+        $update: ['$node', function($node) {
+            var neighboburs = ngKDTree.getNeibours($node.ng2D.x, $node.ng2D.y, 20);
+            //TODO:...
+        }]
+    });
+}]);
+
+//systems dependency annotation
+//just annotation
+
+ngModule.system('ng2DBoil', {
+    $update: ['$node', 'ngKDTree', function($node, ngKDTree) {
+        var neighboburs = ngKDTree.getNeibours($node.ng2D.x, $node.ng2D.y, 20);
+        //TODO:...
+    }
+});
+
 ngModule.system('ng2DRamble', {
     require: ['ngRamble', 'ng2D'],
     _updateTarget: function($node) {

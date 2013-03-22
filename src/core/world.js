@@ -60,6 +60,8 @@ World.prototype.add = function(value) {
 
     if (instance instanceof Entity) {
         this.$entities.add(instance);
+        //TODO: match components to family
+        this.$$matchEntityToFamilies(instance);
     } else if (instance !== null) {
         var systemInstance = new System();
         copy(instance, systemInstance, false);
@@ -167,6 +169,14 @@ World.prototype.e = World.prototype.entity = function() {
 
     return instance;
 };
+
+World.prototype.$$matchEntityToFamilies = function (instance) {
+    for (var componentsString in this.$$entitiesRequestedByComponents) {
+        var family = this.$$entitiesRequestedByComponents[componentsString];
+        family.newEntity(instance);
+    }
+};
+
 
 World.prototype.byComponents = function(request) {
     var componentsArray;
