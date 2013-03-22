@@ -51,4 +51,26 @@ describe('entity', function() {
         expect(e.$has('theComponent')).toBe(false);
         expect(e.theComponent).not.toBeDefined();
     });
+
+    it('should trigger event after add component', function() {
+        var e = world.entity('theEntity');
+        var handler = sinon.spy();
+        e.on('add', handler);
+        var c = e.$add('theComponent', {});
+
+        expect(handler.calledOnce).toBeTruthy();
+        expect(handler.calledWith(c)).toBeTruthy();
+    });
+
+    it('should trigger event after remove component', function() {
+        var e = world.entity('theEntity');
+        var handler = sinon.spy();
+        e.on('remove', handler);
+        e.$remove('theComponent', {});
+        var c = e.$add('theComponent', {});
+        e.$remove('theComponent', {});
+
+        expect(handler.calledOnce).toBeTruthy();
+        expect(handler.calledWith(c)).toBeTruthy();
+    });
 })

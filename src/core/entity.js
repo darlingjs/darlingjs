@@ -8,6 +8,7 @@
 var Entity = function() {
     this.$$components = {};
     this.$$nextSibling = this.$$prevSibling = null;
+    mixin(this, Events);
 };
 
 Entity.prototype.$add = function(name, instance) {
@@ -25,6 +26,9 @@ Entity.prototype.$add = function(name, instance) {
 
     this.$$components[name] = instance;
     this[name] = instance;
+
+    this.trigger('add', instance);
+    return instance;
 };
 
 Entity.prototype.$remove = function(name) {
@@ -32,8 +36,14 @@ Entity.prototype.$remove = function(name) {
         return;
     }
 
+    var instance = this.$$components[name];
+
     delete this.$$components[name];
     delete this[name];
+
+    this.trigger('remove', instance);
+
+    return instance;
 };
 
 Entity.prototype.$has = function(name) {

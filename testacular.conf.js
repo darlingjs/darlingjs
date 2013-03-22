@@ -10,6 +10,7 @@ files = [
     JASMINE,
     JASMINE_ADAPTER,
     'src/**/*.js',
+    'spec/lib/**/*.js',
     'spec/**/*Spec.js'
 ];
 
