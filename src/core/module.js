@@ -20,6 +20,7 @@ Module.prototype.has = function(name) {
  * @type {Function}
  */
 Module.prototype.c = Module.prototype.component = function(name, defaultState) {
+    defaultState = defaultState || {};
     var component = {
         name: name,
         defaultState: defaultState

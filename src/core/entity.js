@@ -11,7 +11,11 @@ var Entity = function() {
 };
 
 Entity.prototype.$add = function(name, instance) {
-    if (isUndefined(name) || isUndefined(instance)) {
+    if (isUndefined(name)) {
+        throw new Error('Can\'t add component with null name.');
+    }
+
+    if (isUndefined(instance)) {
         throw new Error('Can\'t add null component.');
     }
 

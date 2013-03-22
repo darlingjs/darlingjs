@@ -64,6 +64,14 @@ World.prototype.add = function(value) {
         var systemInstance = new System();
         copy(instance, systemInstance, false);
         this.$$systems.push(systemInstance);
+        if (isDefined(systemInstance.require)) {
+            systemInstance.$nodes = this.byComponents(systemInstance.require);
+        }
+
+        if (isDefined(systemInstance.$init)) {
+            systemInstance.$init();
+        }
+
         instance = systemInstance;
     }
 

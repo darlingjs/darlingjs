@@ -9,7 +9,7 @@ describe('system', function() {
         defaultWorld;
     beforeEach(function() {
         defaultModule = GameEngine.module('defaultModule', {})
-                                      .system('defaultSystem');
+            .system('defaultSystem');
         defaultWorld = GameEngine.world('defaultWorld', ['defaultModule']);
     });
 
@@ -36,14 +36,10 @@ describe('system', function() {
 
     it('should has no any nodes by default', function() {
         var system = defaultWorld.add('defaultSystem');
-        expect(system.$numNodes()).toBe(0);
-        expect(function () {
-            system.$getNodeByIndex(0);
-        }).toThrow();
+        expect(system.$nodes.length()).toBe(0);
     });
 
-    /*
-    it('should', function() {
+    it(' after been added to world should fetch required nodes from world', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
@@ -54,10 +50,13 @@ describe('system', function() {
         var entity = world.e('theEntity', ['theComponent']);
         world.add(entity);
         var system = world.add('testSystem');
-        expect(system.$numNodes()).toBe(1);
-        expect(system.$getNodeByIndex(0)).toBe(entity);
+        expect(system.$nodes.length()).toBe(1);
+        system.$nodes.forEach(function(e) {
+            expect(e).toBe(entity);
+        });
     });
 
+    /*
 
     it('should match entity by component in system requirement', function() {
         GameEngine.module('testModule')

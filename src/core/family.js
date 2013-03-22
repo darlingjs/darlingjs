@@ -22,7 +22,6 @@ Family.prototype.addIfMatch = function(e) {
 
     for (var i = 0, count = this.components.length; i < count; i++) {
         var componentName = this.components[i];
-        console.log('is e contain', componentName);
         if (!e.$has(componentName)) {
             return;
         }
