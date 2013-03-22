@@ -61,7 +61,7 @@ World.prototype.add = function(value) {
     if (instance instanceof Entity) {
         this.$entities.add(instance);
         //TODO: match components to family
-        this.$$matchEntityToFamilies(instance);
+        this.$$matchNewEntityToFamilies(instance);
     } else if (instance !== null) {
         var systemInstance = new System();
         copy(instance, systemInstance, false);
@@ -93,6 +93,7 @@ World.prototype.add = function(value) {
 World.prototype.remove = function(instance) {
     if (instance instanceof Entity) {
         this.$entities.remove(instance);
+        this.$$matchRemoveEntityToFamilies(instance);
     } else {
         throw new Error('can\'t remove "' + instance + '" from world "' + this.name + '"' );
     }
@@ -170,13 +171,19 @@ World.prototype.e = World.prototype.entity = function() {
     return instance;
 };
 
-World.prototype.$$matchEntityToFamilies = function (instance) {
+World.prototype.$$matchNewEntityToFamilies = function (instance) {
     for (var componentsString in this.$$entitiesRequestedByComponents) {
         var family = this.$$entitiesRequestedByComponents[componentsString];
         family.newEntity(instance);
     }
 };
 
+World.prototype.$$matchRemoveEntityToFamilies = function (instance) {
+    for (var componentsString in this.$$entitiesRequestedByComponents) {
+        var family = this.$$entitiesRequestedByComponents[componentsString];
+        family.removeIfMatch(instance);
+    }
+};
 
 World.prototype.byComponents = function(request) {
     var componentsArray;
@@ -194,6 +201,7 @@ World.prototype.byComponents = function(request) {
 
     var family = new Family();
     family.components = componentsArray;
+    family.componentsString = componentsString;
     this.$$entitiesRequestedByComponents[componentsString] = family;
     this.$entities.forEach(function(e) {
         family.newEntity(e);

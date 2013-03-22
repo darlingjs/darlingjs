@@ -74,7 +74,18 @@ describe('system', function() {
     });
 
     it('should remove entity from $nodes after entity been removed', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent']
+            });
 
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var entity = world.e('theEntity', ['theComponent']);
+        var system = world.add('testSystem');
+        world.add(entity);
+        world.remove(entity);
+        expect(system.$nodes.length()).toBe(0);
     });
 
     it('should fetch entity to $nodes after required component been added to entity', function() {
