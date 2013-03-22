@@ -7,6 +7,7 @@
 
 var Entity = function() {
     this.$$components = {};
+    this.$$nextSibling = this.$$prevSibling = null;
 };
 
 Entity.prototype.$add = function(name, instance) {

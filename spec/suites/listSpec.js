@@ -1,0 +1,76 @@
+'use strict';
+/**
+ * Project: GameEngine.
+ * Copyright (c) 2013, Eugene-Krevenets
+ */
+
+describe('list', function() {
+    it('should be empty', function() {
+        var list = new List();
+        expect(list.length()).toBe(0);
+        var count = 0;
+        list.forEach(function() {
+            count++;
+        });
+        expect(count).toBe(0);
+    });
+
+    it('should inc length on add', function() {
+        var list = new List();
+        list.add({});
+        expect(list.length()).toBe(1);
+    });
+
+    it('should dec length on remove', function() {
+        var list = new List();
+        var item = {};
+        list.add(item);
+        expect(list.length()).toBe(1);
+        list.remove(item);
+        expect(list.length()).toBe(0);
+    });
+
+    it('should add to for each added item', function() {
+        var list = new List();
+        var addedItem = {};
+        list.add(addedItem);
+        var count = 0;
+        list.forEach(function(item) {
+            expect(item).toBe(addedItem);
+            count++;
+        });
+        expect(count).toBe(1);
+    });
+
+    it('should remove from for each removed item', function() {
+        var list = new List();
+        var addedItem = {};
+        list.add(addedItem);
+        list.remove(addedItem);
+        var count = 0;
+        list.forEach(function(item) {
+            expect(item).not.toBe(addedItem);
+            count++;
+        });
+        expect(count).toBe(0);
+    });
+
+    it('after added 3 items should contains them', function() {
+        var list = new List();
+        var e1 = {name:'e1'};
+        var e2 = {name:'e2'};
+        var e3 = {name:'e3'};
+        list.add(e1);
+        list.add(e2);
+        list.add(e3);
+        var elements = [];
+        list.forEach(function(e) {
+            elements.push(e);
+        });
+        expect(elements.length).toBe(3);
+        expect(elements[0]).toBe(e1);
+        expect(elements[1]).toBe(e2);
+        expect(elements[2]).toBe(e3);
+        //expect(elements).toContain(e3);
+    });
+});

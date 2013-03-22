@@ -1,4 +1,4 @@
-'useStrict';
+'use strict';
 
 /**
  * Project: GameEngine.
@@ -13,12 +13,15 @@
  */
 
 var World = function(){
-
     this.$$injectedComponents = {};
     this.$$injectedModules = {};
     this.$$injectedSystems = {};
     this.$$systems = [];
-    this.$$entities = [];
+    this.$$entitiesRequestedByComponents = {};
+
+    this.$entities = new List();
+    //this.$$entitiesHead = this.$$entitiesTail = null;
+    //this.$$entitiesCount = 0;
 };
 
 World.isInstanceOf = function(instance) {
@@ -56,7 +59,7 @@ World.prototype.add = function(value) {
     }
 
     if (instance instanceof Entity) {
-        this.$$entities.push(instance);
+        this.$entities.add(instance);
     } else if (instance !== null) {
         var systemInstance = new System();
         copy(instance, systemInstance, false);
@@ -77,13 +80,21 @@ World.prototype.add = function(value) {
     return instance;
 };
 
-World.prototype.numEntities = function() {
-    return this.$$entities.length;
+World.prototype.remove = function(instance) {
+    if (instance instanceof Entity) {
+        this.$entities.remove(instance);
+    } else {
+        throw new Error('can\'t remove "' + instance + '" from world "' + this.name + '"' );
+    }
 };
 
-World.prototype.getEntityByIndex = function(index) {
-    return this.$$entities[index];
+World.prototype.numEntities = function() {
+    return this.$entities.length();
 };
+
+//World.prototype.getEntityByIndex = function(index) {
+//    return this.$$entities[index];
+//};
 
 /**
  * @ngdoc function
@@ -147,4 +158,27 @@ World.prototype.e = World.prototype.entity = function() {
     }
 
     return instance;
+};
+
+World.prototype.byComponents = function(request) {
+    var componentsArray;
+    var componentsString;
+    if (isArray(request)) {
+        componentsString = request.join(',');
+        componentsArray = request;
+    } else if (isString(request)) {
+        componentsString = request;
+        componentsArray = request.split(',');
+    }
+    if (this.$$entitiesRequestedByComponents[componentsString]) {
+        return this.$$entitiesRequestedByComponents[componentsString].nodes;
+    }
+
+    var family = new Family();
+    family.components = componentsArray;
+    this.$$entitiesRequestedByComponents[componentsString] = family;
+    this.$entities.forEach(function(e) {
+        family.newEntity(e);
+    });
+    return family.nodes;
 };
