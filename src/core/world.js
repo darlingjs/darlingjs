@@ -132,8 +132,8 @@ World.prototype.$$addSystem = function(instance) {
 
     instance.$$addedHandler();
 
-    if (isDefined(instance.require)) {
-        instance.$nodes = this.$queryByComponents(instance.require);
+    if (isDefined(instance.$require)) {
+        instance.$nodes = this.$queryByComponents(instance.$require);
     }
 
     return instance;

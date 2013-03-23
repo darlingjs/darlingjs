@@ -43,7 +43,7 @@ describe('system', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
-                require: ['theComponent']
+                $require: ['theComponent']
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
@@ -60,7 +60,7 @@ describe('system', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
-                require: ['theComponent']
+                $require: ['theComponent']
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
@@ -77,7 +77,7 @@ describe('system', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
-                require: ['theComponent']
+                $require: ['theComponent']
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
@@ -92,7 +92,7 @@ describe('system', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
-                require: ['theComponent']
+                $require: ['theComponent']
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
@@ -111,7 +111,7 @@ describe('system', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
-                require: ['theComponent']
+                $require: ['theComponent']
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
@@ -158,7 +158,7 @@ describe('system', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
-                require: ['theComponent'],
+                $require: ['theComponent'],
                 $update: ['$nodes', '$time', updateHandler]
             });
 
@@ -175,7 +175,7 @@ describe('system', function() {
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
-                require: ['theComponent'],
+                $require: ['theComponent'],
                 $update: ['$node', '$time', updateHandler]
             });
 
