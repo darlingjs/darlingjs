@@ -130,15 +130,48 @@ describe('system', function() {
 
     });
 
-    it('should run once for $nodes and many for $node request.', function() {
+    it('should run update once for $nodes request.', function() {
+        var updateHandler = sinon.spy();
         GameEngine.module('testModule')
             .c('theComponent')
             .system('testSystem', {
                 require: ['theComponent'],
-                $update: [function() {
-
-                }]
+                $update: ['$nodes', updateHandler]
             });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var system = world.add('testSystem');
+        world.$update(11);
+
+        expect(updateHandler.callCount).toBe(1);
+        expect(updateHandler.calledWith(system.$nodes)).toBeTruthy();
+    });
+
+    it('should run update for each request $node.', function() {
+        var updateHandler = sinon.spy();
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent'],
+                $update: ['$node', updateHandler]
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+
+        world.add('testSystem');
+
+        var entities = [];
+        for(var i = 0, l = 3; i < l; i++) {
+            var e = world.e('theEntity_' + i, ['theComponent']);
+            entities.push(world.add(e));
+        }
+
+        world.$update(11);
+
+        expect(updateHandler.callCount).toBe(3);
+        expect(updateHandler.calledWith(entities[0])).toBeTruthy();
+        expect(updateHandler.calledWith(entities[1])).toBeTruthy();
+        expect(updateHandler.calledWith(entities[2])).toBeTruthy();
     });
 
     /*

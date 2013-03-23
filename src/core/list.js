@@ -61,13 +61,14 @@ List.prototype.length = function() {
     return this._length;
 };
 
-List.prototype.forEach = function(callback) {
+List.prototype.forEach = function(callback, context, arg) {
+    context = context || this;
     if (!isFunction(callback)) {
         return;
     }
     var node = this._head;
     while(node) {
-        callback(node.instance);
+        callback.call(context, node.instance, arg);
         node = node.nextSibling;
     }
 };

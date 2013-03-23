@@ -108,7 +108,15 @@ World.prototype.$$addSystem = function(instance) {
     }
 
     if (isDefined(systemInstance.$update)) {
-        systemInstance.$$updateHandler = systemInstance.$update;
+        if (isArray(systemInstance.$update)) {
+            var updateArray = systemInstance.$update;
+            var updateHandler = updateArray[updateArray.length - 1];
+            systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(node, time) {
+                updateHandler.call(systemInstance, node);
+            });
+        } else {
+            systemInstance.$$updateHandler = systemInstance.$update;
+        }
     }
 
     return systemInstance;

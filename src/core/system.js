@@ -9,6 +9,9 @@ var System = function () {
     this.$$updateHandler = function() {};
 };
 
-System.prototype.update = function(timer) {
-    this.$$updateHandler.call(this, timer);
+System.prototype.$$updateEveryNode = function(handler, context) {
+    return function(time) {
+        this.$nodes.forEach(handler, context, time);
+    }
+    //this.$$updateHandler.call(this, arguments);
 };
