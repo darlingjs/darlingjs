@@ -6,4 +6,9 @@
 
 var System = function () {
     this.$nodes = new List();
+    this.$$updateHandler = function() {};
+};
+
+System.prototype.update = function(timer) {
+    this.$$updateHandler.call(this, timer);
 };

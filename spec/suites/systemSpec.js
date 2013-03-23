@@ -123,11 +123,37 @@ describe('system', function() {
     });
 
     it('should inject dependency in $init', function() {
+        //TODO : Write test: System should inject dependency in $init.
+    });
+
+    it('should inject dependency in $update.', function() {
 
     });
 
-    it('should inject dependency in $update. And run once for $nodes and many for $node request.', function() {
+    it('should run once for $nodes and many for $node request.', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent'],
+                $update: [function() {
 
+                }]
+            });
+    });
+
+    it('should execute update handler on update.', function() {
+        var updateHandler = sinon.spy();
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent'],
+                $update: updateHandler
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        world.add('testSystem');
+        world.$update();
+        expect(updateHandler.calledOnce).toBeTruthy();
     });
 
     /*

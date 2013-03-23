@@ -18,14 +18,12 @@ var World = function(){
     this.$$injectedSystems = {};
     this.$$systems = [];
     this.$$families = {};
+    this.$$interval = 1;
+    this.$$updating = false;
 
     this.$entities = new List();
     //this.$$entitiesHead = this.$$entitiesTail = null;
     //this.$$entitiesCount = 0;
-};
-
-World.isInstanceOf = function(instance) {
-    return instance.toString() === 'World';
 };
 
 World.prototype.name = '';
@@ -107,6 +105,10 @@ World.prototype.$$addSystem = function(instance) {
 
     if (isDefined(systemInstance.$init)) {
         systemInstance.$init();
+    }
+
+    if (isDefined(systemInstance.$update)) {
+        systemInstance.$$updateHandler = systemInstance.$update;
     }
 
     return systemInstance;
@@ -244,4 +246,13 @@ World.prototype.byComponents = function(request) {
         family.newEntity(e);
     });
     return family.nodes;
+};
+
+World.prototype.$update = function(time) {
+    this.$$updating = true;
+    time = time || this.$$interval;
+    for (var index = 0, count = this.$$systems.length; index < count; index++) {
+        this.$$systems[index].$$updateHandler(time);
+    }
+    this.$$updating = false;
 };
