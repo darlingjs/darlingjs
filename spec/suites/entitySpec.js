@@ -9,17 +9,17 @@ describe('entity', function() {
         world;
 
     beforeEach(function () {
-        module = GameEngine.module('theModule', {})
+        module = darlingjs.module('theModule', {})
                            .s('theSystem')
                            .c('theComponent', {
                                 z: 99
                             });
-        world = GameEngine.world('theWorld', ['theModule']);
+        world = darlingjs.world('theWorld', ['theModule']);
     });
 
     afterEach(function() {
-        GameEngine.removeAllModules();
-        GameEngine.removeAllWorlds();
+        darlingjs.removeAllModules();
+        darlingjs.removeAllWorlds();
     });
 
     it('should throw exception on add null component', function() {

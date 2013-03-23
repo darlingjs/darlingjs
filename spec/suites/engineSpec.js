@@ -6,26 +6,26 @@
 
 describe('darling', function() {
     afterEach(function() {
-        GameEngine.removeAllModules();
-        GameEngine.removeAllWorlds();
+        darlingjs.removeAllModules();
+        darlingjs.removeAllWorlds();
     });
 
     it('should create module', function() {
-        var m = GameEngine.module('theModule');
+        var m = darlingjs.module('theModule');
         expect(m).toBeDefined();
     });
 
     it('should throws an exception on create module with same name', function() {
-        GameEngine.module('theModule');
+        darlingjs.module('theModule');
         expect( function() {
-            GameEngine.module('theModule');
+            darlingjs.module('theModule');
         }).toThrow();
     });
 
     it('should to create to different module with different states.', function() {
-        var m1 = GameEngine.module('theModule1')
+        var m1 = darlingjs.module('theModule1')
             .system('theSystem1');
-        var m2 = GameEngine.module('theModule2')
+        var m2 = darlingjs.module('theModule2')
             .system('theSystem2');
 
         expect(m1).not.toBe(m2);
@@ -34,54 +34,54 @@ describe('darling', function() {
     });
 
     it('should set module name', function() {
-        var m = GameEngine.module('module1', []);
+        var m = darlingjs.module('module1', []);
         expect(m.name).toEqual('module1');
     });
 
     it('should create world', function() {
-        var w = GameEngine.world('', []);
+        var w = darlingjs.world('', []);
         expect(w).toBeDefined();
     });
 
     it('should throws an exception on create world with same name', function() {
-        GameEngine.world('theWorld');
+        darlingjs.world('theWorld');
         expect( function() {
-            GameEngine.world('theWorld');
+            darlingjs.world('theWorld');
         }).toThrow();
     });
 
     it('should set module name', function() {
-        var w = GameEngine.world('world');
+        var w = darlingjs.world('world');
         expect(w.name).toEqual('world');
     });
 
     it('should inject module to created world', function() {
-        GameEngine.module('testModule1', []);
-        var w = GameEngine.world('testWorld1', ['testModule1']);
+        darlingjs.module('testModule1', []);
+        var w = darlingjs.world('testWorld1', ['testModule1']);
         expect(w.$has('testModule1')).toEqual(true);
     });
 
     it('should inject to world all components from module', function() {
-        GameEngine.module('testModule1', [])
+        darlingjs.module('testModule1', [])
             .c('testComponent1')
             .c('testComponent2');
-        var w = GameEngine.world('testWorld1', ['testModule1']);
+        var w = darlingjs.world('testWorld1', ['testModule1']);
         expect(w.$has('testComponent1')).toEqual(true);
         expect(w.$has('testComponent2')).toEqual(true);
     });
 
     it('should remove modules by removeAllModules', function() {
-        GameEngine.module('theModule');
-        GameEngine.removeAllModules();
+        darlingjs.module('theModule');
+        darlingjs.removeAllModules();
         expect( function() {
-            GameEngine.module('theModule');
+            darlingjs.module('theModule');
         }).not.toThrow();
     });
 
     it('should to modules has different collection of systems', function() {
-        var m1 = GameEngine.module('theModule1')
+        var m1 = darlingjs.module('theModule1')
             .system('theSystem1');
-        var m2 = GameEngine.module('theModule2')
+        var m2 = darlingjs.module('theModule2')
             .system('theSystem2');
 
         expect(m1.has('theSystem1')).toBe(true);
@@ -91,17 +91,17 @@ describe('darling', function() {
     });
 
     it('should to clean modules after removeAllModules', function() {
-        GameEngine.module('theModule')
+        darlingjs.module('theModule')
             .system('theSystem');
-        GameEngine.removeAllModules();
-        expect(GameEngine.module('theModule').has('theSystem')).not.toBe(true);
+        darlingjs.removeAllModules();
+        expect(darlingjs.module('theModule').has('theSystem')).not.toBe(true);
     });
 
     it('should remove world by removeAllModules', function() {
-        GameEngine.world('theWorld');
-        GameEngine.removeAllWorlds();
+        darlingjs.world('theWorld');
+        darlingjs.removeAllWorlds();
         expect( function() {
-            GameEngine.world('theWorld');
+            darlingjs.world('theWorld');
         }).not.toThrow();
     });
 });

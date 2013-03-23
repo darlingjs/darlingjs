@@ -10,7 +10,7 @@
 
 //Define Engine
 
-var ngModule = GameEngine.module('ngModule');
+var ngModule = darlingjs.module('ngModule');
 
 ngModule.c('ngCollision', {
     fixed: false
@@ -270,7 +270,7 @@ ngModule.system('ngDOMSystem', {
 
 //use Engine
 
-var world = GameEngine.world('myGame', ['ngModule', 'flatWorld']);
+var world = darlingjs.world('myGame', ['ngModule', 'flatWorld']);
 world.config({
     fps: 60
 });

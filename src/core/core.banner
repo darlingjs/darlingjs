@@ -1,0 +1,7 @@
+/**
+ * @license <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> by Eugene Krevenets.
+ * <%= pkg.description %>
+ * <%= pkg.homepage %>
+ *
+ */
+

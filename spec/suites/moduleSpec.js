@@ -7,12 +7,12 @@
 describe('module', function() {
     var module;
     beforeEach(function() {
-        module = GameEngine.m('testModule1');
+        module = darlingjs.m('testModule1');
     });
 
     afterEach(function() {
-        GameEngine.removeAllModules();
-        GameEngine.removeAllWorlds();
+        darlingjs.removeAllModules();
+        darlingjs.removeAllWorlds();
     });
 
     it('should has created components', function() {

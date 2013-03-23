@@ -2,16 +2,21 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
+            options: {
+                banner: grunt.file.read('src/core/core.banner')
+            },
             dist: {
                 src: [
-                    'src/**/*.js'
+                    'src/core/core.prefix',
+                    'src/**/*.js',
+                    'src/core/core.suffix'
                 ],
                 dest: 'build/<%= pkg.name %>.js'
             }
         },
         uglify: {
             options: {
-                banner: '/*(C) Eugene Krevenets. <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: grunt.file.read('src/core/core.banner')
             },
             build: {
                 src: 'build/<%= pkg.name %>.js',
@@ -26,7 +31,7 @@ module.exports = function(grunt) {
         },
         jasmine: {
             pivotal: {
-                src: 'src/**/*.js',
+                src: ['src/**/*.js', 'spec/lib/**/*.js'],
                 options: {
                     specs: 'spec/**/*Spec.js',
                     helpers: 'spec/**/*Helper.js'

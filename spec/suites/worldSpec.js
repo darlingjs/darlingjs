@@ -11,7 +11,7 @@ describe('World', function() {
     var module;
 
     beforeEach(function() {
-        module = GameEngine.module('testModule1')
+        module = darlingjs.module('testModule1')
             .c('testComponent1', {
                 x: 12,
                 y: 34
@@ -23,12 +23,12 @@ describe('World', function() {
                 world: 'new brave'
             });
 
-        world = GameEngine.world('world', ['testModule1']);
+        world = darlingjs.world('world', ['testModule1']);
     });
 
     afterEach(function() {
-        GameEngine.removeAllModules();
-        GameEngine.removeAllWorlds();
+        darlingjs.removeAllModules();
+        darlingjs.removeAllWorlds();
     });
 
     it('should create entity by world.entity() and world.e()', function() {
@@ -167,14 +167,14 @@ describe('World', function() {
 
     it('should execute update handler on update.', function() {
         var updateHandler = sinon.spy();
-        GameEngine.module('testModule')
+        darlingjs.module('testModule')
             .c('theComponent')
             .system('testSystem', {
                 require: ['theComponent'],
                 $update: updateHandler
             });
 
-        var world = GameEngine.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['testModule']);
         world.$add('testSystem');
         world.$update(11);
         expect(updateHandler.calledOnce).toBeTruthy();
@@ -182,14 +182,14 @@ describe('World', function() {
     });
 
     it('should instantiate by name without add it', function() {
-        GameEngine.module('testModule')
+        darlingjs.module('testModule')
             .c('theComponent')
             .system('testSystem', {
                 x: 10,
                 y: 20
             });
 
-        var world = GameEngine.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['testModule']);
         var system = world.$system('testSystem', {
             z: 30
         });
@@ -202,11 +202,11 @@ describe('World', function() {
     });
 
     it('should added my instance', function() {
-        GameEngine.module('testModule')
+        darlingjs.module('testModule')
             .c('theComponent')
             .system('testSystem');
 
-        var world = GameEngine.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['testModule']);
         var systemInstance = world.$system('testSystem');
         world.$add(systemInstance);
 

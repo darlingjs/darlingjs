@@ -5,12 +5,12 @@
  * @module core
  */
 
-var GameEngine = window.GameEngine || (window.GameEngine = {});
+var darlingjs = window.darlingjs || (window.darlingjs = {});
 
 var worlds = {};
 var modules = {};
 
-GameEngine.m = GameEngine.module = function(name, requires) {
+darlingjs.m = darlingjs.module = function(name, requires) {
     if (isDefined(modules[name])) {
         throw new Error('Module "' + name + '" has already been defined.');
     }
@@ -28,7 +28,7 @@ GameEngine.m = GameEngine.module = function(name, requires) {
  *
  * @type {Function}
  */
-GameEngine.w = GameEngine.world = function(name, requires) {
+darlingjs.w = darlingjs.world = function(name, requires) {
     if (isDefined(worlds[name])) {
         throw new Error('World "' + name + '" has already been defined.');
     }
@@ -76,10 +76,10 @@ GameEngine.w = GameEngine.world = function(name, requires) {
     return worldInstance;
 };
 
-GameEngine.removeAllWorlds = function() {
+darlingjs.removeAllWorlds = function() {
     worlds = {};
 };
 
-GameEngine.removeAllModules = function() {
+darlingjs.removeAllModules = function() {
     modules = {};
 };
