@@ -73,4 +73,28 @@ describe('list', function() {
         expect(elements[2]).toBe(e3);
         //expect(elements).toContain(e3);
     });
+
+    it('should trigger "add" event on add new item', function() {
+        var addHandler = sinon.spy();
+        var list = new List();
+        var e1 = {name:'e1'};
+
+        list.on('add', addHandler);
+        list.add(e1);
+        list.remove(e1);
+        expect(addHandler.callCount).toBe(1);
+        expect(addHandler.calledWith(e1)).toBeTruthy();
+    });
+
+    it('should trigger "remove" event on remove item', function() {
+        var removeHandler = sinon.spy();
+        var list = new List();
+        var e1 = {name:'e1'};
+
+        list.on('remove', removeHandler);
+        list.add(e1);
+        list.remove(e1);
+        expect(removeHandler.callCount).toBe(1);
+        expect(removeHandler.calledWith(e1)).toBeTruthy();
+    });
 });

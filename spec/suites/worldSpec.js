@@ -212,4 +212,45 @@ describe('World', function() {
 
         expect(world.$isUse(systemInstance)).toBeTruthy();
     });
+
+    it('should update every requestAnimationFrame on $start and stop after $stop', function() {
+        var updateHandler;
+        var world;
+        var flag;
+
+        runs(function() {
+            updateHandler = sinon.spy();
+            darlingjs.module('testModule')
+                .$c('theComponent')
+                .$system('testSystem', {
+                    require: ['theComponent'],
+                    $update: updateHandler
+                });
+
+            world = darlingjs.world('testWorld', ['testModule']);
+            world.$add('testSystem');
+            world.$start();
+            expect(world.$playing).toBeTruthy();
+        });
+
+        waitsFor(function() {
+            return updateHandler.callCount === 3;
+        }, 'The updateHandler should be called sometimes.', 500);
+
+
+        runs(function() {
+            world.$stop();
+            setTimeout(function() {
+                flag = true;
+            }, 500);
+        });
+
+        waitsFor(function() {
+            return flag;
+        }, 'Wait 500ms', 1000);
+
+        runs(function() {
+            expect(updateHandler.callCount).toBe(3);
+        });
+    });
 });

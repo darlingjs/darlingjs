@@ -41,8 +41,8 @@ darlingjs.w = darlingjs.world = function(name, requires) {
         for (var index = 0, count = requires.length; index < count; index++) {
             var moduleName = requires[index];
             var module = modules[moduleName];
-            if (module === null) {
-                throw new Error('No module: ' + name);
+            if (isUndefined(module)) {
+                throw new Error('Can\'t find module: "' + moduleName + '"');
             }
 
             worldInstance.$$injectedModules[moduleName] = module;
@@ -51,7 +51,7 @@ darlingjs.w = darlingjs.world = function(name, requires) {
             for (var componentName in components) {
                 if (components.hasOwnProperty(componentName)) {
                     var component = module.$$components[componentName];
-                    if (component === null) {
+                    if (isUndefined(component)) {
                         throw new Error('Module: "' + this.name + '" has null component with name "' + componentName + '".');
                     }
 
@@ -63,7 +63,7 @@ darlingjs.w = darlingjs.world = function(name, requires) {
             for (var systemName in systems) {
                 if (systems.hasOwnProperty(systemName)) {
                     var system = systems[systemName];
-                    if (system === null) {
+                    if (isUndefined(system)) {
                         throw new Error('Module: "' + this.name + '" has null system with name "' + systemName + '".');
                     }
 

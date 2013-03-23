@@ -8,6 +8,7 @@ var List = function() {
     this._head = this._tail = null;
     this._length = 0;
     this.PROPERTY_LINK_TO_NODE = '$$listNode_' + Math.random();
+    mixin(this, Events);
 };
 
 List.prototype.add = function(instance) {
@@ -21,6 +22,8 @@ List.prototype.add = function(instance) {
     } else {
         this._head = this._tail = node;
     }
+
+    this.trigger('add', instance);
 
     this._length++;
 };
@@ -52,6 +55,8 @@ List.prototype.remove = function(instance) {
     }
 
     poolOfListNodes.dispose(node);
+
+    this.trigger('remove', instance);
 
     this._length--;
     return true;

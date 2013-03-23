@@ -21,6 +21,7 @@ var World = function(){
     this.$$families = {};
     this.$$interval = 1;
     this.$$updating = false;
+    this.$playing = false;
 
     this.$entities = new List();
     this.$name = '';
@@ -133,7 +134,7 @@ World.prototype.$$addSystem = function(instance) {
     instance.$$addedHandler();
 
     if (isDefined(instance.$require)) {
-        instance.$nodes = this.$queryByComponents(instance.$require);
+        instance.$setNodes(this.$queryByComponents(instance.$require));
     }
 
     return instance;
@@ -143,7 +144,8 @@ World.prototype.$$removeSystem = function(instance) {
     var index = this.$$systems.indexOf(instance);
     this.$$systems.splice(index);
 
-    instance.$nodes = new List();
+    instance.init();
+
     instance.$$removedHandler();
 
     return instance;
@@ -316,6 +318,22 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
         systemInstance.$$removedHandler = noop;
     }
 
+    if (isDefined(systemInstance.$addNode)) {
+        //TODO : inject all dependency
+        console.log('systemInstance.$addNode 1');
+        systemInstance.$$addNodeHandler = systemInstance.$addNode;
+    } else {
+        console.log('systemInstance.$addNode 0');
+        systemInstance.$$addNodeHandler = noop;
+    }
+
+    if (isDefined(systemInstance.$removeNode)) {
+        //TODO : inject all dependency
+        systemInstance.$$removeNodeHandler = systemInstance.$removeNode;
+    } else {
+        systemInstance.$$removeNodeHandler = noop;
+    }
+
     return systemInstance;
 };
 
@@ -364,4 +382,29 @@ World.prototype.$update = function(time) {
         this.$$systems[index].$$updateHandler(time);
     }
     this.$$updating = false;
+};
+
+World.prototype.$start = function() {
+    if (this.$playing) {
+        return;
+    }
+
+    this.$playing = true;
+
+    var self = this;
+    (function step(time) {
+        self.$update(time);
+        if (self.$playing) {
+            self.$requestAnimationFrameId = window.requestAnimationFrame(step);
+        }
+    })(0);
+};
+
+World.prototype.$stop = function() {
+    if (!this.$playing) {
+        return;
+    }
+    this.$playing = false;
+
+    window.cancelAnimationFrame(this.$requestAnimationFrameId);
 };

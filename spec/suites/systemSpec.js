@@ -213,6 +213,63 @@ describe('system', function() {
         expect(updateHandler.calledWith(entities[2], 11)).toBeTruthy();
     });
 
+    it('should execute $addNode handler on node is adding', function() {
+        var addHandler = sinon.spy();
+        var removeHandler = sinon.spy();
+        darlingjs.module('testModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                $require: ['theComponent'],
+                $addNode: addHandler,
+                $removeNode: removeHandler
+            });
+        var world = darlingjs.world('testWorld', ['testModule']);
+        world.$add('testSystem');
+        var entities = [];
+        for(var i = 0, l = 3; i < l; i++) {
+            var e = world.$e('theEntity_' + i, ['theComponent']);
+            entities.push(world.$add(e));
+        }
+
+        expect(addHandler.callCount).toBe(3);
+        expect(addHandler.calledWith(entities[0])).toBeTruthy();
+        expect(addHandler.calledWith(entities[1])).toBeTruthy();
+        expect(addHandler.calledWith(entities[2])).toBeTruthy();
+        expect(removeHandler.callCount).toBe(0);
+    });
+
+
+    it('should execute $addRemove handler on node is removing', function() {
+        var addHandler = sinon.spy();
+        var removeHandler = sinon.spy();
+        darlingjs.module('testModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                $require: ['theComponent'],
+                $addNode: addHandler,
+                $removeNode: removeHandler
+            });
+        var world = darlingjs.world('testWorld', ['testModule']);
+        world.$add('testSystem');
+
+        var entities = [];
+        var i, l;
+        for(i = 0, l = 3; i < l; i++) {
+            var e = world.$e('theEntity_' + i, ['theComponent']);
+            entities.push(world.$add(e));
+        }
+
+        for(i = 0, l = entities.length; i < l; i++) {
+            world.$remove(entities[i]);
+        }
+
+        expect(addHandler.callCount).toBe(3);
+        expect(removeHandler.callCount).toBe(3);
+        expect(removeHandler.calledWith(entities[0])).toBeTruthy();
+        expect(removeHandler.calledWith(entities[1])).toBeTruthy();
+        expect(removeHandler.calledWith(entities[2])).toBeTruthy();
+    });
+
     it('should inject dependency in $init', function() {
         //TODO : Write test: System should inject dependency in $init.
     });
