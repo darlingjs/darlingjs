@@ -43,10 +43,6 @@ Family.prototype.addIfMatch = function(e) {
     this.nodes.add(e);
 };
 
-Family.prototype.isInList = function(e) {
-    return e.hasOwnProperty(this.$$marker);
-};
-
 Family.prototype.removeIfMatch = function(e) {
     if (!this.isInList(e)) {
         return;
@@ -54,4 +50,8 @@ Family.prototype.removeIfMatch = function(e) {
 
     delete e[this.$$marker];
     this.nodes.remove(e);
+};
+
+Family.prototype.isInList = function(e) {
+    return e.hasOwnProperty(this.$$marker);
 };

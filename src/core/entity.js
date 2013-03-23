@@ -37,7 +37,7 @@ Entity.prototype.$add = function(name, value) {
 
     this[name] = instance;
 
-    this.trigger('add', instance);
+    this.trigger('add', this, instance);
     return instance;
 };
 
@@ -51,7 +51,7 @@ Entity.prototype.$remove = function(name) {
     delete this.$$components[name];
     delete this[name];
 
-    this.trigger('remove', instance);
+    this.trigger('remove', this, instance);
 
     return instance;
 };

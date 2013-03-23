@@ -17,7 +17,7 @@ var World = function(){
     this.$$injectedModules = {};
     this.$$injectedSystems = {};
     this.$$systems = [];
-    this.$$entitiesRequestedByComponents = {};
+    this.$$families = {};
 
     this.$entities = new List();
     //this.$$entitiesHead = this.$$entitiesTail = null;
@@ -59,41 +59,62 @@ World.prototype.add = function(value) {
     }
 
     if (instance instanceof Entity) {
-        this.$entities.add(instance);
-        //TODO: match components to family
-        this.$$matchNewEntityToFamilies(instance);
+        instance = this.$$addEntity(instance);
     } else if (instance !== null) {
-        var systemInstance = new System();
-        copy(instance, systemInstance, false);
-        this.$$systems.push(systemInstance);
-        if (isDefined(systemInstance.require)) {
-            systemInstance.$nodes = this.byComponents(systemInstance.require);
-        }
-
-        if (isDefined(systemInstance.$init)) {
-            systemInstance.$init();
-        }
-
-        instance = systemInstance;
+        instance = this.$$addSystem(instance);
     }
-
-    /*
-     if (instance instanceof World) {
-     throw new Error('TODO');
-     } else if (instance instanceof System) {
-     this._systems.push(instance);
-     } else {
-     throw new Error('You can\'t add to World "' + instance + '" type of "' + (typeof instance) + '"');
-     }
-     */
 
     return instance;
 };
 
+World.prototype.$$addEntity = function(instance) {
+    this.$entities.add(instance);
+    this.$$matchNewEntityToFamilies(instance);
+    instance.on('add', this.$$onComponentAdd, this);
+    instance.on('remove', this.$$onComponentRemove, this);
+    return instance;
+};
+
+World.prototype.$$removeEntity = function(instance) {
+    this.$entities.remove(instance);
+    this.$$matchRemoveEntityToFamilies(instance);
+    instance.off('add', this.$$onComponentAdd);
+    instance.off('remove', this.$$onComponentRemove);
+    return instance;
+};
+
+World.prototype.$$onComponentAdd = function(entity, component) {
+    for (var componentsString in this.$$families) {
+        var family = this.$$families[componentsString];
+        family.addIfMatch(entity);
+    }
+};
+
+World.prototype.$$onComponentRemove = function(entity, component) {
+    for (var componentsString in this.$$families) {
+        var family = this.$$families[componentsString];
+        family.removeIfMatch(entity);
+    }
+};
+
+World.prototype.$$addSystem = function(instance) {
+    var systemInstance = new System();
+    copy(instance, systemInstance, false);
+    this.$$systems.push(systemInstance);
+    if (isDefined(systemInstance.require)) {
+        systemInstance.$nodes = this.byComponents(systemInstance.require);
+    }
+
+    if (isDefined(systemInstance.$init)) {
+        systemInstance.$init();
+    }
+
+    return systemInstance;
+}
+
 World.prototype.remove = function(instance) {
     if (instance instanceof Entity) {
-        this.$entities.remove(instance);
-        this.$$matchRemoveEntityToFamilies(instance);
+        this.$$removeEntity(instance);
     } else {
         throw new Error('can\'t remove "' + instance + '" from world "' + this.name + '"' );
     }
@@ -188,15 +209,15 @@ World.prototype.c = World.prototype.component = function(name, config) {
 };
 
 World.prototype.$$matchNewEntityToFamilies = function (instance) {
-    for (var componentsString in this.$$entitiesRequestedByComponents) {
-        var family = this.$$entitiesRequestedByComponents[componentsString];
+    for (var componentsString in this.$$families) {
+        var family = this.$$families[componentsString];
         family.newEntity(instance);
     }
 };
 
 World.prototype.$$matchRemoveEntityToFamilies = function (instance) {
-    for (var componentsString in this.$$entitiesRequestedByComponents) {
-        var family = this.$$entitiesRequestedByComponents[componentsString];
+    for (var componentsString in this.$$families) {
+        var family = this.$$families[componentsString];
         family.removeIfMatch(instance);
     }
 };
@@ -211,14 +232,14 @@ World.prototype.byComponents = function(request) {
         componentsString = request;
         componentsArray = request.split(',');
     }
-    if (this.$$entitiesRequestedByComponents[componentsString]) {
-        return this.$$entitiesRequestedByComponents[componentsString].nodes;
+    if (this.$$families[componentsString]) {
+        return this.$$families[componentsString].nodes;
     }
 
     var family = new Family();
     family.components = componentsArray;
     family.componentsString = componentsString;
-    this.$$entitiesRequestedByComponents[componentsString] = family;
+    this.$$families[componentsString] = family;
     this.$entities.forEach(function(e) {
         family.newEntity(e);
     });

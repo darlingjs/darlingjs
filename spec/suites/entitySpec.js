@@ -62,7 +62,7 @@ describe('entity', function() {
         var c = e.$add('theComponent');
 
         expect(handler.calledOnce).toBeTruthy();
-        expect(handler.calledWith(c)).toBeTruthy();
+        expect(handler.calledWith(e, c)).toBeTruthy();
     });
 
     it('should trigger event after remove component', function() {
@@ -74,6 +74,6 @@ describe('entity', function() {
         e.$remove('theComponent');
 
         expect(handler.calledOnce).toBeTruthy();
-        expect(handler.calledWith(c)).toBeTruthy();
+        expect(handler.calledWith(e, c)).toBeTruthy();
     });
 })

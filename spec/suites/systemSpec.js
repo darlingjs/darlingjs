@@ -108,7 +108,18 @@ describe('system', function() {
     });
 
     it('should remove entity from $nodes after required component been removed from entity', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent']
+            });
 
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var entity = world.e('theEntity', ['theComponent']);
+        var system = world.add('testSystem');
+        world.add(entity);
+        entity.$remove('theComponent');
+        expect(system.$nodes.length()).toBe(0);
     });
 
     it('should inject dependency in $init', function() {
