@@ -80,9 +80,9 @@ describe('World', function() {
         var e1 = world.entity('entity1', ['testComponent1']);
         var e2 = world.entity('entity2', ['testComponent2']);
         var e3 = world.entity('entity3', ['testComponent2']);
-        world.add(e1);
-        world.add(e2);
-        world.add(e3);
+        world.$add(e1);
+        world.$add(e2);
+        world.$add(e3);
         expect(world.numEntities()).toBe(3);
         var elements = [];
         world.$entities.forEach(function(e) {
@@ -98,12 +98,13 @@ describe('World', function() {
         var e1 = world.entity('entity1', ['testComponent1']);
         var e2 = world.entity('entity2', ['testComponent2']);
         var e3 = world.entity('entity3', ['testComponent2']);
-        world.add(e1);
-        world.add(e2);
-        world.add(e3);
-        world.remove(e3);
-        world.remove(e2);
-        world.remove(e1);
+        world.$add(e1);
+        world.$add(e2);
+        world.$add(e3);
+
+        world.$remove(e3);
+        world.$remove(e2);
+        world.$remove(e1);
         expect(world.numEntities()).toBe(0);
     });
 
@@ -111,9 +112,9 @@ describe('World', function() {
         var e1 = world.entity('entity1', ['testComponent1']);
         var e2 = world.entity('entity2', ['testComponent2']);
         var e3 = world.entity('entity3', ['testComponent3']);
-        world.add(e1);
-        world.add(e2);
-        world.add(e3);
+        world.$add(e1);
+        world.$add(e2);
+        world.$add(e3);
 
         var e1List = world.byComponents('testComponent1');
         expect(e1List.length()).toBe(1);
@@ -136,9 +137,9 @@ describe('World', function() {
         var e1 = world.entity('entity1', ['testComponent1']);
         var e2 = world.entity('entity2', ['testComponent1', 'testComponent2']);
         var e3 = world.entity('entity3', ['testComponent1', 'testComponent2', 'testComponent3']);
-        world.add(e1);
-        world.add(e2);
-        world.add(e3);
+        world.$add(e1);
+        world.$add(e2);
+        world.$add(e3);
         var e1List = world.byComponents(['testComponent1', 'testComponent2']);
         expect(e1List.length()).toBe(2);
         var elements = [];
@@ -173,9 +174,47 @@ describe('World', function() {
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
-        world.add('testSystem');
+        world.$add('testSystem');
         world.$update(11);
         expect(updateHandler.calledOnce).toBeTruthy();
         expect(updateHandler.calledWith(11)).toBeTruthy();
+    });
+
+    it('should instantiate by name without add it', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                x: 10,
+                y: 20
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var system = world.$system('testSystem', {
+            z: 30
+        });
+
+        expect(system).toBeDefined();
+        expect(system.x).toBe(10);
+        expect(system.y).toBe(20);
+        expect(system.z).toBe(30);
+        expect(world.isUse(system)).toBeFalsy();
+    });
+
+    it('should added my instance', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                x: 10,
+                y: 20
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var system = world.$system('testSystem', {
+            z: 30
+        });
+
+        world.$add(system);
+
+        expect(world.isUse(system)).toBeTruthy();
     });
 });

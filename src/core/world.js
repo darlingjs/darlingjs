@@ -34,17 +34,21 @@ World.prototype.has = function(name) {
            isDefined(this.$$injectedSystems[name]);
 };
 
-World.prototype.isUse = function(name) {
-    for (var index = 0, count = this.$$systems.length; index < count; index++) {
-        if (this.$$systems[index].name === name) {
-            return true;
+World.prototype.isUse = function(value) {
+    if (value instanceof System) {
+        return this.$$systems.indexOf(value) >= 0;
+    } else {
+        for (var index = 0, count = this.$$systems.length; index < count; index++) {
+            if (this.$$systems[index].name === value) {
+                return true;
+            }
         }
     }
 
     return false;
 };
 
-World.prototype.add = function(value) {
+World.prototype.$add = function(value, config) {
     var instance;
 
     if (isString(value)){
@@ -58,12 +62,16 @@ World.prototype.add = function(value) {
 
     if (instance instanceof Entity) {
         instance = this.$$addEntity(instance);
+    } else if (instance instanceof System) {
+        this.$$addSystem(instance);
     } else if (instance !== null) {
-        instance = this.$$addSystem(instance);
+        instance = this.$system(value, config);
+        this.$$addSystem(instance);
     }
 
     return instance;
 };
+
 
 World.prototype.$$addEntity = function(instance) {
     this.$entities.add(instance);
@@ -95,39 +103,50 @@ World.prototype.$$onComponentRemove = function(entity, component) {
     }
 };
 
-World.prototype.$$addSystem = function(instance) {
-    var systemInstance = new System();
-    copy(instance, systemInstance, false);
-    this.$$systems.push(systemInstance);
-    if (isDefined(systemInstance.require)) {
-        systemInstance.$nodes = this.byComponents(systemInstance.require);
+World.prototype.$$getDependencyByAnnotation = function(annotation, target) {
+    target = target || [];
+    for (var i = 0, l = annotation.length; i < l; i++) {
+        var name = annotation[i];
+        target[i] = this.$$getDependencyByName(name);
     }
+    return target;
+};
 
-    if (isDefined(systemInstance.$init)) {
-        systemInstance.$init();
-    }
+World.prototype.$$getDependencyByName = function(name) {
+    //TODO:
+    return null;
+};
 
-    if (isDefined(systemInstance.$update)) {
-        if (isArray(systemInstance.$update)) {
-            var updateArray = systemInstance.$update;
-            var updateHandler = updateArray[updateArray.length - 1];
-            systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(node, time) {
-                updateHandler.call(systemInstance, node);
-            });
-        } else {
-            systemInstance.$$updateHandler = systemInstance.$update;
-        }
-    }
-
-    return systemInstance;
-}
-
-World.prototype.remove = function(instance) {
+World.prototype.$remove = function(instance) {
     if (instance instanceof Entity) {
         this.$$removeEntity(instance);
+    } else if(instance instanceof System) {
+        this.$$removeSystem(instance);
     } else {
         throw new Error('can\'t remove "' + instance + '" from world "' + this.name + '"' );
     }
+};
+
+World.prototype.$$addSystem = function(instance) {
+    this.$$systems.push(instance);
+
+    instance.$$addedHandler();
+
+    if (isDefined(instance.require)) {
+        instance.$nodes = this.byComponents(instance.require);
+    }
+
+    return instance;
+};
+
+World.prototype.$$removeSystem = function(instance) {
+    var index = this.$$systems.indexOf(instance);
+    this.$$systems.splice(index);
+
+    instance.$nodes = new List();
+    instance.$$removedHandler();
+
+    return instance;
 };
 
 World.prototype.numEntities = function() {
@@ -216,6 +235,87 @@ World.prototype.c = World.prototype.component = function(name, config) {
     mixin(instance, config);
 
     return instance;
+};
+
+/**
+ * Build instance of System
+ *
+ * @type {Function}
+ */
+World.prototype.$s = World.prototype.$system = function(name, config) {
+    var defaultConfig = this.$$injectedSystems[name];
+    var systemInstance = new System();
+    copy(defaultConfig, systemInstance, false);
+
+    if (isDefined(config)) {
+        copy(config, systemInstance, false);
+    }
+
+    if (isDefined(systemInstance.$update)) {
+        if (isArray(systemInstance.$update)) {
+            var updateArray = systemInstance.$update;
+            var updateHandler = updateArray[updateArray.length - 1];
+            var updateAnnotate = annotate(updateArray);
+
+            var args = this.$$getDependencyByAnnotation(updateAnnotate);
+
+            var applyNode = function(updateAnnotate, name) {
+                var index = updateAnnotate.indexOf(name);
+                if (index >= 0) {
+                    return function(args, value) {
+                        args[index] = value;
+                    };
+                } else {
+                    return noop;
+                }
+            };
+
+            var apply$node = applyNode(updateAnnotate, '$node');
+            var apply$nodes = applyNode(updateAnnotate, '$nodes');
+            var apply$time = applyNode(updateAnnotate, '$time');
+
+            var updateForEveryNode = updateAnnotate.indexOf('$node') >= 0;
+            if (updateForEveryNode) {
+                systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(node, time) {
+                    apply$time(args, time);
+                    apply$node(args, node);
+
+                    updateHandler.apply(systemInstance, args);
+                });
+            } else {
+                systemInstance.$$updateHandler = function(time) {
+                    apply$time(args, time);
+                    apply$nodes(args, systemInstance.$nodes);
+
+                    updateHandler.apply(systemInstance, args);
+                };
+            }
+        } else {
+            systemInstance.$$updateHandler = systemInstance.$update;
+        }
+    }
+
+    if (isDefined(systemInstance.$added)) {
+        if (isArray(systemInstance.$added)) {
+            throw new Error('! need impl');
+        } else {
+            systemInstance.$$addedHandler = systemInstance.$added;
+        }
+    } else {
+        systemInstance.$$addedHandler = noop;
+    }
+
+    if (isDefined(systemInstance.$removed)) {
+        if (isArray(systemInstance.$removed)) {
+            throw new Error('! need impl');
+        } else {
+            systemInstance.$$removedHandler = systemInstance.$removed;
+        }
+    } else {
+        systemInstance.$$removedHandler = noop;
+    }
+
+    return systemInstance;
 };
 
 World.prototype.$$matchNewEntityToFamilies = function (instance) {

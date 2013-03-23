@@ -344,6 +344,23 @@ function assertArg(arg, name, reason) {
 }
 
 /**
+ * @ngdoc function
+ * @name angular.noop
+ * @function
+ *
+ * @description
+ * A function that performs no operations. This function can be useful when writing code in the
+ * functional style.
+ <pre>
+ function foo(callback) {
+       var result = calculateResult();
+       (callback || angular.noop)(result);
+     }
+ </pre>
+ */
+function noop(){}
+
+/**
  * Get Observer from Backbone
  */
 
@@ -532,6 +549,7 @@ var extend = function(protoProps, staticProps) {
 
     return child;
 };
+
 
 /**
  * Get from https://www.udacity.com/course/cs255

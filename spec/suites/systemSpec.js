@@ -30,12 +30,12 @@ describe('system', function() {
             .system('testSystem');
 
         var world = GameEngine.world('testWorld', ['testModule']);
-        world.add('testSystem');
+        world.$add('testSystem');
         expect(world.isUse('testSystem')).toBe(true);
     });
 
     it('should has no any nodes by default', function() {
-        var system = defaultWorld.add('defaultSystem');
+        var system = defaultWorld.$add('defaultSystem');
         expect(system.$nodes.length()).toBe(0);
     });
 
@@ -48,8 +48,8 @@ describe('system', function() {
 
         var world = GameEngine.world('testWorld', ['testModule']);
         var entity = world.e('theEntity', ['theComponent']);
-        world.add(entity);
-        var system = world.add('testSystem');
+        world.$add(entity);
+        var system = world.$add('testSystem');
         expect(system.$nodes.length()).toBe(1);
         system.$nodes.forEach(function(e) {
             expect(e).toBe(entity);
@@ -65,8 +65,8 @@ describe('system', function() {
 
         var world = GameEngine.world('testWorld', ['testModule']);
         var entity = world.e('theEntity', ['theComponent']);
-        var system = world.add('testSystem');
-        world.add(entity);
+        var system = world.$add('testSystem');
+        world.$add(entity);
         expect(system.$nodes.length()).toBe(1);
         system.$nodes.forEach(function(e) {
             expect(e).toBe(entity);
@@ -82,9 +82,9 @@ describe('system', function() {
 
         var world = GameEngine.world('testWorld', ['testModule']);
         var entity = world.e('theEntity', ['theComponent']);
-        var system = world.add('testSystem');
-        world.add(entity);
-        world.remove(entity);
+        var system = world.$add('testSystem');
+        world.$add(entity);
+        world.$remove(entity);
         expect(system.$nodes.length()).toBe(0);
     });
 
@@ -97,8 +97,8 @@ describe('system', function() {
 
         var world = GameEngine.world('testWorld', ['testModule']);
         var entity = world.e('theEntity');
-        var system = world.add('testSystem');
-        world.add(entity);
+        var system = world.$add('testSystem');
+        world.$add(entity);
         entity.$add('theComponent');
 
         expect(system.$nodes.length()).toBe(1);
@@ -116,10 +116,39 @@ describe('system', function() {
 
         var world = GameEngine.world('testWorld', ['testModule']);
         var entity = world.e('theEntity', ['theComponent']);
-        var system = world.add('testSystem');
-        world.add(entity);
+        var system = world.$add('testSystem');
+        world.$add(entity);
         entity.$remove('theComponent');
         expect(system.$nodes.length()).toBe(0);
+    });
+
+    it('should invoke $added on system added to world', function() {
+        var addedHandler = sinon.spy();
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                $added: addedHandler
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        world.$add('testSystem');
+
+        expect(addedHandler.callCount).toBe(1);
+    });
+
+    it('should invoke $removed on system remove from world', function() {
+        var removedHandler = sinon.spy();
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                $removed: removedHandler
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var system = world.$add('testSystem');
+        world.$remove(system);
+
+        expect(removedHandler.callCount).toBe(1);
     });
 
     it('should inject dependency in $init', function() {
@@ -136,15 +165,15 @@ describe('system', function() {
             .c('theComponent')
             .system('testSystem', {
                 require: ['theComponent'],
-                $update: ['$nodes', updateHandler]
+                $update: ['$nodes', '$time', updateHandler]
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
-        var system = world.add('testSystem');
+        var system = world.$add('testSystem');
         world.$update(11);
 
         expect(updateHandler.callCount).toBe(1);
-        expect(updateHandler.calledWith(system.$nodes)).toBeTruthy();
+        expect(updateHandler.calledWith(system.$nodes, 11)).toBeTruthy();
     });
 
     it('should run update for each request $node.', function() {
@@ -153,25 +182,25 @@ describe('system', function() {
             .c('theComponent')
             .system('testSystem', {
                 require: ['theComponent'],
-                $update: ['$node', updateHandler]
+                $update: ['$node', '$time', updateHandler]
             });
 
         var world = GameEngine.world('testWorld', ['testModule']);
 
-        world.add('testSystem');
+        world.$add('testSystem');
 
         var entities = [];
         for(var i = 0, l = 3; i < l; i++) {
             var e = world.e('theEntity_' + i, ['theComponent']);
-            entities.push(world.add(e));
+            entities.push(world.$add(e));
         }
 
         world.$update(11);
 
         expect(updateHandler.callCount).toBe(3);
-        expect(updateHandler.calledWith(entities[0])).toBeTruthy();
-        expect(updateHandler.calledWith(entities[1])).toBeTruthy();
-        expect(updateHandler.calledWith(entities[2])).toBeTruthy();
+        expect(updateHandler.calledWith(entities[0], 11)).toBeTruthy();
+        expect(updateHandler.calledWith(entities[1], 11)).toBeTruthy();
+        expect(updateHandler.calledWith(entities[2], 11)).toBeTruthy();
     });
 
     /*
