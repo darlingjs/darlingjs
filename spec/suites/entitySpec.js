@@ -11,7 +11,9 @@ describe('entity', function() {
     beforeEach(function () {
         module = GameEngine.module('theModule', {})
                            .s('theSystem')
-                           .c('theComponent');
+                           .c('theComponent', {
+                                z: 99
+                            });
         world = GameEngine.world('theWorld', ['theModule']);
     });
 
@@ -36,11 +38,12 @@ describe('entity', function() {
         expect(e.theComponent).toBeDefined();
         expect(e.theComponent.x).toBe(10);
         expect(e.theComponent.y).not.toBeDefined();
+        expect(e.theComponent.z).toBe(99);
     });
 
     it('should has added component', function() {
         var e = world.entity('theEntity');
-        e.$add('theComponent', {});
+        e.$add('theComponent');
         expect(e.$has('theComponent')).toBe(true);
     });
 
@@ -56,7 +59,7 @@ describe('entity', function() {
         var e = world.entity('theEntity');
         var handler = sinon.spy();
         e.on('add', handler);
-        var c = e.$add('theComponent', {});
+        var c = e.$add('theComponent');
 
         expect(handler.calledOnce).toBeTruthy();
         expect(handler.calledWith(c)).toBeTruthy();
@@ -66,9 +69,9 @@ describe('entity', function() {
         var e = world.entity('theEntity');
         var handler = sinon.spy();
         e.on('remove', handler);
-        e.$remove('theComponent', {});
-        var c = e.$add('theComponent', {});
-        e.$remove('theComponent', {});
+        e.$remove('theComponent');
+        var c = e.$add('theComponent');
+        e.$remove('theComponent');
 
         expect(handler.calledOnce).toBeTruthy();
         expect(handler.calledWith(c)).toBeTruthy();

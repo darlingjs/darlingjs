@@ -137,6 +137,7 @@ World.prototype.e = World.prototype.entity = function() {
 
     var instance = new Entity();
     instance.name =  name;
+    instance.$$world = this;
 
     if (isArray(arguments[componentsIndex])) {
         components = arguments[componentsIndex];

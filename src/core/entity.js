@@ -22,8 +22,7 @@ Entity.prototype.$add = function(name, value) {
     if (value instanceof Entity) {
         instance = value;
     } else {
-        //TODO : get
-        instance = value;
+        instance = this.$$world.component(name, value);
     }
 
     if (isUndefined(instance)) {
