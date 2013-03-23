@@ -203,18 +203,12 @@ describe('World', function() {
     it('should added my instance', function() {
         GameEngine.module('testModule')
             .c('theComponent')
-            .system('testSystem', {
-                x: 10,
-                y: 20
-            });
+            .system('testSystem');
 
         var world = GameEngine.world('testWorld', ['testModule']);
-        var system = world.$system('testSystem', {
-            z: 30
-        });
+        var systemInstance = world.$system('testSystem');
+        world.$add(systemInstance);
 
-        world.$add(system);
-
-        expect(world.isUse(system)).toBeTruthy();
+        expect(world.isUse(systemInstance)).toBeTruthy();
     });
 });

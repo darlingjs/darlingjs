@@ -146,9 +146,11 @@ describe('system', function() {
 
         var world = GameEngine.world('testWorld', ['testModule']);
         var system = world.$add('testSystem');
+        world.$add(world.e('theEntity', ['theComponent']));
         world.$remove(system);
 
         expect(removedHandler.callCount).toBe(1);
+        expect(system.$nodes.length()).toBe(0);
     });
 
     it('should inject dependency in $init', function() {
