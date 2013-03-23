@@ -141,21 +141,6 @@ describe('system', function() {
             });
     });
 
-    it('should execute update handler on update.', function() {
-        var updateHandler = sinon.spy();
-        GameEngine.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
-                require: ['theComponent'],
-                $update: updateHandler
-            });
-
-        var world = GameEngine.world('testWorld', ['testModule']);
-        world.add('testSystem');
-        world.$update();
-        expect(updateHandler.calledOnce).toBeTruthy();
-    });
-
     /*
 
     it('should match entity by component in system requirement', function() {

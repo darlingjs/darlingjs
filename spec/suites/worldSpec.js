@@ -162,4 +162,20 @@ describe('World', function() {
         expect(c.x).toBe(15);
         expect(c.y).toBe(34);
     });
+
+    it('should execute update handler on update.', function() {
+        var updateHandler = sinon.spy();
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent'],
+                $update: updateHandler
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        world.add('testSystem');
+        world.$update(11);
+        expect(updateHandler.calledOnce).toBeTruthy();
+        expect(updateHandler.calledWith(11)).toBeTruthy();
+    });
 });
