@@ -58,7 +58,7 @@ describe('darling', function() {
     it('should inject module to created world', function() {
         GameEngine.module('testModule1', []);
         var w = GameEngine.world('testWorld1', ['testModule1']);
-        expect(w.has('testModule1')).toEqual(true);
+        expect(w.$has('testModule1')).toEqual(true);
     });
 
     it('should inject to world all components from module', function() {
@@ -66,8 +66,8 @@ describe('darling', function() {
             .c('testComponent1')
             .c('testComponent2');
         var w = GameEngine.world('testWorld1', ['testModule1']);
-        expect(w.has('testComponent1')).toEqual(true);
-        expect(w.has('testComponent2')).toEqual(true);
+        expect(w.$has('testComponent1')).toEqual(true);
+        expect(w.$has('testComponent2')).toEqual(true);
     });
 
     it('should remove modules by removeAllModules', function() {

@@ -23,7 +23,7 @@ describe('entity', function() {
     });
 
     it('should throw exception on add null component', function() {
-        var e = world.entity('theEntity');
+        var e = world.$entity('theEntity');
         expect(function() {
             e.$add(null);
         }).toThrow();
@@ -33,7 +33,7 @@ describe('entity', function() {
     });
 
     it('should add component in entity scope', function() {
-        var e = world.entity('theEntity');
+        var e = world.$entity('theEntity');
         e.$add('theComponent', { x : 10});
         expect(e.theComponent).toBeDefined();
         expect(e.theComponent.x).toBe(10);
@@ -42,13 +42,13 @@ describe('entity', function() {
     });
 
     it('should has added component', function() {
-        var e = world.entity('theEntity');
+        var e = world.$entity('theEntity');
         e.$add('theComponent');
         expect(e.$has('theComponent')).toBe(true);
     });
 
     it('should be able to remove component', function() {
-        var e = world.entity('theEntity');
+        var e = world.$entity('theEntity');
         e.$add('theComponent', {});
         e.$remove('theComponent');
         expect(e.$has('theComponent')).toBe(false);
@@ -56,7 +56,7 @@ describe('entity', function() {
     });
 
     it('should trigger event after add component', function() {
-        var e = world.entity('theEntity');
+        var e = world.$entity('theEntity');
         var handler = sinon.spy();
         e.on('add', handler);
         var c = e.$add('theComponent');
@@ -66,7 +66,7 @@ describe('entity', function() {
     });
 
     it('should trigger event after remove component', function() {
-        var e = world.entity('theEntity');
+        var e = world.$entity('theEntity');
         var handler = sinon.spy();
         e.on('remove', handler);
         e.$remove('theComponent');

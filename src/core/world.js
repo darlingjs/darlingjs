@@ -16,25 +16,25 @@ var World = function(){
     this.$$injectedComponents = {};
     this.$$injectedModules = {};
     this.$$injectedSystems = {};
+
     this.$$systems = [];
     this.$$families = {};
     this.$$interval = 1;
     this.$$updating = false;
 
     this.$entities = new List();
+    this.$name = '';
     //this.$$entitiesHead = this.$$entitiesTail = null;
     //this.$$entitiesCount = 0;
 };
 
-World.prototype.name = '';
-
-World.prototype.has = function(name) {
+World.prototype.$has = function(name) {
     return isDefined(this.$$injectedComponents[name]) ||
            isDefined(this.$$injectedModules[name]) ||
            isDefined(this.$$injectedSystems[name]);
 };
 
-World.prototype.isUse = function(value) {
+World.prototype.$isUse = function(value) {
     if (value instanceof System) {
         return this.$$systems.indexOf(value) >= 0;
     } else {
@@ -133,7 +133,7 @@ World.prototype.$$addSystem = function(instance) {
     instance.$$addedHandler();
 
     if (isDefined(instance.require)) {
-        instance.$nodes = this.byComponents(instance.require);
+        instance.$nodes = this.$queryByComponents(instance.require);
     }
 
     return instance;
@@ -149,13 +149,9 @@ World.prototype.$$removeSystem = function(instance) {
     return instance;
 };
 
-World.prototype.numEntities = function() {
+World.prototype.$numEntities = function() {
     return this.$entities.length();
 };
-
-//World.prototype.getEntityByIndex = function(index) {
-//    return this.$$entities[index];
-//};
 
 /**
  * @ngdoc function
@@ -175,7 +171,7 @@ World.prototype.numEntities = function() {
  *
  * @type {Function}
  */
-World.prototype.e = World.prototype.entity = function() {
+World.prototype.$e = World.prototype.$entity = function() {
     var name = '';
     var components = [];
     var componentsIndex = 0;
@@ -222,7 +218,7 @@ World.prototype.e = World.prototype.entity = function() {
     return instance;
 };
 
-World.prototype.c = World.prototype.component = function(name, config) {
+World.prototype.$c = World.prototype.$component = function(name, config) {
     var defaultConfig;
     var instance;
 
@@ -332,7 +328,7 @@ World.prototype.$$matchRemoveEntityToFamilies = function (instance) {
     }
 };
 
-World.prototype.byComponents = function(request) {
+World.prototype.$queryByComponents = function(request) {
     var componentsArray;
     var componentsString;
     if (isArray(request)) {
