@@ -171,6 +171,21 @@ World.prototype.e = World.prototype.entity = function() {
     return instance;
 };
 
+World.prototype.c = World.prototype.component = function(name, config) {
+    var defaultConfig;
+    var instance;
+
+    if (!isString(name)) {
+        throw new Error('1st argument must be [String]');
+    }
+
+    defaultConfig = this.$$injectedComponents[name];
+    instance = copy(defaultConfig.defaultState);
+    mixin(instance, config);
+
+    return instance;
+};
+
 World.prototype.$$matchNewEntityToFamilies = function (instance) {
     for (var componentsString in this.$$entitiesRequestedByComponents) {
         var family = this.$$entitiesRequestedByComponents[componentsString];

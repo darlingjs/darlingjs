@@ -88,9 +88,26 @@ describe('system', function() {
         expect(system.$nodes.length()).toBe(0);
     });
 
+    /*
     it('should fetch entity to $nodes after required component been added to entity', function() {
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                require: ['theComponent']
+            });
 
+        var world = GameEngine.world('testWorld', ['testModule']);
+        var entity = world.e('theEntity');
+        var system = world.add('testSystem');
+        world.add(entity);
+        entity.$add('theComponent');
+
+        expect(system.$nodes.length()).toBe(1);
+        system.$nodes.forEach(function(e) {
+            expect(e).toBe(entity);
+        });
     });
+    */
 
     it('should remove entity from $nodes after required component been removed from entity', function() {
 

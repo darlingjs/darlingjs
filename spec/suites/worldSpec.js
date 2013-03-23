@@ -147,6 +147,22 @@ describe('World', function() {
         });
     });
 
+    it('should build component with default state', function() {
+        var c = world.component('testComponent1');
+        expect(c).toBeDefined();
+        expect(c.x).toBe(12);
+        expect(c.y).toBe(34);
+    });
+
+    it('should build component and override default state', function() {
+        var c = world.component('testComponent1', {
+            x:15
+        });
+        expect(c).toBeDefined();
+        expect(c.x).toBe(15);
+        expect(c.y).toBe(34);
+    });
+
     /*
     it('should has entity after it has been added', function() {
         var e = world.e('theEntity');

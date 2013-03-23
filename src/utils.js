@@ -545,6 +545,9 @@ var extend = function(protoProps, staticProps) {
  */
 function mixin(original, extended)
 {
+    if (extended == null) {
+        return original;
+    }
     for (var key in extended)
     {
         var ext = extended[key];

@@ -8,12 +8,22 @@
 var Entity = function() {
     this.$$components = {};
     this.$$nextSibling = this.$$prevSibling = null;
+    this.$$world = null;
     mixin(this, Events);
 };
 
-Entity.prototype.$add = function(name, instance) {
+Entity.prototype.$add = function(name, value) {
+    var instance;
+
     if (isUndefined(name)) {
         throw new Error('Can\'t add component with null name.');
+    }
+
+    if (value instanceof Entity) {
+        instance = value;
+    } else {
+        //TODO : get
+        instance = value;
     }
 
     if (isUndefined(instance)) {
@@ -25,6 +35,7 @@ Entity.prototype.$add = function(name, instance) {
     }
 
     this.$$components[name] = instance;
+
     this[name] = instance;
 
     this.trigger('add', instance);
