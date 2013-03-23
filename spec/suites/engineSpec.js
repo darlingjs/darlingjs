@@ -24,9 +24,9 @@ describe('darling', function() {
 
     it('should to create to different module with different states.', function() {
         var m1 = darlingjs.module('theModule1')
-            .system('theSystem1');
+            .$system('theSystem1');
         var m2 = darlingjs.module('theModule2')
-            .system('theSystem2');
+            .$system('theSystem2');
 
         expect(m1).not.toBe(m2);
         expect(m1.name).not.toBe(m2.name);
@@ -63,8 +63,8 @@ describe('darling', function() {
 
     it('should inject to world all components from module', function() {
         darlingjs.module('testModule1', [])
-            .c('testComponent1')
-            .c('testComponent2');
+            .$c('testComponent1')
+            .$c('testComponent2');
         var w = darlingjs.world('testWorld1', ['testModule1']);
         expect(w.$has('testComponent1')).toEqual(true);
         expect(w.$has('testComponent2')).toEqual(true);
@@ -80,21 +80,21 @@ describe('darling', function() {
 
     it('should to modules has different collection of systems', function() {
         var m1 = darlingjs.module('theModule1')
-            .system('theSystem1');
+            .$system('theSystem1');
         var m2 = darlingjs.module('theModule2')
-            .system('theSystem2');
+            .$system('theSystem2');
 
-        expect(m1.has('theSystem1')).toBe(true);
-        expect(m1.has('theSystem2')).not.toBe(true);
-        expect(m2.has('theSystem2')).toBe(true);
-        expect(m2.has('theSystem1')).not.toBe(true);
+        expect(m1.$has('theSystem1')).toBe(true);
+        expect(m1.$has('theSystem2')).not.toBe(true);
+        expect(m2.$has('theSystem2')).toBe(true);
+        expect(m2.$has('theSystem1')).not.toBe(true);
     });
 
     it('should to clean modules after removeAllModules', function() {
         darlingjs.module('theModule')
-            .system('theSystem');
+            .$system('theSystem');
         darlingjs.removeAllModules();
-        expect(darlingjs.module('theModule').has('theSystem')).not.toBe(true);
+        expect(darlingjs.module('theModule').$has('theSystem')).not.toBe(true);
     });
 
     it('should remove world by removeAllModules', function() {

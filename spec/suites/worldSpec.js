@@ -12,14 +12,14 @@ describe('World', function() {
 
     beforeEach(function() {
         module = darlingjs.module('testModule1')
-            .c('testComponent1', {
+            .$c('testComponent1', {
                 x: 12,
                 y: 34
             })
-            .c('testComponent2', {
+            .$c('testComponent2', {
                 name: 'hello'
             })
-            .c('testComponent3', {
+            .$c('testComponent3', {
                 world: 'new brave'
             });
 
@@ -168,8 +168,8 @@ describe('World', function() {
     it('should execute update handler on update.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 require: ['theComponent'],
                 $update: updateHandler
             });
@@ -183,8 +183,8 @@ describe('World', function() {
 
     it('should instantiate by name without add it', function() {
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 x: 10,
                 y: 20
             });
@@ -203,8 +203,8 @@ describe('World', function() {
 
     it('should added my instance', function() {
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem');
+            .$c('theComponent')
+            .$system('testSystem');
 
         var world = darlingjs.world('testWorld', ['testModule']);
         var systemInstance = world.$system('testSystem');

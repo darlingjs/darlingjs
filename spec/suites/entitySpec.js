@@ -10,8 +10,8 @@ describe('entity', function() {
 
     beforeEach(function () {
         module = darlingjs.module('theModule', {})
-                           .s('theSystem')
-                           .c('theComponent', {
+                           .$s('theSystem')
+                           .$c('theComponent', {
                                 z: 99
                             });
         world = darlingjs.world('theWorld', ['theModule']);

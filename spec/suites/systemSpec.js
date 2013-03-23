@@ -9,7 +9,7 @@ describe('system', function() {
         defaultWorld;
     beforeEach(function() {
         defaultModule = darlingjs.module('defaultModule', {})
-            .system('defaultSystem');
+            .$system('defaultSystem');
         defaultWorld = darlingjs.world('defaultWorld', ['defaultModule']);
     });
 
@@ -20,14 +20,14 @@ describe('system', function() {
 
     it('should be added to the module', function() {
         var m = darlingjs.module('theModule', {})
-            .system('theSystem');
+            .$system('theSystem');
 
-        expect(m.has('theSystem')).toBe(true);
+        expect(m.$has('theSystem')).toBe(true);
     });
 
     it('should be added to the world', function() {
         darlingjs.module('testModule', {})
-            .system('testSystem');
+            .$system('testSystem');
 
         var world = darlingjs.world('testWorld', ['testModule']);
         world.$add('testSystem');
@@ -41,8 +41,8 @@ describe('system', function() {
 
     it(' after been added to world should fetch required nodes from world', function() {
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent']
             });
 
@@ -58,8 +58,8 @@ describe('system', function() {
 
     it('should fetch entity to $nodes after entity been added', function() {
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent']
             });
 
@@ -75,8 +75,8 @@ describe('system', function() {
 
     it('should remove entity from $nodes after entity been removed', function() {
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent']
             });
 
@@ -90,8 +90,8 @@ describe('system', function() {
 
     it('should fetch entity to $nodes after required component been added to entity', function() {
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent']
             });
 
@@ -109,8 +109,8 @@ describe('system', function() {
 
     it('should remove entity from $nodes after required component been removed from entity', function() {
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent']
             });
 
@@ -125,8 +125,8 @@ describe('system', function() {
     it('should invoke $added on system added to world', function() {
         var addedHandler = sinon.spy();
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $added: addedHandler
             });
 
@@ -139,8 +139,8 @@ describe('system', function() {
     it('should invoke $removed on system remove from world', function() {
         var removedHandler = sinon.spy();
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $removed: removedHandler
             });
 
@@ -156,8 +156,8 @@ describe('system', function() {
     it('should run update once for $nodes request.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent'],
                 $update: ['$nodes', '$time', updateHandler]
             });
@@ -173,8 +173,8 @@ describe('system', function() {
     it('should inject the World instance to update by $world argument', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent'],
                 $update: ['$world', updateHandler]
             });
@@ -189,8 +189,8 @@ describe('system', function() {
     it('should run update for each request $node.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
+            .$c('theComponent')
+            .$system('testSystem', {
                 $require: ['theComponent'],
                 $update: ['$node', '$time', updateHandler]
             });

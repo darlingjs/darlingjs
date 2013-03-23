@@ -561,27 +561,20 @@ var extend = function(protoProps, staticProps) {
  * @param extended
  * @return {*}
  */
-function mixin(original, extended)
-{
-    if (extended == null) {
+function mixin(original, extended) {
+    if (extended === null) {
         return original;
     }
-    for (var key in extended)
-    {
+    for (var key in extended) {
         var ext = extended[key];
-        if (typeof (ext) != 'object' ||
-            ext instanceof Class)
-        {
+        if (typeof (ext) !== 'object') {
             original[key] = ext;
-        }
-        else
-        {
-            if (!original[key] || typeof (original[key]) != 'object')
-            {
+        } else {
+            if (!original[key] || typeof (original[key]) !== 'object') {
                 original[key] = {};
             }
-            merge(original[key], ext);
+            mixin(original[key], ext);
         }
     }
     return original;
-};
+}

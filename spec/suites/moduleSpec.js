@@ -16,12 +16,12 @@ describe('module', function() {
     });
 
     it('should has created components', function() {
-        module.c('testComponent');
-        expect(module.has('testComponent')).toEqual(true);
+        module.$c('testComponent');
+        expect(module.$has('testComponent')).toEqual(true);
     });
 
     it('should create system', function() {
-        var s = module.system('theSystem');
+        var s = module.$system('theSystem');
         expect(s).toBeDefined();
     });
 });

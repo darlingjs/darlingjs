@@ -9,7 +9,7 @@ var Module = function(){
     this.$$systems = {};
 };
 
-Module.prototype.has = function(name) {
+Module.prototype.$has = function(name) {
     return isDefined(this.$$components[name]) ||
            isDefined(this.$$systems[name]);
 };
@@ -19,7 +19,7 @@ Module.prototype.has = function(name) {
  *
  * @type {Function}
  */
-Module.prototype.c = Module.prototype.component = function(name, defaultState) {
+Module.prototype.$c = Module.prototype.$component = function(name, defaultState) {
     defaultState = defaultState || {};
     var component = {
         name: name,
@@ -34,7 +34,7 @@ Module.prototype.c = Module.prototype.component = function(name, defaultState) {
  *
  * @type {Function}
  */
-Module.prototype.s = Module.prototype.system = function(name, config) {
+Module.prototype.$s = Module.prototype.$system = function(name, config) {
     if (isUndefined(name)) {
         throw new Error('System name must to be defined.');
     }
