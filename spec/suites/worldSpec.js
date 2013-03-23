@@ -162,17 +162,4 @@ describe('World', function() {
         expect(c.x).toBe(15);
         expect(c.y).toBe(34);
     });
-
-    /*
-    it('should has entity after it has been added', function() {
-        var e = world.e('theEntity');
-        world.add(e);
-        expect(world.numEntities()).toBe(1);
-        expect(world.getEntityByIndex(0)).toBe(e);
-    });
-
-    it('should match component to corresponding system', function() {
-        //TODO:
-    });
-    */
 });
