@@ -170,6 +170,22 @@ describe('system', function() {
         expect(updateHandler.calledWith(system.$nodes, 11)).toBeTruthy();
     });
 
+    it('should inject the World instance to update by $world argument', function() {
+        var updateHandler = sinon.spy();
+        GameEngine.module('testModule')
+            .c('theComponent')
+            .system('testSystem', {
+                $require: ['theComponent'],
+                $update: ['$world', updateHandler]
+            });
+
+        var world = GameEngine.world('testWorld', ['testModule']);
+        world.$add('testSystem');
+        world.$update(11);
+        expect(updateHandler.callCount).toBe(1);
+        expect(updateHandler.calledWith(world)).toBeTruthy();
+    });
+
     it('should run update for each request $node.', function() {
         var updateHandler = sinon.spy();
         GameEngine.module('testModule')
@@ -205,53 +221,7 @@ describe('system', function() {
 
     });
 
-    /*
-
-    it('should match entity by component in system requirement', function() {
-        GameEngine.module('testModule')
-            .c('theComponent')
-            .system('testSystem', {
-                require: ['theComponent']
-            });
-
-        var world = GameEngine.world('testWorld', ['testModule']);
-        var entity = world.e('theEntity', ['theComponent']);
-        world.add(entity);
-        var system = world.add('testSystem');
-        expect(system.numNodes()).toBe(1);
-        expect(system.getNodeByIndex(0)).toBe(entity);
-    });
-
-
-     it('should match entity by component in system requirement', function() {
-     GameEngine.module('testModule')
-     .c('theComponent')
-     .system('testSystem', {
-     require: ['theComponent'],
-     update: function($node) {
-
-     }
-     });
-
-     var world = GameEngine.world('testWorld', ['testModule']);
-     var entity = world.e('theEntity', ['theComponent']);
-     var system = world.add('testSystem');
-     expect(system.numNodes()).toBe(1);
-     expect(system.getNodeByIndex(0)).toBe(entity);
-     });
-    it('should get all nodes on update', function() {
-        GameEngine.module('testModule')
-            .system('testSystem', {
-                require: [],
-                update: function($nodes) {
-
-                }
-            });
-        var world = GameEngine.world('testWorld', ['testModule']);
-        world.add('testSystem');
-    });
-    */
     //TODO
-    //update($node) update($time) update($world)
+    //
     //addNode, removeNode
 })

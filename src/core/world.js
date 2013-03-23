@@ -269,12 +269,16 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
             var apply$node = applyNode(updateAnnotate, '$node');
             var apply$nodes = applyNode(updateAnnotate, '$nodes');
             var apply$time = applyNode(updateAnnotate, '$time');
+            var apply$world = applyNode(updateAnnotate, '$world');
+
+            var worldInstance = this;
 
             var updateForEveryNode = updateAnnotate.indexOf('$node') >= 0;
             if (updateForEveryNode) {
                 systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(node, time) {
                     apply$time(args, time);
                     apply$node(args, node);
+                    apply$world(args, worldInstance);
 
                     updateHandler.apply(systemInstance, args);
                 });
@@ -282,6 +286,7 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
                 systemInstance.$$updateHandler = function(time) {
                     apply$time(args, time);
                     apply$nodes(args, systemInstance.$nodes);
+                    apply$world(args, worldInstance);
 
                     updateHandler.apply(systemInstance, args);
                 };
