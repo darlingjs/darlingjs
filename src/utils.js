@@ -12,25 +12,74 @@
 
 var toString = Object.prototype.toString;
 
+var darlingutil = window.darlingutil = window.darlingutil||{};
+
+darlingutil.isDefined = isDefined;
 function isDefined(value) {
     return typeof value !== 'undefined';
 }
 
+darlingutil.isUndefined = isUndefined;
 function isUndefined(value) {
     return typeof value === 'undefined';
 }
 
+darlingutil.isObject = isObject;
 function isObject(value) {
     return value !== null && typeof value === 'object';
 }
 
+darlingutil.isArray = isArray;
 function isArray(value) {
     return toString.apply(value) === '[object Array]';
 }
 
+darlingutil.isString = isString;
 function isString(value) {
     return typeof value === 'string';
 }
+
+/**
+ * Checks if `obj` is a window object.
+ *
+ * @private
+ * @param {*} obj Object to check
+ * @returns {boolean} True if `obj` is a window obj.
+ */
+darlingutil.isWindow = isWindow;
+function isWindow(obj) {
+    return obj && obj.document && obj.location && obj.alert && obj.setInterval;
+}
+
+/**
+ * @ngdoc function
+ * @name angular.isDate
+ * @function
+ *
+ * @description
+ * Determines if a value is a date.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is a `Date`.
+ */
+darlingutil.isDate = isDate;
+function isDate(value){
+    return toString.apply(value) === '[object Date]';
+}
+
+/**
+ * @ngdoc function
+ * @name angular.isFunction
+ * @function
+ *
+ * @description
+ * Determines if a reference is a `Function`.
+ *
+ * @param {*} value Reference to check.
+ * @returns {boolean} True if `value` is a `Function`.
+ */
+darlingutil.isFunction = isFunction;
+function isFunction(value){return typeof value === 'function';}
 
 /**
  * @ngdoc function
@@ -172,44 +221,6 @@ function forEach(obj, iterator, context) {
     return obj;
 }
 
-/**
- * Checks if `obj` is a window object.
- *
- * @private
- * @param {*} obj Object to check
- * @returns {boolean} True if `obj` is a window obj.
- */
-function isWindow(obj) {
-    return obj && obj.document && obj.location && obj.alert && obj.setInterval;
-}
-
-/**
- * @ngdoc function
- * @name angular.isDate
- * @function
- *
- * @description
- * Determines if a value is a date.
- *
- * @param {*} value Reference to check.
- * @returns {boolean} True if `value` is a `Date`.
- */
-function isDate(value){
-    return toString.apply(value) === '[object Date]';
-}
-
-/**
- * @ngdoc function
- * @name angular.isFunction
- * @function
- *
- * @description
- * Determines if a reference is a `Function`.
- *
- * @param {*} value Reference to check.
- * @returns {boolean} True if `value` is a `Function`.
- */
-function isFunction(value){return typeof value === 'function';}
 
 /**
  * @ngdoc method

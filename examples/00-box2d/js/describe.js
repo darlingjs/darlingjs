@@ -41,19 +41,19 @@
     });
 
     ngModule.$c('ngControl', {
-        speed: 10,
+        speed: 0.1,
         keys:{ UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}
     });
 
     ngModule.$system('ng2DRamble', {
         $require: ['ngRamble', 'ng2D'],
         _updateTarget: function($node) {
-            $node._target = {
-                x: 4 * Math.random() - 2,
-                y: 4 * Math.random() - 2
+            $node.ngRamble._target = {
+                x: ($node.ngRamble.frame.right - $node.ngRamble.frame.left) * Math.random() + $node.ngRamble.frame.left,
+                y: ($node.ngRamble.frame.bottom - $node.ngRamble.frame.top) * Math.random() + $node.ngRamble.frame.top
             };
 
-            $node._target = this._normalizePosition($node._target, $node.frame);
+            //$node.ngRamble._target = this._normalizePosition($node.ngRamble._target, $node.ngRamble.frame);
         },
         _normalizePosition: function(p, frame) {
             if (p.x < frame.left) {
@@ -78,17 +78,17 @@
             return dx * dx + dy * dy;
         },
         $update: ['$node', function($node) {
-            if (!$node._target) {
+            if (!$node.ngRamble._target) {
                 this._updateTarget($node);
-            } else if (this._distanceSqr($node.ng2D, $node._target) < 1) {
+            } else if (this._distanceSqr($node.ng2D, $node.ngRamble._target) < 1) {
                 this._updateTarget($node);
             } else {
-                var dx = Math.abs($node._target.x - $node.ng2D.x);
-                var dy = Math.abs($node._target.y - $node.ng2D.y);
+                var dx = Math.abs($node.ngRamble._target.x - $node.ng2D.x);
+                var dy = Math.abs($node.ngRamble._target.y - $node.ng2D.y);
                 if (dx > dy) {
-                    $node.ng2D.x+= $node._target.x > $node.ng2D.x?1:-1;
+                    $node.ng2D.x+= $node.ngRamble._target.x > $node.ng2D.x?1:-1;
                 } else {
-                    $node.ng2D.y+= $node._target.y > $node.ng2D.y?1:-1;
+                    $node.ng2D.y+= $node.ngRamble._target.y > $node.ng2D.y?1:-1;
                 }
             }
         }]
@@ -149,8 +149,8 @@
 
     ngModule.$system('ngControlSystem', {
         $require: ['ng2D', 'ngControl'],
-        _targetElementID: 'game',
-        _target:null,
+        targetId: null,
+        _target: null,
         _actions: {},
         _keyBinding: [],
         _keyBind: function(keyId, action) {
@@ -163,16 +163,21 @@
             this._keyBind(83, 'move-down');
             this._keyBind(68, 'move-right');
 
-            this._target = document.getElementById(this._targetElementID);
+            this._keyBind(37, 'move-left');
+            this._keyBind(38, 'move-up');
+            this._keyBind(39, 'move-right');
+            this._keyBind(40, 'move-down');
+
+            this._target = document.getElementById(this.targetId) || document;
             var self = this;
             this._target.addEventListener('keydown', function(e) {
-                var action = self._keyBinding[e.keyID];
+                var action = self._keyBinding[e.keyCode];
                 if (action) {
                     self._actions[action] = true;
                 }
             });
             this._target.addEventListener('keyup', function(e) {
-                var action = self._keyBinding[e.keyID];
+                var action = self._keyBinding[e.keyCode];
                 if (action) {
                     self._actions[action] = false;
                 }
@@ -180,10 +185,22 @@
         },
         _speed: {x:0.0, y:0.0},
         _normalize: function(speed) {
-            //TODO : ...
+            if (speed.x === 0.0 || speed.y === 0.0 ) {
+                return speed;
+            }
+
+            speed.x *= Math.SQRT1_2;
+            speed.y *= Math.SQRT1_2;
+        },
+        $addNode: function($node) {
+            console.log('add control');
+        },
+        $removeNode: function($node) {
+            console.log('remove control');
         },
         $update: ['$node', '$time', '$world', function($node, $time, $world) {
             var speed = this._speed;
+
             if (this._actions['move-up']) {
                 speed.y = -1.0;
             }
@@ -199,8 +216,11 @@
 
             this._normalize(speed);
 
-            $node.ng2D.x += speed.x * $time * $world.fps;
-            $node.ng2D.y += speed.y * $time * $world.fps;
+            $node.ng2D.x += speed.x * $time * $node.ngControl.speed;
+            $node.ng2D.y += speed.y * $time * $node.ngControl.speed;
+
+            speed.x = 0.0;
+            speed.y = 0.0;
         }]
     });
 
@@ -213,15 +233,14 @@
         $added: function() {
 
             this._target = this.target;
-            if (this._target === null) {
+            if (darlingutil.isUndefined(this._target)) {
                 this._target = document.getElementById(this.targetId);
             }
         },
         $addNode: function($node) {
             var element = document.createElement("div");
             var style = element.style;
-
-            style.position = "absolute";
+            style.position = 'relative';
 
             $node._style = style;
             $node._element = element;
@@ -235,6 +254,9 @@
             var style = $node._style;
             style.left = $node.ng2D.x + 'px';
             style.top = $node.ng2D.y + 'px';
+            style.width = $node.ng2D.width + 'px';
+            style.height = $node.ng2D.height + 'px';
+            style.backgroundColor = $node.ngDOM.color;
         }]
     });
 }) ();

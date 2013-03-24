@@ -11,13 +11,15 @@
         fps: 60
     });
 
-    world.$add('ngDOMSystem', { targetId: 'gameID' });
+    world.$add('ngDOMSystem', { targetId: 'gameTarget' });
+    world.$add('ngControlSystem');
+    world.$add('ng2DRamble');
     world.$add('ng2DCollisionSystem');
     //world.$add('ngFlatControlSystem');
 
     world.$add(world.$e('player', [
-        'ngDOM', { color: 'rgb(255,0,0)' },
-        'ng2D', {x : 0, y: 50},
+        'ngDOM', { color: 'rgb(0,200,200)' },
+        'ng2D', {x : 0, y: 50, width:10, height:10},
         'ngControl',
         'ngCollision'
     ]));
@@ -26,7 +28,7 @@
         var fixed = Math.random() > 0.5;
         world.$add(world.$e('obstacle_' + i, [
             'ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
-            'ng2D', {x : 10 + 80 * Math.random(), y: 10 + 80 * Math.random()},
+            'ng2D', {x : 10 + 80 * Math.random(), y: 10 + 80 * Math.random(), width:10, height:10},
             'ngCollision', {fixed: fixed}
         ]));
     }

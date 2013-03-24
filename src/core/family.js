@@ -13,6 +13,7 @@ function Family() {
     this.components = [];
     this.componentsString = '';
     this.nodes = new List();
+    this.$$marker = null;
 }
 
 Family.prototype.$marker = function() {
@@ -38,7 +39,7 @@ Family.prototype.addIfMatch = function(e) {
         }
     }
 
-    e[this.$$marker] = true;
+    e[this.$marker()] = true;
 
     this.nodes.add(e);
 };

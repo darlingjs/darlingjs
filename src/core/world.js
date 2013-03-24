@@ -204,16 +204,19 @@ World.prototype.$e = World.prototype.$entity = function() {
             if (isObject(components[index + 1])) {
                 index++;
                 componentConfig = components[index];
+            } else {
+                componentConfig = null;
             }
+            /*
+             var componentInstance = copy(component.defaultState);
+             for (var key in componentConfig) {
+             if (componentConfig.hasOwnProperty(key)) {
+             componentInstance[key] = componentConfig[key];
+             }
+             }
+             */
 
-            var componentInstance = copy(component.defaultState);
-            for (var key in componentConfig) {
-                if (componentConfig.hasOwnProperty(key)) {
-                    componentInstance[key] = componentConfig[key];
-                }
-            }
-
-            instance.$add(componentName, componentInstance);
+            instance.$add(componentName, componentConfig);
         }
     }
 
@@ -230,7 +233,9 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
 
     defaultConfig = this.$$injectedComponents[name];
     instance = copy(defaultConfig.defaultState);
-    mixin(instance, config);
+    if (isDefined(config)) {
+        mixin(instance, config);
+    }
 
     return instance;
 };
@@ -320,10 +325,8 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
     if (isDefined(systemInstance.$addNode)) {
         //TODO : inject all dependency
-        console.log('systemInstance.$addNode 1');
         systemInstance.$$addNodeHandler = systemInstance.$addNode;
     } else {
-        console.log('systemInstance.$addNode 0');
         systemInstance.$$addNodeHandler = noop;
     }
 
@@ -392,8 +395,10 @@ World.prototype.$start = function() {
     this.$playing = true;
 
     var self = this;
+    var previousTime = 0;
     (function step(time) {
-        self.$update(time);
+        self.$update(time - previousTime);
+        previousTime = time;
         if (self.$playing) {
             self.$requestAnimationFrameId = window.requestAnimationFrame(step);
         }
