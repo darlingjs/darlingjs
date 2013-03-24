@@ -35,7 +35,10 @@
 
     ngModule.$c('ng2D', {
         x: 0.0,
-        y: 0.0,
+        y: 0.0
+    });
+
+    ngModule.$c('ng2DSize', {
         width: 10.0,
         height: 10.0
     });
@@ -254,8 +257,12 @@
             var style = $node._style;
             style.left = $node.ng2D.x + 'px';
             style.top = $node.ng2D.y + 'px';
-            style.width = $node.ng2D.width + 'px';
-            style.height = $node.ng2D.height + 'px';
+            var ng2DSize = $node.ng2DSize;
+            if (ng2DSize) {
+                style.width = ng2DSize.width + 'px';
+                style.height = ng2DSize.height + 'px';
+            }
+
             style.backgroundColor = $node.ngDOM.color;
         }]
     });
