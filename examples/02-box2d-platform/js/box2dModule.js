@@ -84,9 +84,6 @@
             if (this._isMouseDown && !this._mouseJoint) {
                 world = ngBox2DSystem._world;
                 var body = this._getBodyAtMouse(world);
-                console.log('body: ' + body);
-                console.log('this._mouseX: ' + this._mouseX);
-                console.log('this._mouseY: ' + this._mouseY);
                 if(body && body.m_userData && body.m_userData.ngDraggable) {
                     var md = new MouseJointDef();
                     md.bodyA = world.GetGroundBody();
