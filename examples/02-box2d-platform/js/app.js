@@ -23,7 +23,7 @@
             y:10.0
         }
     });
-    //world.$add('ngBox2DDraggable');
+    world.$add('ngBox2DDraggable', { targetId: 'canvas' });
 
     world.$add(world.$e('player', [
         'ngDOM', { color: 'rgb(0,200,200)' },

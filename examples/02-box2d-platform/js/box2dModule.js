@@ -40,36 +40,54 @@
  */
 
     m.$s('ngBox2DDraggable', {
+        targetId: 'game',
+
         $require: ['ngPhysic', 'ngDraggable'],
+
         $added: ['ngBox2DSystem', function(ngBox2DSystem) {
             this.scale = ngBox2DSystem.scale;
             this._invScale = ngBox2DSystem._invScale;
-            this._shiftX = 0;
-            this._shiftY = 0;
 
+            this._target = document.getElementById(this.targetId) || document;
+
+            var pos = getElementPosition(this._target);
+
+            this._shiftX = pos.x;
+            this._shiftY = pos.y;
+
+            var self = this;
             this._isMouseDown = false;
             document.addEventListener("mousedown", function(e) {
-                this._isMouseDown = true;
-                this._handleMouseMove(e);
-                document.addEventListener("mousemove", this._handleMouseMove, true);
+                self._isMouseDown = true;
+                self._handleMouseMove(e);
+                document.addEventListener("mousemove", function(e) {
+                    self._handleMouseMove(e);
+                }, true);
             }, true);
 
             document.addEventListener("mouseup", function() {
-                document.removeEventListener("mousemove", this._handleMouseMove, true);
-                this._isMouseDown = false;
+                document.removeEventListener("mousemove", function(e) {
+                    self._handleMouseMove(e);
+                }, true);
+                self._isMouseDown = false;
             }, true);
         }],
+
         _handleMouseMove: function (e) {
             this._mouseX = (e.clientX - this._shiftX) * this._invScale;
             this._mouseY = (e.clientY - this._shiftY) * this._invScale;
         },
+
         $update: ['$nodes', 'ngBox2DSystem', function($nodes, ngBox2DSystem) {
             var world;
 
             if (this._isMouseDown && !this._mouseJoint) {
                 world = ngBox2DSystem._world;
                 var body = this._getBodyAtMouse(world);
-                if(body) {
+                console.log('body: ' + body);
+                console.log('this._mouseX: ' + this._mouseX);
+                console.log('this._mouseY: ' + this._mouseY);
+                if(body && body.m_userData && body.m_userData.ngDraggable) {
                     var md = new MouseJointDef();
                     md.bodyA = world.GetGroundBody();
                     md.bodyB = body;
@@ -91,7 +109,9 @@
                 }
             }
         }],
+
         _mousePVec: new Vec2(),
+
         _getBodyAtMouse: function(world) {
             this._mousePVec.x = this._mouseX;
             this._mousePVec.y = this._mouseY;
@@ -103,9 +123,14 @@
             // Query the world for overlapping shapes.
 
             this._selectedBody = null;
-            world.QueryAABB(this._getBodyCB, aabb);
+            this._getBodyCB.self = this;
+            var self = this;
+            world.QueryAABB(function(fixtures) {
+                self._getBodyCB(fixtures);
+            }, aabb);
             return this._selectedBody;
         },
+
         _getBodyCB: function(fixture) {
             if(fixture.GetBody().GetType() !== Body.b2_staticBody) {
                 if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), this._mousePVec)) {
@@ -414,4 +439,27 @@
             this._world.SetContactListener(listener);
         }
     });
+
+    //helpers
+
+    //http://js-tut.aardon.de/js-tut/tutorial/position.html
+    function getElementPosition(element) {
+        var elem=element, tagname="", x=0, y=0;
+
+        while((typeof(elem) == "object") && (typeof(elem.tagName) != "undefined")) {
+            y += elem.offsetTop;
+            x += elem.offsetLeft;
+            tagname = elem.tagName.toUpperCase();
+
+            if(tagname == "BODY")
+                elem=0;
+
+            if(typeof(elem) == "object") {
+                if(typeof(elem.offsetParent) == "object")
+                    elem = elem.offsetParent;
+            }
+        }
+
+        return {x: x, y: y};
+    }
 //})();
