@@ -334,11 +334,7 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     }
 
     if (isDefined(systemInstance.$removed)) {
-        if (isArray(systemInstance.$removed)) {
-            throw new Error('! need impl');
-        } else {
-            systemInstance.$$removedHandler = systemInstance.$removed;
-        }
+        systemInstance.$$removedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$removed);
     } else {
         systemInstance.$$removedHandler = noop;
     }

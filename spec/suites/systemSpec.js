@@ -290,8 +290,7 @@ describe('system', function() {
         expect(handler.calledWith(s1)).toBeTruthy();
     });
 
-    /*
-    it('should inject other systems in $removed, $addNode, $removeNode, $update', function() {
+    it('should inject other systems in $removed', function() {
         var handler = sinon.spy();
         darlingjs.module('testModule')
             .$c('theComponent')
@@ -300,15 +299,18 @@ describe('system', function() {
             })
             .$system('testSystem2', {
                 $require: ['theComponent'],
-                $added: ['testSystem1', handler]
+                $removed: ['testSystem1', handler]
             });
         var world = darlingjs.world('testWorld', ['testModule']);
         var s1 = world.$add('testSystem1');
-        world.$add('testSystem2');
+        var s2 = world.$add('testSystem2');
+        world.$remove(s2);
 
         expect(handler.callCount).toBe(1);
         expect(handler.calledWith(s1)).toBeTruthy();
     });
+
+    /*
     it('should inject other systems in $addNode, $removeNode, $update', function() {
         var handler = sinon.spy();
         darlingjs.module('testModule')
