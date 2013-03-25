@@ -310,8 +310,7 @@ describe('system', function() {
         expect(handler.calledWith(s1)).toBeTruthy();
     });
 
-    /*
-    it('should inject other systems in $addNode, $removeNode, $update', function() {
+    it('should inject other systems in $addNode', function() {
         var handler = sinon.spy();
         darlingjs.module('testModule')
             .$c('theComponent')
@@ -320,16 +319,63 @@ describe('system', function() {
             })
             .$system('testSystem2', {
                 $require: ['theComponent'],
-                $added: ['testSystem1', handler]
+                $addNode: ['testSystem1', '$node', handler]
             });
         var world = darlingjs.world('testWorld', ['testModule']);
         var s1 = world.$add('testSystem1');
-        world.$add('testSystem2');
+        var s2 = world.$add('testSystem2');
+        var e = world.$e('theEntity', ['theComponent']);
+        world.$add(e);
 
         expect(handler.callCount).toBe(1);
-        expect(handler.calledWith(s1)).toBeTruthy();
+        expect(handler.calledWith(s1, e)).toBeTruthy();
     });
-    */
+
+
+    it('should inject other systems in $removeNode', function() {
+        var handler = sinon.spy();
+        darlingjs.module('testModule')
+            .$c('theComponent')
+            .$system('testSystem1', {
+
+            })
+            .$system('testSystem2', {
+                $require: ['theComponent'],
+                $removeNode: ['testSystem1', '$node', handler]
+            });
+        var world = darlingjs.world('testWorld', ['testModule']);
+        var s1 = world.$add('testSystem1');
+        var s2 = world.$add('testSystem2');
+        var e = world.$e('theEntity', ['theComponent']);
+        world.$add(e);
+        world.$remove(e);
+
+        expect(handler.callCount).toBe(1);
+        expect(handler.calledWith(s1, e)).toBeTruthy();
+    });
+
+
+    it('should inject other systems in $removeNode', function() {
+        var handler = sinon.spy();
+        darlingjs.module('testModule')
+            .$c('theComponent')
+            .$system('testSystem1', {
+
+            })
+            .$system('testSystem2', {
+                $require: ['theComponent'],
+                $update: ['testSystem1', '$nodes', handler]
+            });
+        var world = darlingjs.world('testWorld', ['testModule']);
+        var s1 = world.$add('testSystem1');
+        var s2 = world.$add('testSystem2');
+        var e = world.$e('theEntity', ['theComponent']);
+        world.$add(e);
+        world.$update(1);
+
+        expect(handler.callCount).toBe(1);
+        expect(handler.calledWith(s1, s2.$nodes)).toBeTruthy();
+    });
 
     //TODO: Add complete injector
 })

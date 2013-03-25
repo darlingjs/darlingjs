@@ -611,3 +611,27 @@ function factoryOfFastFunction(fn, context, args) {
         };
     }
 }
+
+function factoryOfFastFunctionWithMatcher(fn, context, args, argsMatcher) {
+    switch(args.length) {
+        case 0: return function() {
+            return fn.call(context);
+        };
+        case 1: return function() {
+            argsMatcher(args, arguments);
+            return fn.call(context, args[0]);
+        };
+        case 2: return function() {
+            argsMatcher(args, arguments);
+            return fn.call(context, args[0], args[1]);
+        };
+        case 3: return function() {
+            argsMatcher(args, arguments);
+            return fn.call(context, args[0], args[1], args[2]);
+        };
+        default: return function() {
+            argsMatcher(args, arguments);
+            return fn.apply(context, args);
+        };
+    }
+}

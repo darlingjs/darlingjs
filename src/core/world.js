@@ -250,19 +250,34 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
     return instance;
 };
 
-World.prototype.annotatedFunctionFactory = function(context, annotation) {
+/**
+ * Prepare handle function by annotation [], or strait function.
+ * Return function with injected dependency.
+ *
+ * @param context
+ * @param annotation
+ * @param customMatcher - custom annotation matcher. get array of arguments, return function(argsTarget, argsSource) {} to match arguments
+ * @return {*}
+ */
+World.prototype.annotatedFunctionFactory = function(context, annotation, customMatcher) {
     if (isArray(annotation)) {
+        customMatcher = customMatcher || noop;
         var fn = annotation[annotation.length - 1];
         var fnAnnotate = annotate(annotation);
         var args = this.$$getDependencyByAnnotation(fnAnnotate);
-        return factoryOfFastFunction(fn, context, args);
+        var argumentsMatcher = customMatcher(fnAnnotate);
+        if (isDefined(argumentsMatcher)) {
+            return factoryOfFastFunctionWithMatcher(fn, context, args, argumentsMatcher);
+        } else {
+            return factoryOfFastFunction(fn, context, args);
+        }
     } else {
         return annotation;
     }
 };
 
-World.prototype.applyNode = function(updateAnnotate, name) {
-    var index = updateAnnotate.indexOf(name);
+World.prototype.matchFactory = function(annotation, name) {
+    var index = annotation.indexOf(name);
     if (index >= 0) {
         return function(args, value) {
             args[index] = value;
@@ -294,10 +309,10 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
             var args = this.$$getDependencyByAnnotation(updateAnnotate);
 
-            var apply$node = this.applyNode(updateAnnotate, '$node');
-            var apply$nodes = this.applyNode(updateAnnotate, '$nodes');
-            var apply$time = this.applyNode(updateAnnotate, '$time');
-            var apply$world = this.applyNode(updateAnnotate, '$world');
+            var match$node = this.matchFactory(updateAnnotate, '$node');
+            var match$nodes = this.matchFactory(updateAnnotate, '$nodes');
+            var match$time = this.matchFactory(updateAnnotate, '$time');
+            var match$world = this.matchFactory(updateAnnotate, '$world');
 
             var worldInstance = this;
 
@@ -306,18 +321,18 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
             var updateForEveryNode = updateAnnotate.indexOf('$node') >= 0;
             if (updateForEveryNode) {
                 systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(node, time) {
-                    apply$time(args, time);
-                    apply$node(args, node);
-                    apply$nodes(args, systemInstance.$nodes);
-                    apply$world(args, worldInstance);
+                    match$time(args, time);
+                    match$node(args, node);
+                    match$nodes(args, systemInstance.$nodes);
+                    match$world(args, worldInstance);
 
                     updateFunction();
                 });
             } else {
                 systemInstance.$$updateHandler = function(time) {
-                    apply$time(args, time);
-                    apply$nodes(args, systemInstance.$nodes);
-                    apply$world(args, worldInstance);
+                    match$time(args, time);
+                    match$nodes(args, systemInstance.$nodes);
+                    match$world(args, worldInstance);
 
                     updateFunction();
                 };
@@ -328,33 +343,45 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     }
 
     if (isDefined(systemInstance.$added)) {
-        systemInstance.$$addedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$added);
+        systemInstance.$$addedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$added, noop);
     } else {
         systemInstance.$$addedHandler = noop;
     }
 
     if (isDefined(systemInstance.$removed)) {
-        systemInstance.$$removedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$removed);
+        systemInstance.$$removedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$removed, noop);
     } else {
         systemInstance.$$removedHandler = noop;
     }
 
     if (isDefined(systemInstance.$addNode)) {
         //TODO : inject all dependency
-        systemInstance.$$addNodeHandler = systemInstance.$addNode;
+        systemInstance.$$addNodeHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$addNode, addRemoveNodeCustomMatcher);
     } else {
         systemInstance.$$addNodeHandler = noop;
     }
 
     if (isDefined(systemInstance.$removeNode)) {
         //TODO : inject all dependency
-        systemInstance.$$removeNodeHandler = systemInstance.$removeNode;
+        systemInstance.$$removeNodeHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$removeNode, addRemoveNodeCustomMatcher);
     } else {
         systemInstance.$$removeNodeHandler = noop;
     }
 
     return systemInstance;
 };
+
+function addRemoveNodeCustomMatcher(annotation) {
+    for (var i = 0, l = annotation.length; i < l; i++) {
+        if (annotation[i] === '$node') {
+            return function(argsTarget, argsSource) {
+                argsTarget[i] = argsSource[0];
+            };
+        }
+    }
+
+    return noop;
+}
 
 World.prototype.$$matchNewEntityToFamilies = function (instance) {
     for (var componentsString in this.$$families) {
