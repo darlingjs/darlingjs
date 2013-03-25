@@ -127,7 +127,7 @@
  */
 
     m.$s('ngBox2DRollingControl', {
-        $require: ['ngControl', 'ngPhysic'],
+        $require: ['ngControlPlatformStyle', 'ngPhysic'],
         _actions: {},
         _keyBinding: [],
         _keyBind: function(keyId, action) {
@@ -196,14 +196,15 @@
         $update: ['$node', function($node) {
             this._stayOnGroundDefined = false;
             var body = $node.ngPhysic._b2dBody;
+            var control = $node.ngControlPlatformStyle;
 
             if (this._actions['move-up']) {
                 if (this._isStayOnGround(body)) {
-                    this._jumpImpulse.y = -$node.ngControl.speed / 20;
+                    this._jumpImpulse.y = -control.jumpSpeed;
                     if (this._actions['move-left']) {
-                        this._jumpImpulse.x = -$node.ngControl.speed / 20;
+                        this._jumpImpulse.x = -control.jumpSpeed;
                     } else if (this._actions['move-right']) {
-                        this._jumpImpulse.x = $node.ngControl.speed / 20;
+                        this._jumpImpulse.x = control.jumpSpeed;
                     } else {
                         this._jumpImpulse.x = 0.0;
                     }
@@ -216,17 +217,17 @@
 
             if (this._actions['move-left']) {
                 if (this._isStayOnGround(body)) {
-                    body.SetAngularVelocity(-$node.ngControl.speed / 8);
+                    body.SetAngularVelocity(-control.runSpeed);
                 } else {
-                    this._flyImpulse.x = -$node.ngControl.speed / 8;
+                    this._flyImpulse.x = -control.flySpeed;
                     //TODO:
                     //body.SetLinearVelocity(this._flyImpulse, body.GetWorldCenter());
                 }
             } else if (this._actions['move-right']) {
                 if (this._isStayOnGround(body)) {
-                    body.SetAngularVelocity($node.ngControl.speed / 8);
+                    body.SetAngularVelocity(control.runSpeed);
                 } else {
-                    this._flyImpulse.x = $node.ngControl.speed / 8;
+                    this._flyImpulse.x = control.flySpeed;
                     //TODO:
                     //body.SetLinearVelocity(this._flyImpulse, body.GetWorldCenter());
                 }

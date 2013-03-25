@@ -56,6 +56,14 @@
         keys:{ UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}
     });
 
+    ngModule.$c('ngControlPlatformStyle', {
+        runSpeed: 0.1,
+        jumpSpeed: 0.1,
+        flySpeed: 0.1,
+        doubleJump: 2,
+        keys:{ UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}
+    });
+
     ngModule.$system('ng2DRamble', {
         $require: ['ngRamble', 'ng2D'],
         _updateTarget: function($node) {

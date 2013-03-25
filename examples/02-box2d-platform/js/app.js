@@ -29,7 +29,13 @@
         'ngDOM', { color: 'rgb(0,200,200)' },
         'ng2D', {x : 50, y: 50},
         'ng2DCircle', {radius: 10.0},
-        'ngControl', {speed: 100.0},
+        'ngControlPlatformStyle', {
+            runSpeed: 100.0 / 8,
+            jumpSpeed: 5.0,
+            flySpeed: 0,
+            doubleJump: 2,
+            speed: 100.0
+        },
         'ngDraggable',
         'ngPhysic', {
             restitution: 0.0,
