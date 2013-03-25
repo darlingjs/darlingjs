@@ -135,6 +135,7 @@
             this._actions[action] = false;
         },
         $added: function() {
+            this._runImpulse = new Vec2();
             this._jumpImpulse = new Vec2();
             this._flyImpulse = new Vec2();
 
@@ -168,6 +169,7 @@
         },
         _stayOnGroundDefined: false,
         _stayOnGround: false,
+        //TODO : move to ngBox2dSystem
         _isStayOnGround: function(body) {
             if (this._stayOnGroundDefined) {
                 return this._stayOnGround;
@@ -176,11 +178,11 @@
             while(contactItem) {
                 if (contactItem.contact.IsTouching()) {
                     var norm = contactItem.contact.m_manifold.m_localPlaneNormal;
-                    var sin = Math.sin(contactItem.contact.m_fixtureA.m_body.GetAngle());
-                    var cos = Math.sin(contactItem.contact.m_fixtureA.m_body.GetAngle());
-                    console.log('sin: '+sin);
-                    console.log('cos: '+cos);
-                    console.log('norm.x: '+norm.x + ', ' + norm.x);
+//                    var sin = Math.sin(contactItem.contact.m_fixtureA.m_body.GetAngle());
+//                    var cos = Math.sin(contactItem.contact.m_fixtureA.m_body.GetAngle());
+//                    console.log('sin: '+sin);
+//                    console.log('cos: '+cos);
+//                    console.log('norm.x: '+norm.x + ', ' + norm.x);
                     if (norm.y < -Math.SQRT1_2) {
                         this._stayOnGroundDefined = true;
                         this._stayOnGround = true;
@@ -193,6 +195,32 @@
             this._stayOnGround = false;
             return false;
         },
+        _resetDoubleJump: function(control) {
+            this._justFly = false;
+            control._jumpCount = 1;
+        },
+        _doubleJump: function($node, body, control) {
+            if (++control._jumpCount > control.doubleJump || !control._hasJumped) {
+                return;
+            }
+
+            this._jump(body, control);
+        },
+        _jump: function(body, control) {
+            control._hasJumped = true;
+            this._jumpImpulse.y = -control.jumpSpeed;
+            if (this._actions['move-left']) {
+                this._jumpImpulse.x = -control.runSpeed;
+            } else if (this._actions['move-right']) {
+                this._jumpImpulse.x = control.runSpeed;
+            } else {
+                this._jumpImpulse.x = 0.0;
+            }
+
+            body.SetLinearVelocity(this._jumpImpulse);
+//                    body.SetLinearVelocity(zeroVec2);
+//                    body.ApplyImpulse(this._jumpImpulse, body.GetWorldCenter());
+        },
         $update: ['$node', function($node) {
             this._stayOnGroundDefined = false;
             var body = $node.ngPhysic._b2dBody;
@@ -200,41 +228,44 @@
 
             if (this._actions['move-up']) {
                 if (this._isStayOnGround(body)) {
-                    this._jumpImpulse.y = -control.jumpSpeed;
-                    if (this._actions['move-left']) {
-                        this._jumpImpulse.x = -control.jumpSpeed;
-                    } else if (this._actions['move-right']) {
-                        this._jumpImpulse.x = control.jumpSpeed;
-                    } else {
-                        this._jumpImpulse.x = 0.0;
-                    }
-
-//                    body.SetLinearVelocity(zeroVec2);
-//                    body.ApplyImpulse(this._jumpImpulse, body.GetWorldCenter());
-                    body.SetLinearVelocity(this._jumpImpulse);
-                }
-            }
-
-            if (this._actions['move-left']) {
-                if (this._isStayOnGround(body)) {
-                    body.SetAngularVelocity(-control.runSpeed);
-                } else {
-                    this._flyImpulse.x = -control.flySpeed;
-                    //TODO:
-                    //body.SetLinearVelocity(this._flyImpulse, body.GetWorldCenter());
-                }
-            } else if (this._actions['move-right']) {
-                if (this._isStayOnGround(body)) {
-                    body.SetAngularVelocity(control.runSpeed);
-                } else {
-                    this._flyImpulse.x = control.flySpeed;
-                    //TODO:
-                    //body.SetLinearVelocity(this._flyImpulse, body.GetWorldCenter());
+                    this._resetDoubleJump(control);
+                    this._jump(body, control);
+                } else if (this._justFly) {
+                    this._doubleJump($node, body, control);
+                    this._justFly = false;
                 }
             } else {
-                body.SetAngularVelocity(0);
-                this._flyImpulse.x = 0;
-                body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
+                this._justFly = !this._isStayOnGround(body);
+                if (this._actions['move-left']) {
+                    if (this._isStayOnGround(body)) {
+                        //TODO: two different approach:
+                        // 1) but rotation
+//                    body.SetAngularVelocity(-control.runSpeed);
+
+                        // 2) but linera velocity
+                        this._runImpulse.x = -control.runSpeed;
+                        body.SetLinearVelocity(this._runImpulse);
+                    } else {
+                        this._flyImpulse.x = -control.flySpeed;
+                        body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
+                    }
+                } else if (this._actions['move-right']) {
+                    if (this._isStayOnGround(body)) {
+                        //1)
+//                    body.SetAngularVelocity(control.runSpeed);
+
+                        //2)
+                        this._runImpulse.x = control.runSpeed;
+                        body.SetLinearVelocity(this._runImpulse);
+                    } else {
+                        this._flyImpulse.x = control.flySpeed;
+                        body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
+                    }
+                } else {
+                    body.SetAngularVelocity(0);
+                    this._flyImpulse.x = 0;
+                    body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
+                }
             }
         }]
     });
