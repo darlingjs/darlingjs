@@ -270,15 +270,64 @@ describe('system', function() {
         expect(removeHandler.calledWith(entities[2])).toBeTruthy();
     });
 
-    it('should inject dependency in $init', function() {
-        //TODO : Write test: System should inject dependency in $init.
+    it('should inject other systems in $added', function() {
+        var handler = sinon.spy();
+
+        darlingjs.module('testModule')
+            .$c('theComponent')
+            .$system('testSystem1', {
+            })
+            .$system('testSystem2', {
+                $require: ['theComponent'],
+                $added: ['testSystem1', handler]
+            });
+
+        var world = darlingjs.world('testWorld', ['testModule']);
+        var s1 = world.$add('testSystem1');
+        world.$add('testSystem2');
+
+        expect(handler.callCount).toBe(1);
+        expect(handler.calledWith(s1)).toBeTruthy();
     });
 
-    it('should inject dependency in $update.', function() {
+    /*
+    it('should inject other systems in $removed, $addNode, $removeNode, $update', function() {
+        var handler = sinon.spy();
+        darlingjs.module('testModule')
+            .$c('theComponent')
+            .$system('testSystem1', {
 
+            })
+            .$system('testSystem2', {
+                $require: ['theComponent'],
+                $added: ['testSystem1', handler]
+            });
+        var world = darlingjs.world('testWorld', ['testModule']);
+        var s1 = world.$add('testSystem1');
+        world.$add('testSystem2');
+
+        expect(handler.callCount).toBe(1);
+        expect(handler.calledWith(s1)).toBeTruthy();
     });
+    it('should inject other systems in $addNode, $removeNode, $update', function() {
+        var handler = sinon.spy();
+        darlingjs.module('testModule')
+            .$c('theComponent')
+            .$system('testSystem1', {
 
-    //TODO
-    //
-    //addNode, removeNode
+            })
+            .$system('testSystem2', {
+                $require: ['theComponent'],
+                $added: ['testSystem1', handler]
+            });
+        var world = darlingjs.world('testWorld', ['testModule']);
+        var s1 = world.$add('testSystem1');
+        world.$add('testSystem2');
+
+        expect(handler.callCount).toBe(1);
+        expect(handler.calledWith(s1)).toBeTruthy();
+    });
+    */
+
+    //TODO: Add complete injector
 })

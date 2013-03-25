@@ -589,3 +589,25 @@ function mixin(original, extended) {
     }
     return original;
 }
+
+
+
+function factoryOfFastFunction(fn, context, args) {
+    switch(args.length) {
+        case 0: return function() {
+            return fn.call(context);
+        };
+        case 1: return function() {
+            return fn.call(context, args[0]);
+        };
+        case 2: return function() {
+            return fn.call(context, args[0], args[1]);
+        };
+        case 3: return function() {
+            return fn.call(context, args[0], args[1], args[2]);
+        };
+        default: return function() {
+            return fn.apply(context, args);
+        };
+    }
+}

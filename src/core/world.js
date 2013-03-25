@@ -114,8 +114,8 @@ World.prototype.$$getDependencyByAnnotation = function(annotation, target) {
 };
 
 World.prototype.$$getDependencyByName = function(name) {
-    //TODO:
-    return null;
+    //TODO: Get from AngularJS
+    return this.$$getSystemByName(name);
 };
 
 World.prototype.$remove = function(instance) {
@@ -126,6 +126,16 @@ World.prototype.$remove = function(instance) {
     } else {
         throw new Error('can\'t remove "' + instance + '" from world "' + this.name + '"' );
     }
+};
+
+World.prototype.$$getSystemByName = function(name) {
+    for (var i = 0, l = this.$$systems.length; i < l; i++) {
+        if (this.$$systems[i].name === name) {
+            return this.$$systems[i];
+        }
+    }
+
+    return null;
 };
 
 World.prototype.$$addSystem = function(instance) {
@@ -240,6 +250,28 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
     return instance;
 };
 
+World.prototype.annotatedFunctionFactory = function(context, annotation) {
+    if (isArray(annotation)) {
+        var fn = annotation[annotation.length - 1];
+        var fnAnnotate = annotate(annotation);
+        var args = this.$$getDependencyByAnnotation(fnAnnotate);
+        return factoryOfFastFunction(fn, context, args);
+    } else {
+        return annotation;
+    }
+};
+
+World.prototype.applyNode = function(updateAnnotate, name) {
+    var index = updateAnnotate.indexOf(name);
+    if (index >= 0) {
+        return function(args, value) {
+            args[index] = value;
+        };
+    } else {
+        return noop;
+    }
+};
+
 /**
  * Build instance of System
  *
@@ -262,32 +294,24 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
             var args = this.$$getDependencyByAnnotation(updateAnnotate);
 
-            var applyNode = function(updateAnnotate, name) {
-                var index = updateAnnotate.indexOf(name);
-                if (index >= 0) {
-                    return function(args, value) {
-                        args[index] = value;
-                    };
-                } else {
-                    return noop;
-                }
-            };
-
-            var apply$node = applyNode(updateAnnotate, '$node');
-            var apply$nodes = applyNode(updateAnnotate, '$nodes');
-            var apply$time = applyNode(updateAnnotate, '$time');
-            var apply$world = applyNode(updateAnnotate, '$world');
+            var apply$node = this.applyNode(updateAnnotate, '$node');
+            var apply$nodes = this.applyNode(updateAnnotate, '$nodes');
+            var apply$time = this.applyNode(updateAnnotate, '$time');
+            var apply$world = this.applyNode(updateAnnotate, '$world');
 
             var worldInstance = this;
+
+            var updateFunction = factoryOfFastFunction(updateHandler, systemInstance, args);
 
             var updateForEveryNode = updateAnnotate.indexOf('$node') >= 0;
             if (updateForEveryNode) {
                 systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(node, time) {
                     apply$time(args, time);
                     apply$node(args, node);
+                    apply$nodes(args, systemInstance.$nodes);
                     apply$world(args, worldInstance);
 
-                    updateHandler.apply(systemInstance, args);
+                    updateFunction();
                 });
             } else {
                 systemInstance.$$updateHandler = function(time) {
@@ -295,7 +319,7 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
                     apply$nodes(args, systemInstance.$nodes);
                     apply$world(args, worldInstance);
 
-                    updateHandler.apply(systemInstance, args);
+                    updateFunction();
                 };
             }
         } else {
@@ -304,11 +328,7 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     }
 
     if (isDefined(systemInstance.$added)) {
-        if (isArray(systemInstance.$added)) {
-            throw new Error('! need impl');
-        } else {
-            systemInstance.$$addedHandler = systemInstance.$added;
-        }
+        systemInstance.$$addedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$added);
     } else {
         systemInstance.$$addedHandler = noop;
     }
