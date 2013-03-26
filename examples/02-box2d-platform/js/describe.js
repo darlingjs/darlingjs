@@ -124,47 +124,6 @@
         }]
     });
 
-    ngModule.$system('ng2DCollisionSystem', {
-        $require: ['ngCollision', 'ng2D'],
-        _isLeftCollision: function(p1, p2) {
-            return false;
-        },
-        _isRightCollision: function(p1, p2) {
-            return false;
-        },
-        _isTopCollision: function(p1, p2) {
-            return false;
-        },
-        _isBottomCollision: function(p1, p2) {
-            return false;
-        },
-        $update: ['$nodes', function($nodes) {
-            //TODO brute-force. just push away after collision
-            for (var j = 0, lj = $nodes.length; j < lj; j++) {
-                for ( var i = 0, li = $nodes.length; i < li; i++) {
-                    var node1p = $nodes[i].ng2D;
-                    var node2p = $nodes[j].ng2D;
-                    var node1Fixed = $nodes[i].ngCollision.fixed;
-                    var node2Fixed = $nodes[j].ngCollision.fixed;
-
-                    if (this._isLeftCollision(node1p, node2p)) {
-                        //TODO shift nodes based on
-                        node1Fixed, node2Fixed;
-                    } else if (this._isRightCollision(node1p, node2p)) {
-                        //TODO shift nodes based on
-                        node1Fixed, node2Fixed;
-                    } else if (this._isTopCollision(node1p, node2p)) {
-                        //TODO shift nodes based on
-                        node1Fixed, node2Fixed;
-                    } else if (this._isBottomCollision(node1p, node2p)) {
-                        //TODO shift nodes based on
-                        node1Fixed, node2Fixed;
-                    }
-                }
-            }
-        }]
-    });
-
     ngModule.$system('ng2DScan', {
         $require: ['ng2D', 'ngScan'],
         $update : ['$nodes', function($nodes) {
@@ -288,6 +247,11 @@
             if (ng2DSize) {
                 style.width = ng2DSize.width + 'px';
                 style.height = ng2DSize.height + 'px';
+            }
+
+            var ng2DRotation = $node.ng2DRotation;
+            if (ng2DRotation) {
+                style['-ms-transform'] = style['-o-transform'] = style['-moz-transform'] = style['-webkit-transform'] = 'rotate(' + (ng2DRotation.rotation * 180/Math.PI) + 'deg)';
             }
 
             style.backgroundColor = $node.ngDOM.color;

@@ -1,5 +1,5 @@
 /**
- * Project: GameEngine.
+ * Project: DarlingJS Game Engine
  * Copyright (c) 2013, Eugene-Krevenets
  */
 

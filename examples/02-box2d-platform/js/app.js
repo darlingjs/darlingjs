@@ -54,6 +54,7 @@
             'ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
             'ng2D', {x : 10 + (width - 20) * Math.random(), y: 10 + (height - 20) * Math.random()},
             'ng2DSize', {width:30, height:30},
+            'ng2DRotation',
             'ngPhysic'
         ]));
     }
