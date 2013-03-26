@@ -43,8 +43,19 @@
 
     ngModule.$c('ng2DSize', {
         width: 10.0,
-        height: 10.0,
+        height: 10.0
+    });
+
+    ngModule.$c('ng2DRotation', {
         rotation: 0.0
+    });
+
+    ngModule.$c('ngSprite', {
+        name: '',
+        anchor: {
+            x: 0.5,
+            y: 0.5
+        }
     });
 
     ngModule.$c('ng2DCircle', {

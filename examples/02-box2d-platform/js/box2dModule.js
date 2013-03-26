@@ -294,7 +294,7 @@
 
 /**
  * ngBox2DSystem
- * description: add Box2D physics symulation to entities.
+ * description: add Box2D physics simulation to entities.
  *
  */
 
@@ -326,6 +326,7 @@
             var ngPhysic = $node.ngPhysic;
             var ng2D = $node.ng2D;
             var ng2DSize = $node.ng2DSize;
+            var ng2DRotation = $node.ng2DRotation;
             var ng2DCircle = $node.ng2DCircle;
 
             var bodyDef = new BodyDef();
@@ -341,12 +342,15 @@
             if (darlingutil.isDefined(ng2DSize)) {
                 fixDef.shape = new PolygonShape();
                 fixDef.shape.SetAsBox(0.5 * ng2DSize.width * this._invScale, 0.5 * ng2DSize.height * this._invScale);
-                rotation = ng2DSize.rotation * Math.PI / 180;
             } else if (darlingutil.isDefined(ng2DCircle)) {
                 fixDef.shape = new CircleShape(ng2DCircle.radius * this._invScale);
             } else {
                 //TODO : other shapes
                 throw new Error('Shape type doesn\'t detected. Need to add component ng2DCircle or ng2DSize.');
+            }
+
+            if (ng2DRotation) {
+                rotation = ng2DRotation.rotation;
             }
 
             fixDef.restitution = ngPhysic.restitution;
@@ -384,9 +388,17 @@
         }],
 
         $$updateNodePosition: function($node) {
-            var pos = $node.ngPhysic._b2dBody.GetPosition();
-            $node.ng2D.x = pos.x;
-            $node.ng2D.y = pos.y;
+            var body = $node.ngPhysic._b2dBody;
+            var pos = body.GetPosition();
+
+            var ng2D = $node.ng2D;
+            ng2D.x = pos.x * 30; // FIXME : this.scale;
+            ng2D.y = pos.y * 30; // FIXME : this.scale;
+
+            var ng2DRotation = $node.ng2DRotation;
+            if (ng2DRotation) {
+                ng2DRotation.rotation = body.GetAngle();
+            }
         },
 
         debugDraw: function(visible) {

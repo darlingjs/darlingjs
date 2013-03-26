@@ -10,7 +10,7 @@
     var width = 640;
     var height = 480;
 
-    var world = darlingjs.world('myGame', ['ngModule', 'ngBox2D'], {
+    var world = darlingjs.world('myGame', ['ngModule', 'ngBox2D', 'ngPixijsIntegration'], {
         fps: 60
     });
 
@@ -25,10 +25,14 @@
     });
     world.$add('ngBox2DDraggable', { targetId: 'canvas' });
 
+    world.$add('ngPixijsStage', { width: 640, height: 480 });
+
     world.$add(world.$e('player', [
         'ngDOM', { color: 'rgb(0,200,200)' },
+        'ngSprite', { name: 'assets/bunny.png' },
         'ng2D', {x : 50, y: 50},
         'ng2DCircle', {radius: 10.0},
+        'ng2DRotation',
         'ngControlPlatformStyle', {
             runSpeed: 4.0,
             jumpSpeed: 5.0,
@@ -62,7 +66,8 @@
 
     world.$add(world.$e('ground-slope', [
         'ng2D', {x: width / 2, y: height - 40},
-        'ng2DSize', {width:width / 2, height:10.0, rotation: 15.0},
+        'ng2DSize', {width:width / 2, height:10.0},
+        'ng2DRotation', {rotation: 15.0 * Math.PI / 180},
         'ngPhysic', {type: 'static', restitution: 0.0}
     ]));
 
