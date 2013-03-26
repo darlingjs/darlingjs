@@ -1,5 +1,6 @@
-darlingjs
+darlingjs [![Build Status](https://travis-ci.org/Hyzhak/darlingjs.png?branch=master)](https://travis-ci.org/Hyzhak/darlingjs)
 =========
+
 
 Quick and Dirty Entity Game Engine.
 
