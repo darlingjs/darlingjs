@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 
     // Default task(s).
     grunt.registerTask('default', ['jasmine', 'concat', 'uglify']);
-    grunt.registerTask('test', ['concat', 'jshint', 'jasmine']);
+    grunt.registerTask('test', ['concat', 'jasmine']);
     grunt.registerTask('docs', ['clean', 'yuidoc']);
 
     grunt.loadNpmTasks('grunt-contrib-concat');

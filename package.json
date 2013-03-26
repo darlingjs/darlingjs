@@ -4,7 +4,7 @@
   "homepage": "http://hyzhak.github.com/",
   "scripts": {
     "prepublish": "npm prune",
-    "test": "grunt test"
+    "test": "grunt test --verbose"
   },
   "devDependencies": {
     "testacular": "*",
