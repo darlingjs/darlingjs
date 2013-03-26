@@ -11,7 +11,7 @@ module.exports = function(grunt) {
                     'src/**/*.js',
                     'src/core/core.suffix'
                 ],
-                dest: 'build/<%= pkg.name %>.js'
+                dest: 'build/<%= pkg.shortName %>.js'
             }
         },
         uglify: {
@@ -19,8 +19,8 @@ module.exports = function(grunt) {
                 banner: grunt.file.read('src/core/core.banner')
             },
             build: {
-                src: 'build/<%= pkg.name %>.js',
-                dest: 'build/<%= pkg.name %>.min.js'
+                src: 'build/<%= pkg.shortName %>.js',
+                dest: 'build/<%= pkg.shortName %>.min.js'
             }
         },
         jshint: {
