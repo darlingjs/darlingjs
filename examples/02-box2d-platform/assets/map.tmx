@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="12" tilewidth="32" tileheight="32">
+ <objectgroup name="ground" width="25" height="12">
+  <object x="0" y="0" width="32" height="352"/>
+  <object x="0" y="352" width="768" height="32"/>
+  <object x="768" y="32" width="32" height="352"/>
+  <object x="32" y="0" width="768" height="32"/>
+  <object x="256" y="224" width="192" height="32"/>
+ </objectgroup>
+ <objectgroup name="objects" width="25" height="12">
+  <object x="96" y="96" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object x="-160" y="160">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
