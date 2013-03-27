@@ -52,6 +52,7 @@
 
     ngModule.$c('ngSprite', {
         name: '',
+        fitToSize: false,
         anchor: {
             x: 0.5,
             y: 0.5

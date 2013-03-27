@@ -9,7 +9,11 @@
  */
 var box2DDebugDraw;
 
-function GameCtrl($scope) {
+/**
+ * Place Game View
+ * @constructor
+ */
+function GameCtrl() {
     'use strict';
 
     var width = 640;
@@ -57,10 +61,12 @@ function GameCtrl($scope) {
         }
     ]));
 
-    for (var i = 0, l = 3; i < l; i++) {
+    for (var i = 0, l = 30; i < l; i++) {
         var fixed = Math.random() > 0.5;
         world.$add(world.$e('obstacle_' + i, [
             'ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
+            //Get From : http://www.iconfinder.com/search/?q=iconset%3Aie_ICandies
+            'ngSprite', { name: 'assets/box.png', fitToSize: true },
             'ng2D', {x : 10 + (width - 20) * Math.random(), y: 10 + (height - 20) * Math.random()},
             'ng2DSize', {width:30, height:30},
             'ng2DRotation',
@@ -129,6 +135,14 @@ function GameCtrl($scope) {
     world.$start();
 }
 
+/**
+ * Game State Controller
+ * * show state;
+ * * control behaviour;
+ *
+ * @param $scope
+ * @constructor
+ */
 function GameStateCtrl($scope) {
     $scope.box2dDebugVisible = true;
     $scope.$watch('box2dDebugVisible', function(value) {

@@ -43,18 +43,29 @@ m.$s('ngPixijsStage', {
     },
 
     $addNode: function($node) {
-        var sprite = $node.ngSprite;
+        var ngSprite = $node.ngSprite;
 
         // create a texture from an image path
-        sprite._texture = PIXI.Texture.fromImage(sprite.name);
+        ngSprite._texture = PIXI.Texture.fromImage(ngSprite.name);
+
         // create a new Sprite using the texture
-        sprite._sprite = new PIXI.Sprite(sprite._texture);
+        var sprite = ngSprite._sprite = new PIXI.Sprite(ngSprite._texture);
 
         // center the sprites anchor point
-        sprite._sprite.anchor.x = 0.5;
-        sprite._sprite.anchor.y = 0.5;
+        sprite.anchor.x = 0.5;
+        sprite.anchor.y = 0.5;
 
-        this._stage.addChild(sprite._sprite);
+        var ng2DSize = $node.ng2DSize;
+        if(ng2DSize && ngSprite.fitToSize) {
+            ngSprite._texture.addEventListener( 'update', function() {
+                sprite.width = ng2DSize.width;
+                sprite.height = ng2DSize.height;
+            });
+            //sprite.scale.x = 0.5;
+            //sprite.scale.y = 0.5;
+        }
+
+        this._stage.addChild(sprite);
     },
 
     $updateNode: function($node) {
