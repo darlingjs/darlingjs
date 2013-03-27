@@ -14,7 +14,8 @@
         fps: 60
     });
 
-    world.$add('ngDOMSystem', { targetId: 'gameView' });
+    //world.$add('ngDOMSystem', { targetId: 'gameView' });
+    world.$add('ngPixijsStage', { targetId: 'gameView' });
     world.$add('ngBox2DRollingControl');
     world.$add('ngBox2DSystem', {
         debugDrawDOMId: 'gameView',
@@ -25,7 +26,6 @@
     });
     world.$add('ngBox2DDraggable', { targetId: 'gameView' });
 
-    world.$add('ngPixijsStage', { width: 640, height: 480, targetId: 'canvas' });
 
     world.$add(world.$e('player', [
         'ngDOM', { color: 'rgb(0,200,200)' },

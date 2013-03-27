@@ -7,7 +7,8 @@
 var m = darlingjs.module('ngPixijsIntegration');
 
 m.$s('ngPixijsStage', {
-    width:400, height: 300,
+    width: 640,
+    height: 480,
 
     targetId: null,
 
@@ -18,11 +19,18 @@ m.$s('ngPixijsStage', {
         this._stage = new PIXI.Stage(0x66FF99);
 
         // create a renderer instance.
+        var width, height;
         var view;
         if (this.targetId !== null) {
-            view = document.getElementById(this.targetId);
+            view = placeCanvasInStack(this.targetId);
+            width = view.width;
+            height = view.height;
+        } else {
+            width = this.width;
+            height = this.height;
         }
-        this._renderer = PIXI.autoDetectRenderer(this.width, this.height, view);
+
+        this._renderer = PIXI.autoDetectRenderer(width, height, view);
 
         // add the renderer view element to the DOM
         if (!darlingutil.isDefined(view)) {
