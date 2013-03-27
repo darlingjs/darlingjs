@@ -52,8 +52,8 @@ m.$s('ngPixijsStage', {
         var sprite = ngSprite._sprite = new PIXI.Sprite(ngSprite._texture);
 
         // center the sprites anchor point
-        sprite.anchor.x = 0.5;
-        sprite.anchor.y = 0.5;
+        sprite.anchor.x = ngSprite.anchor.x;
+        sprite.anchor.y = ngSprite.anchor.y;
 
         var ng2DSize = $node.ng2DSize;
         if(ng2DSize && ngSprite.fitToSize) {

@@ -8,6 +8,7 @@
  * TODO: move to separate service to share between different controllers
  */
 var box2DDebugDraw;
+var world;
 
 /**
  * Place Game View
@@ -19,7 +20,7 @@ function GameCtrl() {
     var width = 640;
     var height = 480;
 
-    var world = darlingjs.world('myGame', ['ngModule', 'ngBox2D', 'ngPixijsIntegration'], {
+    world = darlingjs.world('myGame', ['ngModule', 'ngBox2D', 'ngPixijsIntegration'], {
         fps: 60
     });
 
@@ -42,7 +43,7 @@ function GameCtrl() {
 
     world.$add(world.$e('player', [
         'ngDOM', { color: 'rgb(0,200,200)' },
-        'ngSprite', { name: 'assets/bunny.png' },
+        'ngSprite', { name: 'assets/bunny.png', anchor: {y: 0.8} },
         'ng2D', {x : 50, y: 50},
         'ng2DCircle', {radius: 10.0},
         //'ng2DRotation',
@@ -63,10 +64,11 @@ function GameCtrl() {
 
     for (var i = 0, l = 30; i < l; i++) {
         var fixed = Math.random() > 0.5;
+        var boxType = Math.floor(1 + 3 * Math.random());
         world.$add(world.$e('obstacle_' + i, [
             'ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
             //Get From : http://www.iconfinder.com/search/?q=iconset%3Aie_ICandies
-            'ngSprite', { name: 'assets/box.png', fitToSize: true },
+            'ngSprite', { name: 'assets/box' + boxType + '.png', fitToSize: true },
             'ng2D', {x : 10 + (width - 20) * Math.random(), y: 10 + (height - 20) * Math.random()},
             'ng2DSize', {width:30, height:30},
             'ng2DRotation',
@@ -131,8 +133,6 @@ function GameCtrl() {
      },
      'ngCollision'
      ]));*/
-
-    world.$start();
 }
 
 /**
@@ -148,4 +148,17 @@ function GameStateCtrl($scope) {
     $scope.$watch('box2dDebugVisible', function(value) {
         box2DDebugDraw.showDebugDrawVisible(value);
     });
+
+    $scope.worldIsPlaying = true;
+    $scope.$watch('worldIsPlaying', function(value) {
+        if(value) {
+            world.$start();
+        } else {
+            world.$stop();
+        }
+    });
+
+    $scope.restartWorld = function() {
+        //TODO:...
+    };
 }
