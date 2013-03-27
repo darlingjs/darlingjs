@@ -14,25 +14,25 @@
         fps: 60
     });
 
-    world.$add('ngDOMSystem', { targetId: 'gameTarget' });
+    world.$add('ngDOMSystem', { targetId: 'gameView' });
     world.$add('ngBox2DRollingControl');
     world.$add('ngBox2DSystem', {
-        debugDrawDOMId: 'canvas',
+        debugDrawDOMId: 'gameView',
         gravity: {
             x:0,
             y:10.0
         }
     });
-    world.$add('ngBox2DDraggable', { targetId: 'canvas' });
+    world.$add('ngBox2DDraggable', { targetId: 'gameView' });
 
-    world.$add('ngPixijsStage', { width: 640, height: 480 });
+    world.$add('ngPixijsStage', { width: 640, height: 480, targetId: 'canvas' });
 
     world.$add(world.$e('player', [
         'ngDOM', { color: 'rgb(0,200,200)' },
         'ngSprite', { name: 'assets/bunny.png' },
         'ng2D', {x : 50, y: 50},
         'ng2DCircle', {radius: 10.0},
-        'ng2DRotation',
+        //'ng2DRotation',
         'ngControlPlatformStyle', {
             runSpeed: 4.0,
             jumpSpeed: 5.0,

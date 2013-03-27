@@ -50,7 +50,7 @@
 
             this._target = document.getElementById(this.targetId) || document;
 
-            var pos = getElementPosition(this._target);
+            var pos = placement.getElementAbsolutePos(this._target);
 
             this._shiftX = pos.x;
             this._shiftY = pos.y;
@@ -410,10 +410,34 @@
 
             if (this._debugDrawVisible) {
                 this._debugDraw = new DebugDraw();
-                var domElement = document.getElementById(this.debugDrawDOMId);
-                if (domElement === null) {
+                var canvas = placeCanvasAtId(this.debugDrawDOMId);
+                /*
+                var targetElement = document.getElementById(this.debugDrawDOMId);
+                if (targetElement === null) {
                     throw new Error('Can\'t show debug draw because there is no any "' + this.debugDrawDOMId + '" DOM elements.');
                 }
+
+                var canvas;
+                if (!targetElement.getContext) {
+                    var container = document.createElement('div');
+                    container.style.position = 'absolute';
+                    container.style.left = '0px';
+                    container.style.top = '0px';
+                    targetElement.appendChild(container);
+                    canvas = document.createElement('canvas');
+                    canvas.width = targetElement.clientWidth;
+                    canvas.height = targetElement.clientHeight;
+                    container.appendChild(canvas);
+                } else {
+                    canvas = targetElement;
+                }
+                */
+
+                this._debugDraw.SetSprite(canvas.getContext("2d"));
+                this._debugDraw.SetDrawScale(this.scale);
+                this._debugDraw.SetFillAlpha(0.5);
+                this._debugDraw.SetLineThickness(1.0);
+                this._world.SetDebugDraw(this._debugDraw);
                 this._debugDraw.SetFlags(
                         DebugDraw.e_shapeBit |
                         DebugDraw.e_jointBit |
@@ -421,12 +445,6 @@
 //                        DebugDraw.e_pairBit |
                         DebugDraw.e_centerOfMassBit |
                         DebugDraw.e_controllerBit);
-
-                this._debugDraw.SetSprite(domElement.getContext("2d"));
-                this._debugDraw.SetDrawScale(this.scale);
-                this._debugDraw.SetFillAlpha(0.5);
-                this._debugDraw.SetLineThickness(1.0);
-                this._world.SetDebugDraw(this._debugDraw);
             } else {
                 this._world.SetDebugDraw(null);
                 this._debugDraw = null;
@@ -471,4 +489,194 @@
 
         return {x: x, y: y};
     }
+
+    function placeCanvasAtId(id) {
+        var targetElement = document.getElementById(id);
+        if (targetElement === null) {
+            throw new Error('Can\'t find DOM element with id: "' + id + '"');
+        }
+
+        var canvas;
+        if (!targetElement.getContext) {
+            var container = document.createElement('div');
+            container.style.position = 'absolute';
+            var position = placement.getElementAbsolutePos(targetElement);
+            container.style.left = position.x + 'px';
+            container.style.top = position.y + 'px';
+            targetElement.appendChild(container);
+            canvas = document.createElement('canvas');
+            canvas.width = targetElement.clientWidth;
+            canvas.height = targetElement.clientHeight;
+            container.appendChild(canvas);
+        } else {
+            canvas = targetElement;
+        }
+
+        return canvas;
+    }
+
+/**
+ * Get DOM element absolute position
+ */
+(function(window) {
+    function __getIEVersion() {
+        var rv = -1; // Return value assumes failure.
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+            var ua = navigator.userAgent;
+            var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(ua) != null)
+                rv = parseFloat(RegExp.$1);
+        }
+        return rv;
+    }
+
+    function __getOperaVersion() {
+        var rv = 0; // Default value
+        if (window.opera) {
+            var sver = window.opera.version();
+            rv = parseFloat(sver);
+        }
+        return rv;
+    }
+
+    var __userAgent = navigator.userAgent;
+    var __isIE =  navigator.appVersion.match(/MSIE/) != null;
+    var __IEVersion = __getIEVersion();
+    var __isIENew = __isIE && __IEVersion >= 8;
+    var __isIEOld = __isIE && !__isIENew;
+
+    var __isFireFox = __userAgent.match(/firefox/i) != null;
+    var __isFireFoxOld = __isFireFox && ((__userAgent.match(/firefox\/2./i) != null) ||
+        (__userAgent.match(/firefox\/1./i) != null));
+    var __isFireFoxNew = __isFireFox && !__isFireFoxOld;
+
+    var __isWebKit =  navigator.appVersion.match(/WebKit/) != null;
+    var __isChrome =  navigator.appVersion.match(/Chrome/) != null;
+    var __isOpera =  window.opera != null;
+    var __operaVersion = __getOperaVersion();
+    var __isOperaOld = __isOpera && (__operaVersion < 10);
+
+    function __parseBorderWidth(width) {
+        var res = 0;
+        if (typeof(width) == "string" && width != null && width != "" ) {
+            var p = width.indexOf("px");
+            if (p >= 0) {
+                res = parseInt(width.substring(0, p));
+            }
+            else {
+                //do not know how to calculate other values
+                //(such as 0.5em or 0.1cm) correctly now
+                //so just set the width to 1 pixel
+                res = 1;
+            }
+        }
+        return res;
+    }
+
+//returns border width for some element
+    function __getBorderWidth(element) {
+        var res = new Object();
+        res.left = 0; res.top = 0; res.right = 0; res.bottom = 0;
+        if (window.getComputedStyle) {
+            //for Firefox
+            var elStyle = window.getComputedStyle(element, null);
+            res.left = parseInt(elStyle.borderLeftWidth.slice(0, -2));
+            res.top = parseInt(elStyle.borderTopWidth.slice(0, -2));
+            res.right = parseInt(elStyle.borderRightWidth.slice(0, -2));
+            res.bottom = parseInt(elStyle.borderBottomWidth.slice(0, -2));
+        }
+        else {
+            //for other browsers
+            res.left = __parseBorderWidth(element.style.borderLeftWidth);
+            res.top = __parseBorderWidth(element.style.borderTopWidth);
+            res.right = __parseBorderWidth(element.style.borderRightWidth);
+            res.bottom = __parseBorderWidth(element.style.borderBottomWidth);
+        }
+
+        return res;
+    }
+
+    var api = {};
+    window.placement = api;
+
+//returns the absolute position of some element within document
+    api.getElementAbsolutePlacement = function(element) {
+        var result = getElementAbsolutePos(element);
+        result.width = element.offsetWidth;
+        result.height = element.offsetHeight;
+        return result;
+    }
+
+    api.getElementAbsolutePos = getElementAbsolutePos;
+
+    function getElementAbsolutePos(element) {
+        var res = new Object();
+        res.x = 0; res.y = 0;
+        if (element !== null) {
+            if (element.getBoundingClientRect) {
+                var viewportElement = document.documentElement;
+                var box = element.getBoundingClientRect();
+                var scrollLeft = viewportElement.scrollLeft;
+                var scrollTop = viewportElement.scrollTop;
+
+                res.x = box.left + scrollLeft;
+                res.y = box.top + scrollTop;
+
+            }
+            else { //for old browsers
+                res.x = element.offsetLeft;
+                res.y = element.offsetTop;
+
+                var parentNode = element.parentNode;
+                var borderWidth = null;
+
+                while (offsetParent != null) {
+                    res.x += offsetParent.offsetLeft;
+                    res.y += offsetParent.offsetTop;
+
+                    var parentTagName =
+                        offsetParent.tagName.toLowerCase();
+
+                    if ((__isIEOld && parentTagName != "table") ||
+                        ((__isFireFoxNew || __isChrome) &&
+                            parentTagName == "td")) {
+                        borderWidth = kGetBorderWidth
+                        (offsetParent);
+                        res.x += borderWidth.left;
+                        res.y += borderWidth.top;
+                    }
+
+                    if (offsetParent != document.body &&
+                        offsetParent != document.documentElement) {
+                        res.x -= offsetParent.scrollLeft;
+                        res.y -= offsetParent.scrollTop;
+                    }
+
+
+                    //next lines are necessary to fix the problem
+                    //with offsetParent
+                    if (!__isIE && !__isOperaOld || __isIENew) {
+                        while (offsetParent != parentNode &&
+                            parentNode !== null) {
+                            res.x -= parentNode.scrollLeft;
+                            res.y -= parentNode.scrollTop;
+                            if (__isFireFoxOld || __isWebKit)
+                            {
+                                borderWidth =
+                                    kGetBorderWidth(parentNode);
+                                res.x += borderWidth.left;
+                                res.y += borderWidth.top;
+                            }
+                            parentNode = parentNode.parentNode;
+                        }
+                    }
+
+                    parentNode = offsetParent.parentNode;
+                    offsetParent = offsetParent.offsetParent;
+                }
+            }
+        }
+        return res;
+    }
+})(window);
 //})();

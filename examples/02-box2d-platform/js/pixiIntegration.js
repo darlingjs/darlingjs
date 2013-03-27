@@ -9,6 +9,8 @@ var m = darlingjs.module('ngPixijsIntegration');
 m.$s('ngPixijsStage', {
     width:400, height: 300,
 
+    targetId: null,
+
     $require: ['ng2D', 'ngSprite'],
 
     $added: function() {
@@ -16,10 +18,16 @@ m.$s('ngPixijsStage', {
         this._stage = new PIXI.Stage(0x66FF99);
 
         // create a renderer instance.
-        this._renderer = PIXI.autoDetectRenderer(this.width, this.height);
+        var view;
+        if (this.targetId !== null) {
+            view = document.getElementById(this.targetId);
+        }
+        this._renderer = PIXI.autoDetectRenderer(this.width, this.height, view);
 
         // add the renderer view element to the DOM
-        document.body.appendChild(this._renderer.view);
+        if (!darlingutil.isDefined(view)) {
+            document.body.appendChild(this._renderer.view);
+        }
     },
 
     $removed: function() {
@@ -32,25 +40,25 @@ m.$s('ngPixijsStage', {
         // create a texture from an image path
         sprite._texture = PIXI.Texture.fromImage(sprite.name);
         // create a new Sprite using the texture
-        sprite._bunny = new PIXI.Sprite(sprite._texture);
+        sprite._sprite = new PIXI.Sprite(sprite._texture);
 
         // center the sprites anchor point
-        sprite._bunny.anchor.x = 0.5;
-        sprite._bunny.anchor.y = 0.5;
+        sprite._sprite.anchor.x = 0.5;
+        sprite._sprite.anchor.y = 0.5;
 
-        this._stage.addChild(sprite._bunny);
+        this._stage.addChild(sprite._sprite);
     },
 
     $updateNode: function($node) {
         var sprite = $node.ngSprite;
 
         var ng2D = $node.ng2D;
-        sprite._bunny.position.x = ng2D.x;
-        sprite._bunny.position.y = ng2D.y;
+        sprite._sprite.position.x = ng2D.x;
+        sprite._sprite.position.y = ng2D.y;
 
         var ng2DRotation = $node.ng2DRotation;
         if (ng2DRotation) {
-            sprite._bunny.rotation = ng2DRotation.rotation;
+            sprite._sprite.rotation = ng2DRotation.rotation;
         }
     },
 
