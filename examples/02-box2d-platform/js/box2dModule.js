@@ -293,10 +293,84 @@
     });
 
 /**
+ * Box2D Debug Draw System
+ */
+
+    m.$s('ngBox2DDebugDraw', {
+        $require: ['ng2D', 'ngPhysic'],
+        _debugDrawVisible: false,
+
+        _canvasHasCreated: false,
+        _canvas: null,
+
+        useDebugDraw: true,
+        debugDrawDOMId: 'game',
+
+        $added: ['ngBox2DSystem', function(ngBox2DSystem) {
+            this.ngBox2DSystem = ngBox2DSystem;
+            this.showDebugDrawVisible(this.useDebugDraw);
+        }],
+
+        $update: function() {
+            this.ngBox2DSystem._world.DrawDebugData();
+        },
+
+        showDebugDrawVisible: function(visible) {
+            if (this._debugDrawVisible === visible) {
+                return;
+            }
+
+            this._debugDrawVisible = visible;
+
+            if (this._debugDrawVisible) {
+                this._debugDraw = new DebugDraw();
+
+                var canvas = getCanvas(this.debugDrawDOMId);
+
+                if (canvas === null) {
+                    canvas = placeCanvasInStack(this.debugDrawDOMId);
+                    this._canvasHasCreated = true;
+                }
+
+                this._canvas = canvas;
+
+                this._debugDraw.SetSprite(canvas.getContext("2d"));
+                this._debugDraw.SetDrawScale(this.ngBox2DSystem.scale);
+                this._debugDraw.SetFillAlpha(0.5);
+                this._debugDraw.SetLineThickness(1.0);
+
+                this._debugDraw.SetFlags(
+                    DebugDraw.e_shapeBit |
+                        DebugDraw.e_jointBit |
+                        //DebugDraw.e_aabbBit |
+//                        DebugDraw.e_pairBit |
+                        DebugDraw.e_centerOfMassBit |
+                        DebugDraw.e_controllerBit);
+
+                this.ngBox2DSystem._world.SetDebugDraw(this._debugDraw);
+
+            } else {
+                this.ngBox2DSystem._world.SetDebugDraw(null);
+
+                if (this._canvasHasCreated) {
+                    removeCanvasFromStack(this._canvas);
+
+                    this._canvasHasCreated = false;
+                }
+
+                this._canvas = null;
+
+                this._debugDraw = null;
+            }
+        }
+    });
+
+/**
  * ngBox2DSystem
  * description: add Box2D physics simulation to entities.
  *
  */
+
 
     m.$s('ngBox2DSystem', {
         gravity: {x:0.0, y:0.0},
@@ -304,20 +378,29 @@
         scale: 30.0,
         _invScale: 1.0,
 
-        useDebugDraw: true,
+        useDebugDraw: false,
         debugDrawDOMId: 'game',
 
         _world: null,
         _debugDrawVisible:false,
 
         $require: ['ng2D', 'ngPhysic'],
+
+        showDebugDrawVisible: function(value) {
+            if (this._debugDrawVisible === value) {
+                return;
+            }
+
+            this._debugDrawVisible = value;
+        },
+
         $added: function() {
             this._invScale = 1/this.scale;
             this._world = new World(
                 new Vec2(this.gravity.x, this.gravity.y), // Gravity vector
                 false           // Don't allow sleep
             );
-            this.debugDraw(this.useDebugDraw);
+            //this.debugDraw(this.useDebugDraw);
         },
         $removed: function() {
             this._world = null;

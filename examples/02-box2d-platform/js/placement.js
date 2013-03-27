@@ -4,29 +4,47 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+function getCanvas(id) {
+    var domElement = document.getElementById(id);
+    if (domElement === null) {
+        throw new Error('Can\'t find DOM element with id: "' + id + '"');
+    }
+
+    if (darlingutil.isDefined(domElement.getContext)) {
+        return domElement;
+    } else {
+        return null;
+    }
+}
+
 function placeCanvasInStack(id) {
     var targetElement = document.getElementById(id);
     if (targetElement === null) {
         throw new Error('Can\'t find DOM element with id: "' + id + '"');
     }
 
-    var canvas;
-    if (!targetElement.getContext) {
-        var container = document.createElement('div');
-        container.style.position = 'absolute';
-        var position = placement.getElementAbsolutePos(targetElement);
-        container.style.left = position.x + 'px';
-        container.style.top = position.y + 'px';
-        targetElement.appendChild(container);
-        canvas = document.createElement('canvas');
-        canvas.width = targetElement.clientWidth;
-        canvas.height = targetElement.clientHeight;
-        container.appendChild(canvas);
-    } else {
-        canvas = targetElement;
-    }
+    var container = document.createElement('div');
+    container.style.position = 'absolute';
+    var position = placement.getElementAbsolutePos(targetElement);
+    container.style.left = position.x + 'px';
+    container.style.top = position.y + 'px';
+    targetElement.appendChild(container);
+
+    var canvas = document.createElement('canvas');
+    canvas.width = targetElement.clientWidth;
+    canvas.height = targetElement.clientHeight;
+    container.appendChild(canvas);
 
     return canvas;
+}
+
+function removeCanvasFromStack(canvas) {
+    if (canvas.parentNode) {
+        if (canvas.parentNode.parentNode) {
+            canvas.parentNode.parentNode.removeChild(canvas.parentNode);
+        }
+        canvas.parentNode.removeChild(canvas);
+    }
 }
 
 /**

@@ -10,7 +10,7 @@ m.$s('ngPixijsStage', {
     width: 640,
     height: 480,
 
-    targetId: null,
+    targetId: '',
 
     $require: ['ng2D', 'ngSprite'],
 
@@ -21,7 +21,7 @@ m.$s('ngPixijsStage', {
         // create a renderer instance.
         var width, height;
         var view;
-        if (this.targetId !== null) {
+        if (this.targetId !== null && this.targetId !== '') {
             view = placeCanvasInStack(this.targetId);
             width = view.width;
             height = view.height;
@@ -39,7 +39,7 @@ m.$s('ngPixijsStage', {
     },
 
     $removed: function() {
-
+        document.removeChild(this._renderer.view);
     },
 
     $addNode: function($node) {

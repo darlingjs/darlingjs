@@ -1,11 +1,16 @@
-(function() {
-
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 //use Engine
+
+/**
+ * TODO: move to separate service to share between different controllers
+ */
+var box2DDebugDraw;
+
+function GameCtrl($scope) {
+    'use strict';
 
     var width = 640;
     var height = 480;
@@ -17,15 +22,19 @@
     //world.$add('ngDOMSystem', { targetId: 'gameView' });
     world.$add('ngPixijsStage', { targetId: 'gameView' });
     world.$add('ngBox2DRollingControl');
+
     world.$add('ngBox2DSystem', {
-        debugDrawDOMId: 'gameView',
         gravity: {
             x:0,
             y:10.0
         }
     });
-    world.$add('ngBox2DDraggable', { targetId: 'gameView' });
 
+    box2DDebugDraw = world.$add('ngBox2DDebugDraw', {
+        debugDrawDOMId: 'gameView'
+    });
+
+    world.$add('ngBox2DDraggable', { targetId: 'gameView' });
 
     world.$add(world.$e('player', [
         'ngDOM', { color: 'rgb(0,200,200)' },
@@ -97,25 +106,32 @@
     ]));
 
     /*
-    world.$add(world.$e('goblin', [
-        'ngDOM', { color: 'rgb(255,0,0)' },
-        'ng2D', {x : 99, y: 50},
-        'ngRamble', {frame: {
-            left: 50, right: 99,
-            top: 0, bottom: 99
-        }},
-        'ngScan', {
-            radius: 3,
-            target: 'ngPlayer',
-            switchTo: {
-                e:'ngAttack',
-                params: {
-                    switchTo:'ngRamble'
-                }
-            }
-        },
-        'ngCollision'
-    ]));*/
+     world.$add(world.$e('goblin', [
+     'ngDOM', { color: 'rgb(255,0,0)' },
+     'ng2D', {x : 99, y: 50},
+     'ngRamble', {frame: {
+     left: 50, right: 99,
+     top: 0, bottom: 99
+     }},
+     'ngScan', {
+     radius: 3,
+     target: 'ngPlayer',
+     switchTo: {
+     e:'ngAttack',
+     params: {
+     switchTo:'ngRamble'
+     }
+     }
+     },
+     'ngCollision'
+     ]));*/
 
     world.$start();
-})();
+}
+
+function GameStateCtrl($scope) {
+    $scope.box2dDebugVisible = true;
+    $scope.$watch('box2dDebugVisible', function(value) {
+        box2DDebugDraw.showDebugDrawVisible(value);
+    });
+}
