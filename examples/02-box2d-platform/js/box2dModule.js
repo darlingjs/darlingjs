@@ -150,6 +150,7 @@
 
     m.$s('ngBox2DRollingControl', {
         $require: ['ngControlPlatformStyle', 'ngPhysic'],
+        useRotation: true,
         _actions: {},
         _keyBinding: [],
         _keyBind: function(keyId, action) {
@@ -185,6 +186,22 @@
                     self._actions[action] = false;
                 }
             });
+            this.setUseRotation(this.useRotation);
+        },
+        setUseRotation: function(value) {
+            this.useRotation = value;
+            if (this.useRotation) {
+                this._move = this._moveByRotation;
+            } else {
+                this._move = this._moveByImpulse;
+            }
+        },
+        _moveByImpulse: function(body, speed) {
+            this._runImpulse.x = speed;
+            body.SetLinearVelocity(this._runImpulse);
+        },
+        _moveByRotation: function(body, speed) {
+            body.SetAngularVelocity(3 * speed);
         },
         $removed: function() {
             //TODO : stop listening keys
@@ -205,7 +222,7 @@
 //                    console.log('sin: '+sin);
 //                    console.log('cos: '+cos);
 //                    console.log('norm.x: '+norm.x + ', ' + norm.x);
-                    if (norm.y < -Math.SQRT1_2) {
+                    if (norm.y <= -Math.SQRT1_2) {
                         this._stayOnGroundDefined = true;
                         this._stayOnGround = true;
                         return true;
@@ -259,26 +276,16 @@
             } else {
                 this._justFly = !this._isStayOnGround(body);
                 if (this._actions['move-left']) {
+                    this._stayOnGroundDefined = false;
                     if (this._isStayOnGround(body)) {
-                        //TODO: two different approach:
-                        // 1) but rotation
-//                    body.SetAngularVelocity(-control.runSpeed);
-
-                        // 2) but linera velocity
-                        this._runImpulse.x = -control.runSpeed;
-                        body.SetLinearVelocity(this._runImpulse);
+                        this._move(body, -control.runSpeed);
                     } else {
                         this._flyImpulse.x = -control.flySpeed;
                         body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
                     }
                 } else if (this._actions['move-right']) {
                     if (this._isStayOnGround(body)) {
-                        //1)
-//                    body.SetAngularVelocity(control.runSpeed);
-
-                        //2)
-                        this._runImpulse.x = control.runSpeed;
-                        body.SetLinearVelocity(this._runImpulse);
+                        this._move(body, control.runSpeed);
                     } else {
                         this._flyImpulse.x = control.flySpeed;
                         body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());

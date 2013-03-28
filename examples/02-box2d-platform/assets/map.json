@@ -203,32 +203,6 @@
                  "polygon":[
                         {
                          "x":0,
-                         "y":64
-                        }, 
-                        {
-                         "x":-32,
-                         "y":128
-                        }, 
-                        {
-                         "x":0,
-                         "y":128
-                        }],
-                 "properties":
-                    {
-
-                    },
-                 "type":"dynamic",
-                 "visible":true,
-                 "width":0,
-                 "x":352,
-                 "y":64
-                }, 
-                {
-                 "height":0,
-                 "name":"",
-                 "polygon":[
-                        {
-                         "x":0,
                          "y":0
                         }, 
                         {
@@ -338,6 +312,32 @@
                  "width":0,
                  "x":256,
                  "y":256
+                }, 
+                {
+                 "height":0,
+                 "name":"",
+                 "polygon":[
+                        {
+                         "x":64,
+                         "y":-32
+                        }, 
+                        {
+                         "x":64,
+                         "y":-64
+                        }, 
+                        {
+                         "x":128,
+                         "y":-32
+                        }],
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":0,
+                 "x":256,
+                 "y":160
                 }],
          "opacity":1,
          "type":"objectgroup",
