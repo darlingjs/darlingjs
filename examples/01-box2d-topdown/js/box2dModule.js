@@ -109,7 +109,7 @@
         _invScale: 1.0,
 
         useDebugDraw: true,
-        debugDrawDOMId: 'game',
+        domID: 'game',
 
         _world: null,
         _debugDrawVisible:false,
@@ -196,9 +196,9 @@
 
             if (this._debugDrawVisible) {
                 this._debugDraw = new DebugDraw();
-                var domElement = document.getElementById(this.debugDrawDOMId);
+                var domElement = document.getElementById(this.domID);
                 if (domElement === null) {
-                    throw new Error('Can\'t show debug draw because there is no any "' + this.debugDrawDOMId + '" DOM elements.');
+                    throw new Error('Can\'t show debug draw because there is no any "' + this.domID + '" DOM elements.');
                 }
                 this._debugDraw.SetFlags(DebugDraw.e_shapeBit | DebugDraw.e_jointBit);
                 this._debugDraw.SetSprite(domElement.getContext("2d"));

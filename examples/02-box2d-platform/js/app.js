@@ -20,16 +20,12 @@ function GameCtrl() {
     var width = 640;
     var height = 480;
 
-    loadMap('assets/map.json')
-        .then(parseMap)
-        .then(applyMapToWorld);
-
     world = darlingjs.world('myGame', ['ngModule', 'ngBox2D', 'ngPixijsIntegration'], {
         fps: 60
     });
 
     //world.$add('ngDOMSystem', { targetId: 'gameView' });
-    world.$add('ngPixijsStage', { targetId: 'gameView' });
+    world.$add('ngPixijsStage', { domId: 'gameView', width: width, height: height });
     world.$add('ngBox2DRollingControl');
 
     world.$add('ngBox2DSystem', {
@@ -40,10 +36,10 @@ function GameCtrl() {
     });
 
     box2DDebugDraw = world.$add('ngBox2DDebugDraw', {
-        debugDrawDOMId: 'gameView'
+        domID: 'gameView', width: width, height: height
     });
 
-    world.$add('ngBox2DDraggable', { targetId: 'gameView' });
+    world.$add('ngBox2DDraggable', { domId: 'gameView', width: width, height: height });
 
     world.$add(world.$e('player', [
         'ngDOM', { color: 'rgb(0,200,200)' },
@@ -65,6 +61,7 @@ function GameCtrl() {
             density: 1.0
         }
     ]));
+    /*
 
     for (var i = 0, l = 30; i < l; i++) {
         var fixed = Math.random() > 0.5;
@@ -79,6 +76,9 @@ function GameCtrl() {
             'ngPhysic'
         ]));
     }
+    */
+
+    /*
 
     world.$add(world.$e('ground', [
         'ng2D', {x: width / 2, y: height},
@@ -116,6 +116,12 @@ function GameCtrl() {
         'ng2DSize', {width:10, height:height},
         'ngPhysic', {type: 'static', restitution: 0.0}
     ]));
+
+    */
+
+    loadMap('assets/map.json')
+        .then(parseMap);
+
 
     /*
      world.$add(world.$e('goblin', [
@@ -193,7 +199,6 @@ function convertTiledPropertiesToComponentx(properties) {
 }
 
 function parseMap(data) {
-    console.log('Got It!', data);
     //data.tilesets[0]
     for(var j = 0, li = data.layers.length; j < li; j++) {
         var layer = data.layers[j];
@@ -221,6 +226,8 @@ function parseMap(data) {
                             components.ngPhysic = {};
                             break;
                         case '':
+                            //TODO:
+                            continue;
                             break;
                         default:
                             throw new Error('Need to implement new object type : "' + object.type + '"');
@@ -235,16 +242,28 @@ function parseMap(data) {
                     if (object.ellipse) {
                         //Because Box2D can't interact with ellipse we just take average value
                         components.ng2DCircle = {
-                            radius: 0.5 * (object.width + object.height)
+                            radius: 0.25 * (object.width + object.height)
                         };
                     } else if (object.polyline) {
                         //TODO : create complex shape
                         //object.polyline[].{x,y};// custom shape
+                        components.ng2DPolygon = {
+                            line: object.polyline
+                        };
+                        continue;
+                    } else if (object.polygon) {
+                        components.ng2DPolygon = {
+                            line: object.polygon
+                        };
+                        continue;
                     } else {
                         components.ng2DSize = {
                             width: object.width,
                             height: object.height
                         };
+
+                        components.ng2D.x += 0.5 * object.width;
+                        components.ng2D.y += 0.5 * object.height;
                     }
 
                     world.$add(
@@ -254,8 +273,4 @@ function parseMap(data) {
                 break;
         }
     }
-}
-
-function applyMapToWorld(map) {
-
 }

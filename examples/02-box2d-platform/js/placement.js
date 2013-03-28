@@ -17,7 +17,7 @@ function getCanvas(id) {
     }
 }
 
-function placeCanvasInStack(id) {
+function placeCanvasInStack(id, width, height) {
     var targetElement = document.getElementById(id);
     if (targetElement === null) {
         throw new Error('Can\'t find DOM element with id: "' + id + '"');
@@ -33,8 +33,8 @@ function placeCanvasInStack(id) {
     targetElement.appendChild(container);
 
     var canvas = document.createElement('canvas');
-    canvas.width = targetElement.clientWidth;
-    canvas.height = targetElement.clientHeight;
+    canvas.width = width || targetElement.clientWidth;
+    canvas.height = height || targetElement.clientHeight;
     container.appendChild(canvas);
 
     return canvas;

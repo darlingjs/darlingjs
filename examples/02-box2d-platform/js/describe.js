@@ -63,6 +63,10 @@
         radius: 10.0
     });
 
+    ngModule.$c('ng2DPolygon', {
+        line: []
+    });
+
     ngModule.$c('ngControl', {
         speed: 0.1,
         keys:{ UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}

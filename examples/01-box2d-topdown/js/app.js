@@ -15,7 +15,7 @@
     world.$add('ngControlSystem');
     world.$add('ng2DRamble');
     world.$add('ngBox2DSystem', {
-        debugDrawDOMId: 'canvas',
+        domID: 'canvas',
         gravity: {
             x:0,
             y:0.0

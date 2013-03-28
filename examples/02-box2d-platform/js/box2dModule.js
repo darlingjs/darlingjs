@@ -40,7 +40,7 @@
  */
 
     m.$s('ngBox2DDraggable', {
-        targetId: 'game',
+        domId: 'game',
 
         $require: ['ngPhysic', 'ngDraggable'],
 
@@ -48,7 +48,7 @@
             this.scale = ngBox2DSystem.scale;
             this._invScale = ngBox2DSystem._invScale;
 
-            this._target = document.getElementById(this.targetId) || document;
+            this._target = document.getElementById(this.domId) || document;
 
             var pos = placement.getElementAbsolutePos(this._target);
 
@@ -171,7 +171,7 @@
             this._keyBind(39, 'move-right');
             this._keyBind(40, 'move-down');
 
-            this._target = document.getElementById(this.targetId) || document;
+            this._target = document.getElementById(this.domId) || document;
             var self = this;
             this._target.addEventListener('keydown', function(e) {
                 var action = self._keyBinding[e.keyCode];
@@ -304,7 +304,7 @@
         _canvas: null,
 
         useDebugDraw: true,
-        debugDrawDOMId: 'game',
+        domID: 'game',
 
         $added: ['ngBox2DSystem', function(ngBox2DSystem) {
             this.ngBox2DSystem = ngBox2DSystem;
@@ -325,10 +325,10 @@
             if (this._debugDrawVisible) {
                 this._debugDraw = new DebugDraw();
 
-                var canvas = getCanvas(this.debugDrawDOMId);
+                var canvas = getCanvas(this.domID);
 
                 if (canvas === null) {
-                    canvas = placeCanvasInStack(this.debugDrawDOMId);
+                    canvas = placeCanvasInStack(this.domID, this.width, this.height);
                     this._canvasHasCreated = true;
                 }
 
@@ -378,7 +378,7 @@
         _invScale: 1.0,
 
         useDebugDraw: false,
-        debugDrawDOMId: 'game',
+        domID: 'game',
 
         _world: null,
         _debugDrawVisible:false,
@@ -492,7 +492,7 @@
 
             if (this._debugDrawVisible) {
                 this._debugDraw = new DebugDraw();
-                var canvas = placeCanvasInStack(this.debugDrawDOMId);
+                var canvas = placeCanvasInStack(this.domID);
 
                 this._debugDraw.SetSprite(canvas.getContext("2d"));
                 this._debugDraw.SetDrawScale(this.scale);
