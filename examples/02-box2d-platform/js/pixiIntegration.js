@@ -7,20 +7,59 @@
 var m = darlingjs.module('ngPixijsIntegration');
 
 m.$s('ngPixijsSheetSprite', {
-    $require: ['ng2D', 'ngTileSprite'],
+    $require: ['ng2D', 'ngSpriteAtlas'],
 
     $added: function() {
 
     },
 
     $addNode: ['ngPixijsStage', '$node', function(stage, $node) {
-        var tile = $node.ngTileSprite;
+        var spriteAtlas = $node.ngSpriteAtlas;
+        LoadAtlas(spriteAtlas.url)
+            .then(function() {
+                var sprite = PIXI.Sprite.fromFrame(spriteAtlas.name);
+                if (spriteAtlas.anchor) {
+                    sprite.anchor.x = spriteAtlas.anchor.x;
+                    sprite.anchor.y = spriteAtlas.anchor.y;
+                } else {
+                    sprite.anchor.x = 0.5;
+                    sprite.anchor.y = 0.5;
+                }
+
+                stage.addChild(sprite);
+                $node.ngSpriteAtlas._sprite = sprite;
+            });
     }],
 
     $update: ['$node', function($node) {
+        var ng2D = $node.ng2D;
+        var sprite = $node.ngSpriteAtlas._sprite;
+        if (sprite) {
+            sprite.position.x = ng2D.x;
+            sprite.position.y = ng2D.y;
 
+            var ng2DRotation = $node.ng2DRotation;
+            if (ng2DRotation) {
+                sprite.rotation = ng2DRotation.rotation;
+            }
+        }
     }]
 });
+
+var _loaders = [];
+
+function LoadAtlas(url) {
+    var deferred = Q.defer();
+    var loader = new PIXI.AssetLoader([url]);
+    _loaders.push(loader);
+    loader.onComplete = function() {
+        var index = _loaders.indexOf(loader);
+        _loaders.splice(index, 1);
+        deferred.resolve(loader);
+    };
+    loader.load();
+    return deferred.promise;
+}
 
 m.$s('ngPixijsStage', {
     width: 640,
@@ -111,3 +150,4 @@ m.$s('ngPixijsStage', {
         this._renderer.render(this._stage);
     }]
 });
+

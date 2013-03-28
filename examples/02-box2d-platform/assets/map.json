@@ -6,7 +6,7 @@
          "name":"Tile Layer 1",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":25,
          "x":0,
          "y":0
@@ -17,7 +17,7 @@
          "name":"Image Layer 1",
          "opacity":1,
          "type":"imagelayer",
-         "visible":false,
+         "visible":true,
          "width":25,
          "x":0,
          "y":0

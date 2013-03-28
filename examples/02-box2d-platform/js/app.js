@@ -34,6 +34,7 @@ function GameCtrl() {
     });
 
     world.$add('ngPixijsStage', { domId: 'gameView', width: width, height: height });
+    world.$add('ngPixijsSheetSprite', {});
 
     box2DDebugDraw = world.$add('ngBox2DDebugDraw', {
         domID: 'gameView', width: width, height: height
@@ -61,21 +62,22 @@ function GameCtrl() {
             density: 1.0
         }
     ]));
-    /*
 
     for (var i = 0, l = 30; i < l; i++) {
         var fixed = Math.random() > 0.5;
         var boxType = Math.floor(1 + 3 * Math.random());
-        world.$add(world.$e('obstacle_' + i, [
-            'ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
+        world.$add(world.$e('obstacle_' + i, {
+//            'ngDOM': { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
             //Get From : http://www.iconfinder.com/search/?q=iconset%3Aie_ICandies
-            'ngSprite', { name: 'assets/box' + boxType + '.png', fitToSize: true },
-            'ng2D', {x : 10 + (width - 20) * Math.random(), y: 10 + (height - 20) * Math.random()},
-            'ng2DSize', {width:30, height:30},
-            'ng2DRotation',
-            'ngPhysic'
-        ]));
+//            'ngSprite': { name: 'assets/box' + boxType + '.png', fitToSize: true },
+            'ngSpriteAtlas' : { name: 'box' + boxType + '.png', url: 'assets/spritesheet.json' },
+            'ng2D': {x : 10 + (width - 20) * Math.random(), y: 10 + (height - 20) * Math.random()},
+            'ng2DSize': {width:30, height:30},
+            'ng2DRotation': {},
+            'ngPhysic': {}
+        }));
     }
+    /*
     */
 
     /*

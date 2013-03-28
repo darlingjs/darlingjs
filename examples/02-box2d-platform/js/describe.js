@@ -50,9 +50,9 @@
         rotation: 0.0
     });
 
-    ngModule.$c('ngTileSprite', {
-        tileId: 0,
-        tilesheetUrl: ''
+    ngModule.$c('ngSpriteAtlas', {
+        name: 0,
+        url: ''
     });
 
     ngModule.$c('ngSprite', {

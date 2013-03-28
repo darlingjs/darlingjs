@@ -239,6 +239,10 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
     }
 
     defaultConfig = this.$$injectedComponents[name];
+    if (isUndefined(defaultConfig)) {
+        throw new Error('Can\'t find component "' + name + '" definition. You need to add appropriate module to world.');
+    }
+
     instance = copy(defaultConfig.defaultState);
     if (isDefined(config)) {
         mixin(instance, config);
