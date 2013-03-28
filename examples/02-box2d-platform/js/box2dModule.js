@@ -375,6 +375,10 @@
         gravity: {x:0.0, y:0.0},
         PHYSICS_LOOP_HZ: 1.0 / 60.0,
         scale: 30.0,
+        allowSleep: true,
+        velocityIterations: 10,
+        positionIterations: 10,
+
         _invScale: 1.0,
 
         _world: null,
@@ -385,9 +389,8 @@
             this._invScale = 1/this.scale;
             this._world = new World(
                 new Vec2(this.gravity.x, this.gravity.y), // Gravity vector
-                false           // Don't allow sleep
+                !this.allowSleep // Don't allow sleep
             );
-            //this.debugDraw(this.useDebugDraw);
         },
         $removed: function() {
             this._world = null;
@@ -449,8 +452,8 @@
         $update: ['$nodes', '$time', function($nodes, $time) {
             this._world.Step(
                 this.PHYSICS_LOOP_HZ,    //frame-rate
-                10,                      //velocity iterations
-                10                       //position iterations
+                this.velocityIterations, //velocity iterations
+                this.positionIterations  //position iterations
             );
 
             $nodes.forEach(this.$$updateNodePosition);
@@ -487,28 +490,5 @@
             this._world.SetContactListener(listener);
         }
     });
-
-    //helpers
-
-    //http://js-tut.aardon.de/js-tut/tutorial/position.html
-    function getElementPosition(element) {
-        var elem=element, tagname="", x=0, y=0;
-
-        while((typeof(elem) == "object") && (typeof(elem.tagName) != "undefined")) {
-            y += elem.offsetTop;
-            x += elem.offsetLeft;
-            tagname = elem.tagName.toUpperCase();
-
-            if(tagname == "BODY")
-                elem=0;
-
-            if(typeof(elem) == "object") {
-                if(typeof(elem.offsetParent) == "object")
-                    elem = elem.offsetParent;
-            }
-        }
-
-        return {x: x, y: y};
-    }
 
 //})();
