@@ -255,7 +255,6 @@ function parseMap(data) {
                         components.ng2DPolygon = {
                             line: object.polygon
                         };
-                        continue;
                     } else {
                         components.ng2DSize = {
                             width: object.width,

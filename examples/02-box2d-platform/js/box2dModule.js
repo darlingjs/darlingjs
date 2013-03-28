@@ -401,6 +401,7 @@
             var ng2DSize = $node.ng2DSize;
             var ng2DRotation = $node.ng2DRotation;
             var ng2DCircle = $node.ng2DCircle;
+            var ng2DPolygon = $node.ng2DPolygon;
 
             var bodyDef = new BodyDef();
             if (ngPhysic.type === 'static') {
@@ -417,6 +418,14 @@
                 fixDef.shape.SetAsBox(0.5 * ng2DSize.width * this._invScale, 0.5 * ng2DSize.height * this._invScale);
             } else if (darlingutil.isDefined(ng2DCircle)) {
                 fixDef.shape = new CircleShape(ng2DCircle.radius * this._invScale);
+            } else if (darlingutil.isDefined(ng2DPolygon)) {
+                var vertexes = new Vector();
+                for (var vertexIndex = 0, vertexCount = ng2DPolygon.line.length; vertexIndex < vertexCount; vertexIndex++) {
+                    var point = ng2DPolygon.line[vertexIndex];
+                    vertexes.push(new Vec2(point.x * this._invScale, point.y * this._invScale));
+                }
+                fixDef.shape = new PolygonShape();
+                fixDef.shape.SetAsVector(vertexes, ng2DPolygon.line.length);
             } else {
                 //TODO : other shapes
                 throw new Error('Shape type doesn\'t detected. Need to add component ng2DCircle or ng2DSize.');
