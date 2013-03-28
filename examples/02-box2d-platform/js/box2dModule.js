@@ -377,21 +377,9 @@
         scale: 30.0,
         _invScale: 1.0,
 
-        useDebugDraw: false,
-        domID: 'game',
-
         _world: null,
-        _debugDrawVisible:false,
 
         $require: ['ng2D', 'ngPhysic'],
-
-        showDebugDrawVisible: function(value) {
-            if (this._debugDrawVisible === value) {
-                return;
-            }
-
-            this._debugDrawVisible = value;
-        },
 
         $added: function() {
             this._invScale = 1/this.scale;
@@ -450,21 +438,21 @@
             ngPhysic._b2dBody.CreateFixture(fixDef);
             ngPhysic._b2dBody.m_userData = $node;
         },
+
         $removeNode: function($node) {
             var body = $node.ngPhysic._b2dBody;
             if (darlingutil.isDefined(body)) {
                 this._world.DestroyBody(body);
             }
         },
+
         $update: ['$nodes', '$time', function($nodes, $time) {
             this._world.Step(
                 this.PHYSICS_LOOP_HZ,    //frame-rate
                 10,                      //velocity iterations
                 10                       //position iterations
             );
-            if (this._debugDrawVisible) {
-                this._world.DrawDebugData();
-            }
+
             $nodes.forEach(this.$$updateNodePosition);
             this._world.ClearForces();
         }],
@@ -483,34 +471,6 @@
             }
         },
 
-        debugDraw: function(visible) {
-            if (this._debugDrawVisible === visible) {
-                return;
-            }
-
-            this._debugDrawVisible = visible;
-
-            if (this._debugDrawVisible) {
-                this._debugDraw = new DebugDraw();
-                var canvas = placeCanvasInStack(this.domID);
-
-                this._debugDraw.SetSprite(canvas.getContext("2d"));
-                this._debugDraw.SetDrawScale(this.scale);
-                this._debugDraw.SetFillAlpha(0.5);
-                this._debugDraw.SetLineThickness(1.0);
-                this._world.SetDebugDraw(this._debugDraw);
-                this._debugDraw.SetFlags(
-                        DebugDraw.e_shapeBit |
-                        DebugDraw.e_jointBit |
-                        //DebugDraw.e_aabbBit |
-//                        DebugDraw.e_pairBit |
-                        DebugDraw.e_centerOfMassBit |
-                        DebugDraw.e_controllerBit);
-            } else {
-                this._world.SetDebugDraw(null);
-                this._debugDraw = null;
-            }
-        },
         _addContactListener: function (callbacks) {
             var listener = new Box2D.Dynamics.b2ContactListener();
 

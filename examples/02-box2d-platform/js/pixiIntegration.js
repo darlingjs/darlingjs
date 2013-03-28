@@ -16,7 +16,7 @@ m.$s('ngPixijsStage', {
 
     $added: function() {
         // create an new instance of a pixi stage
-        this._stage = new PIXI.Stage(0x66FF99);
+        this._stage = new PIXI.Stage(0x0);
 
         // create a renderer instance.
         var width, height;
