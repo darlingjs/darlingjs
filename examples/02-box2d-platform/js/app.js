@@ -20,6 +20,10 @@ function GameCtrl() {
     var width = 640;
     var height = 480;
 
+    loadMap('assets/map.json')
+        .then(parseMap)
+        .then(applyMapToWorld);
+
     world = darlingjs.world('myGame', ['ngModule', 'ngBox2D', 'ngPixijsIntegration'], {
         fps: 60
     });
@@ -161,4 +165,97 @@ function GameStateCtrl($scope) {
     $scope.restartWorld = function() {
         //TODO:...
     };
+}
+
+/**
+ *
+ * @param file
+ * @return Promise https://github.com/kriskowal/q
+ */
+function loadMap(file) {
+    var deferred = Q.defer();
+    var oReq = new XMLHttpRequest();
+    oReq.onload = function(data) {
+        deferred.resolve(JSON.parse(data.target.response));
+    };
+
+    //TODO: handle error
+    //deferred.reject(new Error(error));
+    oReq.open("get", file, true);
+    oReq.send();
+
+    return deferred.promise;
+}
+
+function convertTiledPropertiesToComponentx(properties) {
+    //TODO:
+    return {};
+}
+
+function parseMap(data) {
+    console.log('Got It!', data);
+    //data.tilesets[0]
+    for(var j = 0, li = data.layers.length; j < li; j++) {
+        var layer = data.layers[j];
+        switch(layer.type) {
+            case 'tilelayer':
+                //TODO: Do we really need to transform flat array to separate entities?
+                //layer.data;
+                break;
+            case 'imagelayer':
+                //TODO: whole image.
+                break;
+            case 'objectgroup':
+
+                for(var i = 0, li = layer.objects.length; i < li; i++) {
+                    var object = layer.objects[i];
+                    var components = {};
+
+                    components = convertTiledPropertiesToComponentx(object.properties);
+
+                    switch(object.type) {
+                        case 'static':
+                            components.ngPhysic = {type: 'static', restitution: 0.0};
+                            break;
+                        case 'dynamic':
+                            components.ngPhysic = {};
+                            break;
+                        case '':
+                            break;
+                        default:
+                            throw new Error('Need to implement new object type : "' + object.type + '"');
+                            break;
+                    }
+
+                    components.ng2D = {
+                        x: object.x,
+                        y: object.y
+                    };
+
+                    if (object.ellipse) {
+                        //Because Box2D can't interact with ellipse we just take average value
+                        components.ng2DCircle = {
+                            radius: 0.5 * (object.width + object.height)
+                        };
+                    } else if (object.polyline) {
+                        //TODO : create complex shape
+                        //object.polyline[].{x,y};// custom shape
+                    } else {
+                        components.ng2DSize = {
+                            width: object.width,
+                            height: object.height
+                        };
+                    }
+
+                    world.$add(
+                        world.$e(object.name, components)
+                    );
+                }
+                break;
+        }
+    }
+}
+
+function applyMapToWorld(map) {
+
 }

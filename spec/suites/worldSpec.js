@@ -65,7 +65,7 @@ describe('World', function() {
         expect(e.testComponent1.y).toEqual(34);
     });
 
-    it('should can\' override defulat state of entity', function() {
+    it('should override default state of entity', function() {
         var e = world.$entity('name', [
             'testComponent1', {x: 0, y: 1, z: 2}
         ]);
@@ -74,6 +74,18 @@ describe('World', function() {
         expect(e.testComponent1.x).toEqual(0);
         expect(e.testComponent1.y).toEqual(1);
         expect(e.testComponent1.z).toEqual(2);
+    });
+
+    it('should create entity by object of component description', function() {
+        var e = world.$e('theEntity', {
+            'testComponent1': {x: 10},
+            'testComponent2': {}
+        });
+
+        expect(e.testComponent1).toBeDefined();
+        expect(e.testComponent1.x).toEqual(10);
+        expect(e.testComponent1.y).toEqual(34);
+        expect(e.testComponent2.name).toEqual('hello');
     });
 
     it('after added entity should return proper count', function() {

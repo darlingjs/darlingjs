@@ -1,17 +1,40 @@
 { "height":12,
  "layers":[
         {
+         "data":[39, 33, 33, 34, 37, 147, 37, 33, 148, 147, 36, 36, 148, 147, 37, 34, 37, 34, 38, 127, 109, 21, 39, 147, 40, 269, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 195, 128, 111, 19, 1, 92, 89, 153, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 148, 34, 38, 89, 195, 130, 20, 130, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 1, 15, 174, 20, 110, 21, 20, 193, 153, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 20, 110, 21, 20, 128, 130, 108, 128, 130, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 89, 195, 110, 21, 20, 128, 111, 127, 129, 21, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 108, 129, 129, 130, 127, 196, 130, 20, 109, 193, 92, 118, 119, 120, 121, 275, 275, 275, 275, 275, 275, 128, 129, 130, 131, 127, 196, 129, 38, 127, 109, 111, 127, 129, 128, 130, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 32, 147, 38, 13, 195, 129, 111, 146, 147, 147, 38, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 72, 127, 110, 128, 193, 89, 18, 92, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 89, 92, 108, 128, 129, 109, 39, 34, 149, 288, 288, 288, 288, 288, 288, 288, 288, 288, 288, 288, 288, 288, 288, 288, 288, 39, 38, 32, 147, 33, 35],
          "height":12,
-         "name":"ground",
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":false,
+         "width":25,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "height":12,
+         "image":"box3.png",
+         "name":"Image Layer 1",
+         "opacity":1,
+         "type":"imagelayer",
+         "visible":false,
+         "width":25,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "height":12,
+         "name":"static",
          "objects":[
                 {
                  "height":352,
                  "name":"",
                  "properties":
                     {
-
+                     "ngPhysic.restitution":"0.0",
+                     "ngPhysic.type":"static"
                     },
-                 "type":"",
+                 "type":"static",
                  "visible":true,
                  "width":32,
                  "x":0,
@@ -24,7 +47,7 @@
                     {
 
                     },
-                 "type":"",
+                 "type":"static",
                  "visible":true,
                  "width":768,
                  "x":0,
@@ -37,7 +60,7 @@
                     {
 
                     },
-                 "type":"",
+                 "type":"static",
                  "visible":true,
                  "width":32,
                  "x":768,
@@ -48,9 +71,10 @@
                  "name":"",
                  "properties":
                     {
-
+                     "ngPhysic.restitution":"0.0",
+                     "ngPhysic.type":"static"
                     },
-                 "type":"",
+                 "type":"static",
                  "visible":true,
                  "width":768,
                  "x":32,
@@ -63,11 +87,115 @@
                     {
 
                     },
-                 "type":"",
+                 "type":"static",
                  "visible":true,
                  "width":192,
-                 "x":320,
+                 "x":256,
+                 "y":224
+                }, 
+                {
+                 "height":0,
+                 "name":"",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":128,
+                         "y":128
+                        }, 
+                        {
+                         "x":96,
+                         "y":128
+                        }, 
+                        {
+                         "x":0,
+                         "y":32
+                        }, 
+                        {
+                         "x":0,
+                         "y":0
+                        }],
+                 "properties":
+                    {
+
+                    },
+                 "type":"static",
+                 "visible":true,
+                 "width":0,
+                 "x":448,
+                 "y":224
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+                     "ngPhysic.restitution":"0.0",
+                     "ngPhysic.type":"static"
+                    },
+                 "type":"static",
+                 "visible":true,
+                 "width":128,
+                 "x":544,
                  "y":192
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"static",
+                 "visible":true,
+                 "width":96,
+                 "x":416,
+                 "y":96
+                }, 
+                {
+                 "height":0,
+                 "name":"",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":-64,
+                         "y":-64
+                        }, 
+                        {
+                         "x":-64,
+                         "y":-32
+                        }, 
+                        {
+                         "x":-32,
+                         "y":0
+                        }],
+                 "properties":
+                    {
+
+                    },
+                 "type":"static",
+                 "visible":true,
+                 "width":0,
+                 "x":224,
+                 "y":352
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"static",
+                 "visible":true,
+                 "width":128,
+                 "x":32,
+                 "y":288
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -78,7 +206,7 @@
         }, 
         {
          "height":12,
-         "name":"objects",
+         "name":"dynamic",
          "objects":[
                 {
                  "ellipse":true,
@@ -88,11 +216,112 @@
                     {
 
                     },
-                 "type":"",
+                 "type":"dynamic",
                  "visible":true,
                  "width":96,
                  "x":96,
                  "y":96
+                }, 
+                {
+                 "ellipse":true,
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":32,
+                 "x":512,
+                 "y":192
+                }, 
+                {
+                 "height":128,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":96,
+                 "x":96,
+                 "y":32
+                }, 
+                {
+                 "height":0,
+                 "name":"",
+                 "polygon":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":64,
+                         "y":-64
+                        }, 
+                        {
+                         "x":96,
+                         "y":0
+                        }],
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":0,
+                 "x":320,
+                 "y":160
+                }, 
+                {
+                 "height":0,
+                 "name":"",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":32,
+                         "y":64
+                        }, 
+                        {
+                         "x":96,
+                         "y":32
+                        }, 
+                        {
+                         "x":32,
+                         "y":-32
+                        }, 
+                        {
+                         "x":0,
+                         "y":0
+                        }],
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":0,
+                 "x":672,
+                 "y":64
+                }, 
+                {
+                 "ellipse":true,
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":128,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -107,7 +336,22 @@
 
     },
  "tileheight":32,
- "tilesets":[],
+ "tilesets":[
+        {
+         "firstgid":1,
+         "image":"petrovac.jpg",
+         "imageheight":612,
+         "imagewidth":612,
+         "margin":0,
+         "name":"Petrovac",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":32,
+         "tilewidth":32
+        }],
  "tilewidth":32,
  "version":1,
  "width":25

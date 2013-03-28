@@ -1,18 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="25" height="12" tilewidth="32" tileheight="32">
- <objectgroup name="ground" width="25" height="12">
-  <object x="0" y="0" width="32" height="352"/>
-  <object x="0" y="352" width="768" height="32"/>
-  <object x="768" y="32" width="32" height="352"/>
-  <object x="32" y="0" width="768" height="32"/>
-  <object x="256" y="224" width="192" height="32"/>
+ <tileset firstgid="1" name="Petrovac" tilewidth="32" tileheight="32">
+  <image source="petrovac.jpg" width="612" height="612"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain=",,,0"/>
+  <tile id="1" terrain=",,0,"/>
+  <tile id="12" terrain=",,,0"/>
+  <tile id="13" terrain=",,0,0"/>
+  <tile id="14" terrain=",,0,0"/>
+  <tile id="15" terrain=",,0,0"/>
+  <tile id="16" terrain=",,0,0"/>
+  <tile id="17" terrain=",,0,0"/>
+  <tile id="18" terrain=",,0,"/>
+  <tile id="19" terrain=",0,,0"/>
+  <tile id="20" terrain="0,,0,"/>
+  <tile id="31" terrain=",0,,"/>
+  <tile id="32" terrain="0,0,,"/>
+  <tile id="33" terrain="0,0,,"/>
+  <tile id="34" terrain="0,0,,"/>
+  <tile id="35" terrain="0,0,,"/>
+  <tile id="36" terrain="0,0,,"/>
+  <tile id="37" terrain="0,,,"/>
+  <tile id="38" terrain=",0,,"/>
+  <tile id="39" terrain="0,,,"/>
+  <tile id="88" terrain=",,,0"/>
+  <tile id="89" terrain=",,0,0"/>
+  <tile id="90" terrain=",,0,0"/>
+  <tile id="91" terrain=",,0,"/>
+  <tile id="107" terrain=",0,,0"/>
+  <tile id="108" terrain="0,0,0,0"/>
+  <tile id="109" terrain="0,0,0,0"/>
+  <tile id="110" terrain="0,,0,"/>
+  <tile id="126" terrain=",0,,0"/>
+  <tile id="127" terrain="0,0,0,0"/>
+  <tile id="128" terrain="0,0,0,0"/>
+  <tile id="129" terrain="0,,0,"/>
+  <tile id="145" terrain=",0,,"/>
+  <tile id="146" terrain="0,0,,"/>
+  <tile id="147" terrain="0,0,,"/>
+  <tile id="148" terrain="0,,,"/>
+  <tile id="152" terrain=",,0,"/>
+  <tile id="171" terrain="0,,0,0"/>
+  <tile id="172" terrain=",,0,0"/>
+  <tile id="173" terrain=",,0,"/>
+  <tile id="192" terrain="0,,0,0"/>
+  <tile id="193" terrain=",,0,0"/>
+  <tile id="194" terrain=",0,0,0"/>
+  <tile id="195" terrain="0,0,0,0"/>
+ </tileset>
+ <objectgroup name="static" width="25" height="12">
+  <object type="static" x="0" y="0" width="32" height="352">
+   <properties>
+    <property name="ngPhysic.restitution" value="0.0"/>
+    <property name="ngPhysic.type" value="static"/>
+   </properties>
+  </object>
+  <object type="static" x="0" y="352" width="768" height="32"/>
+  <object type="static" x="768" y="32" width="32" height="352"/>
+  <object type="static" x="32" y="0" width="768" height="32">
+   <properties>
+    <property name="ngPhysic.restitution" value="0.0"/>
+    <property name="ngPhysic.type" value="static"/>
+   </properties>
+  </object>
+  <object type="static" x="256" y="224" width="192" height="32"/>
  </objectgroup>
- <objectgroup name="objects" width="25" height="12">
-  <object x="96" y="96" width="96" height="96">
+ <objectgroup name="dynamic" width="25" height="12">
+  <object type="dynamic" x="96" y="96" width="96" height="96">
    <ellipse/>
   </object>
-  <object x="-160" y="160">
-   <ellipse/>
-  </object>
  </objectgroup>
+ <layer name="Tile Layer 1" width="25" height="12">
+  <data encoding="base64" compression="zlib">
+   eJy90cVWUGEAhdGrYmAhtliIgYXdAYKKgaBY2AW2YmOjWNiC3YXYjV3P5r4P8A/1W2tPzvRE0f+pHvVpQAINaURjmpBIU5rRnBa0JIlWJNOaNoEtri3taE8HOtKJFDrTha50ozup9CCNnvSiN30CW1w6felHfwYwkAwGMZghDGUYwxnBSEYxmjGMDWxx4xjPBCaSSRaTyCaHyUxhKrlMYzozmEkeswJbXD4FzGYOhcxlHvNZwEKKWMRilrCUZSxnBSsDW9wqVrOGYkpYyzrWs4GNbGIzW9hKKdvYzg52RuHPd7GbPZSxl33s5wAHOcRhyjnCUSo4xnFOcDIKf36KSk5zhrOc4zwXuMglqqjmMle4yjWuc4ObUfjzW9zmDne5x30e8JBHPKaGJ9TylGc85wUveRWFP3/NG97yjvd84CN1fOIzX/jKN77zg5/84jd/ovDn/7q/07VRoA==
+  </data>
+ </layer>
+ <imagelayer name="Image Layer 1" width="25" height="12"/>
 </map>

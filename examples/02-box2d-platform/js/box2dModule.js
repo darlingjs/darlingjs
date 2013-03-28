@@ -371,7 +371,6 @@
  *
  */
 
-
     m.$s('ngBox2DSystem', {
         gravity: {x:0.0, y:0.0},
         PHYSICS_LOOP_HZ: 1.0 / 60.0,

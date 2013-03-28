@@ -52,9 +52,7 @@ autoWatch = true;
  * Chrome, ChromeCanary, Firefox, Opera, Safari, PhantomJS
  */
 browsers = [
-    'Firefox',
-    'Chrome',
-    'IE'
+    'Chrome'
 ];
 
 // Continuous Integration mode

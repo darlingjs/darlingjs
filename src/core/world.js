@@ -185,7 +185,6 @@ World.prototype.$numEntities = function() {
  */
 World.prototype.$e = World.prototype.$entity = function() {
     var name = '';
-    var components = [];
     var componentsIndex = 0;
 
     if (isString(arguments[0])) {
@@ -193,44 +192,42 @@ World.prototype.$e = World.prototype.$entity = function() {
         componentsIndex = 1;
     }
 
-    var instance = new Entity();
-    instance.name =  name;
-    instance.$$world = this;
+    var entity = new Entity();
+    entity.name =  name;
+    entity.$$world = this;
 
     if (isArray(arguments[componentsIndex])) {
-        components = arguments[componentsIndex];
-    }
+        var componentsArray = arguments[componentsIndex];
+        for (var index = 0, count = componentsArray.length; index < count; index++) {
+            if (isString(componentsArray[index])) {
+                var componentName = componentsArray[index];
+                var component = this.$$injectedComponents[componentName];
+                var componentConfig = {};
 
-    for (var index = 0, count = components.length; index < count; index++) {
-        if (isString(components[index])) {
-            var componentName = components[index];
-            var component = this.$$injectedComponents[componentName];
-            var componentConfig = {};
+                if (isUndefined(component)) {
+                    throw new Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this.$$injectedComponents);
+                }
 
-            if (isUndefined(component)) {
-                throw new Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this.$$injectedComponents);
+                if (isObject(componentsArray[index + 1])) {
+                    index++;
+                    componentConfig = componentsArray[index];
+                } else {
+                    componentConfig = null;
+                }
+
+                entity.$add(componentName, componentConfig);
             }
-
-            if (isObject(components[index + 1])) {
-                index++;
-                componentConfig = components[index];
-            } else {
-                componentConfig = null;
+        }
+    } else if (isObject(arguments[componentsIndex])) {
+        var components = arguments[componentsIndex];
+        for (var key in components) {
+            if (components.hasOwnProperty(key)) {
+                entity.$add(key, components[key]);
             }
-            /*
-             var componentInstance = copy(component.defaultState);
-             for (var key in componentConfig) {
-             if (componentConfig.hasOwnProperty(key)) {
-             componentInstance[key] = componentConfig[key];
-             }
-             }
-             */
-
-            instance.$add(componentName, componentConfig);
         }
     }
 
-    return instance;
+    return entity;
 };
 
 World.prototype.$c = World.prototype.$component = function(name, config) {

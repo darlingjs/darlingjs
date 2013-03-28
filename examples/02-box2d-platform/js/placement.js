@@ -25,10 +25,10 @@ function placeCanvasInStack(id) {
 
     var container = document.createElement('div');
     container.style.position = 'absolute';
-    var position = placement.getElementAbsolutePos(targetElement);
+//    var position = placement.getElementAbsolutePos(targetElement);
 //    container.style.left = position.x + 'px';
-    container.style.left = 0 + 'px';
 //    container.style.top = position.y + 'px';
+    container.style.left = 0 + 'px';
     container.style.top = 0 + 'px';
     targetElement.appendChild(container);
 
