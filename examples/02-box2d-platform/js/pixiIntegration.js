@@ -6,6 +6,22 @@
 
 var m = darlingjs.module('ngPixijsIntegration');
 
+m.$s('ngPixijsSheetSprite', {
+    $require: ['ng2D', 'ngTileSprite'],
+
+    $added: function() {
+
+    },
+
+    $addNode: ['ngPixijsStage', '$node', function(stage, $node) {
+        var tile = $node.ngTileSprite;
+    }],
+
+    $update: ['$node', function($node) {
+
+    }]
+});
+
 m.$s('ngPixijsStage', {
     width: 640,
     height: 480,
@@ -66,6 +82,14 @@ m.$s('ngPixijsStage', {
         }
 
         this._stage.addChild(sprite);
+    },
+
+    addChild: function(child) {
+        this._stage.addChild(child);
+    },
+
+    removeChild: function(child) {
+        this._stage.removeChild(child);
     },
 
     $updateNode: function($node) {

@@ -50,6 +50,11 @@
         rotation: 0.0
     });
 
+    ngModule.$c('ngTileSprite', {
+        tileId: 0,
+        tilesheetUrl: ''
+    });
+
     ngModule.$c('ngSprite', {
         name: '',
         fitToSize: false,

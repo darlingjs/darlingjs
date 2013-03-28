@@ -24,8 +24,6 @@ function GameCtrl() {
         fps: 60
     });
 
-    //world.$add('ngDOMSystem', { targetId: 'gameView' });
-    world.$add('ngPixijsStage', { domId: 'gameView', width: width, height: height });
     world.$add('ngBox2DRollingControl');
 
     world.$add('ngBox2DSystem', {
@@ -34,6 +32,8 @@ function GameCtrl() {
             y:10.0
         }
     });
+
+    world.$add('ngPixijsStage', { domId: 'gameView', width: width, height: height });
 
     box2DDebugDraw = world.$add('ngBox2DDebugDraw', {
         domID: 'gameView', width: width, height: height
@@ -193,9 +193,47 @@ function loadMap(file) {
     return deferred.promise;
 }
 
-function convertTiledPropertiesToComponentx(properties) {
-    //TODO:
-    return {};
+function convertTiledPropertiesToComponents(properties) {
+    var components = {};
+    for (var key in properties) {
+        var params = key.split('.');
+        var componentParam = components;
+        var previousParam;
+        if (params.length === 0) {
+            previousParam = key;
+        } else {
+            for (var i = 0, l = params.length - 1; i < l; i++) {
+                previousParam = params[i];
+                if (!componentParam.hasOwnProperty(previousParam)) {
+                    componentParam[previousParam] = {};
+                }
+
+                componentParam = componentParam[previousParam];
+            }
+            previousParam = params[i];
+        }
+        componentParam[previousParam] = properties[key];
+    }
+
+    return components;
+}
+
+function parseTileLayerData(data, width, height, components) {
+    var tileWidth = components.ng2DSize.width;
+    var tileHeight = components.ng2DSize.height;
+    for (var i = 0, l = data.length; i < l; i++) {
+        var tileId = data[i];
+        var x = i % width;
+        var y = Math.floor(i / width);
+        components.ng2D.x = x * tileWidth;
+        components.ng2D.y = y * tileHeight;
+        components.ngTileSprite.tileId = tileId;
+
+//        TODO : check - how to show part of image.
+//        world.$add(
+//            world.$e(tileId, components)
+//        );
+    }
 }
 
 function parseMap(data) {
@@ -205,7 +243,12 @@ function parseMap(data) {
         switch(layer.type) {
             case 'tilelayer':
                 //TODO: Do we really need to transform flat array to separate entities?
-                //layer.data;
+//                var tile = data.tilesets[0];
+//                parseTileLayerData(layer.data, layer.width, layer.height, {
+//                    ng2D: {x:0, y:0},
+//                    ng2DSize: {width:tile.tilewidth, height:tile.tileheight},
+//                    ngTileSprite: {tilesheetUrl: 'assets/' + tile.image, tileId: 0}
+//                });
                 break;
             case 'imagelayer':
                 //TODO: whole image.
@@ -216,7 +259,7 @@ function parseMap(data) {
                     var object = layer.objects[i];
                     var components = {};
 
-                    components = convertTiledPropertiesToComponentx(object.properties);
+                    components = convertTiledPropertiesToComponents(object.properties);
 
                     switch(object.type) {
                         case 'static':
