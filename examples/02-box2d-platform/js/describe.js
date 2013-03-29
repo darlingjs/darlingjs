@@ -64,6 +64,11 @@
         }
     });
 
+    ngModule.$c('ngMovieClip', {
+        url: '',
+        frames: null
+    })
+
     ngModule.$c('ng2DCircle', {
         radius: 10.0
     });

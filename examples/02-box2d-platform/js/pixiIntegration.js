@@ -1,10 +1,61 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+(function() {
+
+
+'use strict';
 var m = darlingjs.module('ngPixijsIntegration');
+
+m.$s('ngPixijsMovieClip', {
+    $require: ['ng2D', 'ngMovieClip'],
+
+    _frames: null,
+
+    $addNode: function($node) {
+        var spriteAtlas = $node.ngMovieClip;
+        var self = this;
+        LoadAtlas(spriteAtlas.url)
+            .then(function() {
+                var frameNames = spriteAtlas.frames;
+
+                var frames = [];
+                if (self._frames !== null) {
+                    frames = self._frames;
+                } else {
+                    for (var i = 0, l = frameNames.length; i < l; i++) {
+                        frames.push(PIXI.Texture.fromFrame(frameNames[i]));
+                    }
+                    self._frames = frames;
+                }
+
+                var movieClip = new PIXI.MovieClip(frames);
+                movieClip.gotoAndPlay(1);
+
+                if (spriteAtlas.anchor) {
+                    movieClip.anchor.x = spriteAtlas.anchor.x || 0.5;
+                    movieClip.anchor.y = spriteAtlas.anchor.y || 0.5;
+                } else {
+                    movieClip.anchor.x = 0.5;
+                    movieClip.anchor.y = 0.5;
+                }
+
+                var ng2DSize = $node.ng2DSize;
+
+                if (ng2DSize && spriteAtlas.fitToSize) {
+                    movieClip.width = ng2DSize.width;
+                    movieClip.height = ng2DSize.height;
+                }
+
+                $node.$add('ngPixijsSprite', {
+                    sprite: movieClip,
+                    fitToSize: spriteAtlas.fitToSize
+                });
+            });
+    }
+});
 
 m.$s('ngPixijsSheetSprite', {
     $require: ['ng2D', 'ngSpriteAtlas'],
@@ -41,17 +92,34 @@ m.$s('ngPixijsSheetSprite', {
 });
 
 var _loaders = [];
+var _loadersPromises = {};
+var _loaded = {};
 
 function LoadAtlas(url) {
+    var promise = _loadersPromises[url];
+
+    if (promise) {
+        return promise;
+    }
+
     var deferred = Q.defer();
+    if (_loaded[url]) {
+        setTimeout(function() {
+            deferred.resolve();
+        }, 0);
+        return;
+    }
+
     var loader = new PIXI.AssetLoader([url]);
     _loaders.push(loader);
     loader.onComplete = function() {
         var index = _loaders.indexOf(loader);
         _loaders.splice(index, 1);
+        _loaded[url] = true;
         deferred.resolve(loader);
     };
     loader.load();
+    _loadersPromises[url] = deferred.promise;
     return deferred.promise;
 }
 
@@ -101,6 +169,8 @@ m.$s('ngPixijsStage', {
 
     domId: '',
 
+    useWebGL: true,
+
     $require: ['ng2D', 'ngPixijsSprite'],
 
     $added: function() {
@@ -119,7 +189,11 @@ m.$s('ngPixijsStage', {
             height = this.height;
         }
 
-        this._renderer = PIXI.autoDetectRenderer(width, height, view);
+        if (this.useWebGL) {
+            this._renderer = PIXI.autoDetectRenderer(width, height, view);
+        } else {
+            this._renderer = new PIXI.CanvasRenderer(width, height, view);
+        }
 
         // add the renderer view element to the DOM
         if (!darlingutil.isDefined(view)) {
@@ -146,6 +220,13 @@ m.$s('ngPixijsStage', {
         if (ng2DRotation) {
             sprite.sprite.rotation = ng2DRotation.rotation;
         }
+
+        var ng2DSize = $node.ng2DSize;
+
+        if (ng2DSize && sprite.fitToSize) {
+            sprite.sprite.scale.x = ng2DSize.width / sprite.sprite.width;
+            sprite.sprite.scale.y = ng2DSize.height / sprite.sprite.height;
+        }
     },
 
     $update: ['$nodes', function($nodes) {
@@ -155,3 +236,4 @@ m.$s('ngPixijsStage', {
     }]
 });
 
+})();
