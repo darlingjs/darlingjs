@@ -35,6 +35,7 @@ function GameCtrl() {
 
     world.$add('ngPixijsStage', { domId: 'gameView', width: width, height: height });
     world.$add('ngPixijsSheetSprite', {});
+    world.$add('ngPixijsSprite', {});
 
     box2DDebugDraw = world.$add('ngBox2DDebugDraw', {
         domID: 'gameView', width: width, height: height

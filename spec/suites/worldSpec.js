@@ -177,6 +177,15 @@ describe('World', function() {
         expect(c.y).toBe(34);
     });
 
+    it('should use swallow copy for custom state', function() {
+        var position = {x:1, y:2};
+        var c = world.$component('testComponent1', {
+            position: position
+        });
+        expect(c).toBeDefined();
+        expect(c.position).toBe(position);
+    });
+
     it('should execute update handler on update.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('testModule')

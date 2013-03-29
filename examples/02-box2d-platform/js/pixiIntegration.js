@@ -61,13 +61,56 @@ function LoadAtlas(url) {
     return deferred.promise;
 }
 
+m.$s('ngPixijsSprite', {
+    $require: ['ng2D', 'ngSprite'],
+
+    $added: function() {
+
+    },
+
+    $addNode: ['ngPixijsStage', '$node', '$world', function(stage, $node, $world) {
+        var ngSprite = $node.ngSprite;
+
+        // create a texture from an image path
+        ngSprite._texture = PIXI.Texture.fromImage(ngSprite.name);
+
+        // create a new Sprite using the texture
+        var sprite = ngSprite._sprite = new PIXI.Sprite(ngSprite._texture);
+
+        // center the sprites anchor point
+        sprite.anchor.x = ngSprite.anchor.x;
+        sprite.anchor.y = ngSprite.anchor.y;
+
+        var ng2DSize = $node.ng2DSize;
+        if(ng2DSize && ngSprite.fitToSize) {
+            ngSprite._texture.addEventListener( 'update', function() {
+                sprite.width = ng2DSize.width;
+                sprite.height = ng2DSize.height;
+            });
+            //sprite.scale.x = 0.5;
+            //sprite.scale.y = 0.5;
+        } else {
+            $node.$add('ngPixijsSprite', {
+                sprite: sprite
+            });
+        }
+    }],
+
+    $update: ['$node', function($node) {
+    }]
+});
+
+m.$c('ngPixijsSprite', {
+    sprite: null
+});
+
 m.$s('ngPixijsStage', {
     width: 640,
     height: 480,
 
     domId: '',
 
-    $require: ['ng2D', 'ngSprite'],
+    $require: ['ng2D', 'ngPixijsSprite'],
 
     $added: function() {
         // create an new instance of a pixi stage
@@ -98,6 +141,7 @@ m.$s('ngPixijsStage', {
     },
 
     $addNode: function($node) {
+        /*
         var ngSprite = $node.ngSprite;
 
         // create a texture from an image path
@@ -118,9 +162,9 @@ m.$s('ngPixijsStage', {
             });
             //sprite.scale.x = 0.5;
             //sprite.scale.y = 0.5;
-        }
+        }*/
 
-        this._stage.addChild(sprite);
+        this._stage.addChild($node.ngPixijsSprite.sprite);
     },
 
     addChild: function(child) {
@@ -132,15 +176,15 @@ m.$s('ngPixijsStage', {
     },
 
     $updateNode: function($node) {
-        var sprite = $node.ngSprite;
+        var sprite = $node.ngPixijsSprite;
 
         var ng2D = $node.ng2D;
-        sprite._sprite.position.x = ng2D.x;
-        sprite._sprite.position.y = ng2D.y;
+        sprite.sprite.position.x = ng2D.x;
+        sprite.sprite.position.y = ng2D.y;
 
         var ng2DRotation = $node.ng2DRotation;
         if (ng2DRotation) {
-            sprite._sprite.rotation = ng2DRotation.rotation;
+            sprite.sprite.rotation = ng2DRotation.rotation;
         }
     },
 

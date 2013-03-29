@@ -561,6 +561,15 @@ var extend = function(protoProps, staticProps) {
     return child;
 };
 
+function swallowCopy(original, extended) {
+    if (extended === null || original === null) {
+        return original;
+    }
+
+    for (var key in extended) {
+        original[key] = extended[key];
+    }
+}
 
 /**
  * Get from https://www.udacity.com/course/cs255

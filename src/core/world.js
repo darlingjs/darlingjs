@@ -245,7 +245,7 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
 
     instance = copy(defaultConfig.defaultState);
     if (isDefined(config)) {
-        mixin(instance, config);
+        swallowCopy(instance, config);
     }
 
     return instance;
