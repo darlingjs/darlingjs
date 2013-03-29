@@ -34,8 +34,8 @@ function GameCtrl() {
     });
 
     world.$add('ngPixijsStage', { domId: 'gameView', width: width, height: height });
-    world.$add('ngPixijsSheetSprite', {});
-    world.$add('ngPixijsSprite', {});
+    world.$add('ngPixijsSheetSprite');
+    world.$add('ngPixijsSprite');
 
     box2DDebugDraw = world.$add('ngBox2DDebugDraw', {
         domID: 'gameView', width: width, height: height
@@ -71,7 +71,7 @@ function GameCtrl() {
 //            'ngDOM': { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
             //Get From : http://www.iconfinder.com/search/?q=iconset%3Aie_ICandies
 //            'ngSprite': { name: 'assets/box' + boxType + '.png', fitToSize: true },
-            'ngSpriteAtlas' : { name: 'box' + boxType + '.png', url: 'assets/spritesheet.json' },
+            'ngSpriteAtlas' : { name: 'box' + boxType + '.png', url: 'assets/spritesheet.json', fitToSize: true},
             'ng2D': {x : 10 + (width - 20) * Math.random(), y: 10 + (height - 20) * Math.random()},
             'ng2DSize': {width:30, height:30},
             'ng2DRotation': {},
@@ -241,81 +241,86 @@ function parseTileLayerData(data, width, height, components) {
 
 function parseMap(data) {
     //data.tilesets[0]
-    for(var j = 0, li = data.layers.length; j < li; j++) {
-        var layer = data.layers[j];
-        switch(layer.type) {
-            case 'tilelayer':
-                //TODO: Do we really need to transform flat array to separate entities?
+    try {
+
+        for(var j = 0, li = data.layers.length; j < li; j++) {
+            var layer = data.layers[j];
+            switch(layer.type) {
+                case 'tilelayer':
+                    //TODO: Do we really need to transform flat array to separate entities?
 //                var tile = data.tilesets[0];
 //                parseTileLayerData(layer.data, layer.width, layer.height, {
 //                    ng2D: {x:0, y:0},
 //                    ng2DSize: {width:tile.tilewidth, height:tile.tileheight},
 //                    ngTileSprite: {tilesheetUrl: 'assets/' + tile.image, tileId: 0}
 //                });
-                break;
-            case 'imagelayer':
-                //TODO: whole image.
-                break;
-            case 'objectgroup':
+                    break;
+                case 'imagelayer':
+                    //TODO: whole image.
+                    break;
+                case 'objectgroup':
 
-                for(var i = 0, li = layer.objects.length; i < li; i++) {
-                    var object = layer.objects[i];
-                    var components = {};
+                    for(var i = 0, li = layer.objects.length; i < li; i++) {
+                        var object = layer.objects[i];
+                        var components = {};
 
-                    components = convertTiledPropertiesToComponents(object.properties);
+                        components = convertTiledPropertiesToComponents(object.properties);
 
-                    switch(object.type) {
-                        case 'static':
-                            components.ngPhysic = {type: 'static', restitution: 0.0};
-                            break;
-                        case 'dynamic':
-                            components.ngPhysic = {};
-                            break;
-                        case '':
-                            //TODO:
+                        switch(object.type) {
+                            case 'static':
+                                components.ngPhysic = {type: 'static', restitution: 0.0};
+                                break;
+                            case 'dynamic':
+                                components.ngPhysic = {};
+                                break;
+                            case '':
+                                //TODO:
+                                continue;
+                                break;
+                            default:
+                                throw new Error('Need to implement new object type : "' + object.type + '"');
+                                break;
+                        }
+
+                        components.ng2D = {
+                            x: object.x,
+                            y: object.y
+                        };
+
+                        if (object.ellipse) {
+                            //Because Box2D can't interact with ellipse we just take average value
+                            components.ng2DCircle = {
+                                radius: 0.25 * (object.width + object.height)
+                            };
+                        } else if (object.polyline) {
+                            //TODO : create complex shape
+                            //object.polyline[].{x,y};// custom shape
+                            components.ng2DPolygon = {
+                                line: object.polyline
+                            };
                             continue;
-                            break;
-                        default:
-                            throw new Error('Need to implement new object type : "' + object.type + '"');
-                            break;
+                        } else if (object.polygon) {
+                            components.ng2DPolygon = {
+                                line: object.polygon
+                            };
+                        } else {
+                            components.ng2DSize = {
+                                width: object.width,
+                                height: object.height
+                            };
+
+                            components.ng2D.x += 0.5 * object.width;
+                            components.ng2D.y += 0.5 * object.height;
+                        }
+
+                        world.$add(
+                            world.$e(object.name, components)
+                        );
                     }
-
-                    components.ng2D = {
-                        x: object.x,
-                        y: object.y
-                    };
-
-                    if (object.ellipse) {
-                        //Because Box2D can't interact with ellipse we just take average value
-                        components.ng2DCircle = {
-                            radius: 0.25 * (object.width + object.height)
-                        };
-                    } else if (object.polyline) {
-                        //TODO : create complex shape
-                        //object.polyline[].{x,y};// custom shape
-                        components.ng2DPolygon = {
-                            line: object.polyline
-                        };
-                        continue;
-                    } else if (object.polygon) {
-                        components.ng2DPolygon = {
-                            line: object.polygon
-                        };
-                    } else {
-                        components.ng2DSize = {
-                            width: object.width,
-                            height: object.height
-                        };
-
-                        components.ng2D.x += 0.5 * object.width;
-                        components.ng2D.y += 0.5 * object.height;
-                    }
-
-                    world.$add(
-                        world.$e(object.name, components)
-                    );
-                }
-                break;
+                    break;
+            }
         }
+    } catch(e) {
+        console.log(e);
     }
 }
