@@ -49,12 +49,12 @@
                     },
                  "type":"static",
                  "visible":true,
-                 "width":768,
+                 "width":800,
                  "x":0,
                  "y":352
                 }, 
                 {
-                 "height":352,
+                 "height":320,
                  "name":"",
                  "properties":
                     {
@@ -156,7 +156,7 @@
                  "visible":true,
                  "width":64,
                  "x":704,
-                 "y":192
+                 "y":184
                 }, 
                 {
                  "height":96,
@@ -196,32 +196,6 @@
                  "width":0,
                  "x":192,
                  "y":128
-                }, 
-                {
-                 "height":0,
-                 "name":"",
-                 "polygon":[
-                        {
-                         "x":0,
-                         "y":0
-                        }, 
-                        {
-                         "x":0,
-                         "y":32
-                        }, 
-                        {
-                         "x":96,
-                         "y":32
-                        }],
-                 "properties":
-                    {
-
-                    },
-                 "type":"dynamic",
-                 "visible":true,
-                 "width":0,
-                 "x":576,
-                 "y":64
                 }, 
                 {
                  "height":0,
@@ -338,6 +312,36 @@
                  "width":0,
                  "x":256,
                  "y":160
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":736,
+                 "y":216
+                }, 
+                {
+                 "height":32,
+                 "name":"box",
+                 "properties":
+                    {
+                     "ng2DRotation":"",
+                     "ngSpriteAtlas.fitToSize":"true",
+                     "ngSpriteAtlas.name":"box1.png",
+                     "ngSpriteAtlas.url":"assets\/spritesheet.json"
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":32,
+                 "x":192,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
