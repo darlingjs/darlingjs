@@ -332,7 +332,7 @@
                  "name":"box",
                  "properties":
                     {
-                     "ng2DRotation":"",
+                     "ng2DRotation.rotation":"3.14",
                      "ngSpriteAtlas.fitToSize":"true",
                      "ngSpriteAtlas.name":"box1.png",
                      "ngSpriteAtlas.url":"assets\/spritesheet.json"
@@ -340,8 +340,8 @@
                  "type":"dynamic",
                  "visible":true,
                  "width":32,
-                 "x":192,
-                 "y":128
+                 "x":32,
+                 "y":256
                 }],
          "opacity":1,
          "type":"objectgroup",

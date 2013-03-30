@@ -218,7 +218,12 @@ function convertTiledPropertiesToComponents(properties) {
             }
             previousParam = params[i];
         }
-        componentParam[previousParam] = properties[key];
+        var value = properties[key];
+        if (isNaN(value)) {
+            componentParam[previousParam] = params[i];
+        } else {
+            componentParam[previousParam] = Number(value);
+        }
     }
 
     return components;
