@@ -87,6 +87,7 @@
         jumpSpeed: 0.1,
         flySpeed: 0.1,
         doubleJump: 2,
+        slope: Math.SQRT1_2 - 0.05, //Math.PI / 4,
         keys:{ UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180}
     });
 

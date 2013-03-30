@@ -209,20 +209,23 @@
         _stayOnGroundDefined: false,
         _stayOnGround: false,
         //TODO : move to ngBox2dSystem
-        _isStayOnGround: function(body) {
+        _isStayOnGround: function(body, sharpCos) {
             if (this._stayOnGroundDefined) {
                 return this._stayOnGround;
             }
             var contactItem = body.m_contactList;
             while(contactItem) {
                 if (contactItem.contact.IsTouching()) {
+                    if (contactItem.contact.m_fixtureB.m_body !== body) {
+                        throw new Error('TODO: unexpected behaviour.');
+                    }
                     var norm = contactItem.contact.m_manifold.m_localPlaneNormal;
-//                    var sin = Math.sin(contactItem.contact.m_fixtureA.m_body.GetAngle());
-//                    var cos = Math.sin(contactItem.contact.m_fixtureA.m_body.GetAngle());
-//                    console.log('sin: '+sin);
-//                    console.log('cos: '+cos);
-//                    console.log('norm.x: '+norm.x + ', ' + norm.x);
-                    if (norm.y <= -Math.SQRT1_2) {
+                    var angle = contactItem.contact.m_fixtureA.m_body.GetAngle();
+                    var sin = Math.sin(angle);
+                    var cos = Math.cos(angle);
+                    //var nx = cos * norm.x - sin * norm.y;
+                    var ny = sin * norm.x + cos * norm.y;
+                    if (ny <= -sharpCos) {
                         this._stayOnGroundDefined = true;
                         this._stayOnGround = true;
                         return true;
@@ -266,7 +269,7 @@
             var control = $node.ngControlPlatformStyle;
 
             if (this._actions['move-up']) {
-                if (this._isStayOnGround(body)) {
+                if (this._isStayOnGround(body, control.slope)) {
                     this._resetDoubleJump(control);
                     this._jump(body, control);
                 } else if (this._justFly) {
@@ -274,17 +277,17 @@
                     this._justFly = false;
                 }
             } else {
-                this._justFly = !this._isStayOnGround(body);
+                this._justFly = !this._isStayOnGround(body, control.slope);
                 if (this._actions['move-left']) {
                     this._stayOnGroundDefined = false;
-                    if (this._isStayOnGround(body)) {
+                    if (this._isStayOnGround(body, control.slope)) {
                         this._move(body, -control.runSpeed);
                     } else {
                         this._flyImpulse.x = -control.flySpeed;
                         body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
                     }
                 } else if (this._actions['move-right']) {
-                    if (this._isStayOnGround(body)) {
+                    if (this._isStayOnGround(body, control.slope)) {
                         this._move(body, control.runSpeed);
                     } else {
                         this._flyImpulse.x = control.flySpeed;
