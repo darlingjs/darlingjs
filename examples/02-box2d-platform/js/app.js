@@ -220,7 +220,7 @@ function convertTiledPropertiesToComponents(properties) {
         }
         var value = properties[key];
         if (isNaN(value)) {
-            componentParam[previousParam] = params[i];
+            componentParam[previousParam] = properties[key];
         } else {
             componentParam[previousParam] = Number(value);
         }

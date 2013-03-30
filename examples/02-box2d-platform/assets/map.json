@@ -396,8 +396,8 @@
                  "type":"dynamic",
                  "visible":true,
                  "width":0,
-                 "x":224,
-                 "y":96
+                 "x":32,
+                 "y":544
                 }, 
                 {
                  "height":0,
@@ -422,8 +422,8 @@
                  "type":"dynamic",
                  "visible":true,
                  "width":0,
-                 "x":320,
-                 "y":96
+                 "x":128,
+                 "y":544
                 }, 
                 {
                  "height":32,
@@ -440,6 +440,38 @@
                  "width":32,
                  "x":256,
                  "y":192
+                }, 
+                {
+                 "height":32,
+                 "name":"box",
+                 "properties":
+                    {
+                     "ng2DRotation.rotation":"0",
+                     "ngSpriteAtlas.fitToSize":"true",
+                     "ngSpriteAtlas.name":"box1.png",
+                     "ngSpriteAtlas.url":"assets\/spritesheet.json"
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":32,
+                 "x":320,
+                 "y":192
+                }, 
+                {
+                 "height":32,
+                 "name":"box",
+                 "properties":
+                    {
+                     "ng2DRotation.rotation":"0",
+                     "ngSpriteAtlas.fitToSize":"true",
+                     "ngSpriteAtlas.name":"box1.png",
+                     "ngSpriteAtlas.url":"assets\/spritesheet.json"
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":32,
+                 "x":352,
+                 "y":160
                 }],
          "opacity":1,
          "type":"objectgroup",
