@@ -56,8 +56,8 @@ m.$c('ngRevoluteJoint', {
         var jointState = $node.ngRevoluteJoint;
 
         var def = new RevoluteJointDef();
-        md.bodyA = //world.GetGroundBody();
-        md.bodyB = //body;
+        md.bodyA = null;//world.GetGroundBody();
+        md.bodyB = null;//body;
         md.target.Set(this._mouseX, this._mouseY);
         md.collideConnected = true;
         md.maxForce = 300.0 * body.GetMass();
