@@ -78,6 +78,14 @@ describe('darling', function() {
         }).not.toThrow();
     });
 
+    it('should remove module by name', function() {
+        darlingjs.module('theModule');
+        darlingjs.removeModule('theModule');
+        expect( function() {
+            darlingjs.module('theModule');
+        }).not.toThrow();
+    });
+
     it('should to modules has different collection of systems', function() {
         var m1 = darlingjs.module('theModule1')
             .$system('theSystem1');

@@ -76,10 +76,30 @@ darlingjs.w = darlingjs.world = function(name, requires) {
     return worldInstance;
 };
 
+/**
+ * Remove module from engine by name
+ * @param value
+ */
+darlingjs.removeModule = function(value) {
+    delete modules[value];
+};
+
+/**
+ * Remove all modules from engine
+ */
+darlingjs.removeAllModules = function() {
+    modules = {};
+};
+
+
+darlingjs.removeWorld = function(value) {
+    delete worlds[value];
+}
+/**
+ * Remove all worlds from engine
+ */
 darlingjs.removeAllWorlds = function() {
     worlds = {};
 };
 
-darlingjs.removeAllModules = function() {
-    modules = {};
-};
+
