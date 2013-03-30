@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         },
         jasmine: {
             pivotal: {
-                src: ['src/**/*.js', 'spec/lib/**/*.js'],
+                src: ['src/utils/**/*.js', 'src/**/*.js', 'spec/lib/**/*.js'],
                 options: {
                     specs: 'spec/**/*Spec.js',
                     helpers: 'spec/**/*Helper.js'

@@ -3,22 +3,8 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-//(function() {
+(function(darlingjs) {
     'use strict';
-
-    var AABB = Box2D.Collision.b2AABB;
-    var Vec2 = Box2D.Common.Math.b2Vec2;
-    var BodyDef = Box2D.Dynamics.b2BodyDef;
-    var Body = Box2D.Dynamics.b2Body;
-    var FixtureDef = Box2D.Dynamics.b2FixtureDef;
-    var Fixture = Box2D.Dynamics.b2Fixture;
-    var World = Box2D.Dynamics.b2World;
-    var MassData = Box2D.Collision.Shapes.b2MassData;
-    var PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
-    var CircleShape = Box2D.Collision.Shapes.b2CircleShape;
-    var DebugDraw = Box2D.Dynamics.b2DebugDraw;
-    var RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef;
-    var MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef;
 
     var m = darlingjs.module('ngBox2D');
 
@@ -40,38 +26,52 @@
         bodyBName: null
     });
 
+    var AABB = Box2D.Collision.b2AABB;
+    var Vec2 = Box2D.Common.Math.b2Vec2;
+    var BodyDef = Box2D.Dynamics.b2BodyDef;
+    var Body = Box2D.Dynamics.b2Body;
+    var FixtureDef = Box2D.Dynamics.b2FixtureDef;
+    var Fixture = Box2D.Dynamics.b2Fixture;
+    var World = Box2D.Dynamics.b2World;
+    var MassData = Box2D.Collision.Shapes.b2MassData;
+    var PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+    var CircleShape = Box2D.Collision.Shapes.b2CircleShape;
+    var DebugDraw = Box2D.Dynamics.b2DebugDraw;
+    var RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef;
+    var MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef;
+
     var zeroVec2 = new Vec2();
 
-/**
- * ngBox2DSystem
- *
- * Draggable subsystem based on ngBox2DSystem. And use it Box2D properties
- * to interact with dragged entity.
- *
- */
-m.$c('ngRevoluteJoint', {
-    $require: ['ngRevoluteJoint', 'ng2D'],
+    /**
+     * ngBox2DSystem
+     *
+     * Draggable subsystem based on ngBox2DSystem. And use it Box2D properties
+     * to interact with dragged entity.
+     *
+     */
+    m.$s('ngRevoluteJoint', {
+        $require: ['ngRevoluteJoint', 'ng2D'],
 
-    $addNode: function($node) {
-        var jointState = $node.ngRevoluteJoint;
+        $addNode: function($node) {
+            var jointState = $node.ngRevoluteJoint;
 
-        var def = new RevoluteJointDef();
-        md.bodyA = null;//world.GetGroundBody();
-        md.bodyB = null;//body;
-        md.target.Set(this._mouseX, this._mouseY);
-        md.collideConnected = true;
-        md.maxForce = 300.0 * body.GetMass();
-        this._mouseJoint = world.CreateJoint(md);
-    },
+            var def = new RevoluteJointDef();
+            md.bodyA = null;//world.GetGroundBody();
+            md.bodyB = null;//body;
+            md.target.Set(this._mouseX, this._mouseY);
+            md.collideConnected = true;
+            md.maxForce = 300.0 * body.GetMass();
+            this._mouseJoint = world.CreateJoint(md);
+        },
 
-    $removeNode: function($node) {
+        $removeNode: function($node) {
 
-    },
+        },
 
-    $update: function($node) {
-        //TODO : update state
-    }
-});
+        $update: function($node) {
+            //TODO : update state
+        }
+    });
 
     m.$s('ngBox2DDraggable', {
         domId: 'game',
@@ -544,4 +544,4 @@ m.$c('ngRevoluteJoint', {
         }
     });
 
-//})();
+})(darlingjs);
