@@ -281,10 +281,13 @@ function parseMap(data) {
                             case 'dynamic':
                                 components.ngPhysic = {};
                                 break;
+                            case 'joint':
+                                components.ngPhysic = {};
+                                break;
                             case '':
                                 //TODO:
+                                console.log('undefined object', object);
                                 continue;
-                                break;
                             default:
                                 throw new Error('Need to implement new object type : "' + object.type + '"');
                                 break;

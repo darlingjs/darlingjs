@@ -29,6 +29,17 @@
         density: 1.0
     });
 
+    m.$c('ngRevoluteJoint', {
+        lowerAngle: Number.NaN,
+        upperAngle: Number.NaN,
+        enableLimit: false,
+        maxMotorTorque: 10.0,
+        motorSpeed: 0.0,
+        enableMotor: false,
+        bodyAName: null,
+        bodyBName: null
+    });
+
     var zeroVec2 = new Vec2();
 
 /**
@@ -38,6 +49,29 @@
  * to interact with dragged entity.
  *
  */
+m.$c('ngRevoluteJoint', {
+    $require: ['ngRevoluteJoint', 'ng2D'],
+
+    $addNode: function($node) {
+        var jointState = $node.ngRevoluteJoint;
+
+        var def = new RevoluteJointDef();
+        md.bodyA = //world.GetGroundBody();
+        md.bodyB = //body;
+        md.target.Set(this._mouseX, this._mouseY);
+        md.collideConnected = true;
+        md.maxForce = 300.0 * body.GetMass();
+        this._mouseJoint = world.CreateJoint(md);
+    },
+
+    $removeNode: function($node) {
+
+    },
+
+    $update: function($node) {
+        //TODO : update state
+    }
+});
 
     m.$s('ngBox2DDraggable', {
         domId: 'game',

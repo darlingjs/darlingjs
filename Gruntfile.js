@@ -8,7 +8,8 @@ module.exports = function(grunt) {
             dist: {
                 src: [
                     'src/core/core.prefix',
-                    'src/**/*.js',
+                    'src/utils/**/*.js',
+                    'src/core/**/*.js',
                     'src/core/core.suffix'
                 ],
                 dest: 'build/<%= pkg.shortName %>.js'
