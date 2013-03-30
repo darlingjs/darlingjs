@@ -7,11 +7,11 @@
 describe('module', function() {
     var module;
     beforeEach(function() {
-        module = darlingjs.m('testModule1');
+        module = darlingjs.m('theModule');
     });
 
     afterEach(function() {
-        darlingjs.removeAllModules();
+        darlingjs.removeModule('theModule');
         darlingjs.removeAllWorlds();
     });
 

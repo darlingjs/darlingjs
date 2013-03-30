@@ -6,7 +6,9 @@
 
 describe('darling', function() {
     afterEach(function() {
-        darlingjs.removeAllModules();
+        darlingjs.removeModule('theModule');
+        darlingjs.removeModule('theModule1');
+        darlingjs.removeModule('theModule2');
         darlingjs.removeAllWorlds();
     });
 
@@ -56,21 +58,21 @@ describe('darling', function() {
     });
 
     it('should inject module to created world', function() {
-        darlingjs.module('testModule1', []);
-        var w = darlingjs.world('testWorld1', ['testModule1']);
-        expect(w.$has('testModule1')).toEqual(true);
+        darlingjs.module('theModule1', []);
+        var w = darlingjs.world('testWorld1', ['theModule1']);
+        expect(w.$has('theModule1')).toEqual(true);
     });
 
     it('should inject to world all components from module', function() {
-        darlingjs.module('testModule1', [])
+        darlingjs.module('theModule1', [])
             .$c('testComponent1')
             .$c('testComponent2');
-        var w = darlingjs.world('testWorld1', ['testModule1']);
+        var w = darlingjs.world('testWorld1', ['theModule1']);
         expect(w.$has('testComponent1')).toEqual(true);
         expect(w.$has('testComponent2')).toEqual(true);
     });
 
-    it('should remove modules by removeAllModules', function() {
+    xit('should remove modules by removeAllModules', function() {
         darlingjs.module('theModule');
         darlingjs.removeAllModules();
         expect( function() {
@@ -98,7 +100,7 @@ describe('darling', function() {
         expect(m2.$has('theSystem1')).not.toBe(true);
     });
 
-    it('should to clean modules after removeAllModules', function() {
+    xit('should to clean modules after removeAllModules', function() {
         darlingjs.module('theModule')
             .$system('theSystem');
         darlingjs.removeAllModules();

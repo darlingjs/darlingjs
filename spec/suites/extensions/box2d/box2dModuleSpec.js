@@ -11,7 +11,6 @@ describe('box2dModule', function() {
     });
 
     afterEach(function() {
-        darlingjs.removeAllModules();
         darlingjs.removeAllWorlds();
     });
 

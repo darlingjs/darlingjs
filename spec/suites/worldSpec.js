@@ -11,7 +11,7 @@ describe('World', function() {
     var module;
 
     beforeEach(function() {
-        module = darlingjs.module('testModule1')
+        module = darlingjs.module('theModule1')
             .$c('testComponent1', {
                 x: 12,
                 y: 34
@@ -23,11 +23,12 @@ describe('World', function() {
                 world: 'new brave'
             });
 
-        world = darlingjs.world('world', ['testModule1']);
+        world = darlingjs.world('world', ['theModule1']);
     });
 
     afterEach(function() {
-        darlingjs.removeAllModules();
+        darlingjs.removeModule('theModule1');
+        darlingjs.removeModule('theModule');
         darlingjs.removeAllWorlds();
     });
 
@@ -50,7 +51,7 @@ describe('World', function() {
     })
 
     it('should load requested module', function() {
-        expect(world.$has('testModule1')).toEqual(true);
+        expect(world.$has('theModule1')).toEqual(true);
     });
 
     it('should load component from requested module', function() {
@@ -188,14 +189,14 @@ describe('World', function() {
 
     it('should execute update handler on update.', function() {
         var updateHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 require: ['theComponent'],
                 $update: updateHandler
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
         world.$update(11);
         expect(updateHandler.calledOnce).toBeTruthy();
@@ -203,14 +204,14 @@ describe('World', function() {
     });
 
     it('should instantiate by name without add it', function() {
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 x: 10,
                 y: 20
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var system = world.$system('testSystem', {
             z: 30
         });
@@ -223,11 +224,11 @@ describe('World', function() {
     });
 
     it('should added my instance', function() {
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem');
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var systemInstance = world.$system('testSystem');
         world.$add(systemInstance);
 
@@ -241,14 +242,14 @@ describe('World', function() {
 
         runs(function() {
             updateHandler = sinon.spy();
-            darlingjs.module('testModule')
+            darlingjs.module('theModule')
                 .$c('theComponent')
                 .$system('testSystem', {
                     require: ['theComponent'],
                     $update: updateHandler
                 });
 
-            world = darlingjs.world('testWorld', ['testModule']);
+            world = darlingjs.world('testWorld', ['theModule']);
             world.$add('testSystem');
             world.$start();
             expect(world.$playing).toBeTruthy();

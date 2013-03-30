@@ -88,6 +88,7 @@ darlingjs.removeModule = function(value) {
  * Remove all modules from engine
  */
 darlingjs.removeAllModules = function() {
+    console.log('removeAllModules');
     modules = {};
 };
 

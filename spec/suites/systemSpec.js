@@ -14,7 +14,8 @@ describe('system', function() {
     });
 
     afterEach(function() {
-        darlingjs.removeAllModules();
+        darlingjs.removeModule('theModule');
+        darlingjs.removeModule('defaultModule');
         darlingjs.removeAllWorlds();
     });
 
@@ -26,10 +27,10 @@ describe('system', function() {
     });
 
     it('should be added to the world', function() {
-        darlingjs.module('testModule', {})
+        darlingjs.module('theModule', {})
             .$system('testSystem');
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
         expect(world.$isUse('testSystem')).toBe(true);
     });
@@ -40,13 +41,13 @@ describe('system', function() {
     });
 
     it(' after been added to world should fetch required nodes from world', function() {
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent']
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
         world.$add(entity);
         var system = world.$add('testSystem');
@@ -57,13 +58,13 @@ describe('system', function() {
     });
 
     it('should fetch entity to $nodes after entity been added', function() {
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent']
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
         var system = world.$add('testSystem');
         world.$add(entity);
@@ -74,13 +75,13 @@ describe('system', function() {
     });
 
     it('should remove entity from $nodes after entity been removed', function() {
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent']
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
         var system = world.$add('testSystem');
         world.$add(entity);
@@ -89,13 +90,13 @@ describe('system', function() {
     });
 
     it('should fetch entity to $nodes after required component been added to entity', function() {
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent']
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity');
         var system = world.$add('testSystem');
         world.$add(entity);
@@ -108,13 +109,13 @@ describe('system', function() {
     });
 
     it('should remove entity from $nodes after required component been removed from entity', function() {
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent']
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
         var system = world.$add('testSystem');
         world.$add(entity);
@@ -124,13 +125,13 @@ describe('system', function() {
 
     it('should invoke $added on system added to world', function() {
         var addedHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $added: addedHandler
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
 
         expect(addedHandler.callCount).toBe(1);
@@ -138,13 +139,13 @@ describe('system', function() {
 
     it('should invoke $removed on system remove from world', function() {
         var removedHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $removed: removedHandler
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var system = world.$add('testSystem');
         world.$add(world.$e('theEntity', ['theComponent']));
         world.$remove(system);
@@ -155,14 +156,14 @@ describe('system', function() {
 
     it('should run update once for $nodes request.', function() {
         var updateHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
                 $update: ['$nodes', '$time', updateHandler]
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var system = world.$add('testSystem');
         world.$update(11);
 
@@ -172,14 +173,14 @@ describe('system', function() {
 
     it('should inject the World instance to update by $world argument', function() {
         var updateHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
                 $update: ['$world', updateHandler]
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
         world.$update(11);
         expect(updateHandler.callCount).toBe(1);
@@ -188,14 +189,14 @@ describe('system', function() {
 
     it('should run update for each request $node.', function() {
         var updateHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
                 $update: ['$node', '$time', updateHandler]
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
 
         world.$add('testSystem');
 
@@ -216,14 +217,14 @@ describe('system', function() {
     it('should execute $addNode handler on node is adding', function() {
         var addHandler = sinon.spy();
         var removeHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
                 $addNode: addHandler,
                 $removeNode: removeHandler
             });
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
         var entities = [];
         for(var i = 0, l = 3; i < l; i++) {
@@ -242,14 +243,14 @@ describe('system', function() {
     it('should execute $addRemove handler on node is removing', function() {
         var addHandler = sinon.spy();
         var removeHandler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
                 $addNode: addHandler,
                 $removeNode: removeHandler
             });
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
 
         var entities = [];
@@ -273,7 +274,7 @@ describe('system', function() {
     it('should inject other systems in $added', function() {
         var handler = sinon.spy();
 
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem1', {
             })
@@ -282,7 +283,7 @@ describe('system', function() {
                 $added: ['testSystem1', handler]
             });
 
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
         world.$add('testSystem2');
 
@@ -292,7 +293,7 @@ describe('system', function() {
 
     it('should inject other systems in $removed', function() {
         var handler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem1', {
 
@@ -301,7 +302,7 @@ describe('system', function() {
                 $require: ['theComponent'],
                 $removed: ['testSystem1', handler]
             });
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         world.$remove(s2);
@@ -312,7 +313,7 @@ describe('system', function() {
 
     it('should inject other systems in $addNode', function() {
         var handler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem1', {
 
@@ -321,7 +322,7 @@ describe('system', function() {
                 $require: ['theComponent'],
                 $addNode: ['testSystem1', '$node', handler]
             });
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         var e = world.$e('theEntity', ['theComponent']);
@@ -334,7 +335,7 @@ describe('system', function() {
 
     it('should inject other systems in $removeNode', function() {
         var handler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem1', {
 
@@ -343,7 +344,7 @@ describe('system', function() {
                 $require: ['theComponent'],
                 $removeNode: ['testSystem1', '$node', handler]
             });
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         var e = world.$e('theEntity', ['theComponent']);
@@ -357,7 +358,7 @@ describe('system', function() {
 
     it('should inject other systems in $removeNode', function() {
         var handler = sinon.spy();
-        darlingjs.module('testModule')
+        darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem1', {
 
@@ -366,7 +367,7 @@ describe('system', function() {
                 $require: ['theComponent'],
                 $update: ['testSystem1', '$nodes', handler]
             });
-        var world = darlingjs.world('testWorld', ['testModule']);
+        var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         var e = world.$e('theEntity', ['theComponent']);

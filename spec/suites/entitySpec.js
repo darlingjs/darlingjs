@@ -18,7 +18,7 @@ describe('entity', function() {
     });
 
     afterEach(function() {
-        darlingjs.removeAllModules();
+        darlingjs.removeModule('theModule');
         darlingjs.removeAllWorlds();
     });
 
