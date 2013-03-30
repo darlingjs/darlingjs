@@ -36,20 +36,6 @@
     ngModule.$c('ngDraggable', {
     });
 
-    ngModule.$c('ng2D', {
-        x: 0.0,
-        y: 0.0
-    });
-
-    ngModule.$c('ng2DSize', {
-        width: 10.0,
-        height: 10.0
-    });
-
-    ngModule.$c('ng2DRotation', {
-        rotation: 0.0
-    });
-
     ngModule.$c('ngSpriteAtlas', {
         name: 0,
         url: ''
@@ -67,14 +53,6 @@
     ngModule.$c('ngMovieClip', {
         url: '',
         frames: null
-    })
-
-    ngModule.$c('ng2DCircle', {
-        radius: 10.0
-    });
-
-    ngModule.$c('ng2DPolygon', {
-        line: []
     });
 
     ngModule.$c('ngControl', {
