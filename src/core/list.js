@@ -54,6 +54,7 @@ List.prototype.remove = function(instance) {
         node.nextSibling.prevSibling = node.prevSibling;
     }
 
+    node.dispose(instance, this.PROPERTY_LINK_TO_NODE);
     poolOfListNodes.dispose(node);
 
     this.trigger('remove', instance);
@@ -92,6 +93,12 @@ ListNode.prototype.init = function(instance, linkBack) {
     }
 
     instance[linkBack] = this;
+};
+
+ListNode.prototype.dispose = function(instance, linkBack) {
+    this.prevSibling = this.nextSibling = null;
+    this.instance = null;
+    delete instance[linkBack];
 };
 
 var PoolOfObjects = function(objectType) {
