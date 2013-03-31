@@ -275,4 +275,41 @@ describe('World', function() {
             expect(updateHandler.callCount).toBe(3);
         });
     });
+
+    it('should execute update in sequence: $beforeUpdate, $update and $afterUpdate', function() {
+        var beforeUpdateHandler = sinon.spy();
+        var updateHandler = sinon.spy();
+        var afterUpdateHandler = sinon.spy();
+        var beforeUpdateCalled = false;
+        var updateCalled = false;
+        var afterUpdateCalled = false;
+
+        darlingjs.module('theModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                require: ['theComponent'],
+                $beforeUpdate: function() {
+                    expect(beforeUpdateCalled).toBe(false);
+                    expect(updateCalled).toBe(false);
+                    expect(afterUpdateCalled).toBe(false);
+                    beforeUpdateCalled = true;
+                },
+                $update: function() {
+                    expect(beforeUpdateCalled).toBe(true);
+                    expect(updateCalled).toBe(false);
+                    expect(afterUpdateCalled).toBe(false);
+                    updateCalled = true;
+                },
+                $afterUpdate: function() {
+                    expect(beforeUpdateCalled).toBe(true);
+                    expect(updateCalled).toBe(true);
+                    expect(afterUpdateCalled).toBe(false);
+                    afterUpdateCalled = true;
+                }
+            });
+
+        var world = darlingjs.world('testWorld', ['theModule']);
+        world.$add('testSystem');
+        world.$update(11);
+    });
 });
