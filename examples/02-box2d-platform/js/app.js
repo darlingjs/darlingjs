@@ -33,6 +33,9 @@ function GameCtrl() {
         }
     });
 
+    world.$add('ngBox2DRevoluteJoint');
+
+
     world.$add('ngPixijsStage', { domId: 'gameView', width: width, height: height });
     world.$add('ngPixijsSheetSprite');
     world.$add('ngPixijsSprite');
@@ -282,7 +285,7 @@ function parseMap(data) {
                                 components.ngPhysic = {};
                                 break;
                             case 'joint':
-                                components.ngPhysic = {};
+                                components.ngRevoluteJoint = {};
                                 break;
                             case '':
                                 //TODO:
@@ -303,6 +306,8 @@ function parseMap(data) {
                             components.ng2DCircle = {
                                 radius: 0.25 * (object.width + object.height)
                             };
+                            components.ng2D.x+= 0.5 * object.width;
+                            components.ng2D.y+= 0.5 * object.height;
                         } else if (object.polyline) {
                             //TODO : create complex shape
                             //object.polyline[].{x,y};// custom shape

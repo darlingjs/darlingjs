@@ -14,13 +14,13 @@ describe('box2dModule', function() {
         darlingjs.removeAllWorlds();
     });
 
-    it('should joint two entity by revolve joint', function() {
-        world.$add('ngBox2DSystem');
-        world.$add('ngRevoluteJoint');
+    it('should get bodies at x,y', function() {
+        var box2d = world.$add('ngBox2DSystem');
+        world.$add('ngBox2DRevoluteJoint');
 
         world.$add(
             world.$e('entity1', {
-                'ng2D': {x:0.0, y:0.0},
+                'ng2D': {x:-10.0, y:0.0},
                 'ng2DSize': {width:30, height:30},
                 'ngPhysic': {}
             })
@@ -28,9 +28,41 @@ describe('box2dModule', function() {
 
         world.$add(
             world.$e('entity2', {
-                'ng2D': {x:0.0, y:0.0},
+                'ng2D': {x:10.0, y:0.0},
                 'ng2DSize': {width:30, height:30},
                 'ngPhysic': {}
+            })
+        );
+
+        var bodies = box2d.getBodiesAt(0, 0);
+        expect(bodies).toBeDefined();
+        expect(bodies.length).toBe(2);
+    });
+
+    it('should joint two entity by position of revolve joint', function() {
+        world.$add('ngBox2DSystem');
+        world.$add('ngBox2DRevoluteJoint');
+
+        world.$add(
+            world.$e('entity1', {
+                'ng2D': {x:-10.0, y:0.0},
+                'ng2DSize': {width:30, height:30},
+                'ngPhysic': {}
+            })
+        );
+
+        world.$add(
+            world.$e('entity2', {
+                'ng2D': {x:10.0, y:0.0},
+                'ng2DSize': {width:30, height:30},
+                'ngPhysic': {}
+            })
+        );
+
+        world.$add(
+            world.$e('jointEntity', {
+                'ng2D': {x:0.0, y:0.0},
+                'ngRevoluteJoint':{}
             })
         );
     });

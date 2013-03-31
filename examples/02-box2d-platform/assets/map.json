@@ -103,9 +103,9 @@
                     },
                  "type":"static",
                  "visible":true,
-                 "width":128,
-                 "x":544,
-                 "y":192
+                 "width":96,
+                 "x":672,
+                 "y":64
                 }, 
                 {
                  "height":32,
@@ -117,8 +117,8 @@
                  "type":"static",
                  "visible":true,
                  "width":96,
-                 "x":416,
-                 "y":96
+                 "x":608,
+                 "y":128
                 }, 
                 {
                  "height":32,
@@ -349,7 +349,7 @@
                 {
                  "ellipse":true,
                  "height":64,
-                 "name":"",
+                 "name":"wheel",
                  "properties":
                     {
 
@@ -357,12 +357,12 @@
                  "type":"dynamic",
                  "visible":true,
                  "width":64,
-                 "x":704,
-                 "y":184
+                 "x":448,
+                 "y":148
                 }, 
                 {
                  "height":96,
-                 "name":"",
+                 "name":"topBox",
                  "properties":
                     {
 
@@ -370,8 +370,8 @@
                  "type":"dynamic",
                  "visible":true,
                  "width":64,
-                 "x":704,
-                 "y":128
+                 "x":448,
+                 "y":96
                 }, 
                 {
                  "height":0,
@@ -472,6 +472,20 @@
                  "width":32,
                  "x":352,
                  "y":160
+                }, 
+                {
+                 "ellipse":true,
+                 "height":64,
+                 "name":"wheel",
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":64,
+                 "x":192,
+                 "y":32
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -495,8 +509,8 @@
                  "type":"joint",
                  "visible":true,
                  "width":0,
-                 "x":736,
-                 "y":216
+                 "x":480,
+                 "y":180
                 }],
          "opacity":1,
          "type":"objectgroup",

@@ -49,28 +49,40 @@
      * to interact with dragged entity.
      *
      */
-    m.$s('ngRevoluteJoint', {
+    m.$s('ngBox2DRevoluteJoint', {
         $require: ['ngRevoluteJoint', 'ng2D'],
 
-        $addNode: function($node) {
+        $addNode: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
             var jointState = $node.ngRevoluteJoint;
+            var ng2D = $node.ng2D;
+
+            var bodyA, bodyB;
+
+            var x = ngBox2DSystem._invScale * ng2D.x,
+                y = ngBox2DSystem._invScale * ng2D.y;
+
+            var entities = ngBox2DSystem.getBodiesAt(x, y);
+
+            if (entities.length < 2) {
+                throw new Error('Can\'t add revolute joint without jointed bodies');
+            } else {
+                bodyA = entities[0];
+                bodyB = entities[1];
+            }
 
             var def = new RevoluteJointDef();
-            md.bodyA = null;//world.GetGroundBody();
-            md.bodyB = null;//body;
-            md.target.Set(this._mouseX, this._mouseY);
-            md.collideConnected = true;
-            md.maxForce = 300.0 * body.GetMass();
-            this._mouseJoint = world.CreateJoint(md);
-        },
+            def.Initialize(bodyA, bodyB, new Vec2(x, y));
 
-        $removeNode: function($node) {
+            def.lowerAngle = jointState.lowerAngle;
+            def.upperAngle = jointState.upperAngle;
+            def.enableLimit = jointState.enableLimit;
 
-        },
+            def.maxMotorTorque = jointState.maxMotorTorque;
+            def.motorSpeed = jointState.motorSpeed;
+            def.enableMotor = jointState.enableMotor;
 
-        $update: function($node) {
-            //TODO : update state
-        }
+            jointState._joint = ngBox2DSystem.createJoint(def);
+        }]
     });
 
     m.$s('ngBox2DDraggable', {
@@ -250,15 +262,20 @@
             var contactItem = body.m_contactList;
             while(contactItem) {
                 if (contactItem.contact.IsTouching()) {
-                    if (contactItem.contact.m_fixtureB.m_body !== body) {
-                        throw new Error('TODO: unexpected behaviour.');
-                    }
+                    var ny;
                     var norm = contactItem.contact.m_manifold.m_localPlaneNormal;
-                    var angle = contactItem.contact.m_fixtureA.m_body.GetAngle();
-                    var sin = Math.sin(angle);
-                    var cos = Math.cos(angle);
-                    //var nx = cos * norm.x - sin * norm.y;
-                    var ny = sin * norm.x + cos * norm.y;
+
+                    if (contactItem.contact.m_fixtureB.m_body !== body) {
+                        console.log('unexpected behaviour.');
+                        ny = norm.y;
+                    } else {
+                        var angle = contactItem.contact.m_fixtureA.m_body.GetAngle();
+                        var sin = Math.sin(angle);
+                        var cos = Math.cos(angle);
+                        //var nx = cos * norm.x - sin * norm.y;
+                        ny = sin * norm.x + cos * norm.y;
+                    }
+
                     if (ny <= -sharpCos) {
                         this._stayOnGroundDefined = true;
                         this._stayOnGround = true;
@@ -525,6 +542,42 @@
             if (ng2DRotation) {
                 ng2DRotation.rotation = body.GetAngle();
             }
+        },
+
+        /**
+         * Create joint instance by joint definition
+         *
+         * @param def
+         * @return {*}
+         */
+        createJoint: function(def) {
+            return this._world.CreateJoint(def);
+        },
+
+        /**
+         * Get bodies array by position
+         *
+         * @param x
+         * @param y
+         */
+        _getBodiesAtAABB: null,
+        getBodiesAt: function(x, y) {
+            if (this._getBodiesAtAABB === null) {
+                this._getBodiesAtAABB = new AABB();
+            }
+            var aabb = this._getBodiesAtAABB;
+            aabb.lowerBound.Set(x - 0.001, y - 0.001);
+            aabb.upperBound.Set(x + 0.001, y + 0.001);
+
+            // Query the world for overlapping shapes.
+
+            var result = [];
+            this._world.QueryAABB(function(fixture) {
+                result.push(fixture.GetBody());
+                return true;
+            }, aabb);
+
+            return result;
         },
 
         _addContactListener: function (callbacks) {

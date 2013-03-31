@@ -1,7 +1,8 @@
 /**
  * Project: DarlingJS
  *
- * Flatland Extensions (2D)
+ * Flatland Extensions (2D).
+ * Inspired by http://en.wikipedia.org/wiki/Flatland
  *
  * Copyright (c) 2013, Eugene-Krevenets
  */
