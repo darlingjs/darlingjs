@@ -50,8 +50,8 @@
                  "type":"static",
                  "visible":true,
                  "width":800,
-                 "x":0,
-                 "y":544
+                 "x":-5,
+                 "y":545
                 }, 
                 {
                  "height":512,
@@ -105,10 +105,10 @@
                  "visible":true,
                  "width":96,
                  "x":672,
-                 "y":64
+                 "y":96
                 }, 
                 {
-                 "height":32,
+                 "height":30,
                  "name":"",
                  "properties":
                     {
@@ -116,9 +116,9 @@
                     },
                  "type":"static",
                  "visible":true,
-                 "width":96,
-                 "x":608,
-                 "y":128
+                 "width":103,
+                 "x":518,
+                 "y":115
                 }, 
                 {
                  "height":32,
@@ -348,82 +348,33 @@
          "objects":[
                 {
                  "ellipse":true,
-                 "height":64,
-                 "name":"wheel",
+                 "height":48,
+                 "name":"giraffe-wheel",
                  "properties":
                     {
-
+                     "ngControlPlatformStyle.jumpSpeed":"6",
+                     "ngControlPlatformStyle.runSpeed":"2.75",
+                     "ngPhysic.friction":"200",
+                     "ngPhysic.restitution":"0"
                     },
                  "type":"dynamic",
                  "visible":true,
-                 "width":64,
-                 "x":448,
-                 "y":148
+                 "width":48,
+                 "x":187,
+                 "y":475
                 }, 
                 {
                  "height":96,
-                 "name":"topBox",
+                 "name":"giraffe-body",
                  "properties":
                     {
                      "ngPhysic.fixedRotation":"true"
                     },
                  "type":"dynamic",
                  "visible":true,
-                 "width":64,
-                 "x":448,
-                 "y":96
-                }, 
-                {
-                 "height":0,
-                 "name":"",
-                 "polygon":[
-                        {
-                         "x":64,
-                         "y":-32
-                        }, 
-                        {
-                         "x":64,
-                         "y":-64
-                        }, 
-                        {
-                         "x":96,
-                         "y":-32
-                        }],
-                 "properties":
-                    {
-
-                    },
-                 "type":"dynamic",
-                 "visible":true,
-                 "width":0,
-                 "x":32,
-                 "y":544
-                }, 
-                {
-                 "height":0,
-                 "name":"",
-                 "polygon":[
-                        {
-                         "x":64,
-                         "y":-32
-                        }, 
-                        {
-                         "x":64,
-                         "y":-64
-                        }, 
-                        {
-                         "x":128,
-                         "y":-32
-                        }],
-                 "properties":
-                    {
-
-                    },
-                 "type":"dynamic",
-                 "visible":true,
-                 "width":0,
-                 "x":128,
-                 "y":544
+                 "width":35,
+                 "x":194,
+                 "y":416
                 }, 
                 {
                  "height":32,
@@ -470,22 +421,90 @@
                  "type":"dynamic",
                  "visible":true,
                  "width":32,
-                 "x":352,
-                 "y":160
+                 "x":412,
+                 "y":188
                 }, 
                 {
                  "ellipse":true,
                  "height":64,
-                 "name":"wheel",
+                 "name":"elephant",
+                 "properties":
+                    {
+                     "ngControlPlatformStyle.jumpSpeed":"2.5",
+                     "ngControlPlatformStyle.runSpeed":"2.5",
+                     "ngPhysic.friction":"200",
+                     "ngPhysic.restitution":"0"
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":64,
+                 "x":282,
+                 "y":454
+                }, 
+                {
+                 "height":32,
+                 "name":"",
                  "properties":
                     {
 
                     },
                  "type":"dynamic",
                  "visible":true,
-                 "width":64,
+                 "width":96,
                  "x":192,
-                 "y":32
+                 "y":136
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":96,
+                 "x":326,
+                 "y":133
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":96,
+                 "x":394,
+                 "y":124
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":96,
+                 "x":451,
+                 "y":118
+                }, 
+                {
+                 "height":32,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"dynamic",
+                 "visible":true,
+                 "width":96,
+                 "x":258,
+                 "y":138
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -509,8 +528,92 @@
                  "type":"joint",
                  "visible":true,
                  "width":0,
-                 "x":480,
-                 "y":180
+                 "x":211,
+                 "y":499
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"joint",
+                 "visible":true,
+                 "width":0,
+                 "x":204,
+                 "y":149
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"joint",
+                 "visible":true,
+                 "width":0,
+                 "x":272,
+                 "y":154
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"joint",
+                 "visible":true,
+                 "width":0,
+                 "x":340,
+                 "y":152
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"joint",
+                 "visible":true,
+                 "width":0,
+                 "x":408,
+                 "y":146
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"joint",
+                 "visible":true,
+                 "width":0,
+                 "x":470,
+                 "y":139
+                }, 
+                {
+                 "ellipse":true,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"joint",
+                 "visible":true,
+                 "width":0,
+                 "x":532,
+                 "y":131
                 }],
          "opacity":1,
          "type":"objectgroup",

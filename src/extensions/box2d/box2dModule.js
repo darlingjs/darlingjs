@@ -197,7 +197,7 @@
 
     m.$s('ngBox2DRollingControl', {
         $require: ['ngControlPlatformStyle', 'ngPhysic'],
-        useRotation: true,
+        useRotation: false,
         _actions: {},
         _keyBinding: [],
         _keyBind: function(keyId, action) {
@@ -267,7 +267,6 @@
                     var norm = contactItem.contact.m_manifold.m_localPlaneNormal;
 
                     if (contactItem.contact.m_fixtureB.m_body !== body) {
-                        console.log('unexpected behaviour.');
                         ny = norm.y;
                     } else {
                         var angle = contactItem.contact.m_fixtureA.m_body.GetAngle();

@@ -221,6 +221,10 @@ function convertTiledPropertiesToComponents(properties) {
             }
             previousParam = params[i];
         }
+
+        if (previousParam === '') {
+            continue;
+        }
         var value = properties[key];
         if(value === 'true') {
             componentParam[previousParam] = true;
@@ -257,8 +261,7 @@ function parseTileLayerData(data, width, height, components) {
 function parseMap(data) {
     //data.tilesets[0]
     try {
-
-        for(var j = 0, li = data.layers.length; j < li; j++) {
+        for(var j = 0, lj = data.layers.length; j < lj; j++) {
             var layer = data.layers[j];
             switch(layer.type) {
                 case 'tilelayer':
