@@ -12,7 +12,8 @@
         type: 'dynamic', //static
         restitution: 0.5,
         friction: 0.1,
-        density: 1.0
+        density: 1.0,
+        fixedRotation: false
     });
 
     m.$c('ngRevoluteJoint', {
@@ -502,6 +503,7 @@
 
             bodyDef.position.Set(ng2D.x * this._invScale, ng2D.y * this._invScale);
             bodyDef.angle = 0;
+            bodyDef.fixedRotation = ngPhysic.fixedRotation;
 
             //fixDef.filter.categoryBits   = 0x0002;
             //fixDef.filter.maskBits       = 0x0001;

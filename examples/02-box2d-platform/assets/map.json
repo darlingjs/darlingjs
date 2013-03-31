@@ -365,7 +365,7 @@
                  "name":"topBox",
                  "properties":
                     {
-
+                     "ngPhysic.fixedRotation":"true"
                     },
                  "type":"dynamic",
                  "visible":true,

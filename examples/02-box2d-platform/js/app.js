@@ -222,7 +222,11 @@ function convertTiledPropertiesToComponents(properties) {
             previousParam = params[i];
         }
         var value = properties[key];
-        if (isNaN(value)) {
+        if(value === 'true') {
+            componentParam[previousParam] = true;
+        } else if(value === 'false') {
+            componentParam[previousParam] = false;
+        } else if (isNaN(value)) {
             componentParam[previousParam] = properties[key];
         } else {
             componentParam[previousParam] = Number(value);
@@ -279,10 +283,19 @@ function parseMap(data) {
 
                         switch(object.type) {
                             case 'static':
-                                components.ngPhysic = {type: 'static', restitution: 0.0};
+                                if (components.ngPhysic) {
+                                    components.ngPhysic.type = 'static';
+                                    components.ngPhysic.restitution = 0.0;
+                                } else {
+                                    components.ngPhysic = {type: 'static', restitution: 0.0};
+                                }
                                 break;
                             case 'dynamic':
-                                components.ngPhysic = {};
+                                if (components.ngPhysic) {
+                                    components.ngPhysic.type = 'dynamic';
+                                } else {
+                                    components.ngPhysic = {type: 'dynamic'};
+                                }
                                 break;
                             case 'joint':
                                 components.ngRevoluteJoint = {};
