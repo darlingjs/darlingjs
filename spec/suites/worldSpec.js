@@ -277,9 +277,6 @@ describe('World', function() {
     });
 
     it('should execute update in sequence: $beforeUpdate, $update and $afterUpdate', function() {
-        var beforeUpdateHandler = sinon.spy();
-        var updateHandler = sinon.spy();
-        var afterUpdateHandler = sinon.spy();
         var beforeUpdateCalled = false;
         var updateCalled = false;
         var afterUpdateCalled = false;
@@ -288,12 +285,13 @@ describe('World', function() {
             .$c('theComponent')
             .$system('testSystem', {
                 require: ['theComponent'],
-                $beforeUpdate: function() {
+                $beforeUpdate: ['$nodes', function($nodes) {
                     expect(beforeUpdateCalled).toBe(false);
                     expect(updateCalled).toBe(false);
                     expect(afterUpdateCalled).toBe(false);
+                    expect($nodes).not.toBe(null);
                     beforeUpdateCalled = true;
-                },
+                }],
                 $update: function() {
                     expect(beforeUpdateCalled).toBe(true);
                     expect(updateCalled).toBe(false);

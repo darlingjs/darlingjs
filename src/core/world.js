@@ -249,7 +249,9 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
  * @return {*}
  */
 World.prototype.annotatedFunctionFactory = function(context, annotation, customMatcher) {
-    if (isArray(annotation)) {
+    if (isUndefined(annotation)) {
+        return noop;
+    } else if (isArray(annotation)) {
         customMatcher = customMatcher || noop;
         var fn = annotation[annotation.length - 1];
         var fnAnnotate = annotate(annotation);
@@ -290,6 +292,9 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
         copy(config, systemInstance, false);
     }
 
+    systemInstance.$$beforeUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$beforeUpdate, noop);
+    systemInstance.$$afterUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$afterUpdate, noop);
+
     if (isDefined(systemInstance.$update)) {
         if (isArray(systemInstance.$update)) {
             var updateArray = systemInstance.$update;
@@ -319,11 +324,15 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
                 });
             } else {
                 systemInstance.$$updateHandler = function(time) {
+                    systemInstance.$$beforeUpdateHandler();
+
                     match$time(args, time);
                     match$nodes(args, systemInstance.$nodes);
                     match$world(args, worldInstance);
 
                     updateFunction();
+
+                    systemInstance.$$afterUpdateHandler();
                 };
             }
         } else {
@@ -513,7 +522,9 @@ World.prototype.$update = function(time) {
     this.$$updating = true;
     time = time || this.$$interval;
     for (var index = 0, count = this.$$systems.length; index < count; index++) {
+        this.$$systems[index].$$beforeUpdateHandler(time);
         this.$$systems[index].$$updateHandler(time);
+        this.$$systems[index].$$afterUpdateHandler(time);
     }
     this.$$updating = false;
 };
