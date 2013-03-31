@@ -276,38 +276,69 @@ describe('World', function() {
         });
     });
 
-    it('should execute update in sequence: $beforeUpdate, $update and $afterUpdate', function() {
-        var beforeUpdateCalled = false;
-        var updateCalled = false;
-        var afterUpdateCalled = false;
+    it('should execute update in sequence: $beforeUpdate(), $update() and $afterUpdate()', function() {
+        var beforeUpdateHandler = sinon.spy();
+        var updateHandler = sinon.spy();
+        var afterUpdateHandler = sinon.spy();
 
         darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 require: ['theComponent'],
-                $beforeUpdate: ['$nodes', function($nodes) {
-                    expect(beforeUpdateCalled).toBe(false);
-                    expect(updateCalled).toBe(false);
-                    expect(afterUpdateCalled).toBe(false);
-                    expect($nodes).not.toBe(null);
-                    beforeUpdateCalled = true;
-                }],
-                $update: function() {
-                    expect(beforeUpdateCalled).toBe(true);
-                    expect(updateCalled).toBe(false);
-                    expect(afterUpdateCalled).toBe(false);
-                    updateCalled = true;
-                },
-                $afterUpdate: function() {
-                    expect(beforeUpdateCalled).toBe(true);
-                    expect(updateCalled).toBe(true);
-                    expect(afterUpdateCalled).toBe(false);
-                    afterUpdateCalled = true;
-                }
+                $beforeUpdate: beforeUpdateHandler,
+                $update: updateHandler,
+                $afterUpdate: afterUpdateHandler
             });
 
         var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
         world.$update(11);
+
+        sinon.assert.callOrder(beforeUpdateHandler, updateHandler, afterUpdateHandler);
+    });
+
+    it('should execute update in sequence: $beforeUpdate(), $update($node) and $afterUpdate()', function() {
+        var beforeUpdateHandler = sinon.spy();
+        var updateHandler = sinon.spy();
+        var afterUpdateHandler = sinon.spy();
+
+        darlingjs.module('theModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                $require: ['theComponent'],
+                $beforeUpdate: beforeUpdateHandler,
+                $update: ['$node', updateHandler],
+                $afterUpdate: afterUpdateHandler
+            });
+
+        var world = darlingjs.world('testWorld', ['theModule']);
+
+        world.$add('testSystem');
+        world.$add(world.$e('theEntity', ['theComponent']));
+
+        world.$update(11);
+
+        sinon.assert.callOrder(beforeUpdateHandler, updateHandler, afterUpdateHandler);
+    });
+
+    it('should inject $nodes in $beforeUpdate and $afterUpdate', function() {
+        var beforeUpdateHandler = sinon.spy();
+        var updateHandler = sinon.spy();
+        var afterUpdateHandler = sinon.spy();
+
+        darlingjs.module('theModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                require: ['theComponent'],
+                $beforeUpdate: ['$nodes', beforeUpdateHandler],
+                $update: updateHandler,
+                $afterUpdate: ['$nodes', afterUpdateHandler]
+            });
+
+        var world = darlingjs.world('testWorld', ['theModule']);
+        var c = world.$add('testSystem');
+        world.$update(11);
+        expect(beforeUpdateHandler.calledWith(c.$nodes)).toBeTruthy();
+        expect(afterUpdateHandler.calledWith(c.$nodes)).toBeTruthy();
     });
 });

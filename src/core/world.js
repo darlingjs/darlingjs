@@ -267,7 +267,7 @@ World.prototype.annotatedFunctionFactory = function(context, annotation, customM
     }
 };
 
-World.prototype.matchFactory = function(annotation, name) {
+function matchFactory(annotation, name) {
     var index = annotation.indexOf(name);
     if (index >= 0) {
         return function(args, value) {
@@ -277,6 +277,16 @@ World.prototype.matchFactory = function(annotation, name) {
         return noop;
     }
 };
+
+function beforeAfterUpdateCustomMatcher(annotation) {
+    var match$time = matchFactory(annotation, '$time');
+    var match$nodes = matchFactory(annotation, '$nodes');
+
+    return function(argsTarget, argsSource) {
+        match$time(argsTarget, argsSource[0]);
+        match$nodes(argsTarget, argsSource[1]);
+    };
+}
 
 /**
  * Build instance of System
@@ -292,8 +302,8 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
         copy(config, systemInstance, false);
     }
 
-    systemInstance.$$beforeUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$beforeUpdate, noop);
-    systemInstance.$$afterUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$afterUpdate, noop);
+    systemInstance.$$beforeUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$beforeUpdate, beforeAfterUpdateCustomMatcher);
+    systemInstance.$$afterUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$afterUpdate, beforeAfterUpdateCustomMatcher);
 
     if (isDefined(systemInstance.$update)) {
         if (isArray(systemInstance.$update)) {
@@ -303,10 +313,10 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
             var args = this.$$getDependencyByAnnotation(updateAnnotate);
 
-            var match$node = this.matchFactory(updateAnnotate, '$node');
-            var match$nodes = this.matchFactory(updateAnnotate, '$nodes');
-            var match$time = this.matchFactory(updateAnnotate, '$time');
-            var match$world = this.matchFactory(updateAnnotate, '$world');
+            var match$node = matchFactory(updateAnnotate, '$node');
+            var match$nodes = matchFactory(updateAnnotate, '$nodes');
+            var match$time = matchFactory(updateAnnotate, '$time');
+            var match$world = matchFactory(updateAnnotate, '$world');
 
             var worldInstance = this;
 
@@ -324,15 +334,11 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
                 });
             } else {
                 systemInstance.$$updateHandler = function(time) {
-                    systemInstance.$$beforeUpdateHandler();
-
                     match$time(args, time);
                     match$nodes(args, systemInstance.$nodes);
                     match$world(args, worldInstance);
 
                     updateFunction();
-
-                    systemInstance.$$afterUpdateHandler();
                 };
             }
         } else {
@@ -522,9 +528,10 @@ World.prototype.$update = function(time) {
     this.$$updating = true;
     time = time || this.$$interval;
     for (var index = 0, count = this.$$systems.length; index < count; index++) {
-        this.$$systems[index].$$beforeUpdateHandler(time);
-        this.$$systems[index].$$updateHandler(time);
-        this.$$systems[index].$$afterUpdateHandler(time);
+        var system = this.$$systems[index];
+        system.$$beforeUpdateHandler(time, system.$nodes);
+        system.$$updateHandler(time);
+        system.$$afterUpdateHandler(time, system.$nodes);
     }
     this.$$updating = false;
 };
