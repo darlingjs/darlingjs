@@ -76,4 +76,10 @@ describe('entity', function() {
         expect(handler.calledOnce).toBeTruthy();
         expect(handler.calledWith(e, c)).toBeTruthy();
     });
+
+    it('should set component name', function() {
+        var e = world.$entity('theEntity');
+        var c = e.$add('theComponent');
+        expect(c.$name).toBe('theComponent');
+    });
 })

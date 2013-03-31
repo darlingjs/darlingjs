@@ -1,10 +1,11 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
 describe('system', function() {
+    'use strict';
+
     var defaultModule,
         defaultWorld;
     beforeEach(function() {
@@ -378,5 +379,36 @@ describe('system', function() {
         expect(handler.calledWith(s1, s2.$nodes)).toBeTruthy();
     });
 
+    it('should operate removing component inside of $addNode handler', function() {
+        darlingjs.module('theModule')
+            .$c('theComponent1')
+            .$c('theComponent2')
+            .$c('theComponent3')
+            .$system('testSystem1', {
+                $require: ['theComponent1']
+            })
+            .$system('testSystem2', {
+                $require: ['theComponent2']
+            })
+            .$system('testSystem3', {
+                $require: ['theComponent3'],
+                $addNode: function($node) {
+                    $node.$remove('theComponent1');
+                    $node.$remove('theComponent2');
+                }
+            });
+
+        var world = darlingjs.world('testWorld', ['theModule']);
+        var s1 = world.$add('testSystem1');
+        var s2 = world.$add('testSystem2');
+        var s3 = world.$add('testSystem3');
+        var e = world.$e('theEntity', ['theComponent1', 'theComponent2', 'theComponent3']);
+        world.$add(e);
+
+        expect(s1.$nodes.length()).toBe(0);
+        expect(s2.$nodes.length()).toBe(0);
+        expect(s3.$nodes.length()).toBe(1);
+    });
+
     //TODO: Add complete injector
-})
+});

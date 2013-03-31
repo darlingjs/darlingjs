@@ -12,6 +12,7 @@
 function Family() {
     this.components = [];
     this.componentsString = '';
+    this.componentsHash = {};
     this.nodes = new List();
     this.$$marker = null;
 }
@@ -19,9 +20,10 @@ function Family() {
 Family.prototype.$marker = function() {
     if (this.$$marker === null) {
         this.$$marker = '$$family_' + this.componentsString;
+        this.nodes.PROPERTY_LINK_TO_NODE =  '$$listNode_of_' + this.$$marker;
     }
     return this.$$marker;
-}
+};
 
 Family.prototype.newEntity = function(e) {
     this.addIfMatch(e);
@@ -44,8 +46,8 @@ Family.prototype.addIfMatch = function(e) {
     this.nodes.add(e);
 };
 
-Family.prototype.removeIfMatch = function(e) {
-    if (!this.isInList(e)) {
+Family.prototype.removeIfMatch = function(e, component) {
+    if (isDefined(component) && !this.componentsHash[component.$name] || !this.isInList(e)) {
         return;
     }
 

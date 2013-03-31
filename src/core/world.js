@@ -90,20 +90,6 @@ World.prototype.$$removeEntity = function(instance) {
     return instance;
 };
 
-World.prototype.$$onComponentAdd = function(entity, component) {
-    for (var componentsString in this.$$families) {
-        var family = this.$$families[componentsString];
-        family.addIfMatch(entity);
-    }
-};
-
-World.prototype.$$onComponentRemove = function(entity, component) {
-    for (var componentsString in this.$$families) {
-        var family = this.$$families[componentsString];
-        family.removeIfMatch(entity);
-    }
-};
-
 World.prototype.$$getDependencyByAnnotation = function(annotation, target) {
     target = target || [];
     for (var i = 0, l = annotation.length; i < l; i++) {
@@ -248,6 +234,8 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
         swallowCopy(instance, config);
     }
 
+    instance.$name = name;
+
     return instance;
 };
 
@@ -384,23 +372,116 @@ function addRemoveNodeCustomMatcher(annotation) {
     return noop;
 }
 
-World.prototype.$$matchNewEntityToFamilies = function (instance) {
+/**
+ * Architecture Design:
+ *
+ * Goal:
+ * Should apply only one match function simultaneously.
+ *
+ * Solution:
+ * BeforeMatch we are verify that we are not in match phase. Is so, just store operation.
+ * in AfterMatch we are execute each stored operations
+ *
+ * @param entity
+ */
+World.prototype.$$matchNewEntityToFamilies = function (entity) {
+    if (!beforeMatch(entity, 'matchNewEntityToFamilies', this, this.$$matchNewEntityToFamilies, arguments)) {
+        return;
+    }
+
     for (var componentsString in this.$$families) {
         var family = this.$$families[componentsString];
-        family.newEntity(instance);
+        family.newEntity(entity);
     }
+
+    afterMatch(entity, 'matchNewEntityToFamilies');
 };
 
-World.prototype.$$matchRemoveEntityToFamilies = function (instance) {
+World.prototype.$$matchRemoveEntityToFamilies = function (entity) {
+    if (!beforeMatch(entity, 'matchRemoveEntityToFamilies', this, this.$$matchRemoveEntityToFamilies, arguments)) {
+        return;
+    }
+
     for (var componentsString in this.$$families) {
         var family = this.$$families[componentsString];
-        family.removeIfMatch(instance);
+        family.removeIfMatch(entity);
     }
+
+    afterMatch(entity, 'matchRemoveEntityToFamilies');
 };
+
+World.prototype.$$onComponentAdd = function(entity, component) {
+    if (!beforeMatch(entity, 'onComponentAdd', this, this.$$onComponentAdd, arguments)) {
+        return;
+    }
+
+    for (var componentsString in this.$$families) {
+        var family = this.$$families[componentsString];
+        family.addIfMatch(entity);
+    }
+
+    afterMatch(entity, 'onComponentAdd');
+};
+
+World.prototype.$$onComponentRemove = function(entity, component) {
+    if (!beforeMatch(entity, 'onComponentRemove', this, this.$$onComponentRemove, arguments)) {
+        return;
+    }
+
+    for (var componentsString in this.$$families) {
+        var family = this.$$families[componentsString];
+        family.removeIfMatch(entity, component);
+    }
+
+    afterMatch(entity, 'onComponentRemove');
+};
+
+function beforeMatch(entity, phase, context, phaseFunction, args) {
+    if (isUndefined(entity._matchingToFamily)) {
+        entity._matchingToFamily = {
+            processing: false,
+            phases: {}
+        };
+    }
+
+    var phaseHandler = entity._matchingToFamily.phases[phase];
+    if (isUndefined(phaseHandler)) {
+        phaseHandler = [];
+        entity._matchingToFamily.phases[phase] = phaseHandler;
+    }
+
+    if(entity._matchingToFamily.processing) {
+        phaseHandler.push({
+            fn: phaseFunction,
+            ctx: context,
+            args: args
+        });
+        return false;
+    }
+
+    entity._matchingToFamily.processing = true;
+    return true;
+}
+
+function afterMatch(entity, phase) {
+    entity._matchingToFamily.processing = false;
+    var phases = entity._matchingToFamily.phases;
+    for (var key in phases) {
+        if (phases.hasOwnProperty(key)) {
+            var phaseHandlerArray = entity._matchingToFamily.phases[key];
+            if (phaseHandlerArray.length > 0) {
+                var phaseHandler = phaseHandlerArray.pop();
+                phaseHandler.fn.apply(phaseHandler.ctx, phaseHandler.args);
+                return;
+            }
+        }
+    }
+}
 
 World.prototype.$queryByComponents = function(request) {
     var componentsArray;
     var componentsString;
+    var componentsHash = {};
     if (isArray(request)) {
         componentsString = request.join(',');
         componentsArray = request;
@@ -408,12 +489,18 @@ World.prototype.$queryByComponents = function(request) {
         componentsString = request;
         componentsArray = request.split(',');
     }
+
     if (this.$$families[componentsString]) {
         return this.$$families[componentsString].nodes;
     }
 
+    for(var i = 0, l = componentsArray.length; i < l; i++) {
+        componentsHash[componentsArray[i]] = true;
+    }
+
     var family = new Family();
     family.components = componentsArray;
+    family.componentsHash = componentsHash;
     family.componentsString = componentsString;
     this.$$families[componentsString] = family;
     this.$entities.forEach(function(e) {
