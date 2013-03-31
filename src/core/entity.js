@@ -44,12 +44,22 @@ Entity.prototype.$add = function(value, config) {
     return instance;
 };
 
-Entity.prototype.$remove = function(name) {
+Entity.prototype.$remove = function(value) {
+    var instance;
+    var name;
+    if (isComponent(value)) {
+        name = value.$name;
+        instance = value;
+    } else if (isString(value)) {
+        name = value;
+        instance = this.$$components[value];
+    } else {
+        throw new Error('Can\'t remove from component ' + value);
+    }
+
     if (!this.$has(name)) {
         return;
     }
-
-    var instance = this.$$components[name];
 
     delete this.$$components[name];
     delete this[name];

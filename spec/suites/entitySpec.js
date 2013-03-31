@@ -90,4 +90,11 @@ describe('entity', function() {
         e.$add(c);
         expect(e.$has(c)).toBe(true);
     });
+
+    it('should add component by instance', function() {
+        var e = world.$entity('theEntity');
+        var c = e.$add('theComponent');
+        e.$remove(c);
+        expect(e.$has(c)).toBe(false);
+    });
 })
