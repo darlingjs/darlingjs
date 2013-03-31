@@ -7,22 +7,25 @@
 
 var Entity = function() {
     this.$$components = {};
-    this.$$nextSibling = this.$$prevSibling = null;
     this.$$world = null;
+    this.$$nextSibling = this.$$prevSibling = null;
     mixin(this, Events);
 };
 
-Entity.prototype.$add = function(name, value) {
+Entity.prototype.$add = function(value, config) {
     var instance;
+    var name;
 
-    if (isUndefined(name)) {
-        throw new Error('Can\'t add component with null name.');
-    }
-
-    if (value instanceof Entity) {
+    if (isString(value)) {
+        instance = this.$$world.$component(value, config);
+        name = value;
+    } else if (isComponent(value)) {
         instance = value;
+        name = instance.$name;
+    } else if (isUndefined(value)) {
+        throw new Error('Can\'t add component with null name.');
     } else {
-        instance = this.$$world.$component(name, value);
+        throw new Error('Can\'t add ' + value + ' to entity');
     }
 
     if (isUndefined(instance)) {
@@ -56,6 +59,14 @@ Entity.prototype.$remove = function(name) {
     return instance;
 };
 
-Entity.prototype.$has = function(name) {
-    return isDefined(this.$$components[name]);
+Entity.prototype.$has = function(value) {
+    if (isComponent(value)) {
+        return isDefined(this.$$components[value.$name]);
+    } else {
+        return isDefined(this.$$components[value]);
+    }
 };
+
+function isComponent(value) {
+    return isObject(value) && isDefined(value.$name);
+}
