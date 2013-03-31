@@ -11,10 +11,12 @@
     m.$c('ngPhysic', {
         type: 'dynamic', //static
         restitution: 0.5,
-        friction: 0.1,
+        friction: 0.75,
         density: 1.0,
         fixedRotation: false
     });
+
+    m.$c('ngFixedRotation', {});
 
     m.$c('ngRevoluteJoint', {
         lowerAngle: Number.NaN,
@@ -186,6 +188,18 @@
         }
     });
 
+    m.$s('ngBox2DFixRotation', {
+        $require: ['ngFixedRotation', 'ngPhysic'],
+
+        $addNode: function($node) {
+            $node.ngPhysic._b2dBody.SetFixedRotation(true);
+        },
+
+        $removeNode: function($node) {
+            $node.ngPhysic._b2dBody.SetFixedRotation(false);
+        }
+    });
+
 /**
  * ngBox2DRollingControl
  *
@@ -262,24 +276,31 @@
             }
             var contactItem = body.m_contactList;
             while(contactItem) {
-                if (contactItem.contact.IsTouching()) {
-                    var ny;
-                    var norm = contactItem.contact.m_manifold.m_localPlaneNormal;
-
-                    if (contactItem.contact.m_fixtureB.m_body !== body) {
-                        ny = norm.y;
+                var contact = contactItem.contact;
+                if (contact.IsTouching()) {
+                    if (this._isCirlesCollision(contact)) {
+                        if (contactItem.other.GetPosition().y > body.GetPosition().y) {
+                            return true;
+                        }
                     } else {
-                        var angle = contactItem.contact.m_fixtureA.m_body.GetAngle();
-                        var sin = Math.sin(angle);
-                        var cos = Math.cos(angle);
-                        //var nx = cos * norm.x - sin * norm.y;
-                        ny = sin * norm.x + cos * norm.y;
-                    }
+                        var ny;
+                        var norm = contactItem.contact.m_manifold.m_localPlaneNormal;
 
-                    if (ny <= -sharpCos) {
-                        this._stayOnGroundDefined = true;
-                        this._stayOnGround = true;
-                        return true;
+                        if (contactItem.contact.m_fixtureB.m_body !== body) {
+                            ny = norm.y;
+                        } else {
+                            var angle = contactItem.contact.m_fixtureA.m_body.GetAngle();
+                            var sin = Math.sin(angle);
+                            var cos = Math.cos(angle);
+                            //var nx = cos * norm.x - sin * norm.y;
+                            ny = sin * norm.x + cos * norm.y;
+                        }
+
+                        if (ny <= -sharpCos) {
+                            this._stayOnGroundDefined = true;
+                            this._stayOnGround = true;
+                            return true;
+                        }
                     }
                 }
                 contactItem = contactItem.next;
@@ -288,6 +309,12 @@
             this._stayOnGround = false;
             return false;
         },
+
+        _isCirlesCollision: function(contact) {
+            var norm = contact.m_manifold.m_localPlaneNormal;
+            return norm.x === 0.0 && norm.x === 0.0;
+        },
+
         _resetDoubleJump: function(control) {
             this._justFly = false;
             control._jumpCount = 1;
@@ -314,10 +341,18 @@
 //                    body.SetLinearVelocity(zeroVec2);
 //                    body.ApplyImpulse(this._jumpImpulse, body.GetWorldCenter());
         },
+
+        $removeNode: function($node) {
+            var body = $node.ngPhysic._b2dBody;
+            body.SetAngularVelocity(0);
+        },
+
         $update: ['$node', function($node) {
             this._stayOnGroundDefined = false;
             var body = $node.ngPhysic._b2dBody;
             var control = $node.ngControlPlatformStyle;
+
+            var fixRotation = false;
 
             if (this._actions['move-up']) {
                 if (this._isStayOnGround(body, control.slope)) {
@@ -345,10 +380,15 @@
                         body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
                     }
                 } else {
-                    body.SetAngularVelocity(0);
-                    this._flyImpulse.x = 0;
-                    body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
+                    fixRotation = true;
                 }
+            }
+
+            if (fixRotation) {
+                body.SetAngularVelocity(0);
+                body.SetFixedRotation(true);
+            } else {
+                body.SetFixedRotation(false);
             }
         }]
     });
@@ -372,9 +412,12 @@
             this.showDebugDrawVisible(this.useDebugDraw);
         }],
 
-        $update: function() {
+        $update: ['ng2DViewPort', function(ng2DViewPort) {
+            //TODO: shift debug visualization
+//            ng2DViewPort.lookAt.x;
+//            ng2DViewPort.lookAt.y;
             this.ngBox2DSystem._world.DrawDebugData();
-        },
+        }],
 
         showDebugDrawVisible: function(visible) {
             if (this._debugDrawVisible === visible) {

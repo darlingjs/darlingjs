@@ -33,4 +33,9 @@
     module.$c('ng2DPolygon', {
         line: null
     });
+
+    //Service
+    module.$s('ng2DViewPort', {
+        lookAt: {x:0.0, y:0.0}
+    });
 })(darlingjs);
