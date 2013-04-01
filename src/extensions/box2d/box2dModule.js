@@ -365,6 +365,7 @@
             } else {
                 this._justFly = !this._isStayOnGround(body, control.slope);
                 if (this._actions['move-left']) {
+                    this._setMovingState($node, control, 'ngGoingLeft');
                     this._stayOnGroundDefined = false;
                     if (this._isStayOnGround(body, control.slope)) {
                         this._move(body, -control.runSpeed);
@@ -373,6 +374,7 @@
                         body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
                     }
                 } else if (this._actions['move-right']) {
+                    this._setMovingState($node, control, 'ngGoingRight');
                     if (this._isStayOnGround(body, control.slope)) {
                         this._move(body, control.runSpeed);
                     } else {
@@ -390,7 +392,17 @@
             } else {
                 body.SetFixedRotation(false);
             }
-        }]
+        }],
+
+        _setMovingState: function($node, control, value) {
+            if (control._movingState === value) {
+                return;
+            }
+
+            control._movingState = value;
+            $node.$remove(control._movingState);
+            $node.$add(value);
+        }
     });
 
 /**

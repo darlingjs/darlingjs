@@ -34,6 +34,10 @@
         line: null
     });
 
+    //Markers or State in FiniteStateMachine
+    module.$c('ngGoingLeft', {});
+    module.$c('ngGoingRight', {});
+
     //Service
     module.$s('ng2DViewPort', {
         lookAt: {x:0.0, y:0.0}
