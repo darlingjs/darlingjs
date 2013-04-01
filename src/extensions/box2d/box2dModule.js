@@ -61,42 +61,10 @@
     var DebugDraw = Box2D.Dynamics.b2DebugDraw;
     var RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef;
     var DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef;
+    var PrismaticJointDef = Box2D.Dynamics.Joints.b2PrismaticJointDef;
     var MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef;
 
     var zeroVec2 = new Vec2();
-
-    /**
-     *
-     */
-    m.$s('ngBox2DDistanceJoint', {
-        $require: ['ngDistanceJoint'],
-
-        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
-            var jointState = $node.ngDistanceJoint;
-            var anchorA = new Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
-            var anchorB = new Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
-            var bodyA, bodyB;
-
-            if (jointState.bodyA) {
-                bodyA = jointState.bodyA;
-            } else {
-                bodyA = box2DSystem.getBodiesAt(anchorA.x, anchorA.y)[0];
-            }
-
-            if (jointState.bodyB) {
-                bodyB = jointState.bodyB;
-            } else {
-                bodyB = box2DSystem.getBodiesAt(anchorB.x, anchorB.y)[0];
-            }
-
-            var jointDef = new DistanceJointDef();
-            jointDef.Initialize(bodyA, bodyB, anchorA, anchorB);
-            jointDef.collideConnected = jointState.collideConnected;
-            jointDef.frequencyHz = jointState.frequencyHz;
-            jointDef.dampingRatio = jointState.dampingRatio;
-            jointState._joint = box2DSystem.createJoint(jointDef);
-        }]
-    });
 
     /**
      * ngBox2DRevoluteJoint
@@ -118,11 +86,18 @@
 
             var entities = ngBox2DSystem.getBodiesAt(x, y);
 
-            if (entities.length < 2) {
-                throw new Error('Can\'t add revolute joint without jointed bodies');
-            } else {
-                bodyA = entities[0];
-                bodyB = entities[1];
+            switch (entities.length) {
+                case 0:
+                    throw new Error('Can\'t add revolute joint without jointed bodies');
+                    break;
+                case 1:
+                    bodyA = entities[0];
+                    bodyB = ngBox2DSystem._world.GetGroundBody();
+                    break;
+                default:
+                    bodyA = entities[0];
+                    bodyB = entities[1];
+                    break;
             }
 
             var jointDef = new RevoluteJointDef();
@@ -137,6 +112,106 @@
             jointDef.enableMotor = jointState.enableMotor;
 
             jointState._joint = ngBox2DSystem.createJoint(jointDef);
+        }]
+    });
+
+    /**
+     * ngBox2DDistanceJoint
+     *
+     * Distance Joint
+     *
+     * One of the simplest joint is a distance joint which says that the distance between two points on two bodies must be constant. When you specify a distance joint the two bodies should already be in place. Then you specify the two anchor points in world coordinates. The first anchor point is connected to body 1, and the second anchor point is connected to body 2. These points imply the length of the distance constraint.
+     *
+     */
+    m.$s('ngBox2DDistanceJoint', {
+        $require: ['ngDistanceJoint'],
+
+        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
+            var jointState = $node.ngDistanceJoint;
+            var anchorA = new Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
+            var anchorB = new Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var bodyA, bodyB;
+
+            if (jointState.bodyA) {
+                bodyA = jointState.bodyA;
+            } else {
+                bodyA = box2DSystem.getBodiesAt(anchorA.x, anchorA.y)[0];
+                if (!bodyA) {
+                    bodyA = box2DSystem._world.GetGroundBody();
+                }
+            }
+
+            if (jointState.bodyB) {
+                bodyB = jointState.bodyB;
+            } else {
+                bodyB = box2DSystem.getBodiesAt(anchorB.x, anchorB.y)[0];
+                if (!bodyB) {
+                    bodyA = box2DSystem._world.GetGroundBody();
+                }
+            }
+
+            var jointDef = new DistanceJointDef();
+            jointDef.Initialize(bodyA, bodyB, anchorA, anchorB);
+            jointDef.collideConnected = jointState.collideConnected;
+            jointDef.frequencyHz = jointState.frequencyHz;
+            jointDef.dampingRatio = jointState.dampingRatio;
+            jointState._joint = box2DSystem.createJoint(jointDef);
+        }]
+    });
+
+    /**
+     * ngBox2DDistanceJoint
+     *
+     * Prismatic Joint
+     *
+     * A prismatic joint allows for relative translation of two bodies along a specified axis. A prismatic joint prevents relative rotation. Therefore, a prismatic joint has a single degree of freedom.
+     *
+     */
+    m.$s('ngBox2DPrismaticJoint', {
+        $require: ['ngPrismaticJoint'],
+
+        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
+            var jointState = $node.ngPrismaticJoint;
+            var anchorA = new Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
+            var anchorB = new Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var axis = new Vec2(
+                anchorB.x - anchorA.x,
+                anchorB.y - anchorA.y
+            );
+            var bodyA, bodyB;
+
+            if (jointState.bodyA) {
+                bodyA = jointState.bodyA;
+            } else {
+                bodyA = box2DSystem.getBodiesAt(anchorA.x, anchorA.y)[0];
+                if (!bodyA) {
+                    bodyA = box2DSystem._world.GetGroundBody();
+                }
+            }
+
+            if (jointState.bodyB) {
+                bodyB = jointState.bodyB;
+            } else {
+                bodyB = box2DSystem.getBodiesAt(anchorB.x, anchorB.y)[0];
+                if (!bodyB) {
+                    bodyB = box2DSystem._world.GetGroundBody();
+                }
+            }
+
+            var jointDef = new PrismaticJointDef();
+            jointDef.Initialize(bodyA, bodyB, anchorA, axis);
+            jointDef.localAnchorA = bodyA.GetLocalPoint(anchorA);
+            jointDef.localAnchorB = bodyB.GetLocalPoint(anchorB);
+
+            jointDef.collideConnected = false;
+            jointDef.lowerTranslation = 0.0;
+            jointDef.upperTranslation = 5.0;
+            jointDef.enableLimit = true;
+            jointDef.maxMotorForce = 50.0;
+            jointDef.motorSpeed = 5.0;
+            jointDef.enableMotor = true;
+
+            jointState._joint = box2DSystem.createJoint(jointDef);
         }]
     });
 
