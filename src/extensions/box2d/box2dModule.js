@@ -18,6 +18,25 @@
 
     m.$c('ngFixedRotation', {});
 
+    m.$c('ngPrismaticJoint', {
+        lowerTransition: 0.0,
+        upperTranslation: 0.0,
+        enableLimit: false,
+        maxMotorForce: 1.0,
+        motorSpeed: 0.0,
+        enableMotor: false
+    });
+
+    m.$c('ngDistanceJoint', {
+        collideConnected: true,
+        frequencyHz: 4.0,
+        dampingRatio: 0.5
+    });
+
+    m.$c('ngPulleyJoint', {
+
+    });
+
     m.$c('ngRevoluteJoint', {
         lowerAngle: Number.NaN,
         upperAngle: Number.NaN,
@@ -41,15 +60,48 @@
     var CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var DebugDraw = Box2D.Dynamics.b2DebugDraw;
     var RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef;
+    var DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef;
     var MouseJointDef = Box2D.Dynamics.Joints.b2MouseJointDef;
 
     var zeroVec2 = new Vec2();
 
     /**
-     * ngBox2DSystem
      *
-     * Draggable subsystem based on ngBox2DSystem. And use it Box2D properties
-     * to interact with dragged entity.
+     */
+    m.$s('ngBox2DDistanceJoint', {
+        $require: ['ngDistanceJoint'],
+
+        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
+            var jointState = $node.ngDistanceJoint;
+            var anchorA = new Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
+            var anchorB = new Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var bodyA, bodyB;
+
+            if (jointState.bodyA) {
+                bodyA = jointState.bodyA;
+            } else {
+                bodyA = box2DSystem.getBodiesAt(anchorA.x, anchorA.y)[0];
+            }
+
+            if (jointState.bodyB) {
+                bodyB = jointState.bodyB;
+            } else {
+                bodyB = box2DSystem.getBodiesAt(anchorB.x, anchorB.y)[0];
+            }
+
+            var jointDef = new DistanceJointDef();
+            jointDef.Initialize(bodyA, bodyB, anchorA, anchorB);
+            jointDef.collideConnected = jointState.collideConnected;
+            jointDef.frequencyHz = jointState.frequencyHz;
+            jointDef.dampingRatio = jointState.dampingRatio;
+            jointState._joint = box2DSystem.createJoint(jointDef);
+        }]
+    });
+
+    /**
+     * ngBox2DRevoluteJoint
+     *
+     * Subsystem for emulate revolute joint
      *
      */
     m.$s('ngBox2DRevoluteJoint', {
@@ -73,21 +125,28 @@
                 bodyB = entities[1];
             }
 
-            var def = new RevoluteJointDef();
-            def.Initialize(bodyA, bodyB, new Vec2(x, y));
+            var jointDef = new RevoluteJointDef();
+            jointDef.Initialize(bodyA, bodyB, new Vec2(x, y));
 
-            def.lowerAngle = jointState.lowerAngle;
-            def.upperAngle = jointState.upperAngle;
-            def.enableLimit = jointState.enableLimit;
+            jointDef.lowerAngle = jointState.lowerAngle;
+            jointDef.upperAngle = jointState.upperAngle;
+            jointDef.enableLimit = jointState.enableLimit;
 
-            def.maxMotorTorque = jointState.maxMotorTorque;
-            def.motorSpeed = jointState.motorSpeed;
-            def.enableMotor = jointState.enableMotor;
+            jointDef.maxMotorTorque = jointState.maxMotorTorque;
+            jointDef.motorSpeed = jointState.motorSpeed;
+            jointDef.enableMotor = jointState.enableMotor;
 
-            jointState._joint = ngBox2DSystem.createJoint(def);
+            jointState._joint = ngBox2DSystem.createJoint(jointDef);
         }]
     });
 
+    /**
+     * ngBox2DDraggable
+     *
+     * Draggable subsystem based on ngBox2DSystem. And use it Box2D properties
+     * to interact with dragged entity.
+     *
+     */
     m.$s('ngBox2DDraggable', {
         domId: 'game',
 
@@ -478,6 +537,31 @@
 
                 this._debugDraw = null;
             }
+        }
+    });
+
+    m.$s('ngBox2DLeftHanded', {
+        $require: ['ng2D', 'ngPhysic', 'ngGoingLeft'],
+
+        $addNode: function($node) {
+            var axis = $node.ng2D.x;
+            //TODO : mirror physics by axis
+        },
+
+        $removeNode: function($node) {
+
+        }
+    });
+
+    m.$s('ngBox2DRightHanded', {
+        $require: ['ng2D', 'ngPhysic', 'ngGoingRight'],
+
+        $addNode: function($node) {
+
+        },
+
+        $removeNode: function($node) {
+
         }
     });
 
