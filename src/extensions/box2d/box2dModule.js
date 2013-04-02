@@ -215,7 +215,7 @@
             jointDef.enableLimit = true;
             jointDef.maxMotorForce = 50.0;
             jointDef.motorSpeed = 5.0;
-            jointDef.enableMotor = true;
+            jointDef.enableMotor = false;
 
             jointState._joint = box2DSystem.createJoint(jointDef);
         }]
@@ -309,7 +309,7 @@
         $require: ['ngSensorAnyDetectOneEntity', 'ngBox2DEnableMotorOnSensor'],
 
         $addNode: ['$node', '$world', function($node, $world) {
-            var entity = $world.$getByName($node.ngSensorAnyDetectOneEntity.targetId);
+            var entity = $world.$getByName($node.ngBox2DEnableMotorOnSensor.targetId);
             $node.ngBox2DEnableMotorOnSensor.targetEntity = entity;
             if (!entity.$has('ngEnableMotor')) {
                 entity.$add('ngEnableMotor');

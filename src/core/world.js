@@ -101,6 +101,10 @@ World.prototype.$$getDependencyByAnnotation = function(annotation, target) {
 
 World.prototype.$$getDependencyByName = function(name) {
     //TODO: Get from AngularJS
+    switch(name) {
+        case '$world':
+            return this;
+    }
     return this.$$getSystemByName(name);
 };
 
@@ -148,7 +152,7 @@ World.prototype.$$removeSystem = function(instance) {
 };
 
 World.prototype.$getByName = function(value) {
-    var node = this.$entities._tail;
+    var node = this.$entities._head;
     while(node) {
         var entity = node.instance;
         if (entity.$name === value) {

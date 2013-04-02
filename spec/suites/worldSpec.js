@@ -343,8 +343,12 @@ describe('World', function() {
     });
 
     it('should return entity by name with $getByName', function() {
-        var e = world.$entity('name');
-        world.$add(e);
-        expect(world.$getByName('name')).toBe(e);
+        var e1 = world.$entity('theEntity1');
+        var e2 = world.$entity('theEntity2');
+        world.$add(e1);
+        world.$add(e2);
+        expect(world.$getByName('theEntity1')).toBe(e1);
+        expect(world.$getByName('theEntity2')).toBe(e2);
+        expect(world.$getByName('theEntity3')).toBeNull();
     });
 });
