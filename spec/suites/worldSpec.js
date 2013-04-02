@@ -42,7 +42,7 @@ describe('World', function() {
 
     it('should create entity with name', function() {
         var e = world.$entity('name');
-        expect(e.name).toEqual('name');
+        expect(e.$name).toEqual('name');
     });
 
     it('should hasn\'t wrong component and modules', function() {
@@ -340,5 +340,11 @@ describe('World', function() {
         world.$update(11);
         expect(beforeUpdateHandler.calledWith(c.$nodes)).toBeTruthy();
         expect(afterUpdateHandler.calledWith(c.$nodes)).toBeTruthy();
+    });
+
+    it('should return entity by name with $getByName', function() {
+        var e = world.$entity('name');
+        world.$add(e);
+        expect(world.$getByName('name')).toBe(e);
     });
 });

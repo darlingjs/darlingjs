@@ -147,6 +147,19 @@ World.prototype.$$removeSystem = function(instance) {
     return instance;
 };
 
+World.prototype.$getByName = function(value) {
+    var node = this.$entities._tail;
+    while(node) {
+        var entity = node.instance;
+        if (entity.$name === value) {
+            return entity;
+        }
+        node = node.nextSibling;
+    }
+
+    return null;
+};
+
 World.prototype.$numEntities = function() {
     return this.$entities.length();
 };
@@ -179,7 +192,7 @@ World.prototype.$e = World.prototype.$entity = function() {
     }
 
     var entity = new Entity();
-    entity.name =  name;
+    entity.$name =  name;
     entity.$$world = this;
 
     if (isArray(arguments[componentsIndex])) {
