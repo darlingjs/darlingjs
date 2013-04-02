@@ -37,6 +37,12 @@
 
     });
 
+    m.$c('ngSensorAny', {
+    });
+
+    m.$c('ngSensorAnyDetectOneEntity', {
+    });
+
     m.$c('ngRevoluteJoint', {
         lowerAngle: Number.NaN,
         upperAngle: Number.NaN,
@@ -213,6 +219,109 @@
 
             jointState._joint = box2DSystem.createJoint(jointDef);
         }]
+    });
+
+    m.$s('ngBox2DEnableMotorSystem', {
+        $require: ['ngEnableMotor'],
+
+        $addNode: function($node) {
+            var joint;
+            if ($node.ngPrismaticJoint) {
+                joint = $node.ngPrismaticJoint._joint;
+            }
+
+            if (joint) {
+                joint.EnableMotor(true);
+            }
+        },
+
+        $removeNode: function($node) {
+            var joint;
+            if ($node.ngPrismaticJoint) {
+                joint = $node.ngPrismaticJoint._joint;
+            }
+
+            if (joint) {
+                joint.EnableMotor(false);
+            }
+        }
+    });
+
+    /**
+     *
+     */
+
+    m.$s('ngBox2DSensorSystem', {
+        $require: ['ngSensorAny', 'ngPhysic'],
+
+        $addNode: function($node) {
+            var physic = $node.ngPhysic;
+            var body = physic._b2dBody;
+            var fixture = body.GetFixtureList();
+            while(fixture) {
+                fixture.SetSensor(true);
+                fixture = fixture.GetNext();
+            }
+        },
+
+        $removeNode: function($node) {
+            var physic = $node.ngPhysic;
+            var body = physic._b2dBody;
+            var fixture = body.GetFixtureList();
+            while(fixture) {
+                fixture.SetSensor(false);
+                fixture = fixture.GetNext();
+            }
+        },
+
+        $update: ['$node', function($node) {
+            var physic = $node.ngPhysic;
+            var body = physic._b2dBody;
+            var edge = body.GetContactList();
+
+            var touched = false;
+
+            while(edge) {
+                if (edge.contact.IsTouching()) {
+                    touched = true;
+                    break;
+                }
+                edge = edge.next;
+            }
+
+            if (touched) {
+                if (!$node.ngSensorDetectEntity) {
+                    $node.$add('ngSensorAnyDetectOneEntity');
+                }
+            } else {
+                $node.$remove('ngSensorAnyDetectOneEntity');
+            }
+        }]
+    });
+
+    m.$c('ngBox2DEnableMotorOnSensor', {
+        targetId: null
+    });
+
+    m.$c('ngEnableMotor', {});
+
+    m.$s('ngBox2DEnableMotorOnSensor', {
+        $require: ['ngSensorAnyDetectOneEntity', 'ngBox2DEnableMotorOnSensor'],
+
+        $addNode: ['$node', '$world', function($node, $world) {
+            var entity = $world.$getByName($node.ngSensorAnyDetectOneEntity.targetId);
+            $node.ngBox2DEnableMotorOnSensor.targetEntity = entity;
+            if (!entity.$has('ngEnableMotor')) {
+                entity.$add('ngEnableMotor');
+            }
+        }],
+
+        $removeNode: function($node) {
+            var entity = $node.ngBox2DEnableMotorOnSensor.targetEntity;
+            if (entity) {
+                entity.$remove('ngEnableMotor');
+            }
+        }
     });
 
     /**
