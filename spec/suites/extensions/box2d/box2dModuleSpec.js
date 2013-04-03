@@ -7,7 +7,7 @@
 describe('box2dModule', function() {
     var world;
     beforeEach(function() {
-        world = darlingjs.world('myWorld', ['ngFlatland', 'ngBox2D']);
+        world = darlingjs.world('myWorld', ['ngFlatland', 'ngPhysics', 'ngBox2D']);
     });
 
     afterEach(function() {

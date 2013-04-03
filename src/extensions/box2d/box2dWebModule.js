@@ -8,52 +8,6 @@
 
     var m = darlingjs.module('ngBox2D');
 
-    m.$c('ngPhysic', {
-        type: 'dynamic', //static
-        restitution: 0.5,
-        friction: 0.75,
-        density: 1.0,
-        fixedRotation: false
-    });
-
-    m.$c('ngFixedRotation', {});
-
-    m.$c('ngPrismaticJoint', {
-        lowerTransition: 0.0,
-        upperTranslation: 0.0,
-        enableLimit: false,
-        maxMotorForce: 1.0,
-        motorSpeed: 0.0,
-        enableMotor: false
-    });
-
-    m.$c('ngDistanceJoint', {
-        collideConnected: true,
-        frequencyHz: 4.0,
-        dampingRatio: 0.5
-    });
-
-    m.$c('ngPulleyJoint', {
-
-    });
-
-    m.$c('ngSensorAny', {
-    });
-
-    m.$c('ngSensorAnyDetectOneEntity', {
-    });
-
-    m.$c('ngRevoluteJoint', {
-        lowerAngle: Number.NaN,
-        upperAngle: Number.NaN,
-        enableLimit: false,
-        maxMotorTorque: 10.0,
-        motorSpeed: 0.0,
-        enableMotor: false,
-        bodyAName: null,
-        bodyBName: null
-    });
-
     var AABB = Box2D.Collision.b2AABB;
     var Vec2 = Box2D.Common.Math.b2Vec2;
     var BodyDef = Box2D.Dynamics.b2BodyDef;
