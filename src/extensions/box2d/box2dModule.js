@@ -528,10 +528,17 @@
                     } else {
                         var ny;
                         var norm = contactItem.contact.m_manifold.m_localPlaneNormal;
+                        var sensor = false;
 
                         if (contactItem.contact.m_fixtureB.m_body !== body) {
+                            if (contactItem.contact.m_fixtureB.IsSensor() ) {
+                                sensor = true;
+                            }
                             ny = norm.y;
                         } else {
+                            if (contactItem.contact.m_fixtureA.IsSensor() ) {
+                                sensor = true;
+                            }
                             var angle = contactItem.contact.m_fixtureA.m_body.GetAngle();
                             var sin = Math.sin(angle);
                             var cos = Math.cos(angle);
@@ -539,8 +546,8 @@
                             ny = sin * norm.x + cos * norm.y;
                         }
 
-                        if (ny <= -sharpCos) {
-                            this._stayOnGroundDefined = true;
+                        if (!sensor && ny <= -sharpCos) {
+                            this._stayOnSDefined = true;
                             this._stayOnGround = true;
                             return true;
                         }
@@ -555,7 +562,7 @@
 
         _isCirlesCollision: function(contact) {
             var norm = contact.m_manifold.m_localPlaneNormal;
-            return norm.x === 0.0 && norm.x === 0.0;
+            return norm.x === 0.0 && norm.x === 0.0 && contact.m_fixtureA.m_shape.m_type === 0 && contact.m_fixtureB.m_shape.m_type === 0;
         },
 
         _resetDoubleJump: function(control) {
@@ -669,9 +676,14 @@
 
         $update: ['ng2DViewPort', function(ng2DViewPort) {
             //TODO: shift debug visualization
-//            ng2DViewPort.lookAt.x;
-//            ng2DViewPort.lookAt.y;
+            var context = this._context;
+            context.save();
+            var centerX = 300;
+            var centerY = 300;
+            //context.translate(centerX -ng2DViewPort.lookAt.x, centerY -ng2DViewPort.lookAt.y);
+            //context.scale(0.4,0.4);
             this.ngBox2DSystem._world.DrawDebugData();
+            context.restore();
         }],
 
         showDebugDrawVisible: function(visible) {
@@ -692,8 +704,9 @@
                 }
 
                 this._canvas = canvas;
+                this._context = canvas.getContext("2d");
 
-                this._debugDraw.SetSprite(canvas.getContext("2d"));
+                this._debugDraw.SetSprite(this._context);
                 this._debugDraw.SetDrawScale(this.ngBox2DSystem.scale);
                 this._debugDraw.SetFillAlpha(0.5);
                 this._debugDraw.SetLineThickness(1.0);
