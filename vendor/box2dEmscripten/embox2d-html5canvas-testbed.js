@@ -267,7 +267,7 @@ function init() {
         onKeyUp(canvas,evt);
     }, false);
     
-    myDebugDraw = getCanvasDebugDraw();            
+    myDebugDraw = customDebugDraw.getCanvasDebugDraw();
     myDebugDraw.SetFlags(e_shapeBit);
     
     myQueryCallback = new b2QueryCallback();
@@ -356,8 +356,8 @@ function draw() {
         context.scale(1,-1);                
         context.scale(PTM,PTM);
         context.lineWidth /= PTM;
-        
-        drawAxes(context);
+
+        customDebugDraw.drawAxes(context);
         
         context.fillStyle = 'rgb(255,255,0)';
         world.DrawDebugData();
