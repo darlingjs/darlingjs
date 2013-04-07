@@ -81,15 +81,19 @@
                 shape = new b2CircleShape();
                 shape.set_m_radius(ng2DCircle.radius * this._invScale);
             } else if (darlingutil.isDefined(ng2DPolygon)) {
-                var vertexes = [];
-                for (var vertexIndex = 0, vertexCount = ng2DPolygon.line.length; vertexIndex < vertexCount; vertexIndex++) {
+                var vertexCount = ng2DPolygon.line.length;
+                var buffer = Box2D.allocate(vertexCount * 8, 'float', Box2D.ALLOC_STACK);
+                var offset = 0;
+                for (var vertexIndex = 0 ; vertexIndex < vertexCount; vertexIndex++) {
                     var point = ng2DPolygon.line[vertexIndex];
-                    vertexes.push(new b2Vec2(point.x * this._invScale, point.y * this._invScale));
+                    Box2D.setValue(buffer+(offset), point.x * this._invScale, 'float'); // x
+                    Box2D.setValue(buffer+(offset+4), point.y * this._invScale, 'float'); // y
+                    offset += 8;
                 }
 
                 shape = new b2PolygonShape();
-                //shape.SetAsVector(vertexes, ng2DPolygon.line.length);
-                shape.Set(vertexes, ng2DPolygon.line.length);
+                var ptr_wrapped = Box2D.wrapPointer(buffer, Box2D.b2Vec2);
+                shape.Set(ptr_wrapped, ng2DPolygon.line.length);
             } else {
                 //TODO : other shapes
                 throw new Error('Shape type doesn\'t detected. Need to add component ng2DCircle or ng2DSize.');
@@ -140,6 +144,9 @@
 
         $$updateNodePosition: function($node) {
             var body = $node.ngPhysic._b2dBody;
+            if (!body) {
+                return;
+            }
             var pos = body.GetPosition();
 
             var ng2D = $node.ng2D;
@@ -507,22 +514,6 @@
                 }
             }
         }]
-    });
-
-
-    /**
-     *
-     */
-    m.$s('ngBox2DFixRotation', {
-        $require: ['ngFixedRotation', 'ngPhysic'],
-
-        $addNode: function($node) {
-            $node.ngPhysic._b2dBody.SetFixedRotation(true);
-        },
-
-        $removeNode: function($node) {
-            $node.ngPhysic._b2dBody.SetFixedRotation(false);
-        }
     });
 
     /**
