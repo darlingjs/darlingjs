@@ -475,7 +475,7 @@
             while(contactItem) {
                 var contact = contactItem.contact;
                 if (contact.IsTouching()) {
-                    if (this._isCirlesCollision(contact)) {
+                    if (this._isCirclesCollision(contact)) {
                         if (contactItem.other.GetPosition().y > body.GetPosition().y) {
                             return true;
                         }
@@ -514,7 +514,7 @@
             return false;
         },
 
-        _isCirlesCollision: function(contact) {
+        _isCirclesCollision: function(contact) {
             var norm = contact.m_manifold.m_localPlaneNormal;
             return norm.x === 0.0 && norm.x === 0.0 && contact.m_fixtureA.m_shape.m_type === 0 && contact.m_fixtureB.m_shape.m_type === 0;
         },

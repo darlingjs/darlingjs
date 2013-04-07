@@ -479,4 +479,240 @@
             }
         }]
     });
+
+
+    /**
+     *
+     */
+    m.$s('ngBox2DFixRotation', {
+        $require: ['ngFixedRotation', 'ngPhysic'],
+
+        $addNode: function($node) {
+            $node.ngPhysic._b2dBody.SetFixedRotation(true);
+        },
+
+        $removeNode: function($node) {
+            $node.ngPhysic._b2dBody.SetFixedRotation(false);
+        }
+    });
+
+    /**
+     * ngBox2DRollingControl
+     *
+     * is Box2D subsystem.
+     * description: control of box2d entity to roll it and jump.
+     * usually fit to platform arcades like Mario Br.
+     *
+     */
+
+    m.$s('ngBox2DRollingControl', {
+        $require: ['ngControlPlatformStyle', 'ngPhysic'],
+        useRotation: false,
+        _actions: {},
+        _keyBinding: [],
+        _keyBind: function(keyId, action) {
+            this._keyBinding[keyId] = action;
+            this._actions[action] = false;
+        },
+        $added: function() {
+            this._runImpulse = new b2Vec2();
+            this._jumpImpulse = new b2Vec2();
+            this._flyImpulse = new b2Vec2();
+
+            this._keyBind(87, 'move-up');
+            this._keyBind(65, 'move-left');
+            this._keyBind(83, 'move-down');
+            this._keyBind(68, 'move-right');
+
+            this._keyBind(37, 'move-left');
+            this._keyBind(38, 'move-up');
+            this._keyBind(39, 'move-right');
+            this._keyBind(40, 'move-down');
+
+            this._target = document.getElementById(this.domId) || document;
+            var self = this;
+            this._target.addEventListener('keydown', function(e) {
+                var action = self._keyBinding[e.keyCode];
+                if (action) {
+                    self._actions[action] = true;
+                }
+            });
+            this._target.addEventListener('keyup', function(e) {
+                var action = self._keyBinding[e.keyCode];
+                if (action) {
+                    self._actions[action] = false;
+                }
+            });
+            this.setUseRotation(this.useRotation);
+        },
+        setUseRotation: function(value) {
+            this.useRotation = value;
+            if (this.useRotation) {
+                this._move = this._moveByRotation;
+            } else {
+                this._move = this._moveByImpulse;
+            }
+        },
+        _moveByImpulse: function(body, speed) {
+            this._runImpulse.set_x(speed);
+            body.SetLinearVelocity(this._runImpulse);
+        },
+        _moveByRotation: function(body, speed) {
+            body.SetAngularVelocity(3 * speed);
+        },
+        $removed: function() {
+            //TODO : stop listening keys
+        },
+        _stayOnGroundDefined: false,
+        _stayOnGround: false,
+        //TODO : move to ngBox2dSystem
+        _isStayOnGround: function(body, sharpCos) {
+            if (this._stayOnGroundDefined) {
+                return this._stayOnGround;
+            }
+            var contactItem = body.GetContactList();
+            while(contactItem) {
+                var contact = contactItem.get_contact();
+                if (contact.IsTouching()) {
+                    if (this._isCirclesCollision(contact)) {
+                        if (contactItem.get_other().GetPosition().get_y() > body.GetPosition().get_y()) {
+                            return true;
+                        }
+                    } else {
+                        var ny;
+                        //TODO: !!!!
+                        var manifold = contact.GetManifold();
+                        var norm = manifold.get_localNormal();
+                        var sensor = false;
+                        var fixtureA = contact.GetFixtureA();
+                        var fixtureB = contact.GetFixtureB();
+                        if (fixtureB.GetBody() !== body) {
+                            if (fixtureB.IsSensor() ) {
+                                sensor = true;
+                            }
+                            ny = norm.get_y();
+                        } else {
+                            if (fixtureA.IsSensor() ) {
+                                sensor = true;
+                            }
+                            var angle = fixtureA.GetBody().GetAngle();
+                            var sin = Math.sin(angle);
+                            var cos = Math.cos(angle);
+                            //var nx = cos * norm.x - sin * norm.y;
+                            ny = sin * norm.get_x() + cos * norm.get_y();
+                        }
+
+                        if (!sensor && ny <= -sharpCos) {
+                            this._stayOnSDefined = true;
+                            this._stayOnGround = true;
+                            return true;
+                        }
+                    }
+                }
+                var next = contactItem.get_next();
+                if (next !== contactItem) {
+                    contactItem = next;
+                } else {
+                    contactItem = null;
+                }
+
+            }
+            this._stayOnGroundDefined = true;
+            this._stayOnGround = false;
+            return false;
+        },
+
+        _isCirclesCollision: function(contact) {
+            return contact.GetFixtureA().GetShape().GetType() === 0 && contact.GetFixtureB().GetShape().GetType() === 0;
+        },
+
+        _resetDoubleJump: function(control) {
+            this._justFly = false;
+            control._jumpCount = 1;
+        },
+        _doubleJump: function($node, body, control) {
+            if (++control._jumpCount > control.doubleJump || !control._hasJumped) {
+                return;
+            }
+
+            this._jump(body, control);
+        },
+        _jump: function(body, control) {
+            control._hasJumped = true;
+            this._jumpImpulse.set_y(-control.jumpSpeed);
+            if (this._actions['move-left']) {
+                this._jumpImpulse.set_x(-control.runSpeed);
+            } else if (this._actions['move-right']) {
+                this._jumpImpulse.set_x(control.runSpeed);
+            } else {
+                this._jumpImpulse.set_x(0.0);
+            }
+
+            body.SetLinearVelocity(this._jumpImpulse);
+//                    body.SetLinearVelocity(zeroVec2);
+//                    body.ApplyImpulse(this._jumpImpulse, body.GetWorldCenter());
+        },
+
+        $removeNode: function($node) {
+            var body = $node.ngPhysic._b2dBody;
+            body.SetAngularVelocity(0);
+        },
+
+        $update: ['$node', function($node) {
+            this._stayOnGroundDefined = false;
+            var body = $node.ngPhysic._b2dBody;
+            var control = $node.ngControlPlatformStyle;
+
+            var fixRotation = false;
+
+            if (this._actions['move-up']) {
+                if (this._isStayOnGround(body, control.slope)) {
+                    this._resetDoubleJump(control);
+                    this._jump(body, control);
+                } else if (this._justFly) {
+                    this._doubleJump($node, body, control);
+                    this._justFly = false;
+                }
+            } else {
+                this._justFly = !this._isStayOnGround(body, control.slope);
+                if (this._actions['move-left']) {
+                    this._setMovingState($node, control, 'ngGoingLeft');
+                    this._stayOnGroundDefined = false;
+                    if (this._isStayOnGround(body, control.slope)) {
+                        this._move(body, -control.runSpeed);
+                    } else {
+                        this._flyImpulse.set_x(-control.flySpeed);
+                        body.ApplyLinearImpulse(this._flyImpulse, body.GetWorldCenter());
+                    }
+                } else if (this._actions['move-right']) {
+                    this._setMovingState($node, control, 'ngGoingRight');
+                    if (this._isStayOnGround(body, control.slope)) {
+                        this._move(body, control.runSpeed);
+                    } else {
+                        this._flyImpulse.set_x(control.flySpeed);
+                        body.ApplyLinearImpulse(this._flyImpulse, body.GetWorldCenter());
+                    }
+                } else {
+                    fixRotation = true;
+                }
+            }
+
+            if (fixRotation) {
+                body.SetAngularVelocity(0);
+                body.SetFixedRotation(true);
+            } else {
+                body.SetFixedRotation(false);
+            }
+        }],
+
+        _setMovingState: function($node, control, value) {
+            if (control._movingState === value) {
+                return;
+            }
+
+            control._movingState = value;
+            $node.$remove(control._movingState);
+            $node.$add(value);
+        }
+    });
 })(darlingjs, darlingutil);
