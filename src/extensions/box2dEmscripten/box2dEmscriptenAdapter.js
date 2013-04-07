@@ -499,7 +499,7 @@
                     md.set_target(new b2Vec2(this._mouseX, this._mouseY));
                     md.set_collideConnected(true);
                     md.set_maxForce(300.0 * body.GetMass());
-                    this._mouseJoint = world.CreateJoint(md, b2MouseJoint);
+                    this._mouseJoint = ngBox2DSystem.createJoint(md, b2MouseJoint);
                     body.SetAwake(true);
                 }
             }
