@@ -323,6 +323,26 @@
             context.restore();
         }],
 
+        showShape: function(value) {
+            this._debugDraw.SetFlags(this._debugDraw.GetFlags() | e_shapeBit);
+        },
+
+        showJoint: function(value) {
+            this._debugDraw.SetFlags(this._debugDraw.GetFlags() | e_jointBit);
+        },
+
+        showAABB: function(value) {
+            this._debugDraw.SetFlags(this._debugDraw.GetFlags() | e_aabbBit);
+        },
+
+        showPair: function(value) {
+            this._debugDraw.SetFlags(this._debugDraw.GetFlags() | e_pairBit);
+        },
+
+        showCenterOfMass: function(value) {
+            this._debugDraw.SetFlags(this._debugDraw.GetFlags() | e_centerOfMassBit);
+        },
+
         showDebugDrawVisible: function(visible) {
             if (this._debugDrawVisible === visible) {
                 return;
@@ -364,7 +384,7 @@
                 flags |= e_jointBit;
 //                flags |= e_aabbBit;
                 //flats |= e_pairBit;
-//                flags |= e_centerOfMassBit;
+                flags |= e_centerOfMassBit;
                 this._debugDraw.SetFlags(flags);
                 this.ngBox2DSystem._world.SetDebugDraw(this._debugDraw);
             } else {
