@@ -328,6 +328,9 @@
 
         _canvasHasCreated: false,
         _canvas: null,
+        _context: null,
+
+        _center: {x:0.0, y:0.0},
 
         useDebugDraw: true,
         domID: 'game',
@@ -335,26 +338,27 @@
         $added: ['ngBox2DSystem', function(ngBox2DSystem) {
             this.ngBox2DSystem = ngBox2DSystem;
             this.showDebugDrawVisible(this.useDebugDraw);
+            this._center.x = 0.5 * this.width;
+            this._center.y = 0.5 * this.height;
         }],
 
         $update: ['ng2DViewPort', function(ng2DViewPort) {
             //TODO: shift debug visualization
             var context = this._context;
+            context.clearRect(0, 0, this.width, this.height);
             context.save();
+                context.translate(this._center.x - ng2DViewPort.lookAt.x, this._center.y - ng2DViewPort.lookAt.y);
+                context.scale(this.ngBox2DSystem.scale, this.ngBox2DSystem.scale);
                 //context.scale(this.ngBox2DSystem.scale, this.ngBox2DSystem.scale);
 
                 //black background
-                context.fillStyle = 'rgb(0,0,0)';
-                context.fillRect( 0, 0, this.width, this.height );
+                //context.fillStyle = 'rgba(0,0,0,0)';
+                //context.fillRect( 0, 0, this.width, this.height );
                 context.fillStyle = 'rgb(255,255,0)';
-                context.scale(this.ngBox2DSystem.scale, this.ngBox2DSystem.scale);
                 context.lineWidth /= this.ngBox2DSystem.scale;
 
                 customDebugDraw.drawAxes(context);
 
-                var centerX = 300;
-                var centerY = 300;
-                //context.translate(centerX -ng2DViewPort.lookAt.x, centerY -ng2DViewPort.lookAt.y);
                 this.ngBox2DSystem._world.DrawDebugData();
 
             context.restore();
