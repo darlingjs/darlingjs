@@ -18,7 +18,7 @@
     }
 
     function setColorFromDebugDrawCallback(context, color) {
-        var col = Box2D.wrapPointer(color, b2Color);
+        var col = Box2D.wrapPointer(color, Box2D.b2Color);
         var red = (col.get_r() * 255)|0;
         var green = (col.get_g() * 255)|0;
         var blue = (col.get_b() * 255)|0;
@@ -28,8 +28,8 @@
     }
 
     function drawSegment(context, vert1, vert2) {
-        var vert1V = Box2D.wrapPointer(vert1, b2Vec2);
-        var vert2V = Box2D.wrapPointer(vert2, b2Vec2);
+        var vert1V = Box2D.wrapPointer(vert1, Box2D.b2Vec2);
+        var vert2V = Box2D.wrapPointer(vert2, Box2D.b2Vec2);
         context.beginPath();
         context.moveTo(vert1V.get_x(), vert1V.get_y());
         context.lineTo(vert2V.get_x(), vert2V.get_y());
@@ -40,7 +40,7 @@
         context.beginPath();
         context.lineWidth = 0;
         for(var tmpI=0;tmpI<vertexCount;tmpI++) {
-            var vert = Box2D.wrapPointer(vertices+(tmpI*8), b2Vec2);
+            var vert = Box2D.wrapPointer(vertices+(tmpI*8), Box2D.b2Vec2);
             if ( tmpI == 0 )
                 context.moveTo(vert.get_x(), vert.get_y());
             else
@@ -53,8 +53,8 @@
     }
 
     function drawCircle(context, center, radius, axis, fill) {
-        var centerV = Box2D.wrapPointer(center, b2Vec2);
-        var axisV = Box2D.wrapPointer(axis, b2Vec2);
+        var centerV = Box2D.wrapPointer(center, Box2D.b2Vec2);
+        var axisV = Box2D.wrapPointer(axis, Box2D.b2Vec2);
 
         context.beginPath();
         context.arc(centerV.get_x(), centerV.get_y(), radius, 0, 2 * Math.PI, false);
@@ -74,7 +74,7 @@
     }
 
     function drawTransform(context, transform) {
-        var trans = Box2D.wrapPointer(transform,b2Transform);
+        var trans = Box2D.wrapPointer(transform,Box2D.b2Transform);
         var pos = trans.get_p();
         var rot = trans.get_q();
 
@@ -124,7 +124,7 @@
         replacement:
             function(ths, center, radius, color) {
                 setColorFromDebugDrawCallback(context, color);
-                var dummyAxis = b2Vec2(0,0);
+                var dummyAxis = Box2D.b2Vec2(0,0);
                 drawCircle(context, center, radius, dummyAxis, false);
             }
         }]);

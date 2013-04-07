@@ -31,7 +31,7 @@ var e_centerOfMassBit = 0x0010;
 
 //to replace original C++ operator =
 function copyVec2(vec) {
-    return new b2Vec2(vec.get_x(), vec.get_y());
+    return new Box2D.b2Vec2(vec.get_x(), vec.get_y());
 }
 
 //to replace original C++ operator * (float)
@@ -42,13 +42,13 @@ function scaleVec2(vec, scale) {
 
 //to replace original C++ operator *= (float)
 function scaledVec2(vec, scale) {
-    return new b2Vec2(scale * vec.get_x(), scale * vec.get_y());
+    return new Box2D.b2Vec2(scale * vec.get_x(), scale * vec.get_y());
 }
 
 
 // http://stackoverflow.com/questions/12792486/emscripten-bindings-how-to-create-an-accessible-c-c-array-from-javascript
 function createChainShape(vertices, closedLoop) {
-    var shape = new b2ChainShape();            
+    var shape = new Box2D.b2ChainShape();
     var buffer = Box2D.allocate(vertices.length * 8, 'float', Box2D.ALLOC_STACK);
     var offset = 0;
     for (var i=0;i<vertices.length;i++) {
@@ -65,7 +65,7 @@ function createChainShape(vertices, closedLoop) {
 }
 
 function createPolygonShape(vertices) {
-    var shape = new b2PolygonShape();            
+    var shape = new Box2D.b2PolygonShape();
     var buffer = Box2D.allocate(vertices.length * 8, 'float', Box2D.ALLOC_STACK);
     var offset = 0;
     for (var i=0;i<vertices.length;i++) {
@@ -84,7 +84,7 @@ function createRandomPolygonShape(radius) {
     var verts = [];
     for (var i = 0; i < numVerts; i++) {
         var angle = i / numVerts * 360.0 * 0.0174532925199432957;
-        verts.push( new b2Vec2( radius * Math.sin(angle), radius * -Math.cos(angle) ) );
+        verts.push( new Box2D.b2Vec2( radius * Math.sin(angle), radius * -Math.cos(angle) ) );
     }            
     return createPolygonShape(verts);
 }

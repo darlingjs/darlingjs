@@ -907,7 +907,7 @@
             }
 
             var jointDef = new Box2D.b2RevoluteJointDef();
-            jointDef.Initialize(bodyA, bodyB, new b2Vec2(x, y));
+            jointDef.Initialize(bodyA, bodyB, new Box2D.b2Vec2(x, y));
 
             jointDef.set_lowerAngle(jointState.lowerAngle);
             jointDef.set_upperAngle(jointState.upperAngle);
