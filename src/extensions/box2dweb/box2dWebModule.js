@@ -3,7 +3,7 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-(function(darlingjs) {
+(function(darlingjs, darlingutil) {
     'use strict';
 
     var m = darlingjs.module('ngBox2D');
@@ -650,10 +650,10 @@
             if (this._debugDrawVisible) {
                 this._debugDraw = new DebugDraw();
 
-                var canvas = getCanvas(this.domID);
+                var canvas = darlingutil.getCanvas(this.domID);
 
                 if (canvas === null) {
-                    canvas = placeCanvasInStack(this.domID, this.width, this.height);
+                    canvas = darlingutil.placeCanvasInStack(this.domID, this.width, this.height);
                     this._canvasHasCreated = true;
                 }
 
@@ -888,4 +888,4 @@
         }
     });
 
-})(darlingjs);
+})(darlingjs, darlingutil);
