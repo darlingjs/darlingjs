@@ -811,9 +811,15 @@
             var physic = $node.ngPhysic;
             var body = physic._b2dBody;
             var fixture = body.GetFixtureList();
+            var first = fixture;
             while(fixture) {
                 fixture.SetSensor(true);
-                fixture = fixture.GetNext();
+                var next = fixture.GetNext();
+                if (fixture !== first) {
+                    fixture = next;
+                } else {
+                    fixture = null;
+                }
             }
         },
 
@@ -883,7 +889,7 @@
                     break;
                 case 1:
                     bodyA = fixtures[0].GetBody();
-                    bodyB = ngBox2DSystem._world.getGroundBody();
+                    bodyB = ngBox2DSystem.getGroundBody();
                     break;
                 default:
                     bodyA = fixtures[0].GetBody();
@@ -926,18 +932,18 @@
             if (jointState.bodyA) {
                 bodyA = jointState.bodyA;
             } else {
-                bodyA = box2DSystem.getFixturesAt(anchorA.x, anchorA.y)[0].GetBody();
+                bodyA = box2DSystem.getFixturesAt(anchorA.get_x(), anchorA.get_y())[0].GetBody();
                 if (!bodyA) {
-                    bodyA = box2DSystem._world.getGroundBody();
+                    bodyA = box2DSystem.getGroundBody();
                 }
             }
 
             if (jointState.bodyB) {
                 bodyB = jointState.bodyB;
             } else {
-                bodyB = box2DSystem.getFixturesAt(anchorB.x, anchorB.y)[0].GetBody();
+                bodyB = box2DSystem.getFixturesAt(anchorB.get_x(), anchorB.get_y())[0].GetBody();
                 if (!bodyB) {
-                    bodyA = box2DSystem._world.getGroundBody();
+                    bodyA = box2DSystem.getGroundBody();
                 }
             }
 
@@ -966,26 +972,26 @@
             var anchorA = new b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
             var anchorB = new b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
             var axis = new b2Vec2(
-                anchorB.x - anchorA.x,
-                anchorB.y - anchorA.y
+                anchorB.x - anchorA.get_x(),
+                anchorB.y - anchorA.get_y()
             );
             var bodyA, bodyB;
 
             if (jointState.bodyA) {
                 bodyA = jointState.bodyA;
             } else {
-                bodyA = box2DSystem.getFixturesAt(anchorA.x, anchorA.y)[0].GetBody();
+                bodyA = box2DSystem.getFixturesAt(anchorA.get_x(), anchorA.get_y())[0].GetBody();
                 if (!bodyA) {
-                    bodyA = box2DSystem._world.getGroundBody();
+                    bodyA = box2DSystem.getGroundBody();
                 }
             }
 
             if (jointState.bodyB) {
                 bodyB = jointState.bodyB;
             } else {
-                bodyB = box2DSystem.getFixturesAt(anchorB.x, anchorB.y)[0].GetBody();
+                bodyB = box2DSystem.getFixturesAt(anchorB.get_x(), anchorB.get_y())[0].GetBody();
                 if (!bodyB) {
-                    bodyB = box2DSystem._world.getGroundBody();
+                    bodyB = box2DSystem.getGroundBody();
                 }
             }
 
