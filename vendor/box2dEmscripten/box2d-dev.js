@@ -69177,6 +69177,94 @@ function _emscripten_bind_b2FixtureDef__get_userData_p0($self) {
 }
 
 
+function _emscripten_bind_b2Manifold__get_localPoint_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+48)|0);
+  ;
+  return $3;
+}
+
+
+function _emscripten_bind_b2Manifold__set_type_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$2;
+  var $4=$1;
+  var $5=(($4+56)|0);
+  HEAP32[(($5)>>2)]=$3;
+  ;
+  return;
+}
+
+
+function _emscripten_bind_b2Manifold__get_pointCount_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+60)|0);
+  var $4=HEAP32[(($3)>>2)];
+  ;
+  return $4;
+}
+
+
+function _emscripten_bind_b2Manifold__get_type_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+56)|0);
+  var $4=HEAP32[(($3)>>2)];
+  ;
+  return $4;
+}
+
+
+function _emscripten_bind_b2Manifold__set_pointCount_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$2;
+  var $4=$1;
+  var $5=(($4+60)|0);
+  HEAP32[(($5)>>2)]=$3;
+  ;
+  return;
+}
+
+
+function _emscripten_bind_b2Manifold__get_localNormal_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+40)|0);
+  ;
+  return $3;
+}
+
+
 function _emscripten_bind_b2PrismaticJointDef__get_motorSpeed_p0($self) {
   ;
   var __label__;
@@ -69267,88 +69355,6 @@ function _emscripten_bind_b2PrismaticJointDef__get_localAxisA_p0($self) {
   var $3=(($2+36)|0);
   ;
   return $3;
-}
-
-
-function __ZN19b2PrismaticJointDef9set_bodyAEP6b2Body($this, $b) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$this;
-  $2=$b;
-  var $3=$1;
-  var $4=$2;
-  var $5=$3;
-  var $6=(($5+8)|0);
-  HEAP32[(($6)>>2)]=$4;
-  ;
-  return;
-}
-
-
-function __ZN19b2PrismaticJointDef9set_bodyBEP6b2Body($this, $b) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$this;
-  $2=$b;
-  var $3=$1;
-  var $4=$2;
-  var $5=$3;
-  var $6=(($5+12)|0);
-  HEAP32[(($6)>>2)]=$4;
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2PrismaticJointDef__set_lowerTranslation_p1($self, $arg0) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$self;
-  $2=$arg0;
-  var $3=$2;
-  var $4=$1;
-  var $5=(($4+52)|0);
-  HEAPF32[(($5)>>2)]=$3;
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2PrismaticJointDef__get_upperTranslation_p0($self) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$self;
-  var $2=$1;
-  var $3=(($2+56)|0);
-  var $4=HEAPF32[(($3)>>2)];
-  ;
-  return $4;
-}
-
-
-function _emscripten_bind_b2PrismaticJointDef__get_enableLimit_p0($self) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$self;
-  var $2=$1;
-  var $3=(($2+48)|0);
-  var $4=HEAP8[($3)];
-  var $5=(($4) & 1);
-  ;
-  return $5;
 }
 
 
@@ -70049,6 +70055,100 @@ function _emscripten_bind_b2FixtureDef__set_filter_p1($self, $arg0) {
 }
 
 
+function _emscripten_bind_b2Manifold____destroy___p0($self) {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      $1=$self;
+      var $2=$1;
+      var $3=(($2)|0)==0;
+      if ($3) { __label__ = 4; break; } else { __label__ = 3; break; }
+    case 3: 
+      var $5=$2;
+      __ZdlPv($5);
+      __label__ = 4; break;
+    case 4: 
+      ;
+      return;
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
+function _emscripten_bind_b2Manifold__b2Manifold_p0() {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      var $2;
+      var $3=__Znwj(64);
+      var $4=$3;
+      (function() { try { __THREW__ = false; return __ZN10b2ManifoldC1Ev($4) } catch(e) { if (typeof e != "number") throw e; if (ABORT) throw e; __THREW__ = true; Module.print("Exception: " + e + ", currently at: " + (new Error().stack)); return null } })();if (!__THREW__) { __label__ = 3; break; } else { __label__ = 4; break; }
+    case 3: 
+      ;
+      return $4;
+    case 4: 
+      var $7=___cxa_find_matching_catch(HEAP32[((_llvm_eh_exception.buf)>>2)],HEAP32[(((_llvm_eh_exception.buf)+(4))>>2)],[]);
+      var $8=$7.f0;
+      $1=$8;
+      var $9=$7.f1;
+      $2=$9;
+      __ZdlPv($3);
+      __label__ = 5; break;
+    case 5: 
+      var $11=$1;
+      var $12=$2;
+      var $13=(tempValue = [0,0,0,0,0,0,0,0], tempValue.f0 = $11, tempValue);
+      var $14=($13.f1 = $12, $13);
+      Module.print("Resuming exception");throw HEAP32[((_llvm_eh_exception.buf)>>2)];
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
+function _emscripten_bind_b2Manifold__set_localPoint_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$1;
+  var $4=(($3+48)|0);
+  var $5=$2;
+  var $6=$4;
+  var $7=$5;
+  assert(8 % 1 === 0, 'memcpy given ' + 8 + ' bytes to copy. Problem with quantum=1 corrections perhaps?');HEAP32[(($6)>>2)]=HEAP32[(($7)>>2)];HEAP32[((($6)+(4))>>2)]=HEAP32[((($7)+(4))>>2)];
+  ;
+  return;
+}
+
+
+function _emscripten_bind_b2Manifold__set_localNormal_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$1;
+  var $4=(($3+40)|0);
+  var $5=$2;
+  var $6=$4;
+  var $7=$5;
+  assert(8 % 1 === 0, 'memcpy given ' + 8 + ' bytes to copy. Problem with quantum=1 corrections perhaps?');HEAP32[(($6)>>2)]=HEAP32[(($7)>>2)];HEAP32[((($6)+(4))>>2)]=HEAP32[((($7)+(4))>>2)];
+  ;
+  return;
+}
+
+
 function _emscripten_bind_b2PrismaticJointDef__set_localAnchorA_p1($self, $arg0) {
   ;
   var __label__;
@@ -70103,113 +70203,85 @@ function _emscripten_bind_b2PrismaticJointDef__set_bodyA_p1($self, $arg0) {
 }
 
 
-function _emscripten_bind_b2PrismaticJointDef__set_bodyB_p1($self, $arg0) {
+function __ZN19b2PrismaticJointDef9set_bodyAEP6b2Body($this, $b) {
   ;
   var __label__;
 
   var $1;
   var $2;
-  $1=$self;
-  $2=$arg0;
+  $1=$this;
+  $2=$b;
   var $3=$1;
   var $4=$2;
-  __ZN19b2PrismaticJointDef9set_bodyBEP6b2Body($3, $4);
+  var $5=$3;
+  var $6=(($5+8)|0);
+  HEAP32[(($6)>>2)]=$4;
   ;
   return;
 }
 
 
-function _emscripten_bind_b2PrismaticJointDef__b2PrismaticJointDef_p0() {
-  ;
-  var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      var $2;
-      var $3=__Znwj(72);
-      var $4=$3;
-      (function() { try { __THREW__ = false; return __ZN19b2PrismaticJointDefC1Ev($4) } catch(e) { if (typeof e != "number") throw e; if (ABORT) throw e; __THREW__ = true; Module.print("Exception: " + e + ", currently at: " + (new Error().stack)); return null } })();if (!__THREW__) { __label__ = 3; break; } else { __label__ = 4; break; }
-    case 3: 
-      ;
-      return $4;
-    case 4: 
-      var $7=___cxa_find_matching_catch(HEAP32[((_llvm_eh_exception.buf)>>2)],HEAP32[(((_llvm_eh_exception.buf)+(4))>>2)],[]);
-      var $8=$7.f0;
-      $1=$8;
-      var $9=$7.f1;
-      $2=$9;
-      __ZdlPv($3);
-      __label__ = 5; break;
-    case 5: 
-      var $11=$1;
-      var $12=$2;
-      var $13=(tempValue = [0,0,0,0,0,0,0,0], tempValue.f0 = $11, tempValue);
-      var $14=($13.f1 = $12, $13);
-      Module.print("Resuming exception");throw HEAP32[((_llvm_eh_exception.buf)>>2)];
-    default: assert(0, "bad label: " + __label__);
-  }
-}
-
-
-function __ZN19b2PrismaticJointDefC1Ev($this) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$this;
-  var $2=$1;
-  __ZN19b2PrismaticJointDefC2Ev($2);
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2PrismaticJointDef__Initialize_p4($self, $arg0, $arg1, $arg2, $arg3) {
+function __ZN19b2PrismaticJointDef9set_bodyBEP6b2Body($this, $b) {
   ;
   var __label__;
 
   var $1;
   var $2;
-  var $3;
-  var $4;
-  var $5;
-  $1=$self;
-  $2=$arg0;
-  $3=$arg1;
-  $4=$arg2;
-  $5=$arg3;
-  var $6=$1;
-  var $7=$2;
-  var $8=$3;
-  var $9=$4;
-  var $10=$5;
-  __ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_($6, $7, $8, $9, $10);
+  $1=$this;
+  $2=$b;
+  var $3=$1;
+  var $4=$2;
+  var $5=$3;
+  var $6=(($5+12)|0);
+  HEAP32[(($6)>>2)]=$4;
   ;
   return;
 }
 
 
-function _emscripten_bind_b2PrismaticJointDef____destroy___p0($self) {
+function _emscripten_bind_b2PrismaticJointDef__set_lowerTranslation_p1($self, $arg0) {
   ;
   var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      $1=$self;
-      var $2=$1;
-      var $3=(($2)|0)==0;
-      if ($3) { __label__ = 4; break; } else { __label__ = 3; break; }
-    case 3: 
-      var $5=$2;
-      __ZdlPv($5);
-      __label__ = 4; break;
-    case 4: 
-      ;
-      return;
-    default: assert(0, "bad label: " + __label__);
-  }
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$2;
+  var $4=$1;
+  var $5=(($4+52)|0);
+  HEAPF32[(($5)>>2)]=$3;
+  ;
+  return;
+}
+
+
+function _emscripten_bind_b2PrismaticJointDef__get_upperTranslation_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+56)|0);
+  var $4=HEAPF32[(($3)>>2)];
+  ;
+  return $4;
+}
+
+
+function _emscripten_bind_b2PrismaticJointDef__get_enableLimit_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+48)|0);
+  var $4=HEAP8[($3)];
+  var $5=(($4) & 1);
+  ;
+  return $5;
 }
 
 
@@ -70813,7 +70885,7 @@ function _emscripten_bind_b2RevoluteJointDef__get_enableMotor_p0($self) {
 }
 
 
-function _emscripten_bind_b2RevoluteJointDef__set_upperAngle_p1($self, $arg0) {
+function _emscripten_bind_b2PrismaticJointDef__set_bodyB_p1($self, $arg0) {
   ;
   var __label__;
 
@@ -70821,127 +70893,105 @@ function _emscripten_bind_b2RevoluteJointDef__set_upperAngle_p1($self, $arg0) {
   var $2;
   $1=$self;
   $2=$arg0;
-  var $3=$2;
-  var $4=$1;
-  var $5=(($4+48)|0);
-  HEAPF32[(($5)>>2)]=$3;
+  var $3=$1;
+  var $4=$2;
+  __ZN19b2PrismaticJointDef9set_bodyBEP6b2Body($3, $4);
   ;
   return;
 }
 
 
-function _emscripten_bind_b2RevoluteJointDef__get_referenceAngle_p0($self) {
+function _emscripten_bind_b2PrismaticJointDef__b2PrismaticJointDef_p0() {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      var $2;
+      var $3=__Znwj(72);
+      var $4=$3;
+      (function() { try { __THREW__ = false; return __ZN19b2PrismaticJointDefC1Ev($4) } catch(e) { if (typeof e != "number") throw e; if (ABORT) throw e; __THREW__ = true; Module.print("Exception: " + e + ", currently at: " + (new Error().stack)); return null } })();if (!__THREW__) { __label__ = 3; break; } else { __label__ = 4; break; }
+    case 3: 
+      ;
+      return $4;
+    case 4: 
+      var $7=___cxa_find_matching_catch(HEAP32[((_llvm_eh_exception.buf)>>2)],HEAP32[(((_llvm_eh_exception.buf)+(4))>>2)],[]);
+      var $8=$7.f0;
+      $1=$8;
+      var $9=$7.f1;
+      $2=$9;
+      __ZdlPv($3);
+      __label__ = 5; break;
+    case 5: 
+      var $11=$1;
+      var $12=$2;
+      var $13=(tempValue = [0,0,0,0,0,0,0,0], tempValue.f0 = $11, tempValue);
+      var $14=($13.f1 = $12, $13);
+      Module.print("Resuming exception");throw HEAP32[((_llvm_eh_exception.buf)>>2)];
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
+function __ZN19b2PrismaticJointDefC1Ev($this) {
   ;
   var __label__;
 
   var $1;
-  $1=$self;
+  $1=$this;
   var $2=$1;
-  var $3=(($2+36)|0);
-  var $4=HEAPF32[(($3)>>2)];
+  __ZN19b2PrismaticJointDefC2Ev($2);
   ;
-  return $4;
+  return;
 }
 
 
-function _emscripten_bind_b2RevoluteJointDef__set_enableLimit_p1($self, $arg0) {
+function _emscripten_bind_b2PrismaticJointDef__Initialize_p4($self, $arg0, $arg1, $arg2, $arg3) {
   ;
   var __label__;
 
   var $1;
   var $2;
+  var $3;
+  var $4;
+  var $5;
   $1=$self;
-  var $3=(($arg0)&1);
-  $2=$3;
-  var $4=$2;
-  var $5=(($4) & 1);
+  $2=$arg0;
+  $3=$arg1;
+  $4=$arg2;
+  $5=$arg3;
   var $6=$1;
-  var $7=(($6+40)|0);
-  var $8=(($5)&1);
-  HEAP8[($7)]=$8;
+  var $7=$2;
+  var $8=$3;
+  var $9=$4;
+  var $10=$5;
+  __ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_($6, $7, $8, $9, $10);
   ;
   return;
 }
 
 
-function _emscripten_bind_b2RevoluteJointDef__get_motorSpeed_p0($self) {
+function _emscripten_bind_b2PrismaticJointDef____destroy___p0($self) {
   ;
   var __label__;
-
-  var $1;
-  $1=$self;
-  var $2=$1;
-  var $3=(($2+56)|0);
-  var $4=HEAPF32[(($3)>>2)];
-  ;
-  return $4;
-}
-
-
-function _emscripten_bind_b2RevoluteJointDef__set_motorSpeed_p1($self, $arg0) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$self;
-  $2=$arg0;
-  var $3=$2;
-  var $4=$1;
-  var $5=(($4+56)|0);
-  HEAPF32[(($5)>>2)]=$3;
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2RevoluteJointDef__get_maxMotorTorque_p0($self) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$self;
-  var $2=$1;
-  var $3=(($2+60)|0);
-  var $4=HEAPF32[(($3)>>2)];
-  ;
-  return $4;
-}
-
-
-function __ZN18b2RevoluteJointDef9set_bodyAEP6b2Body($this, $b) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$this;
-  $2=$b;
-  var $3=$1;
-  var $4=$2;
-  var $5=$3;
-  var $6=(($5+8)|0);
-  HEAP32[(($6)>>2)]=$4;
-  ;
-  return;
-}
-
-
-function __ZN18b2RevoluteJointDef9set_bodyBEP6b2Body($this, $b) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$this;
-  $2=$b;
-  var $3=$1;
-  var $4=$2;
-  var $5=$3;
-  var $6=(($5+12)|0);
-  HEAP32[(($6)>>2)]=$4;
-  ;
-  return;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      $1=$self;
+      var $2=$1;
+      var $3=(($2)|0)==0;
+      if ($3) { __label__ = 4; break; } else { __label__ = 3; break; }
+    case 3: 
+      var $5=$2;
+      __ZdlPv($5);
+      __label__ = 4; break;
+    case 4: 
+      ;
+      return;
+    default: assert(0, "bad label: " + __label__);
+  }
 }
 
 
@@ -71611,7 +71661,7 @@ function _emscripten_bind_b2RevoluteJointDef__set_localAnchorB_p1($self, $arg0) 
 }
 
 
-function _emscripten_bind_b2RevoluteJointDef__set_bodyA_p1($self, $arg0) {
+function _emscripten_bind_b2RevoluteJointDef__set_upperAngle_p1($self, $arg0) {
   ;
   var __label__;
 
@@ -71619,15 +71669,64 @@ function _emscripten_bind_b2RevoluteJointDef__set_bodyA_p1($self, $arg0) {
   var $2;
   $1=$self;
   $2=$arg0;
-  var $3=$1;
-  var $4=$2;
-  __ZN18b2RevoluteJointDef9set_bodyAEP6b2Body($3, $4);
+  var $3=$2;
+  var $4=$1;
+  var $5=(($4+48)|0);
+  HEAPF32[(($5)>>2)]=$3;
   ;
   return;
 }
 
 
-function _emscripten_bind_b2RevoluteJointDef__set_bodyB_p1($self, $arg0) {
+function _emscripten_bind_b2RevoluteJointDef__get_referenceAngle_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+36)|0);
+  var $4=HEAPF32[(($3)>>2)];
+  ;
+  return $4;
+}
+
+
+function _emscripten_bind_b2RevoluteJointDef__set_enableLimit_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  var $3=(($arg0)&1);
+  $2=$3;
+  var $4=$2;
+  var $5=(($4) & 1);
+  var $6=$1;
+  var $7=(($6+40)|0);
+  var $8=(($5)&1);
+  HEAP8[($7)]=$8;
+  ;
+  return;
+}
+
+
+function _emscripten_bind_b2RevoluteJointDef__get_motorSpeed_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+56)|0);
+  var $4=HEAPF32[(($3)>>2)];
+  ;
+  return $4;
+}
+
+
+function _emscripten_bind_b2RevoluteJointDef__set_motorSpeed_p1($self, $arg0) {
   ;
   var __label__;
 
@@ -71635,44 +71734,62 @@ function _emscripten_bind_b2RevoluteJointDef__set_bodyB_p1($self, $arg0) {
   var $2;
   $1=$self;
   $2=$arg0;
-  var $3=$1;
-  var $4=$2;
-  __ZN18b2RevoluteJointDef9set_bodyBEP6b2Body($3, $4);
+  var $3=$2;
+  var $4=$1;
+  var $5=(($4+56)|0);
+  HEAPF32[(($5)>>2)]=$3;
   ;
   return;
 }
 
 
-function _emscripten_bind_b2RevoluteJointDef__b2RevoluteJointDef_p0() {
+function _emscripten_bind_b2RevoluteJointDef__get_maxMotorTorque_p0($self) {
   ;
   var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      var $2;
-      var $3=__Znwj(64);
-      var $4=$3;
-      (function() { try { __THREW__ = false; return __ZN18b2RevoluteJointDefC1Ev($4) } catch(e) { if (typeof e != "number") throw e; if (ABORT) throw e; __THREW__ = true; Module.print("Exception: " + e + ", currently at: " + (new Error().stack)); return null } })();if (!__THREW__) { __label__ = 3; break; } else { __label__ = 4; break; }
-    case 3: 
-      ;
-      return $4;
-    case 4: 
-      var $7=___cxa_find_matching_catch(HEAP32[((_llvm_eh_exception.buf)>>2)],HEAP32[(((_llvm_eh_exception.buf)+(4))>>2)],[]);
-      var $8=$7.f0;
-      $1=$8;
-      var $9=$7.f1;
-      $2=$9;
-      __ZdlPv($3);
-      __label__ = 5; break;
-    case 5: 
-      var $11=$1;
-      var $12=$2;
-      var $13=(tempValue = [0,0,0,0,0,0,0,0], tempValue.f0 = $11, tempValue);
-      var $14=($13.f1 = $12, $13);
-      Module.print("Resuming exception");throw HEAP32[((_llvm_eh_exception.buf)>>2)];
-    default: assert(0, "bad label: " + __label__);
-  }
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2+60)|0);
+  var $4=HEAPF32[(($3)>>2)];
+  ;
+  return $4;
+}
+
+
+function __ZN18b2RevoluteJointDef9set_bodyAEP6b2Body($this, $b) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$this;
+  $2=$b;
+  var $3=$1;
+  var $4=$2;
+  var $5=$3;
+  var $6=(($5+8)|0);
+  HEAP32[(($6)>>2)]=$4;
+  ;
+  return;
+}
+
+
+function __ZN18b2RevoluteJointDef9set_bodyBEP6b2Body($this, $b) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$this;
+  $2=$b;
+  var $3=$1;
+  var $4=$2;
+  var $5=$3;
+  var $6=(($5+12)|0);
+  HEAP32[(($6)>>2)]=$4;
+  ;
+  return;
 }
 
 
@@ -72299,34 +72416,7 @@ function _emscripten_bind_b2Transform__get_q_p0($self) {
 }
 
 
-function __ZN7b2Color3SetEfff($this, $ri, $gi, $bi) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  var $3;
-  var $4;
-  $1=$this;
-  $2=$ri;
-  $3=$gi;
-  $4=$bi;
-  var $5=$1;
-  var $6=$2;
-  var $7=(($5)|0);
-  HEAPF32[(($7)>>2)]=$6;
-  var $8=$3;
-  var $9=(($5+4)|0);
-  HEAPF32[(($9)>>2)]=$8;
-  var $10=$4;
-  var $11=(($5+8)|0);
-  HEAPF32[(($11)>>2)]=$10;
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2Color__set_r_p1($self, $arg0) {
+function _emscripten_bind_b2RevoluteJointDef__set_bodyA_p1($self, $arg0) {
   ;
   var __label__;
 
@@ -72334,26 +72424,60 @@ function _emscripten_bind_b2Color__set_r_p1($self, $arg0) {
   var $2;
   $1=$self;
   $2=$arg0;
-  var $3=$2;
-  var $4=$1;
-  var $5=(($4)|0);
-  HEAPF32[(($5)>>2)]=$3;
+  var $3=$1;
+  var $4=$2;
+  __ZN18b2RevoluteJointDef9set_bodyAEP6b2Body($3, $4);
   ;
   return;
 }
 
 
-function _emscripten_bind_b2Color__get_r_p0($self) {
+function _emscripten_bind_b2RevoluteJointDef__set_bodyB_p1($self, $arg0) {
   ;
   var __label__;
 
   var $1;
+  var $2;
   $1=$self;
-  var $2=$1;
-  var $3=(($2)|0);
-  var $4=HEAPF32[(($3)>>2)];
+  $2=$arg0;
+  var $3=$1;
+  var $4=$2;
+  __ZN18b2RevoluteJointDef9set_bodyBEP6b2Body($3, $4);
   ;
-  return $4;
+  return;
+}
+
+
+function _emscripten_bind_b2RevoluteJointDef__b2RevoluteJointDef_p0() {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      var $2;
+      var $3=__Znwj(64);
+      var $4=$3;
+      (function() { try { __THREW__ = false; return __ZN18b2RevoluteJointDefC1Ev($4) } catch(e) { if (typeof e != "number") throw e; if (ABORT) throw e; __THREW__ = true; Module.print("Exception: " + e + ", currently at: " + (new Error().stack)); return null } })();if (!__THREW__) { __label__ = 3; break; } else { __label__ = 4; break; }
+    case 3: 
+      ;
+      return $4;
+    case 4: 
+      var $7=___cxa_find_matching_catch(HEAP32[((_llvm_eh_exception.buf)>>2)],HEAP32[(((_llvm_eh_exception.buf)+(4))>>2)],[]);
+      var $8=$7.f0;
+      $1=$8;
+      var $9=$7.f1;
+      $2=$9;
+      __ZdlPv($3);
+      __label__ = 5; break;
+    case 5: 
+      var $11=$1;
+      var $12=$2;
+      var $13=(tempValue = [0,0,0,0,0,0,0,0], tempValue.f0 = $11, tempValue);
+      var $14=($13.f1 = $12, $13);
+      Module.print("Resuming exception");throw HEAP32[((_llvm_eh_exception.buf)>>2)];
+    default: assert(0, "bad label: " + __label__);
+  }
 }
 
 
@@ -73026,59 +73150,7 @@ function __ZN11b2TransformC1ERK6b2Vec2RK5b2Rot($this, $position, $rotation) {
 }
 
 
-function _emscripten_bind_b2Transform__SetIdentity_p0($self) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$self;
-  var $2=$1;
-  __ZN11b2Transform11SetIdentityEv($2);
-  ;
-  return;
-}
-
-
-function __ZN11b2Transform11SetIdentityEv($this) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$this;
-  var $2=$1;
-  var $3=(($2)|0);
-  __ZN6b2Vec27SetZeroEv($3);
-  var $4=(($2+8)|0);
-  __ZN5b2Rot11SetIdentityEv($4);
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2Color____destroy___p0($self) {
-  ;
-  var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      $1=$self;
-      var $2=$1;
-      var $3=(($2)|0)==0;
-      if ($3) { __label__ = 4; break; } else { __label__ = 3; break; }
-    case 3: 
-      var $5=$2;
-      __ZdlPv($5);
-      __label__ = 4; break;
-    case 4: 
-      ;
-      return;
-    default: assert(0, "bad label: " + __label__);
-  }
-}
-
-
-function _emscripten_bind_b2Color__Set_p3($self, $arg0, $arg1, $arg2) {
+function __ZN7b2Color3SetEfff($this, $ri, $gi, $bi) {
   ;
   var __label__;
 
@@ -73086,63 +73158,53 @@ function _emscripten_bind_b2Color__Set_p3($self, $arg0, $arg1, $arg2) {
   var $2;
   var $3;
   var $4;
-  $1=$self;
-  $2=$arg0;
-  $3=$arg1;
-  $4=$arg2;
+  $1=$this;
+  $2=$ri;
+  $3=$gi;
+  $4=$bi;
   var $5=$1;
   var $6=$2;
-  var $7=$3;
-  var $8=$4;
-  __ZN7b2Color3SetEfff($5, $6, $7, $8);
+  var $7=(($5)|0);
+  HEAPF32[(($7)>>2)]=$6;
+  var $8=$3;
+  var $9=(($5+4)|0);
+  HEAPF32[(($9)>>2)]=$8;
+  var $10=$4;
+  var $11=(($5+8)|0);
+  HEAPF32[(($11)>>2)]=$10;
   ;
   return;
 }
 
 
-function _emscripten_bind_b2Color__b2Color_p0() {
-  ;
-  var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      var $2;
-      var $3=__Znwj(12);
-      var $4=$3;
-      (function() { try { __THREW__ = false; return __ZN7b2ColorC1Ev($4) } catch(e) { if (typeof e != "number") throw e; if (ABORT) throw e; __THREW__ = true; Module.print("Exception: " + e + ", currently at: " + (new Error().stack)); return null } })();if (!__THREW__) { __label__ = 3; break; } else { __label__ = 4; break; }
-    case 3: 
-      ;
-      return $4;
-    case 4: 
-      var $7=___cxa_find_matching_catch(HEAP32[((_llvm_eh_exception.buf)>>2)],HEAP32[(((_llvm_eh_exception.buf)+(4))>>2)],[]);
-      var $8=$7.f0;
-      $1=$8;
-      var $9=$7.f1;
-      $2=$9;
-      __ZdlPv($3);
-      __label__ = 5; break;
-    case 5: 
-      var $11=$1;
-      var $12=$2;
-      var $13=(tempValue = [0,0,0,0,0,0,0,0], tempValue.f0 = $11, tempValue);
-      var $14=($13.f1 = $12, $13);
-      Module.print("Resuming exception");throw HEAP32[((_llvm_eh_exception.buf)>>2)];
-    default: assert(0, "bad label: " + __label__);
-  }
-}
-
-
-function __ZN7b2ColorC1Ev($this) {
+function _emscripten_bind_b2Color__set_r_p1($self, $arg0) {
   ;
   var __label__;
 
   var $1;
-  $1=$this;
-  var $2=$1;
-  __ZN7b2ColorC2Ev($2);
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$2;
+  var $4=$1;
+  var $5=(($4)|0);
+  HEAPF32[(($5)>>2)]=$3;
   ;
   return;
+}
+
+
+function _emscripten_bind_b2Color__get_r_p0($self) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$self;
+  var $2=$1;
+  var $3=(($2)|0);
+  var $4=HEAPF32[(($3)>>2)];
+  ;
+  return $4;
 }
 
 
@@ -73608,91 +73670,123 @@ function _emscripten_bind_b2MouseJointDef__get_target_p0($self) {
 }
 
 
-function __ZN15b2MouseJointDef20get_collideConnectedEb($this, $b) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$this;
-  var $3=(($b)&1);
-  $2=$3;
-  var $4=$1;
-  var $5=$4;
-  var $6=(($5+16)|0);
-  var $7=HEAP8[($6)];
-  var $8=(($7) & 1);
-  ;
-  return $8;
-}
-
-
-function __ZN15b2MouseJointDef20set_collideConnectedEb($this, $b) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$this;
-  var $3=(($b)&1);
-  $2=$3;
-  var $4=$1;
-  var $5=$2;
-  var $6=(($5) & 1);
-  var $7=$4;
-  var $8=(($7+16)|0);
-  var $9=(($6)&1);
-  HEAP8[($8)]=$9;
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2MouseJointDef__set_frequencyHz_p1($self, $arg0) {
-  ;
-  var __label__;
-
-  var $1;
-  var $2;
-  $1=$self;
-  $2=$arg0;
-  var $3=$2;
-  var $4=$1;
-  var $5=(($4+32)|0);
-  HEAPF32[(($5)>>2)]=$3;
-  ;
-  return;
-}
-
-
-function _emscripten_bind_b2MouseJointDef__get_dampingRatio_p0($self) {
+function _emscripten_bind_b2Transform__SetIdentity_p0($self) {
   ;
   var __label__;
 
   var $1;
   $1=$self;
   var $2=$1;
-  var $3=(($2+36)|0);
-  var $4=HEAPF32[(($3)>>2)];
+  __ZN11b2Transform11SetIdentityEv($2);
   ;
-  return $4;
+  return;
 }
 
 
-function __ZN18b2DistanceJointDef9get_bodyAEP6b2Body($this, $b) {
+function __ZN11b2Transform11SetIdentityEv($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  var $3=(($2)|0);
+  __ZN6b2Vec27SetZeroEv($3);
+  var $4=(($2+8)|0);
+  __ZN5b2Rot11SetIdentityEv($4);
+  ;
+  return;
+}
+
+
+function _emscripten_bind_b2Color____destroy___p0($self) {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      $1=$self;
+      var $2=$1;
+      var $3=(($2)|0)==0;
+      if ($3) { __label__ = 4; break; } else { __label__ = 3; break; }
+    case 3: 
+      var $5=$2;
+      __ZdlPv($5);
+      __label__ = 4; break;
+    case 4: 
+      ;
+      return;
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
+function _emscripten_bind_b2Color__Set_p3($self, $arg0, $arg1, $arg2) {
   ;
   var __label__;
 
   var $1;
   var $2;
-  $1=$this;
-  $2=$b;
-  var $3=$1;
-  var $4=$3;
-  var $5=(($4+8)|0);
-  var $6=HEAP32[(($5)>>2)];
+  var $3;
+  var $4;
+  $1=$self;
+  $2=$arg0;
+  $3=$arg1;
+  $4=$arg2;
+  var $5=$1;
+  var $6=$2;
+  var $7=$3;
+  var $8=$4;
+  __ZN7b2Color3SetEfff($5, $6, $7, $8);
   ;
-  return $6;
+  return;
+}
+
+
+function _emscripten_bind_b2Color__b2Color_p0() {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      var $2;
+      var $3=__Znwj(12);
+      var $4=$3;
+      (function() { try { __THREW__ = false; return __ZN7b2ColorC1Ev($4) } catch(e) { if (typeof e != "number") throw e; if (ABORT) throw e; __THREW__ = true; Module.print("Exception: " + e + ", currently at: " + (new Error().stack)); return null } })();if (!__THREW__) { __label__ = 3; break; } else { __label__ = 4; break; }
+    case 3: 
+      ;
+      return $4;
+    case 4: 
+      var $7=___cxa_find_matching_catch(HEAP32[((_llvm_eh_exception.buf)>>2)],HEAP32[(((_llvm_eh_exception.buf)+(4))>>2)],[]);
+      var $8=$7.f0;
+      $1=$8;
+      var $9=$7.f1;
+      $2=$9;
+      __ZdlPv($3);
+      __label__ = 5; break;
+    case 5: 
+      var $11=$1;
+      var $12=$2;
+      var $13=(tempValue = [0,0,0,0,0,0,0,0], tempValue.f0 = $11, tempValue);
+      var $14=($13.f1 = $12, $13);
+      Module.print("Resuming exception");throw HEAP32[((_llvm_eh_exception.buf)>>2)];
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
+function __ZN7b2ColorC1Ev($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  __ZN7b2ColorC2Ev($2);
+  ;
+  return;
 }
 
 
@@ -74485,48 +74579,47 @@ function _emscripten_bind_b2MouseJointDef__get_collideConnected_p1($self, $arg0)
 }
 
 
-function _emscripten_bind_b2MouseJointDef____destroy___p0($self) {
-  ;
-  var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      $1=$self;
-      var $2=$1;
-      var $3=(($2)|0)==0;
-      if ($3) { __label__ = 4; break; } else { __label__ = 3; break; }
-    case 3: 
-      var $5=$2;
-      __ZdlPv($5);
-      __label__ = 4; break;
-    case 4: 
-      ;
-      return;
-    default: assert(0, "bad label: " + __label__);
-  }
-}
-
-
-function _emscripten_bind_b2MouseJointDef__set_collideConnected_p1($self, $arg0) {
+function __ZN15b2MouseJointDef20get_collideConnectedEb($this, $b) {
   ;
   var __label__;
 
   var $1;
   var $2;
-  $1=$self;
-  var $3=(($arg0)&1);
+  $1=$this;
+  var $3=(($b)&1);
+  $2=$3;
+  var $4=$1;
+  var $5=$4;
+  var $6=(($5+16)|0);
+  var $7=HEAP8[($6)];
+  var $8=(($7) & 1);
+  ;
+  return $8;
+}
+
+
+function __ZN15b2MouseJointDef20set_collideConnectedEb($this, $b) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$this;
+  var $3=(($b)&1);
   $2=$3;
   var $4=$1;
   var $5=$2;
   var $6=(($5) & 1);
-  __ZN15b2MouseJointDef20set_collideConnectedEb($4, $6);
+  var $7=$4;
+  var $8=(($7+16)|0);
+  var $9=(($6)&1);
+  HEAP8[($8)]=$9;
   ;
   return;
 }
 
 
-function _emscripten_bind_b2DistanceJointDef__set_localAnchorA_p1($self, $arg0) {
+function _emscripten_bind_b2MouseJointDef__set_frequencyHz_p1($self, $arg0) {
   ;
   var __label__;
 
@@ -74534,46 +74627,43 @@ function _emscripten_bind_b2DistanceJointDef__set_localAnchorA_p1($self, $arg0) 
   var $2;
   $1=$self;
   $2=$arg0;
-  var $3=$1;
-  var $4=(($3+20)|0);
-  var $5=$2;
-  var $6=$4;
-  var $7=$5;
-  assert(8 % 1 === 0, 'memcpy given ' + 8 + ' bytes to copy. Problem with quantum=1 corrections perhaps?');HEAP32[(($6)>>2)]=HEAP32[(($7)>>2)];HEAP32[((($6)+(4))>>2)]=HEAP32[((($7)+(4))>>2)];
+  var $3=$2;
+  var $4=$1;
+  var $5=(($4+32)|0);
+  HEAPF32[(($5)>>2)]=$3;
   ;
   return;
 }
 
 
-function _emscripten_bind_b2DistanceJointDef__get_bodyA_p1($self, $arg0) {
+function _emscripten_bind_b2MouseJointDef__get_dampingRatio_p0($self) {
   ;
   var __label__;
 
   var $1;
-  var $2;
   $1=$self;
-  $2=$arg0;
-  var $3=$1;
-  var $4=$2;
-  var $5=__ZN18b2DistanceJointDef9get_bodyAEP6b2Body($3, $4);
+  var $2=$1;
+  var $3=(($2+36)|0);
+  var $4=HEAPF32[(($3)>>2)];
   ;
-  return $5;
+  return $4;
 }
 
 
-function _emscripten_bind_b2DistanceJointDef__get_bodyB_p1($self, $arg0) {
+function __ZN18b2DistanceJointDef9get_bodyAEP6b2Body($this, $b) {
   ;
   var __label__;
 
   var $1;
   var $2;
-  $1=$self;
-  $2=$arg0;
+  $1=$this;
+  $2=$b;
   var $3=$1;
-  var $4=$2;
-  var $5=__ZN18b2DistanceJointDef9get_bodyBEP6b2Body($3, $4);
+  var $4=$3;
+  var $5=(($4+8)|0);
+  var $6=HEAP32[(($5)>>2)];
   ;
-  return $5;
+  return $6;
 }
 
 
@@ -75283,25 +75373,95 @@ function _emscripten_bind_b2RopeJointDef__set_maxLength_p1($self, $arg0) {
 }
 
 
-function __ZN10b2JointDefC2Ev($this) {
+function _emscripten_bind_b2MouseJointDef____destroy___p0($self) {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      $1=$self;
+      var $2=$1;
+      var $3=(($2)|0)==0;
+      if ($3) { __label__ = 4; break; } else { __label__ = 3; break; }
+    case 3: 
+      var $5=$2;
+      __ZdlPv($5);
+      __label__ = 4; break;
+    case 4: 
+      ;
+      return;
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
+function _emscripten_bind_b2MouseJointDef__set_collideConnected_p1($self, $arg0) {
   ;
   var __label__;
 
   var $1;
-  $1=$this;
-  var $2=$1;
-  var $3=(($2)|0);
-  HEAP32[(($3)>>2)]=0;
-  var $4=(($2+4)|0);
-  HEAP32[(($4)>>2)]=0;
-  var $5=(($2+8)|0);
-  HEAP32[(($5)>>2)]=0;
-  var $6=(($2+12)|0);
-  HEAP32[(($6)>>2)]=0;
-  var $7=(($2+16)|0);
-  HEAP8[($7)]=0;
+  var $2;
+  $1=$self;
+  var $3=(($arg0)&1);
+  $2=$3;
+  var $4=$1;
+  var $5=$2;
+  var $6=(($5) & 1);
+  __ZN15b2MouseJointDef20set_collideConnectedEb($4, $6);
   ;
   return;
+}
+
+
+function _emscripten_bind_b2DistanceJointDef__set_localAnchorA_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$1;
+  var $4=(($3+20)|0);
+  var $5=$2;
+  var $6=$4;
+  var $7=$5;
+  assert(8 % 1 === 0, 'memcpy given ' + 8 + ' bytes to copy. Problem with quantum=1 corrections perhaps?');HEAP32[(($6)>>2)]=HEAP32[(($7)>>2)];HEAP32[((($6)+(4))>>2)]=HEAP32[((($7)+(4))>>2)];
+  ;
+  return;
+}
+
+
+function _emscripten_bind_b2DistanceJointDef__get_bodyA_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$1;
+  var $4=$2;
+  var $5=__ZN18b2DistanceJointDef9get_bodyAEP6b2Body($3, $4);
+  ;
+  return $5;
+}
+
+
+function _emscripten_bind_b2DistanceJointDef__get_bodyB_p1($self, $arg0) {
+  ;
+  var __label__;
+
+  var $1;
+  var $2;
+  $1=$self;
+  $2=$arg0;
+  var $3=$1;
+  var $4=$2;
+  var $5=__ZN18b2DistanceJointDef9get_bodyBEP6b2Body($3, $4);
+  ;
+  return $5;
 }
 
 
@@ -75918,145 +76078,6 @@ function __ZN14b2RopeJointDefC1Ev($this) {
 }
 
 
-function __ZN14b2RopeJointDefC2Ev($this) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$this;
-  var $2=$1;
-  var $3=$2;
-  __ZN10b2JointDefC2Ev($3);
-  var $4=(($2+20)|0);
-  __ZN6b2Vec2C1Ev($4);
-  var $5=(($2+28)|0);
-  __ZN6b2Vec2C1Ev($5);
-  var $6=$2;
-  var $7=(($6)|0);
-  HEAP32[(($7)>>2)]=10;
-  var $8=(($2+20)|0);
-  __ZN6b2Vec23SetEff($8, -1, 0);
-  var $9=(($2+28)|0);
-  __ZN6b2Vec23SetEff($9, 1, 0);
-  var $10=(($2+36)|0);
-  HEAPF32[(($10)>>2)]=0;
-  ;
-  return;
-}
-
-
-function __ZN14b2GearJointDefC2Ev($this) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$this;
-  var $2=$1;
-  var $3=$2;
-  __ZN10b2JointDefC2Ev($3);
-  var $4=$2;
-  var $5=(($4)|0);
-  HEAP32[(($5)>>2)]=6;
-  var $6=(($2+20)|0);
-  HEAP32[(($6)>>2)]=0;
-  var $7=(($2+24)|0);
-  HEAP32[(($7)>>2)]=0;
-  var $8=(($2+28)|0);
-  HEAPF32[(($8)>>2)]=1;
-  ;
-  return;
-}
-
-
-function __ZN18b2DistanceJointDefC2Ev($this) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$this;
-  var $2=$1;
-  var $3=$2;
-  __ZN10b2JointDefC2Ev($3);
-  var $4=(($2+20)|0);
-  __ZN6b2Vec2C1Ev($4);
-  var $5=(($2+28)|0);
-  __ZN6b2Vec2C1Ev($5);
-  var $6=$2;
-  var $7=(($6)|0);
-  HEAP32[(($7)>>2)]=3;
-  var $8=(($2+20)|0);
-  __ZN6b2Vec23SetEff($8, 0, 0);
-  var $9=(($2+28)|0);
-  __ZN6b2Vec23SetEff($9, 0, 0);
-  var $10=(($2+36)|0);
-  HEAPF32[(($10)>>2)]=1;
-  var $11=(($2+40)|0);
-  HEAPF32[(($11)>>2)]=0;
-  var $12=(($2+44)|0);
-  HEAPF32[(($12)>>2)]=0;
-  ;
-  return;
-}
-
-
-function __ZN15b2MouseJointDefC2Ev($this) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$this;
-  var $2=$1;
-  var $3=$2;
-  __ZN10b2JointDefC2Ev($3);
-  var $4=(($2+20)|0);
-  __ZN6b2Vec2C1Ev($4);
-  var $5=$2;
-  var $6=(($5)|0);
-  HEAP32[(($6)>>2)]=5;
-  var $7=(($2+20)|0);
-  __ZN6b2Vec23SetEff($7, 0, 0);
-  var $8=(($2+28)|0);
-  HEAPF32[(($8)>>2)]=0;
-  var $9=(($2+32)|0);
-  HEAPF32[(($9)>>2)]=5;
-  var $10=(($2+36)|0);
-  HEAPF32[(($10)>>2)]=0.699999988079071;
-  ;
-  return;
-}
-
-
-function __ZN14b2WeldJointDefC2Ev($this) {
-  ;
-  var __label__;
-
-  var $1;
-  $1=$this;
-  var $2=$1;
-  var $3=$2;
-  __ZN10b2JointDefC2Ev($3);
-  var $4=(($2+20)|0);
-  __ZN6b2Vec2C1Ev($4);
-  var $5=(($2+28)|0);
-  __ZN6b2Vec2C1Ev($5);
-  var $6=$2;
-  var $7=(($6)|0);
-  HEAP32[(($7)>>2)]=8;
-  var $8=(($2+20)|0);
-  __ZN6b2Vec23SetEff($8, 0, 0);
-  var $9=(($2+28)|0);
-  __ZN6b2Vec23SetEff($9, 0, 0);
-  var $10=(($2+36)|0);
-  HEAPF32[(($10)>>2)]=0;
-  var $11=(($2+40)|0);
-  HEAPF32[(($11)>>2)]=0;
-  var $12=(($2+44)|0);
-  HEAPF32[(($12)>>2)]=0;
-  ;
-  return;
-}
-
-
 function __ZN7b2ColorC2Ev($this) {
   ;
   var __label__;
@@ -76264,6 +76285,28 @@ function __ZN17b2RayCastCallbackC2Ev($this) {
 }
 
 
+function __ZN10b2JointDefC2Ev($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  var $3=(($2)|0);
+  HEAP32[(($3)>>2)]=0;
+  var $4=(($2+4)|0);
+  HEAP32[(($4)>>2)]=0;
+  var $5=(($2+8)|0);
+  HEAP32[(($5)>>2)]=0;
+  var $6=(($2+12)|0);
+  HEAP32[(($6)>>2)]=0;
+  var $7=(($2+16)|0);
+  HEAP8[($7)]=0;
+  ;
+  return;
+}
+
+
 function __ZNK10__cxxabiv117__class_type_info24process_found_base_classEPNS_19__dynamic_cast_infoEPvi($this, $info, $adjustedPtr, $path_below) {
   ;
   var __label__;
@@ -76338,6 +76381,145 @@ function __ZNK10__cxxabiv117__class_type_info24process_found_base_classEPNS_19__
       return;
     default: assert(0, "bad label: " + __label__);
   }
+}
+
+
+function __ZN14b2RopeJointDefC2Ev($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  var $3=$2;
+  __ZN10b2JointDefC2Ev($3);
+  var $4=(($2+20)|0);
+  __ZN6b2Vec2C1Ev($4);
+  var $5=(($2+28)|0);
+  __ZN6b2Vec2C1Ev($5);
+  var $6=$2;
+  var $7=(($6)|0);
+  HEAP32[(($7)>>2)]=10;
+  var $8=(($2+20)|0);
+  __ZN6b2Vec23SetEff($8, -1, 0);
+  var $9=(($2+28)|0);
+  __ZN6b2Vec23SetEff($9, 1, 0);
+  var $10=(($2+36)|0);
+  HEAPF32[(($10)>>2)]=0;
+  ;
+  return;
+}
+
+
+function __ZN14b2GearJointDefC2Ev($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  var $3=$2;
+  __ZN10b2JointDefC2Ev($3);
+  var $4=$2;
+  var $5=(($4)|0);
+  HEAP32[(($5)>>2)]=6;
+  var $6=(($2+20)|0);
+  HEAP32[(($6)>>2)]=0;
+  var $7=(($2+24)|0);
+  HEAP32[(($7)>>2)]=0;
+  var $8=(($2+28)|0);
+  HEAPF32[(($8)>>2)]=1;
+  ;
+  return;
+}
+
+
+function __ZN18b2DistanceJointDefC2Ev($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  var $3=$2;
+  __ZN10b2JointDefC2Ev($3);
+  var $4=(($2+20)|0);
+  __ZN6b2Vec2C1Ev($4);
+  var $5=(($2+28)|0);
+  __ZN6b2Vec2C1Ev($5);
+  var $6=$2;
+  var $7=(($6)|0);
+  HEAP32[(($7)>>2)]=3;
+  var $8=(($2+20)|0);
+  __ZN6b2Vec23SetEff($8, 0, 0);
+  var $9=(($2+28)|0);
+  __ZN6b2Vec23SetEff($9, 0, 0);
+  var $10=(($2+36)|0);
+  HEAPF32[(($10)>>2)]=1;
+  var $11=(($2+40)|0);
+  HEAPF32[(($11)>>2)]=0;
+  var $12=(($2+44)|0);
+  HEAPF32[(($12)>>2)]=0;
+  ;
+  return;
+}
+
+
+function __ZN15b2MouseJointDefC2Ev($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  var $3=$2;
+  __ZN10b2JointDefC2Ev($3);
+  var $4=(($2+20)|0);
+  __ZN6b2Vec2C1Ev($4);
+  var $5=$2;
+  var $6=(($5)|0);
+  HEAP32[(($6)>>2)]=5;
+  var $7=(($2+20)|0);
+  __ZN6b2Vec23SetEff($7, 0, 0);
+  var $8=(($2+28)|0);
+  HEAPF32[(($8)>>2)]=0;
+  var $9=(($2+32)|0);
+  HEAPF32[(($9)>>2)]=5;
+  var $10=(($2+36)|0);
+  HEAPF32[(($10)>>2)]=0.699999988079071;
+  ;
+  return;
+}
+
+
+function __ZN14b2WeldJointDefC2Ev($this) {
+  ;
+  var __label__;
+
+  var $1;
+  $1=$this;
+  var $2=$1;
+  var $3=$2;
+  __ZN10b2JointDefC2Ev($3);
+  var $4=(($2+20)|0);
+  __ZN6b2Vec2C1Ev($4);
+  var $5=(($2+28)|0);
+  __ZN6b2Vec2C1Ev($5);
+  var $6=$2;
+  var $7=(($6)|0);
+  HEAP32[(($7)>>2)]=8;
+  var $8=(($2+20)|0);
+  __ZN6b2Vec23SetEff($8, 0, 0);
+  var $9=(($2+28)|0);
+  __ZN6b2Vec23SetEff($9, 0, 0);
+  var $10=(($2+36)|0);
+  HEAPF32[(($10)>>2)]=0;
+  var $11=(($2+40)|0);
+  HEAPF32[(($11)>>2)]=0;
+  var $12=(($2+44)|0);
+  HEAPF32[(($12)>>2)]=0;
+  ;
+  return;
 }
 
 
@@ -76971,6 +77153,174 @@ function __ZNK10__cxxabiv120__si_class_type_info27has_unambiguous_public_baseEPN
 }
 
 
+function __ZNK10__cxxabiv117__class_type_info29process_static_type_above_dstEPNS_19__dynamic_cast_infoEPKvS4_i($this, $info, $dst_ptr, $current_ptr, $path_below) {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      var $2;
+      var $3;
+      var $4;
+      var $5;
+      $1=$this;
+      $2=$info;
+      $3=$dst_ptr;
+      $4=$current_ptr;
+      $5=$path_below;
+      var $6=$1;
+      var $7=$2;
+      var $8=(($7+53)|0);
+      HEAP8[($8)]=1;
+      var $9=$4;
+      var $10=$2;
+      var $11=(($10+4)|0);
+      var $12=HEAP32[(($11)>>2)];
+      var $13=(($9)|0)==(($12)|0);
+      if ($13) { __label__ = 3; break; } else { __label__ = 18; break; }
+    case 3: 
+      var $15=$2;
+      var $16=(($15+52)|0);
+      HEAP8[($16)]=1;
+      var $17=$2;
+      var $18=(($17+16)|0);
+      var $19=HEAP32[(($18)>>2)];
+      var $20=(($19)|0)==0;
+      if ($20) { __label__ = 4; break; } else { __label__ = 8; break; }
+    case 4: 
+      var $22=$3;
+      var $23=$2;
+      var $24=(($23+16)|0);
+      HEAP32[(($24)>>2)]=$22;
+      var $25=$5;
+      var $26=$2;
+      var $27=(($26+24)|0);
+      HEAP32[(($27)>>2)]=$25;
+      var $28=$2;
+      var $29=(($28+36)|0);
+      HEAP32[(($29)>>2)]=1;
+      var $30=$2;
+      var $31=(($30+48)|0);
+      var $32=HEAP32[(($31)>>2)];
+      var $33=(($32)|0)==1;
+      if ($33) { __label__ = 5; break; } else { __label__ = 7; break; }
+    case 5: 
+      var $35=$2;
+      var $36=(($35+24)|0);
+      var $37=HEAP32[(($36)>>2)];
+      var $38=(($37)|0)==1;
+      if ($38) { __label__ = 6; break; } else { __label__ = 7; break; }
+    case 6: 
+      var $40=$2;
+      var $41=(($40+54)|0);
+      HEAP8[($41)]=1;
+      __label__ = 7; break;
+    case 7: 
+      __label__ = 17; break;
+    case 8: 
+      var $44=$2;
+      var $45=(($44+16)|0);
+      var $46=HEAP32[(($45)>>2)];
+      var $47=$3;
+      var $48=(($46)|0)==(($47)|0);
+      if ($48) { __label__ = 9; break; } else { __label__ = 15; break; }
+    case 9: 
+      var $50=$2;
+      var $51=(($50+24)|0);
+      var $52=HEAP32[(($51)>>2)];
+      var $53=(($52)|0)==2;
+      if ($53) { __label__ = 10; break; } else { __label__ = 11; break; }
+    case 10: 
+      var $55=$5;
+      var $56=$2;
+      var $57=(($56+24)|0);
+      HEAP32[(($57)>>2)]=$55;
+      __label__ = 11; break;
+    case 11: 
+      var $59=$2;
+      var $60=(($59+48)|0);
+      var $61=HEAP32[(($60)>>2)];
+      var $62=(($61)|0)==1;
+      if ($62) { __label__ = 12; break; } else { __label__ = 14; break; }
+    case 12: 
+      var $64=$2;
+      var $65=(($64+24)|0);
+      var $66=HEAP32[(($65)>>2)];
+      var $67=(($66)|0)==1;
+      if ($67) { __label__ = 13; break; } else { __label__ = 14; break; }
+    case 13: 
+      var $69=$2;
+      var $70=(($69+54)|0);
+      HEAP8[($70)]=1;
+      __label__ = 14; break;
+    case 14: 
+      __label__ = 16; break;
+    case 15: 
+      var $73=$2;
+      var $74=(($73+36)|0);
+      var $75=HEAP32[(($74)>>2)];
+      var $76=((($75)+(1))|0);
+      HEAP32[(($74)>>2)]=$76;
+      var $77=$2;
+      var $78=(($77+54)|0);
+      HEAP8[($78)]=1;
+      __label__ = 16; break;
+    case 16: 
+      __label__ = 17; break;
+    case 17: 
+      __label__ = 18; break;
+    case 18: 
+      ;
+      return;
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
+function __ZNK10__cxxabiv117__class_type_info29process_static_type_below_dstEPNS_19__dynamic_cast_infoEPKvi($this, $info, $current_ptr, $path_below) {
+  ;
+  var __label__;
+  __label__ = 2; 
+  while(1) switch(__label__) {
+    case 2: 
+      var $1;
+      var $2;
+      var $3;
+      var $4;
+      $1=$this;
+      $2=$info;
+      $3=$current_ptr;
+      $4=$path_below;
+      var $5=$1;
+      var $6=$3;
+      var $7=$2;
+      var $8=(($7+4)|0);
+      var $9=HEAP32[(($8)>>2)];
+      var $10=(($6)|0)==(($9)|0);
+      if ($10) { __label__ = 3; break; } else { __label__ = 6; break; }
+    case 3: 
+      var $12=$2;
+      var $13=(($12+28)|0);
+      var $14=HEAP32[(($13)>>2)];
+      var $15=(($14)|0)!=1;
+      if ($15) { __label__ = 4; break; } else { __label__ = 5; break; }
+    case 4: 
+      var $17=$4;
+      var $18=$2;
+      var $19=(($18+28)|0);
+      HEAP32[(($19)>>2)]=$17;
+      __label__ = 5; break;
+    case 5: 
+      __label__ = 6; break;
+    case 6: 
+      ;
+      return;
+    default: assert(0, "bad label: " + __label__);
+  }
+}
+
+
 function ___dynamic_cast($static_ptr, $static_type, $dst_type, $src2dst_offset) {
   var __stackBase__  = STACKTOP; STACKTOP += 56; assert(STACKTOP % 4 == 0, "Stack is unaligned"); assert(STACKTOP < STACK_MAX, "Ran out of stack");
   var __label__;
@@ -77148,174 +77498,6 @@ function ___dynamic_cast($static_ptr, $static_type, $dst_type, $src2dst_offset) 
       var $106=$dst_ptr;
       STACKTOP = __stackBase__;
       return $106;
-    default: assert(0, "bad label: " + __label__);
-  }
-}
-
-
-function __ZNK10__cxxabiv117__class_type_info29process_static_type_above_dstEPNS_19__dynamic_cast_infoEPKvS4_i($this, $info, $dst_ptr, $current_ptr, $path_below) {
-  ;
-  var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      var $2;
-      var $3;
-      var $4;
-      var $5;
-      $1=$this;
-      $2=$info;
-      $3=$dst_ptr;
-      $4=$current_ptr;
-      $5=$path_below;
-      var $6=$1;
-      var $7=$2;
-      var $8=(($7+53)|0);
-      HEAP8[($8)]=1;
-      var $9=$4;
-      var $10=$2;
-      var $11=(($10+4)|0);
-      var $12=HEAP32[(($11)>>2)];
-      var $13=(($9)|0)==(($12)|0);
-      if ($13) { __label__ = 3; break; } else { __label__ = 18; break; }
-    case 3: 
-      var $15=$2;
-      var $16=(($15+52)|0);
-      HEAP8[($16)]=1;
-      var $17=$2;
-      var $18=(($17+16)|0);
-      var $19=HEAP32[(($18)>>2)];
-      var $20=(($19)|0)==0;
-      if ($20) { __label__ = 4; break; } else { __label__ = 8; break; }
-    case 4: 
-      var $22=$3;
-      var $23=$2;
-      var $24=(($23+16)|0);
-      HEAP32[(($24)>>2)]=$22;
-      var $25=$5;
-      var $26=$2;
-      var $27=(($26+24)|0);
-      HEAP32[(($27)>>2)]=$25;
-      var $28=$2;
-      var $29=(($28+36)|0);
-      HEAP32[(($29)>>2)]=1;
-      var $30=$2;
-      var $31=(($30+48)|0);
-      var $32=HEAP32[(($31)>>2)];
-      var $33=(($32)|0)==1;
-      if ($33) { __label__ = 5; break; } else { __label__ = 7; break; }
-    case 5: 
-      var $35=$2;
-      var $36=(($35+24)|0);
-      var $37=HEAP32[(($36)>>2)];
-      var $38=(($37)|0)==1;
-      if ($38) { __label__ = 6; break; } else { __label__ = 7; break; }
-    case 6: 
-      var $40=$2;
-      var $41=(($40+54)|0);
-      HEAP8[($41)]=1;
-      __label__ = 7; break;
-    case 7: 
-      __label__ = 17; break;
-    case 8: 
-      var $44=$2;
-      var $45=(($44+16)|0);
-      var $46=HEAP32[(($45)>>2)];
-      var $47=$3;
-      var $48=(($46)|0)==(($47)|0);
-      if ($48) { __label__ = 9; break; } else { __label__ = 15; break; }
-    case 9: 
-      var $50=$2;
-      var $51=(($50+24)|0);
-      var $52=HEAP32[(($51)>>2)];
-      var $53=(($52)|0)==2;
-      if ($53) { __label__ = 10; break; } else { __label__ = 11; break; }
-    case 10: 
-      var $55=$5;
-      var $56=$2;
-      var $57=(($56+24)|0);
-      HEAP32[(($57)>>2)]=$55;
-      __label__ = 11; break;
-    case 11: 
-      var $59=$2;
-      var $60=(($59+48)|0);
-      var $61=HEAP32[(($60)>>2)];
-      var $62=(($61)|0)==1;
-      if ($62) { __label__ = 12; break; } else { __label__ = 14; break; }
-    case 12: 
-      var $64=$2;
-      var $65=(($64+24)|0);
-      var $66=HEAP32[(($65)>>2)];
-      var $67=(($66)|0)==1;
-      if ($67) { __label__ = 13; break; } else { __label__ = 14; break; }
-    case 13: 
-      var $69=$2;
-      var $70=(($69+54)|0);
-      HEAP8[($70)]=1;
-      __label__ = 14; break;
-    case 14: 
-      __label__ = 16; break;
-    case 15: 
-      var $73=$2;
-      var $74=(($73+36)|0);
-      var $75=HEAP32[(($74)>>2)];
-      var $76=((($75)+(1))|0);
-      HEAP32[(($74)>>2)]=$76;
-      var $77=$2;
-      var $78=(($77+54)|0);
-      HEAP8[($78)]=1;
-      __label__ = 16; break;
-    case 16: 
-      __label__ = 17; break;
-    case 17: 
-      __label__ = 18; break;
-    case 18: 
-      ;
-      return;
-    default: assert(0, "bad label: " + __label__);
-  }
-}
-
-
-function __ZNK10__cxxabiv117__class_type_info29process_static_type_below_dstEPNS_19__dynamic_cast_infoEPKvi($this, $info, $current_ptr, $path_below) {
-  ;
-  var __label__;
-  __label__ = 2; 
-  while(1) switch(__label__) {
-    case 2: 
-      var $1;
-      var $2;
-      var $3;
-      var $4;
-      $1=$this;
-      $2=$info;
-      $3=$current_ptr;
-      $4=$path_below;
-      var $5=$1;
-      var $6=$3;
-      var $7=$2;
-      var $8=(($7+4)|0);
-      var $9=HEAP32[(($8)>>2)];
-      var $10=(($6)|0)==(($9)|0);
-      if ($10) { __label__ = 3; break; } else { __label__ = 6; break; }
-    case 3: 
-      var $12=$2;
-      var $13=(($12+28)|0);
-      var $14=HEAP32[(($13)>>2)];
-      var $15=(($14)|0)!=1;
-      if ($15) { __label__ = 4; break; } else { __label__ = 5; break; }
-    case 4: 
-      var $17=$4;
-      var $18=$2;
-      var $19=(($18+28)|0);
-      HEAP32[(($19)>>2)]=$17;
-      __label__ = 5; break;
-    case 5: 
-      __label__ = 6; break;
-    case 6: 
-      ;
-      return;
     default: assert(0, "bad label: " + __label__);
   }
 }
@@ -88062,23 +88244,23 @@ __ZTV17b2RayCastCallback=allocate([0, 0, 0, 0, 0, 0, 0, 0, 404, 0, 0, 0, 406, 0,
 allocate(1, "i8", ALLOC_STATIC);
 STRING_TABLE.__ZTS17b2RayCastCallback=allocate([49,55,98,50,82,97,121,67,97,115,116,67,97,108,108,98,97,99,107,0] /* 17b2RayCastCallback\ */, "i8", ALLOC_STATIC);
 __ZTI17b2RayCastCallback=allocate(8, "i8", ALLOC_STATIC);
-_llvm_used=allocate([410, 0, 0, 0, 412, 0, 0, 0, 414, 0, 0, 0, 416, 0, 0, 0, 418, 0, 0, 0, 420, 0, 0, 0, 422, 0, 0, 0, 424, 0, 0, 0, 426, 0, 0, 0, 428, 0, 0, 0, 430, 0, 0, 0, 432, 0, 0, 0, 434, 0, 0, 0, 436, 0, 0, 0, 438, 0, 0, 0, 440, 0, 0, 0, 442, 0, 0, 0, 444, 0, 0, 0, 446, 0, 0, 0, 448, 0, 0, 0, 450, 0, 0, 0, 452, 0, 0, 0, 454, 0, 0, 0, 456, 0, 0, 0, 458, 0, 0, 0, 460, 0, 0, 0, 462, 0, 0, 0, 464, 0, 0, 0, 466, 0, 0, 0, 468, 0, 0, 0, 470, 0, 0, 0, 472, 0, 0, 0, 474, 0, 0, 0, 476, 0, 0, 0, 478, 0, 0, 0, 480, 0, 0, 0, 482, 0, 0, 0, 484, 0, 0, 0, 486, 0, 0, 0, 488, 0, 0, 0, 490, 0, 0, 0, 492, 0, 0, 0, 494, 0, 0, 0, 496, 0, 0, 0, 498, 0, 0, 0, 500, 0, 0, 0, 502, 0, 0, 0, 504, 0, 0, 0, 506, 0, 0, 0, 508, 0, 0, 0, 510, 0, 0, 0, 512, 0, 0, 0, 514, 0, 0, 0, 516, 0, 0, 0, 518, 0, 0, 0, 520, 0, 0, 0, 522, 0, 0, 0, 524, 0, 0, 0, 526, 0, 0, 0, 528, 0, 0, 0, 530, 0, 0, 0, 532, 0, 0, 0, 534, 0, 0, 0, 536, 0, 0, 0, 538, 0, 0, 0, 540, 0, 0, 0, 542, 0, 0, 0, 544, 0, 0, 0, 546, 0, 0, 0, 548, 0, 0, 0, 550, 0, 0, 0, 552, 0, 0, 0, 554, 0, 0, 0, 556, 0, 0, 0, 558, 0, 0, 0, 560, 0, 0, 0, 562, 0, 0, 0, 564, 0, 0, 0, 566, 0, 0, 0, 568, 0, 0, 0, 570, 0, 0, 0, 572, 0, 0, 0, 574, 0, 0, 0, 576, 0, 0, 0, 578, 0, 0, 0, 580, 0, 0, 0, 582, 0, 0, 0, 584, 0, 0, 0, 586, 0, 0, 0, 588, 0, 0, 0, 590, 0, 0, 0, 592, 0, 0, 0, 594, 0, 0, 0, 596, 0, 0, 0, 598, 0, 0, 0, 600, 0, 0, 0, 602, 0, 0, 0, 604, 0, 0, 0, 606, 0, 0, 0, 608, 0, 0, 0, 610, 0, 0, 0, 612, 0, 0, 0, 614, 0, 0, 0, 616, 0, 0, 0, 618, 0, 0, 0, 620, 0, 0, 0, 622, 0, 0, 0, 624, 0, 0, 0, 626, 0, 0, 0, 628, 0, 0, 0, 630, 0, 0, 0, 632, 0, 0, 0, 634, 0, 0, 0, 636, 0, 0, 0, 638, 0, 0, 0, 640, 0, 0, 0, 642, 0, 0, 0, 644, 0, 0, 0, 646, 0, 0, 0, 648, 0, 0, 0, 650, 0, 0, 0, 652, 0, 0, 0, 654, 0, 0, 0, 656, 0, 0, 0, 658, 0, 0, 0, 660, 0, 0, 0, 662, 0, 0, 0, 664, 0, 0, 0, 666, 0, 0, 0, 668, 0, 0, 0, 670, 0, 0, 0, 672, 0, 0, 0, 674, 0, 0, 0, 676, 0, 0, 0, 678, 0, 0, 0, 680, 0, 0, 0, 682, 0, 0, 0, 684, 0, 0, 0, 686, 0, 0, 0, 688, 0, 0, 0, 690, 0, 0, 0, 692, 0, 0, 0, 694, 0, 0, 0, 696, 0, 0, 0, 698, 0, 0, 0, 700, 0, 0, 0, 702, 0, 0, 0, 704, 0, 0, 0, 706, 0, 0, 0, 708, 0, 0, 0, 710, 0, 0, 0, 712, 0, 0, 0, 714, 0, 0, 0, 716, 0, 0, 0, 718, 0, 0, 0, 720, 0, 0, 0, 722, 0, 0, 0, 724, 0, 0, 0, 726, 0, 0, 0, 728, 0, 0, 0, 730, 0, 0, 0, 732, 0, 0, 0, 734, 0, 0, 0, 736, 0, 0, 0, 738, 0, 0, 0, 740, 0, 0, 0, 742, 0, 0, 0, 744, 0, 0, 0, 746, 0, 0, 0, 748, 0, 0, 0, 750, 0, 0, 0, 752, 0, 0, 0, 754, 0, 0, 0, 756, 0, 0, 0, 758, 0, 0, 0, 760, 0, 0, 0, 762, 0, 0, 0, 764, 0, 0, 0, 766, 0, 0, 0, 768, 0, 0, 0, 770, 0, 0, 0, 772, 0, 0, 0, 774, 0, 0, 0, 776, 0, 0, 0, 778, 0, 0, 0, 780, 0, 0, 0, 782, 0, 0, 0, 784, 0, 0, 0, 786, 0, 0, 0, 788, 0, 0, 0, 790, 0, 0, 0, 792, 0, 0, 0, 794, 0, 0, 0, 796, 0, 0, 0, 798, 0, 0, 0, 800, 0, 0, 0, 802, 0, 0, 0, 804, 0, 0, 0, 806, 0, 0, 0, 808, 0, 0, 0, 810, 0, 0, 0, 812, 0, 0, 0, 814, 0, 0, 0, 816, 0, 0, 0, 818, 0, 0, 0, 820, 0, 0, 0, 822, 0, 0, 0, 824, 0, 0, 0, 826, 0, 0, 0, 828, 0, 0, 0, 830, 0, 0, 0, 832, 0, 0, 0, 834, 0, 0, 0, 836, 0, 0, 0, 838, 0, 0, 0, 840, 0, 0, 0, 842, 0, 0, 0, 844, 0, 0, 0, 846, 0, 0, 0, 848, 0, 0, 0, 850, 0, 0, 0, 852, 0, 0, 0, 854, 0, 0, 0, 856, 0, 0, 0, 858, 0, 0, 0, 860, 0, 0, 0, 862, 0, 0, 0, 864, 0, 0, 0, 866, 0, 0, 0, 868, 0, 0, 0, 870, 0, 0, 0, 872, 0, 0, 0, 874, 0, 0, 0, 876, 0, 0, 0, 878, 0, 0, 0, 880, 0, 0, 0, 882, 0, 0, 0, 884, 0, 0, 0, 886, 0, 0, 0, 888, 0, 0, 0, 890, 0, 0, 0, 892, 0, 0, 0, 894, 0, 0, 0, 896, 0, 0, 0, 898, 0, 0, 0, 900, 0, 0, 0, 902, 0, 0, 0, 904, 0, 0, 0, 906, 0, 0, 0, 908, 0, 0, 0, 910, 0, 0, 0, 912, 0, 0, 0, 914, 0, 0, 0, 916, 0, 0, 0, 918, 0, 0, 0, 920, 0, 0, 0, 922, 0, 0, 0, 924, 0, 0, 0, 926, 0, 0, 0, 928, 0, 0, 0, 930, 0, 0, 0, 932, 0, 0, 0, 934, 0, 0, 0, 936, 0, 0, 0, 938, 0, 0, 0, 940, 0, 0, 0, 942, 0, 0, 0, 944, 0, 0, 0, 946, 0, 0, 0, 948, 0, 0, 0, 950, 0, 0, 0, 952, 0, 0, 0, 954, 0, 0, 0, 956, 0, 0, 0, 958, 0, 0, 0, 960, 0, 0, 0, 962, 0, 0, 0, 964, 0, 0, 0, 966, 0, 0, 0, 968, 0, 0, 0, 970, 0, 0, 0, 972, 0, 0, 0, 974, 0, 0, 0, 976, 0, 0, 0, 978, 0, 0, 0, 980, 0, 0, 0, 982, 0, 0, 0, 984, 0, 0, 0, 986, 0, 0, 0, 988, 0, 0, 0, 990, 0, 0, 0, 992, 0, 0, 0, 994, 0, 0, 0, 996, 0, 0, 0, 998, 0, 0, 0, 1000, 0, 0, 0, 1002, 0, 0, 0, 1004, 0, 0, 0, 1006, 0, 0, 0, 1008, 0, 0, 0, 1010, 0, 0, 0, 1012, 0, 0, 0, 1014, 0, 0, 0, 1016, 0, 0, 0, 1018, 0, 0, 0, 1020, 0, 0, 0, 1022, 0, 0, 0, 1024, 0, 0, 0, 1026, 0, 0, 0, 1028, 0, 0, 0, 1030, 0, 0, 0, 1032, 0, 0, 0, 1034, 0, 0, 0, 1036, 0, 0, 0, 1038, 0, 0, 0, 1040, 0, 0, 0, 1042, 0, 0, 0, 1044, 0, 0, 0, 1046, 0, 0, 0, 1048, 0, 0, 0, 1050, 0, 0, 0, 1052, 0, 0, 0, 1054, 0, 0, 0, 1056, 0, 0, 0, 1058, 0, 0, 0, 1060, 0, 0, 0, 1062, 0, 0, 0, 1064, 0, 0, 0, 1066, 0, 0, 0, 1068, 0, 0, 0, 1070, 0, 0, 0, 1072, 0, 0, 0, 1074, 0, 0, 0, 1076, 0, 0, 0, 1078, 0, 0, 0, 1080, 0, 0, 0, 1082, 0, 0, 0, 1084, 0, 0, 0, 1086, 0, 0, 0, 1088, 0, 0, 0, 1090, 0, 0, 0, 1092, 0, 0, 0, 1094, 0, 0, 0, 1096, 0, 0, 0, 1098, 0, 0, 0, 1100, 0, 0, 0, 1102, 0, 0, 0, 1104, 0, 0, 0, 1106, 0, 0, 0, 1108, 0, 0, 0, 1110, 0, 0, 0, 1112, 0, 0, 0, 1114, 0, 0, 0, 1116, 0, 0, 0, 1118, 0, 0, 0, 1120, 0, 0, 0, 1122, 0, 0, 0, 1124, 0, 0, 0, 1126, 0, 0, 0, 1128, 0, 0, 0, 1130, 0, 0, 0, 1132, 0, 0, 0, 1134, 0, 0, 0, 1136, 0, 0, 0, 1138, 0, 0, 0, 1140, 0, 0, 0, 1142, 0, 0, 0, 1144, 0, 0, 0, 1146, 0, 0, 0, 1148, 0, 0, 0, 1150, 0, 0, 0, 1152, 0, 0, 0, 1154, 0, 0, 0, 1156, 0, 0, 0, 1158, 0, 0, 0, 1160, 0, 0, 0, 1162, 0, 0, 0, 1164, 0, 0, 0, 1166, 0, 0, 0, 1168, 0, 0, 0, 1170, 0, 0, 0, 1172, 0, 0, 0, 1174, 0, 0, 0, 1176, 0, 0, 0, 1178, 0, 0, 0, 1180, 0, 0, 0, 1182, 0, 0, 0, 1184, 0, 0, 0, 1186, 0, 0, 0, 1188, 0, 0, 0, 1190, 0, 0, 0, 1192, 0, 0, 0, 1194, 0, 0, 0, 1196, 0, 0, 0, 1198, 0, 0, 0, 1200, 0, 0, 0, 1202, 0, 0, 0, 1204, 0, 0, 0, 1206, 0, 0, 0, 1208, 0, 0, 0, 1210, 0, 0, 0, 1212, 0, 0, 0, 1214, 0, 0, 0, 1216, 0, 0, 0, 1218, 0, 0, 0, 1220, 0, 0, 0, 1222, 0, 0, 0, 1224, 0, 0, 0, 1226, 0, 0, 0, 1228, 0, 0, 0, 1230, 0, 0, 0, 1232, 0, 0, 0, 1234, 0, 0, 0, 1236, 0, 0, 0, 1238, 0, 0, 0, 1240, 0, 0, 0, 1242, 0, 0, 0, 1244, 0, 0, 0, 1246, 0, 0, 0, 1248, 0, 0, 0, 1250, 0, 0, 0, 1252, 0, 0, 0, 1254, 0, 0, 0, 1256, 0, 0, 0, 1258, 0, 0, 0, 1260, 0, 0, 0, 1262, 0, 0, 0, 1264, 0, 0, 0, 1266, 0, 0, 0, 1268, 0, 0, 0, 1270, 0, 0, 0, 1272, 0, 0, 0, 1274, 0, 0, 0, 1276, 0, 0, 0, 1278, 0, 0, 0, 1280, 0, 0, 0, 1282, 0, 0, 0, 1284, 0, 0, 0, 1286, 0, 0, 0, 1288, 0, 0, 0, 1290, 0, 0, 0, 1292, 0, 0, 0, 1294, 0, 0, 0, 1296, 0, 0, 0, 1298, 0, 0, 0, 1300, 0, 0, 0, 1302, 0, 0, 0, 1304, 0, 0, 0, 1306, 0, 0, 0, 1308, 0, 0, 0, 1310, 0, 0, 0, 1312, 0, 0, 0, 1314, 0, 0, 0, 1316, 0, 0, 0, 1318, 0, 0, 0, 1320, 0, 0, 0, 1322, 0, 0, 0, 1324, 0, 0, 0, 1326, 0, 0, 0, 1328, 0, 0, 0, 1330, 0, 0, 0, 1332, 0, 0, 0, 1334, 0, 0, 0, 1336, 0, 0, 0, 1338, 0, 0, 0, 1340, 0, 0, 0, 1342, 0, 0, 0, 1344, 0, 0, 0, 1346, 0, 0, 0, 1348, 0, 0, 0, 1350, 0, 0, 0, 1352, 0, 0, 0, 1354, 0, 0, 0, 1356, 0, 0, 0, 1358, 0, 0, 0, 1360, 0, 0, 0, 1362, 0, 0, 0, 1364, 0, 0, 0, 1366, 0, 0, 0, 1368, 0, 0, 0, 1370, 0, 0, 0, 1372, 0, 0, 0, 1374, 0, 0, 0, 1376, 0, 0, 0, 1378, 0, 0, 0, 1380, 0, 0, 0, 1382, 0, 0, 0, 1384, 0, 0, 0, 1386, 0, 0, 0, 1388, 0, 0, 0, 1390, 0, 0, 0, 1392, 0, 0, 0, 1394, 0, 0, 0, 1396, 0, 0, 0, 1398, 0, 0, 0, 1400, 0, 0, 0, 1402, 0, 0, 0, 1404, 0, 0, 0, 1406, 0, 0, 0, 1408, 0, 0, 0, 1410, 0, 0, 0, 1412, 0, 0, 0, 1414, 0, 0, 0, 1416, 0, 0, 0, 1418, 0, 0, 0, 1420, 0, 0, 0, 1422, 0, 0, 0, 1424, 0, 0, 0, 1426, 0, 0, 0, 1428, 0, 0, 0, 1430, 0, 0, 0, 1432, 0, 0, 0, 1434, 0, 0, 0, 1436, 0, 0, 0, 1438, 0, 0, 0, 1440, 0, 0, 0, 1442, 0, 0, 0, 1444, 0, 0, 0, 1446, 0, 0, 0, 1448, 0, 0, 0, 1450, 0, 0, 0, 1452, 0, 0, 0, 1454, 0, 0, 0, 1456, 0, 0, 0, 1458, 0, 0, 0, 1460, 0, 0, 0, 1462, 0, 0, 0, 1464, 0, 0, 0, 1466, 0, 0, 0, 1468, 0, 0, 0, 1470, 0, 0, 0, 1472, 0, 0, 0, 1474, 0, 0, 0, 1476, 0, 0, 0, 1478, 0, 0, 0, 1480, 0, 0, 0, 1482, 0, 0, 0, 1484, 0, 0, 0, 1486, 0, 0, 0, 1488, 0, 0, 0, 1490, 0, 0, 0, 1492, 0, 0, 0, 1494, 0, 0, 0, 1496, 0, 0, 0, 1498, 0, 0, 0, 1500, 0, 0, 0, 1502, 0, 0, 0, 1504, 0, 0, 0, 1506, 0, 0, 0, 1508, 0, 0, 0, 1510, 0, 0, 0, 1512, 0, 0, 0, 1514, 0, 0, 0, 1516, 0, 0, 0, 1518, 0, 0, 0, 1520, 0, 0, 0, 1522, 0, 0, 0, 1524, 0, 0, 0, 1526, 0, 0, 0, 1528, 0, 0, 0, 1530, 0, 0, 0, 1532, 0, 0, 0, 1534, 0, 0, 0, 1536, 0, 0, 0, 1538, 0, 0, 0, 1540, 0, 0, 0, 1542, 0, 0, 0, 1544, 0, 0, 0, 1546, 0, 0, 0, 1548, 0, 0, 0, 1550, 0, 0, 0, 1552, 0, 0, 0, 1554, 0, 0, 0, 1556, 0, 0, 0, 1558, 0, 0, 0, 1560, 0, 0, 0, 1562, 0, 0, 0, 1564, 0, 0, 0, 1566, 0, 0, 0, 1568, 0, 0, 0, 1570, 0, 0, 0, 1572, 0, 0, 0, 1574, 0, 0, 0, 1576, 0, 0, 0, 1578, 0, 0, 0, 1580, 0, 0, 0, 1582, 0, 0, 0, 1584, 0, 0, 0, 1586, 0, 0, 0, 1588, 0, 0, 0, 1590, 0, 0, 0, 1592, 0, 0, 0, 1594, 0, 0, 0, 1596, 0, 0, 0, 1598, 0, 0, 0, 1600, 0, 0, 0, 1602, 0, 0, 0, 1604, 0, 0, 0, 1606, 0, 0, 0, 1608, 0, 0, 0, 1610, 0, 0, 0, 1612, 0, 0, 0, 1614, 0, 0, 0, 1616, 0, 0, 0, 1618, 0, 0, 0, 1620, 0, 0, 0, 1622, 0, 0, 0, 1624, 0, 0, 0, 1626, 0, 0, 0, 1628, 0, 0, 0, 1630, 0, 0, 0, 1632, 0, 0, 0, 1634, 0, 0, 0, 1636, 0, 0, 0, 1638, 0, 0, 0, 1640, 0, 0, 0, 1642, 0, 0, 0, 1644, 0, 0, 0, 1646, 0, 0, 0, 1648, 0, 0, 0, 1650, 0, 0, 0, 1652, 0, 0, 0, 1654, 0, 0, 0, 1656, 0, 0, 0, 1658, 0, 0, 0, 1660, 0, 0, 0, 1662, 0, 0, 0, 1664, 0, 0, 0, 1666, 0, 0, 0, 1668, 0, 0, 0, 1670, 0, 0, 0, 1672, 0, 0, 0, 1674, 0, 0, 0, 1676, 0, 0, 0, 1678, 0, 0, 0, 1680, 0, 0, 0, 1682, 0, 0, 0, 1684, 0, 0, 0, 1686, 0, 0, 0, 1688, 0, 0, 0, 1690, 0, 0, 0, 1692, 0, 0, 0, 1694, 0, 0, 0, 1696, 0, 0, 0, 1698, 0, 0, 0, 1700, 0, 0, 0, 1702, 0, 0, 0, 1704, 0, 0, 0, 1706, 0, 0, 0, 1708, 0, 0, 0, 1710, 0, 0, 0, 1712, 0, 0, 0, 1714, 0, 0, 0, 1716, 0, 0, 0, 1718, 0, 0, 0, 1720, 0, 0, 0, 1722, 0, 0, 0, 1724, 0, 0, 0, 1726, 0, 0, 0, 1728, 0, 0, 0, 1730, 0, 0, 0, 1732, 0, 0, 0, 1734, 0, 0, 0, 1736, 0, 0, 0, 1738, 0, 0, 0, 1740, 0, 0, 0, 1742, 0, 0, 0, 1744, 0, 0, 0, 1746, 0, 0, 0, 1748, 0, 0, 0, 1750, 0, 0, 0, 1752, 0, 0, 0, 1754, 0, 0, 0, 1756, 0, 0, 0, 1758, 0, 0, 0, 1760, 0, 0, 0, 1762, 0, 0, 0, 1764, 0, 0, 0, 1766, 0, 0, 0, 1768, 0, 0, 0, 1770, 0, 0, 0, 1772, 0, 0, 0, 1774, 0, 0, 0, 1776, 0, 0, 0, 1778, 0, 0, 0, 1780, 0, 0, 0, 1782, 0, 0, 0, 1784, 0, 0, 0, 1786, 0, 0, 0, 1788, 0, 0, 0, 1790, 0, 0, 0, 1792, 0, 0, 0, 1794, 0, 0, 0, 1796, 0, 0, 0, 1798, 0, 0, 0, 1800, 0, 0, 0, 1802, 0, 0, 0, 1804, 0, 0, 0, 1806, 0, 0, 0, 1808, 0, 0, 0, 1810, 0, 0, 0, 1812, 0, 0, 0, 1814, 0, 0, 0, 1816, 0, 0, 0, 1818, 0, 0, 0, 1820, 0, 0, 0, 1822, 0, 0, 0, 1824, 0, 0, 0, 1826, 0, 0, 0, 1828, 0, 0, 0, 1830, 0, 0, 0, 1832, 0, 0, 0, 1834, 0, 0, 0, 1836, 0, 0, 0, 1838, 0, 0, 0, 1840, 0, 0, 0, 1842, 0, 0, 0, 1844, 0, 0, 0, 1846, 0, 0, 0, 1848, 0, 0, 0, 1850, 0, 0, 0, 1852, 0, 0, 0, 1854, 0, 0, 0, 1856, 0, 0, 0, 1858, 0, 0, 0, 1860, 0, 0, 0, 1862, 0, 0, 0, 1864, 0, 0, 0, 1866, 0, 0, 0, 1868, 0, 0, 0, 1870, 0, 0, 0, 1872, 0, 0, 0, 1874, 0, 0, 0, 1876, 0, 0, 0, 1878, 0, 0, 0, 1880, 0, 0, 0, 1882, 0, 0, 0, 1884, 0, 0, 0, 1886, 0, 0, 0, 1888, 0, 0, 0, 1890, 0, 0, 0, 1892, 0, 0, 0, 1894, 0, 0, 0, 1896, 0, 0, 0, 1898, 0, 0, 0, 1900, 0, 0, 0, 1902, 0, 0, 0, 1904, 0, 0, 0, 1906, 0, 0, 0, 1908, 0, 0, 0, 1910, 0, 0, 0, 1912, 0, 0, 0, 1914, 0, 0, 0, 1916, 0, 0, 0, 1918, 0, 0, 0, 1920, 0, 0, 0, 1922, 0, 0, 0, 1924, 0, 0, 0, 1926, 0, 0, 0, 1928, 0, 0, 0, 1930, 0, 0, 0, 1932, 0, 0, 0, 1934, 0, 0, 0, 1936, 0, 0, 0, 1938, 0, 0, 0, 1940, 0, 0, 0, 1942, 0, 0, 0, 1944, 0, 0, 0, 1946, 0, 0, 0, 1948, 0, 0, 0, 1950, 0, 0, 0, 1952, 0, 0, 0, 1954, 0, 0, 0, 1956, 0, 0, 0, 1958, 0, 0, 0, 1960, 0, 0, 0, 1962, 0, 0, 0, 1964, 0, 0, 0, 1966, 0, 0, 0, 1968, 0, 0, 0, 1970, 0, 0, 0, 1972, 0, 0, 0, 1974, 0, 0, 0, 1976, 0, 0, 0, 1978, 0, 0, 0, 1980, 0, 0, 0, 1982, 0, 0, 0, 1984, 0, 0, 0, 1986, 0, 0, 0, 1988, 0, 0, 0, 1990, 0, 0, 0, 1992, 0, 0, 0, 1994, 0, 0, 0, 1996, 0, 0, 0, 1998, 0, 0, 0, 2000, 0, 0, 0, 2002, 0, 0, 0, 2004, 0, 0, 0, 2006, 0, 0, 0, 2008, 0, 0, 0, 2010, 0, 0, 0, 2012, 0, 0, 0, 2014, 0, 0, 0, 2016, 0, 0, 0, 2018, 0, 0, 0, 2020, 0, 0, 0, 2022, 0, 0, 0, 2024, 0, 0, 0, 2026, 0, 0, 0, 2028, 0, 0, 0, 2030, 0, 0, 0, 2032, 0, 0, 0, 2034, 0, 0, 0, 2036, 0, 0, 0, 2038, 0, 0, 0, 2040, 0, 0, 0, 2042, 0, 0, 0, 2044, 0, 0, 0, 2046, 0, 0, 0, 2048, 0, 0, 0, 2050, 0, 0, 0, 2052, 0, 0, 0, 2054, 0, 0, 0, 2056, 0, 0, 0, 2058, 0, 0, 0, 2060, 0, 0, 0, 2062, 0, 0, 0, 2064, 0, 0, 0, 2066, 0, 0, 0, 2068, 0, 0, 0, 2070, 0, 0, 0, 2072, 0, 0, 0, 2074, 0, 0, 0, 2076, 0, 0, 0, 2078, 0, 0, 0, 2080, 0, 0, 0, 2082, 0, 0, 0, 2084, 0, 0, 0, 2086, 0, 0, 0, 2088, 0, 0, 0, 2090, 0, 0, 0, 2092, 0, 0, 0, 2094, 0, 0, 0, 2096, 0, 0, 0, 2098, 0, 0, 0, 2100, 0, 0, 0, 2102, 0, 0, 0, 2104, 0, 0, 0, 2106, 0, 0, 0, 2108, 0, 0, 0, 2110, 0, 0, 0, 2112, 0, 0, 0, 2114, 0, 0, 0, 2116, 0, 0, 0, 2118, 0, 0, 0, 2120, 0, 0, 0, 2122, 0, 0, 0, 2124, 0, 0, 0, 2126, 0, 0, 0, 2128, 0, 0, 0, 2130, 0, 0, 0, 2132, 0, 0, 0, 2134, 0, 0, 0, 2136, 0, 0, 0, 2138, 0, 0, 0, 2140, 0, 0, 0, 2142, 0, 0, 0, 2144, 0, 0, 0, 2146, 0, 0, 0, 2148, 0, 0, 0, 2150, 0, 0, 0, 2152, 0, 0, 0, 2154, 0, 0, 0, 2156, 0, 0, 0, 2158, 0, 0, 0, 2160, 0, 0, 0, 2162, 0, 0, 0, 2164, 0, 0, 0, 2166, 0, 0, 0, 2168, 0, 0, 0, 2170, 0, 0, 0, 2172, 0, 0, 0, 2174, 0, 0, 0, 2176, 0, 0, 0, 2178, 0, 0, 0, 2180, 0, 0, 0, 2182, 0, 0, 0, 2184, 0, 0, 0, 2186, 0, 0, 0, 2188, 0, 0, 0, 2190, 0, 0, 0, 2192, 0, 0, 0, 2194, 0, 0, 0, 2196, 0, 0, 0, 2198, 0, 0, 0, 2200, 0, 0, 0, 2202, 0, 0, 0, 2204, 0, 0, 0, 2206, 0, 0, 0, 2208, 0, 0, 0, 2210, 0, 0, 0, 2212, 0, 0, 0, 2214, 0, 0, 0, 2216, 0, 0, 0, 2218, 0, 0, 0, 2220, 0, 0, 0, 2222, 0, 0, 0, 2224, 0, 0, 0, 2226, 0, 0, 0, 2228, 0, 0, 0, 2230, 0, 0, 0, 2232, 0, 0, 0, 2234, 0, 0, 0, 2236, 0, 0, 0, 2238, 0, 0, 0, 2240, 0, 0, 0, 2242, 0, 0, 0, 2244, 0, 0, 0, 2246, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
+_llvm_used=allocate([410, 0, 0, 0, 412, 0, 0, 0, 414, 0, 0, 0, 416, 0, 0, 0, 418, 0, 0, 0, 420, 0, 0, 0, 422, 0, 0, 0, 424, 0, 0, 0, 426, 0, 0, 0, 428, 0, 0, 0, 430, 0, 0, 0, 432, 0, 0, 0, 434, 0, 0, 0, 436, 0, 0, 0, 438, 0, 0, 0, 440, 0, 0, 0, 442, 0, 0, 0, 444, 0, 0, 0, 446, 0, 0, 0, 448, 0, 0, 0, 450, 0, 0, 0, 452, 0, 0, 0, 454, 0, 0, 0, 456, 0, 0, 0, 458, 0, 0, 0, 460, 0, 0, 0, 462, 0, 0, 0, 464, 0, 0, 0, 466, 0, 0, 0, 468, 0, 0, 0, 470, 0, 0, 0, 472, 0, 0, 0, 474, 0, 0, 0, 476, 0, 0, 0, 478, 0, 0, 0, 480, 0, 0, 0, 482, 0, 0, 0, 484, 0, 0, 0, 486, 0, 0, 0, 488, 0, 0, 0, 490, 0, 0, 0, 492, 0, 0, 0, 494, 0, 0, 0, 496, 0, 0, 0, 498, 0, 0, 0, 500, 0, 0, 0, 502, 0, 0, 0, 504, 0, 0, 0, 506, 0, 0, 0, 508, 0, 0, 0, 510, 0, 0, 0, 512, 0, 0, 0, 514, 0, 0, 0, 516, 0, 0, 0, 518, 0, 0, 0, 520, 0, 0, 0, 522, 0, 0, 0, 524, 0, 0, 0, 526, 0, 0, 0, 528, 0, 0, 0, 530, 0, 0, 0, 532, 0, 0, 0, 534, 0, 0, 0, 536, 0, 0, 0, 538, 0, 0, 0, 540, 0, 0, 0, 542, 0, 0, 0, 544, 0, 0, 0, 546, 0, 0, 0, 548, 0, 0, 0, 550, 0, 0, 0, 552, 0, 0, 0, 554, 0, 0, 0, 556, 0, 0, 0, 558, 0, 0, 0, 560, 0, 0, 0, 562, 0, 0, 0, 564, 0, 0, 0, 566, 0, 0, 0, 568, 0, 0, 0, 570, 0, 0, 0, 572, 0, 0, 0, 574, 0, 0, 0, 576, 0, 0, 0, 578, 0, 0, 0, 580, 0, 0, 0, 582, 0, 0, 0, 584, 0, 0, 0, 586, 0, 0, 0, 588, 0, 0, 0, 590, 0, 0, 0, 592, 0, 0, 0, 594, 0, 0, 0, 596, 0, 0, 0, 598, 0, 0, 0, 600, 0, 0, 0, 602, 0, 0, 0, 604, 0, 0, 0, 606, 0, 0, 0, 608, 0, 0, 0, 610, 0, 0, 0, 612, 0, 0, 0, 614, 0, 0, 0, 616, 0, 0, 0, 618, 0, 0, 0, 620, 0, 0, 0, 622, 0, 0, 0, 624, 0, 0, 0, 626, 0, 0, 0, 628, 0, 0, 0, 630, 0, 0, 0, 632, 0, 0, 0, 634, 0, 0, 0, 636, 0, 0, 0, 638, 0, 0, 0, 640, 0, 0, 0, 642, 0, 0, 0, 644, 0, 0, 0, 646, 0, 0, 0, 648, 0, 0, 0, 650, 0, 0, 0, 652, 0, 0, 0, 654, 0, 0, 0, 656, 0, 0, 0, 658, 0, 0, 0, 660, 0, 0, 0, 662, 0, 0, 0, 664, 0, 0, 0, 666, 0, 0, 0, 668, 0, 0, 0, 670, 0, 0, 0, 672, 0, 0, 0, 674, 0, 0, 0, 676, 0, 0, 0, 678, 0, 0, 0, 680, 0, 0, 0, 682, 0, 0, 0, 684, 0, 0, 0, 686, 0, 0, 0, 688, 0, 0, 0, 690, 0, 0, 0, 692, 0, 0, 0, 694, 0, 0, 0, 696, 0, 0, 0, 698, 0, 0, 0, 700, 0, 0, 0, 702, 0, 0, 0, 704, 0, 0, 0, 706, 0, 0, 0, 708, 0, 0, 0, 710, 0, 0, 0, 712, 0, 0, 0, 714, 0, 0, 0, 716, 0, 0, 0, 718, 0, 0, 0, 720, 0, 0, 0, 722, 0, 0, 0, 724, 0, 0, 0, 726, 0, 0, 0, 728, 0, 0, 0, 730, 0, 0, 0, 732, 0, 0, 0, 734, 0, 0, 0, 736, 0, 0, 0, 738, 0, 0, 0, 740, 0, 0, 0, 742, 0, 0, 0, 744, 0, 0, 0, 746, 0, 0, 0, 748, 0, 0, 0, 750, 0, 0, 0, 752, 0, 0, 0, 754, 0, 0, 0, 756, 0, 0, 0, 758, 0, 0, 0, 760, 0, 0, 0, 762, 0, 0, 0, 764, 0, 0, 0, 766, 0, 0, 0, 768, 0, 0, 0, 770, 0, 0, 0, 772, 0, 0, 0, 774, 0, 0, 0, 776, 0, 0, 0, 778, 0, 0, 0, 780, 0, 0, 0, 782, 0, 0, 0, 784, 0, 0, 0, 786, 0, 0, 0, 788, 0, 0, 0, 790, 0, 0, 0, 792, 0, 0, 0, 794, 0, 0, 0, 796, 0, 0, 0, 798, 0, 0, 0, 800, 0, 0, 0, 802, 0, 0, 0, 804, 0, 0, 0, 806, 0, 0, 0, 808, 0, 0, 0, 810, 0, 0, 0, 812, 0, 0, 0, 814, 0, 0, 0, 816, 0, 0, 0, 818, 0, 0, 0, 820, 0, 0, 0, 822, 0, 0, 0, 824, 0, 0, 0, 826, 0, 0, 0, 828, 0, 0, 0, 830, 0, 0, 0, 832, 0, 0, 0, 834, 0, 0, 0, 836, 0, 0, 0, 838, 0, 0, 0, 840, 0, 0, 0, 842, 0, 0, 0, 844, 0, 0, 0, 846, 0, 0, 0, 848, 0, 0, 0, 850, 0, 0, 0, 852, 0, 0, 0, 854, 0, 0, 0, 856, 0, 0, 0, 858, 0, 0, 0, 860, 0, 0, 0, 862, 0, 0, 0, 864, 0, 0, 0, 866, 0, 0, 0, 868, 0, 0, 0, 870, 0, 0, 0, 872, 0, 0, 0, 874, 0, 0, 0, 876, 0, 0, 0, 878, 0, 0, 0, 880, 0, 0, 0, 882, 0, 0, 0, 884, 0, 0, 0, 886, 0, 0, 0, 888, 0, 0, 0, 890, 0, 0, 0, 892, 0, 0, 0, 894, 0, 0, 0, 896, 0, 0, 0, 898, 0, 0, 0, 900, 0, 0, 0, 902, 0, 0, 0, 904, 0, 0, 0, 906, 0, 0, 0, 908, 0, 0, 0, 910, 0, 0, 0, 912, 0, 0, 0, 914, 0, 0, 0, 916, 0, 0, 0, 918, 0, 0, 0, 920, 0, 0, 0, 922, 0, 0, 0, 924, 0, 0, 0, 926, 0, 0, 0, 928, 0, 0, 0, 930, 0, 0, 0, 932, 0, 0, 0, 934, 0, 0, 0, 936, 0, 0, 0, 938, 0, 0, 0, 940, 0, 0, 0, 942, 0, 0, 0, 944, 0, 0, 0, 946, 0, 0, 0, 948, 0, 0, 0, 950, 0, 0, 0, 952, 0, 0, 0, 954, 0, 0, 0, 956, 0, 0, 0, 958, 0, 0, 0, 960, 0, 0, 0, 962, 0, 0, 0, 964, 0, 0, 0, 966, 0, 0, 0, 968, 0, 0, 0, 970, 0, 0, 0, 972, 0, 0, 0, 974, 0, 0, 0, 976, 0, 0, 0, 978, 0, 0, 0, 980, 0, 0, 0, 982, 0, 0, 0, 984, 0, 0, 0, 986, 0, 0, 0, 988, 0, 0, 0, 990, 0, 0, 0, 992, 0, 0, 0, 994, 0, 0, 0, 996, 0, 0, 0, 998, 0, 0, 0, 1000, 0, 0, 0, 1002, 0, 0, 0, 1004, 0, 0, 0, 1006, 0, 0, 0, 1008, 0, 0, 0, 1010, 0, 0, 0, 1012, 0, 0, 0, 1014, 0, 0, 0, 1016, 0, 0, 0, 1018, 0, 0, 0, 1020, 0, 0, 0, 1022, 0, 0, 0, 1024, 0, 0, 0, 1026, 0, 0, 0, 1028, 0, 0, 0, 1030, 0, 0, 0, 1032, 0, 0, 0, 1034, 0, 0, 0, 1036, 0, 0, 0, 1038, 0, 0, 0, 1040, 0, 0, 0, 1042, 0, 0, 0, 1044, 0, 0, 0, 1046, 0, 0, 0, 1048, 0, 0, 0, 1050, 0, 0, 0, 1052, 0, 0, 0, 1054, 0, 0, 0, 1056, 0, 0, 0, 1058, 0, 0, 0, 1060, 0, 0, 0, 1062, 0, 0, 0, 1064, 0, 0, 0, 1066, 0, 0, 0, 1068, 0, 0, 0, 1070, 0, 0, 0, 1072, 0, 0, 0, 1074, 0, 0, 0, 1076, 0, 0, 0, 1078, 0, 0, 0, 1080, 0, 0, 0, 1082, 0, 0, 0, 1084, 0, 0, 0, 1086, 0, 0, 0, 1088, 0, 0, 0, 1090, 0, 0, 0, 1092, 0, 0, 0, 1094, 0, 0, 0, 1096, 0, 0, 0, 1098, 0, 0, 0, 1100, 0, 0, 0, 1102, 0, 0, 0, 1104, 0, 0, 0, 1106, 0, 0, 0, 1108, 0, 0, 0, 1110, 0, 0, 0, 1112, 0, 0, 0, 1114, 0, 0, 0, 1116, 0, 0, 0, 1118, 0, 0, 0, 1120, 0, 0, 0, 1122, 0, 0, 0, 1124, 0, 0, 0, 1126, 0, 0, 0, 1128, 0, 0, 0, 1130, 0, 0, 0, 1132, 0, 0, 0, 1134, 0, 0, 0, 1136, 0, 0, 0, 1138, 0, 0, 0, 1140, 0, 0, 0, 1142, 0, 0, 0, 1144, 0, 0, 0, 1146, 0, 0, 0, 1148, 0, 0, 0, 1150, 0, 0, 0, 1152, 0, 0, 0, 1154, 0, 0, 0, 1156, 0, 0, 0, 1158, 0, 0, 0, 1160, 0, 0, 0, 1162, 0, 0, 0, 1164, 0, 0, 0, 1166, 0, 0, 0, 1168, 0, 0, 0, 1170, 0, 0, 0, 1172, 0, 0, 0, 1174, 0, 0, 0, 1176, 0, 0, 0, 1178, 0, 0, 0, 1180, 0, 0, 0, 1182, 0, 0, 0, 1184, 0, 0, 0, 1186, 0, 0, 0, 1188, 0, 0, 0, 1190, 0, 0, 0, 1192, 0, 0, 0, 1194, 0, 0, 0, 1196, 0, 0, 0, 1198, 0, 0, 0, 1200, 0, 0, 0, 1202, 0, 0, 0, 1204, 0, 0, 0, 1206, 0, 0, 0, 1208, 0, 0, 0, 1210, 0, 0, 0, 1212, 0, 0, 0, 1214, 0, 0, 0, 1216, 0, 0, 0, 1218, 0, 0, 0, 1220, 0, 0, 0, 1222, 0, 0, 0, 1224, 0, 0, 0, 1226, 0, 0, 0, 1228, 0, 0, 0, 1230, 0, 0, 0, 1232, 0, 0, 0, 1234, 0, 0, 0, 1236, 0, 0, 0, 1238, 0, 0, 0, 1240, 0, 0, 0, 1242, 0, 0, 0, 1244, 0, 0, 0, 1246, 0, 0, 0, 1248, 0, 0, 0, 1250, 0, 0, 0, 1252, 0, 0, 0, 1254, 0, 0, 0, 1256, 0, 0, 0, 1258, 0, 0, 0, 1260, 0, 0, 0, 1262, 0, 0, 0, 1264, 0, 0, 0, 1266, 0, 0, 0, 1268, 0, 0, 0, 1270, 0, 0, 0, 1272, 0, 0, 0, 1274, 0, 0, 0, 1276, 0, 0, 0, 1278, 0, 0, 0, 1280, 0, 0, 0, 1282, 0, 0, 0, 1284, 0, 0, 0, 1286, 0, 0, 0, 1288, 0, 0, 0, 1290, 0, 0, 0, 1292, 0, 0, 0, 1294, 0, 0, 0, 1296, 0, 0, 0, 1298, 0, 0, 0, 1300, 0, 0, 0, 1302, 0, 0, 0, 1304, 0, 0, 0, 1306, 0, 0, 0, 1308, 0, 0, 0, 1310, 0, 0, 0, 1312, 0, 0, 0, 1314, 0, 0, 0, 1316, 0, 0, 0, 1318, 0, 0, 0, 1320, 0, 0, 0, 1322, 0, 0, 0, 1324, 0, 0, 0, 1326, 0, 0, 0, 1328, 0, 0, 0, 1330, 0, 0, 0, 1332, 0, 0, 0, 1334, 0, 0, 0, 1336, 0, 0, 0, 1338, 0, 0, 0, 1340, 0, 0, 0, 1342, 0, 0, 0, 1344, 0, 0, 0, 1346, 0, 0, 0, 1348, 0, 0, 0, 1350, 0, 0, 0, 1352, 0, 0, 0, 1354, 0, 0, 0, 1356, 0, 0, 0, 1358, 0, 0, 0, 1360, 0, 0, 0, 1362, 0, 0, 0, 1364, 0, 0, 0, 1366, 0, 0, 0, 1368, 0, 0, 0, 1370, 0, 0, 0, 1372, 0, 0, 0, 1374, 0, 0, 0, 1376, 0, 0, 0, 1378, 0, 0, 0, 1380, 0, 0, 0, 1382, 0, 0, 0, 1384, 0, 0, 0, 1386, 0, 0, 0, 1388, 0, 0, 0, 1390, 0, 0, 0, 1392, 0, 0, 0, 1394, 0, 0, 0, 1396, 0, 0, 0, 1398, 0, 0, 0, 1400, 0, 0, 0, 1402, 0, 0, 0, 1404, 0, 0, 0, 1406, 0, 0, 0, 1408, 0, 0, 0, 1410, 0, 0, 0, 1412, 0, 0, 0, 1414, 0, 0, 0, 1416, 0, 0, 0, 1418, 0, 0, 0, 1420, 0, 0, 0, 1422, 0, 0, 0, 1424, 0, 0, 0, 1426, 0, 0, 0, 1428, 0, 0, 0, 1430, 0, 0, 0, 1432, 0, 0, 0, 1434, 0, 0, 0, 1436, 0, 0, 0, 1438, 0, 0, 0, 1440, 0, 0, 0, 1442, 0, 0, 0, 1444, 0, 0, 0, 1446, 0, 0, 0, 1448, 0, 0, 0, 1450, 0, 0, 0, 1452, 0, 0, 0, 1454, 0, 0, 0, 1456, 0, 0, 0, 1458, 0, 0, 0, 1460, 0, 0, 0, 1462, 0, 0, 0, 1464, 0, 0, 0, 1466, 0, 0, 0, 1468, 0, 0, 0, 1470, 0, 0, 0, 1472, 0, 0, 0, 1474, 0, 0, 0, 1476, 0, 0, 0, 1478, 0, 0, 0, 1480, 0, 0, 0, 1482, 0, 0, 0, 1484, 0, 0, 0, 1486, 0, 0, 0, 1488, 0, 0, 0, 1490, 0, 0, 0, 1492, 0, 0, 0, 1494, 0, 0, 0, 1496, 0, 0, 0, 1498, 0, 0, 0, 1500, 0, 0, 0, 1502, 0, 0, 0, 1504, 0, 0, 0, 1506, 0, 0, 0, 1508, 0, 0, 0, 1510, 0, 0, 0, 1512, 0, 0, 0, 1514, 0, 0, 0, 1516, 0, 0, 0, 1518, 0, 0, 0, 1520, 0, 0, 0, 1522, 0, 0, 0, 1524, 0, 0, 0, 1526, 0, 0, 0, 1528, 0, 0, 0, 1530, 0, 0, 0, 1532, 0, 0, 0, 1534, 0, 0, 0, 1536, 0, 0, 0, 1538, 0, 0, 0, 1540, 0, 0, 0, 1542, 0, 0, 0, 1544, 0, 0, 0, 1546, 0, 0, 0, 1548, 0, 0, 0, 1550, 0, 0, 0, 1552, 0, 0, 0, 1554, 0, 0, 0, 1556, 0, 0, 0, 1558, 0, 0, 0, 1560, 0, 0, 0, 1562, 0, 0, 0, 1564, 0, 0, 0, 1566, 0, 0, 0, 1568, 0, 0, 0, 1570, 0, 0, 0, 1572, 0, 0, 0, 1574, 0, 0, 0, 1576, 0, 0, 0, 1578, 0, 0, 0, 1580, 0, 0, 0, 1582, 0, 0, 0, 1584, 0, 0, 0, 1586, 0, 0, 0, 1588, 0, 0, 0, 1590, 0, 0, 0, 1592, 0, 0, 0, 1594, 0, 0, 0, 1596, 0, 0, 0, 1598, 0, 0, 0, 1600, 0, 0, 0, 1602, 0, 0, 0, 1604, 0, 0, 0, 1606, 0, 0, 0, 1608, 0, 0, 0, 1610, 0, 0, 0, 1612, 0, 0, 0, 1614, 0, 0, 0, 1616, 0, 0, 0, 1618, 0, 0, 0, 1620, 0, 0, 0, 1622, 0, 0, 0, 1624, 0, 0, 0, 1626, 0, 0, 0, 1628, 0, 0, 0, 1630, 0, 0, 0, 1632, 0, 0, 0, 1634, 0, 0, 0, 1636, 0, 0, 0, 1638, 0, 0, 0, 1640, 0, 0, 0, 1642, 0, 0, 0, 1644, 0, 0, 0, 1646, 0, 0, 0, 1648, 0, 0, 0, 1650, 0, 0, 0, 1652, 0, 0, 0, 1654, 0, 0, 0, 1656, 0, 0, 0, 1658, 0, 0, 0, 1660, 0, 0, 0, 1662, 0, 0, 0, 1664, 0, 0, 0, 1666, 0, 0, 0, 1668, 0, 0, 0, 1670, 0, 0, 0, 1672, 0, 0, 0, 1674, 0, 0, 0, 1676, 0, 0, 0, 1678, 0, 0, 0, 1680, 0, 0, 0, 1682, 0, 0, 0, 1684, 0, 0, 0, 1686, 0, 0, 0, 1688, 0, 0, 0, 1690, 0, 0, 0, 1692, 0, 0, 0, 1694, 0, 0, 0, 1696, 0, 0, 0, 1698, 0, 0, 0, 1700, 0, 0, 0, 1702, 0, 0, 0, 1704, 0, 0, 0, 1706, 0, 0, 0, 1708, 0, 0, 0, 1710, 0, 0, 0, 1712, 0, 0, 0, 1714, 0, 0, 0, 1716, 0, 0, 0, 1718, 0, 0, 0, 1720, 0, 0, 0, 1722, 0, 0, 0, 1724, 0, 0, 0, 1726, 0, 0, 0, 1728, 0, 0, 0, 1730, 0, 0, 0, 1732, 0, 0, 0, 1734, 0, 0, 0, 1736, 0, 0, 0, 1738, 0, 0, 0, 1740, 0, 0, 0, 1742, 0, 0, 0, 1744, 0, 0, 0, 1746, 0, 0, 0, 1748, 0, 0, 0, 1750, 0, 0, 0, 1752, 0, 0, 0, 1754, 0, 0, 0, 1756, 0, 0, 0, 1758, 0, 0, 0, 1760, 0, 0, 0, 1762, 0, 0, 0, 1764, 0, 0, 0, 1766, 0, 0, 0, 1768, 0, 0, 0, 1770, 0, 0, 0, 1772, 0, 0, 0, 1774, 0, 0, 0, 1776, 0, 0, 0, 1778, 0, 0, 0, 1780, 0, 0, 0, 1782, 0, 0, 0, 1784, 0, 0, 0, 1786, 0, 0, 0, 1788, 0, 0, 0, 1790, 0, 0, 0, 1792, 0, 0, 0, 1794, 0, 0, 0, 1796, 0, 0, 0, 1798, 0, 0, 0, 1800, 0, 0, 0, 1802, 0, 0, 0, 1804, 0, 0, 0, 1806, 0, 0, 0, 1808, 0, 0, 0, 1810, 0, 0, 0, 1812, 0, 0, 0, 1814, 0, 0, 0, 1816, 0, 0, 0, 1818, 0, 0, 0, 1820, 0, 0, 0, 1822, 0, 0, 0, 1824, 0, 0, 0, 1826, 0, 0, 0, 1828, 0, 0, 0, 1830, 0, 0, 0, 1832, 0, 0, 0, 1834, 0, 0, 0, 1836, 0, 0, 0, 1838, 0, 0, 0, 1840, 0, 0, 0, 1842, 0, 0, 0, 1844, 0, 0, 0, 1846, 0, 0, 0, 1848, 0, 0, 0, 1850, 0, 0, 0, 1852, 0, 0, 0, 1854, 0, 0, 0, 1856, 0, 0, 0, 1858, 0, 0, 0, 1860, 0, 0, 0, 1862, 0, 0, 0, 1864, 0, 0, 0, 1866, 0, 0, 0, 1868, 0, 0, 0, 1870, 0, 0, 0, 1872, 0, 0, 0, 1874, 0, 0, 0, 1876, 0, 0, 0, 1878, 0, 0, 0, 1880, 0, 0, 0, 1882, 0, 0, 0, 1884, 0, 0, 0, 1886, 0, 0, 0, 1888, 0, 0, 0, 1890, 0, 0, 0, 1892, 0, 0, 0, 1894, 0, 0, 0, 1896, 0, 0, 0, 1898, 0, 0, 0, 1900, 0, 0, 0, 1902, 0, 0, 0, 1904, 0, 0, 0, 1906, 0, 0, 0, 1908, 0, 0, 0, 1910, 0, 0, 0, 1912, 0, 0, 0, 1914, 0, 0, 0, 1916, 0, 0, 0, 1918, 0, 0, 0, 1920, 0, 0, 0, 1922, 0, 0, 0, 1924, 0, 0, 0, 1926, 0, 0, 0, 1928, 0, 0, 0, 1930, 0, 0, 0, 1932, 0, 0, 0, 1934, 0, 0, 0, 1936, 0, 0, 0, 1938, 0, 0, 0, 1940, 0, 0, 0, 1942, 0, 0, 0, 1944, 0, 0, 0, 1946, 0, 0, 0, 1948, 0, 0, 0, 1950, 0, 0, 0, 1952, 0, 0, 0, 1954, 0, 0, 0, 1956, 0, 0, 0, 1958, 0, 0, 0, 1960, 0, 0, 0, 1962, 0, 0, 0, 1964, 0, 0, 0, 1966, 0, 0, 0, 1968, 0, 0, 0, 1970, 0, 0, 0, 1972, 0, 0, 0, 1974, 0, 0, 0, 1976, 0, 0, 0, 1978, 0, 0, 0, 1980, 0, 0, 0, 1982, 0, 0, 0, 1984, 0, 0, 0, 1986, 0, 0, 0, 1988, 0, 0, 0, 1990, 0, 0, 0, 1992, 0, 0, 0, 1994, 0, 0, 0, 1996, 0, 0, 0, 1998, 0, 0, 0, 2000, 0, 0, 0, 2002, 0, 0, 0, 2004, 0, 0, 0, 2006, 0, 0, 0, 2008, 0, 0, 0, 2010, 0, 0, 0, 2012, 0, 0, 0, 2014, 0, 0, 0, 2016, 0, 0, 0, 2018, 0, 0, 0, 2020, 0, 0, 0, 2022, 0, 0, 0, 2024, 0, 0, 0, 2026, 0, 0, 0, 2028, 0, 0, 0, 2030, 0, 0, 0, 2032, 0, 0, 0, 2034, 0, 0, 0, 2036, 0, 0, 0, 2038, 0, 0, 0, 2040, 0, 0, 0, 2042, 0, 0, 0, 2044, 0, 0, 0, 2046, 0, 0, 0, 2048, 0, 0, 0, 2050, 0, 0, 0, 2052, 0, 0, 0, 2054, 0, 0, 0, 2056, 0, 0, 0, 2058, 0, 0, 0, 2060, 0, 0, 0, 2062, 0, 0, 0, 2064, 0, 0, 0, 2066, 0, 0, 0, 2068, 0, 0, 0, 2070, 0, 0, 0, 2072, 0, 0, 0, 2074, 0, 0, 0, 2076, 0, 0, 0, 2078, 0, 0, 0, 2080, 0, 0, 0, 2082, 0, 0, 0, 2084, 0, 0, 0, 2086, 0, 0, 0, 2088, 0, 0, 0, 2090, 0, 0, 0, 2092, 0, 0, 0, 2094, 0, 0, 0, 2096, 0, 0, 0, 2098, 0, 0, 0, 2100, 0, 0, 0, 2102, 0, 0, 0, 2104, 0, 0, 0, 2106, 0, 0, 0, 2108, 0, 0, 0, 2110, 0, 0, 0, 2112, 0, 0, 0, 2114, 0, 0, 0, 2116, 0, 0, 0, 2118, 0, 0, 0, 2120, 0, 0, 0, 2122, 0, 0, 0, 2124, 0, 0, 0, 2126, 0, 0, 0, 2128, 0, 0, 0, 2130, 0, 0, 0, 2132, 0, 0, 0, 2134, 0, 0, 0, 2136, 0, 0, 0, 2138, 0, 0, 0, 2140, 0, 0, 0, 2142, 0, 0, 0, 2144, 0, 0, 0, 2146, 0, 0, 0, 2148, 0, 0, 0, 2150, 0, 0, 0, 2152, 0, 0, 0, 2154, 0, 0, 0, 2156, 0, 0, 0, 2158, 0, 0, 0, 2160, 0, 0, 0, 2162, 0, 0, 0, 2164, 0, 0, 0, 2166, 0, 0, 0, 2168, 0, 0, 0, 2170, 0, 0, 0, 2172, 0, 0, 0, 2174, 0, 0, 0, 2176, 0, 0, 0, 2178, 0, 0, 0, 2180, 0, 0, 0, 2182, 0, 0, 0, 2184, 0, 0, 0, 2186, 0, 0, 0, 2188, 0, 0, 0, 2190, 0, 0, 0, 2192, 0, 0, 0, 2194, 0, 0, 0, 2196, 0, 0, 0, 2198, 0, 0, 0, 2200, 0, 0, 0, 2202, 0, 0, 0, 2204, 0, 0, 0, 2206, 0, 0, 0, 2208, 0, 0, 0, 2210, 0, 0, 0, 2212, 0, 0, 0, 2214, 0, 0, 0, 2216, 0, 0, 0, 2218, 0, 0, 0, 2220, 0, 0, 0, 2222, 0, 0, 0, 2224, 0, 0, 0, 2226, 0, 0, 0, 2228, 0, 0, 0, 2230, 0, 0, 0, 2232, 0, 0, 0, 2234, 0, 0, 0, 2236, 0, 0, 0, 2238, 0, 0, 0, 2240, 0, 0, 0, 2242, 0, 0, 0, 2244, 0, 0, 0, 2246, 0, 0, 0, 2248, 0, 0, 0, 2250, 0, 0, 0, 2252, 0, 0, 0, 2254, 0, 0, 0, 2256, 0, 0, 0, 2258, 0, 0, 0, 2260, 0, 0, 0, 2262, 0, 0, 0, 2264, 0, 0, 0, 2266, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
 STRING_TABLE.__ZTSSt9type_info=allocate([83,116,57,116,121,112,101,95,105,110,102,111,0] /* St9type_info\00 */, "i8", ALLOC_STATIC);
 __ZTISt9type_info=allocate(8, "i8", ALLOC_STATIC);
 STRING_TABLE.__ZTSN10__cxxabiv116__shim_type_infoE=allocate([78,49,48,95,95,99,120,120,97,98,105,118,49,49,54,95,95,115,104,105,109,95,116,121,112,101,95,105,110,102,111,69,0] /* N10__cxxabiv116__shi */, "i8", ALLOC_STATIC);
 __ZTIN10__cxxabiv116__shim_type_infoE=allocate(12, "i8", ALLOC_STATIC);
 STRING_TABLE.__ZTSN10__cxxabiv117__class_type_infoE=allocate([78,49,48,95,95,99,120,120,97,98,105,118,49,49,55,95,95,99,108,97,115,115,95,116,121,112,101,95,105,110,102,111,69,0] /* N10__cxxabiv117__cla */, "i8", ALLOC_STATIC);
 __ZTIN10__cxxabiv117__class_type_infoE=allocate(12, "i8", ALLOC_STATIC);
-__ZTVN10__cxxabiv117__class_type_infoE=allocate([0, 0, 0, 0, 0, 0, 0, 0, 2248, 0, 0, 0, 2250, 0, 0, 0, 2252, 0, 0, 0, 2254, 0, 0, 0, 2256, 0, 0, 0, 2258, 0, 0, 0, 2260, 0, 0, 0, 2262, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
+__ZTVN10__cxxabiv117__class_type_infoE=allocate([0, 0, 0, 0, 0, 0, 0, 0, 2268, 0, 0, 0, 2270, 0, 0, 0, 2272, 0, 0, 0, 2274, 0, 0, 0, 2276, 0, 0, 0, 2278, 0, 0, 0, 2280, 0, 0, 0, 2282, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
 allocate(1, "i8", ALLOC_STATIC);
-__ZTVN10__cxxabiv120__si_class_type_infoE=allocate([0, 0, 0, 0, 0, 0, 0, 0, 2264, 0, 0, 0, 2266, 0, 0, 0, 2252, 0, 0, 0, 2254, 0, 0, 0, 2256, 0, 0, 0, 2268, 0, 0, 0, 2270, 0, 0, 0, 2272, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
+__ZTVN10__cxxabiv120__si_class_type_infoE=allocate([0, 0, 0, 0, 0, 0, 0, 0, 2284, 0, 0, 0, 2286, 0, 0, 0, 2272, 0, 0, 0, 2274, 0, 0, 0, 2276, 0, 0, 0, 2288, 0, 0, 0, 2290, 0, 0, 0, 2292, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
 allocate(1, "i8", ALLOC_STATIC);
 STRING_TABLE.__ZTSN10__cxxabiv120__si_class_type_infoE=allocate([78,49,48,95,95,99,120,120,97,98,105,118,49,50,48,95,95,115,105,95,99,108,97,115,115,95,116,121,112,101,95,105,110,102,111,69,0] /* N10__cxxabiv120__si_ */, "i8", ALLOC_STATIC);
 __ZTIN10__cxxabiv120__si_class_type_infoE=allocate(12, "i8", ALLOC_STATIC);
 __gm_=allocate(468, "i8", ALLOC_STATIC);
 _mparams=allocate(24, "i8", ALLOC_STATIC);
 __ZL13__new_handler=allocate(4, "i8", ALLOC_STATIC);
-__ZTVSt9bad_alloc=allocate([0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, 2274, 0, 0, 0, 2276, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
+__ZTVSt9bad_alloc=allocate([0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, 2294, 0, 0, 0, 2296, 0, 0, 0], ["*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0,"*",0,0,0], ALLOC_STATIC);
 allocate(1, "i8", ALLOC_STATIC);
 STRING_TABLE.__str343=allocate([115,116,100,58,58,98,97,100,95,97,108,108,111,99,0] /* std::bad_alloc\00 */, "i8", ALLOC_STATIC);
 STRING_TABLE.__ZTSSt9bad_alloc=allocate([83,116,57,98,97,100,95,97,108,108,111,99,0] /* St9bad_alloc\00 */, "i8", ALLOC_STATIC);
@@ -88211,51 +88393,51 @@ HEAP32[(((__ZTVSt9bad_alloc)+(4))>>2)]=__ZTISt9bad_alloc;
 HEAP32[((__ZTISt9bad_alloc)>>2)]=(((__ZTVN10__cxxabiv120__si_class_type_infoE+8)|0));
 HEAP32[(((__ZTISt9bad_alloc)+(4))>>2)]=((STRING_TABLE.__ZTSSt9bad_alloc)|0);
 HEAP32[(((__ZTISt9bad_alloc)+(8))>>2)]=__ZTISt9exception;
-__ZN12b2BroadPhaseC1Ev = 2278;
-__ZN12b2BroadPhaseD1Ev = 2280;
-__ZN13b2DynamicTreeC1Ev = 2282;
-__ZN13b2DynamicTreeD1Ev = 2284;
-__ZN12b2ChainShapeD1Ev = 2286;
-__ZN16b2BlockAllocatorC1Ev = 2288;
-__ZN16b2BlockAllocatorD1Ev = 2290;
-__ZN6b2DrawC1Ev = 2292;
-__ZN16b2StackAllocatorC1Ev = 2294;
-__ZN16b2StackAllocatorD1Ev = 2296;
-__ZN7b2TimerC1Ev = 2298;
-__ZN6b2BodyC1EPK9b2BodyDefP7b2World = 2300;
-__ZN6b2BodyD1Ev = 2302;
-__ZN16b2ContactManagerC1Ev = 2304;
-__ZN9b2FixtureC1Ev = 2306;
-__ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener = 2308;
-__ZN8b2IslandD1Ev = 2310;
-__ZN7b2WorldC1ERK6b2Vec2 = 2312;
-__ZN7b2WorldD1Ev = 2314;
-__ZN23b2ChainAndCircleContactC1EP9b2FixtureiS1_i = 2316;
-__ZN24b2ChainAndPolygonContactC1EP9b2FixtureiS1_i = 2318;
-__ZN15b2CircleContactC1EP9b2FixtureS1_ = 2320;
-__ZN15b2ContactSolverC1EP18b2ContactSolverDef = 2322;
-__ZN15b2ContactSolverD1Ev = 2324;
-__ZN22b2EdgeAndCircleContactC1EP9b2FixtureS1_ = 2326;
-__ZN23b2EdgeAndPolygonContactC1EP9b2FixtureS1_ = 2328;
-__ZN25b2PolygonAndCircleContactC1EP9b2FixtureS1_ = 2330;
-__ZN16b2PolygonContactC1EP9b2FixtureS1_ = 2332;
-__ZN15b2DistanceJointC1EPK18b2DistanceJointDef = 2334;
-__ZN15b2FrictionJointC1EPK18b2FrictionJointDef = 2336;
-__ZN11b2GearJointC1EPK14b2GearJointDef = 2338;
-__ZN12b2MouseJointC1EPK15b2MouseJointDef = 2340;
-__ZN16b2PrismaticJointC1EPK19b2PrismaticJointDef = 2342;
-__ZN13b2PulleyJointC1EPK16b2PulleyJointDef = 2344;
-__ZN15b2RevoluteJointC1EPK18b2RevoluteJointDef = 2346;
-__ZN11b2RopeJointC1EPK14b2RopeJointDef = 2348;
-__ZN11b2WeldJointC1EPK14b2WeldJointDef = 2350;
-__ZN12b2WheelJointC1EPK15b2WheelJointDef = 2352;
-__ZN10__cxxabiv117__class_type_infoD1Ev = 2354;
-__ZN10__cxxabiv117__class_type_infoD2Ev = 2356;
-__ZN10__cxxabiv120__si_class_type_infoD1Ev = 2358;
-__ZN10__cxxabiv120__si_class_type_infoD2Ev = 2354;
-__ZNSt9bad_allocC1Ev = 2360;
-__ZNSt9bad_allocD1Ev = 2362;
-FUNCTION_TABLE = [0,0,__ZN15b2ContactFilterD1Ev,0,__ZN17b2ContactListenerD1Ev,0,__Z14b2PairLessThanRK6b2PairS1_,0,__ZN15b2CircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN25b2PolygonAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN22b2EdgeAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN22b2EdgeAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN23b2EdgeAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN23b2EdgeAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN23b2ChainAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN23b2ChainAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN24b2ChainAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN24b2ChainAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZNSt9bad_allocD2Ev,0,__ZN12b2ChainShapeD2Ev,0,__ZN12b2ChainShapeD0Ev,0,__ZNK12b2ChainShape5CloneEP16b2BlockAllocator,0,__ZNK12b2ChainShape13GetChildCountEv,0,__ZNK12b2ChainShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK12b2ChainShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK12b2ChainShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK12b2ChainShape11ComputeMassEP10b2MassDataf,0,__ZN7b2ShapeD1Ev,0,__ZN7b2ShapeD0Ev,0,___cxa_pure_virtual,0,__ZN13b2CircleShapeD1Ev,0,__ZN13b2CircleShapeD0Ev,0,__ZNK13b2CircleShape5CloneEP16b2BlockAllocator,0,__ZNK13b2CircleShape13GetChildCountEv,0,__ZNK13b2CircleShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK13b2CircleShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK13b2CircleShape11ComputeMassEP10b2MassDataf,0,__ZN11b2EdgeShapeD1Ev,0,__ZN11b2EdgeShapeD0Ev,0,__ZNK11b2EdgeShape5CloneEP16b2BlockAllocator,0,__ZNK11b2EdgeShape13GetChildCountEv,0,__ZNK11b2EdgeShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK11b2EdgeShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK11b2EdgeShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK11b2EdgeShape11ComputeMassEP10b2MassDataf,0,__ZN14b2PolygonShapeD1Ev,0,__ZN14b2PolygonShapeD0Ev,0,__ZNK14b2PolygonShape5CloneEP16b2BlockAllocator,0,__ZNK14b2PolygonShape13GetChildCountEv,0,__ZNK14b2PolygonShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK14b2PolygonShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK14b2PolygonShape11ComputeMassEP10b2MassDataf,0,__ZN6b2DrawD1Ev,0,__ZN6b2DrawD0Ev,0,__ZN6b2Draw11DrawPolygonEPK6b2Vec2iRK7b2Color,0,__ZN6b2Draw16DrawSolidPolygonEPK6b2Vec2iRK7b2Color,0,__ZN6b2Draw10DrawCircleERK6b2Vec2fRK7b2Color,0,__ZN6b2Draw15DrawSolidCircleERK6b2Vec2fS2_RK7b2Color,0,__ZN6b2Draw11DrawSegmentERK6b2Vec2S2_RK7b2Color,0,__ZN6b2Draw13DrawTransformERK11b2Transform,0,__ZN17b2ContactListenerD0Ev,0,__ZN17b2ContactListener12BeginContactEP9b2Contact,0,__ZN17b2ContactListener10EndContactEP9b2Contact,0,__ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold,0,__ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse,0,__ZN15b2ContactFilterD0Ev,0,__ZN15b2ContactFilter13ShouldCollideEP9b2FixtureS1_,0,__ZN23b2ChainAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN23b2ChainAndCircleContactD1Ev,0,__ZN23b2ChainAndCircleContactD0Ev,0,__ZN24b2ChainAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN24b2ChainAndPolygonContactD1Ev,0,__ZN24b2ChainAndPolygonContactD0Ev,0,__ZN15b2CircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN15b2CircleContactD1Ev,0,__ZN15b2CircleContactD0Ev,0,__ZN9b2ContactD1Ev,0,__ZN9b2ContactD0Ev,0,__ZN22b2EdgeAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN22b2EdgeAndCircleContactD1Ev,0,__ZN22b2EdgeAndCircleContactD0Ev,0,__ZN23b2EdgeAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN23b2EdgeAndPolygonContactD1Ev,0,__ZN23b2EdgeAndPolygonContactD0Ev,0,__ZN25b2PolygonAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN25b2PolygonAndCircleContactD1Ev,0,__ZN25b2PolygonAndCircleContactD0Ev,0,__ZN16b2PolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN16b2PolygonContactD1Ev,0,__ZN16b2PolygonContactD0Ev,0,__ZNK15b2DistanceJoint10GetAnchorAEv,0,__ZNK15b2DistanceJoint10GetAnchorBEv,0,__ZNK15b2DistanceJoint16GetReactionForceEf,0,__ZNK15b2DistanceJoint17GetReactionTorqueEf,0,__ZN15b2DistanceJoint4DumpEv,0,__ZN15b2DistanceJointD1Ev,0,__ZN15b2DistanceJointD0Ev,0,__ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN15b2DistanceJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK15b2FrictionJoint10GetAnchorAEv,0,__ZNK15b2FrictionJoint10GetAnchorBEv,0,__ZNK15b2FrictionJoint16GetReactionForceEf,0,__ZNK15b2FrictionJoint17GetReactionTorqueEf,0,__ZN15b2FrictionJoint4DumpEv,0,__ZN15b2FrictionJointD1Ev,0,__ZN15b2FrictionJointD0Ev,0,__ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN15b2FrictionJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN15b2FrictionJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK11b2GearJoint10GetAnchorAEv,0,__ZNK11b2GearJoint10GetAnchorBEv,0,__ZNK11b2GearJoint16GetReactionForceEf,0,__ZNK11b2GearJoint17GetReactionTorqueEf,0,__ZN11b2GearJoint4DumpEv,0,__ZN11b2GearJointD1Ev,0,__ZN11b2GearJointD0Ev,0,__ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN11b2GearJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZN7b2Joint4DumpEv,0,__ZN7b2JointD1Ev,0,__ZN7b2JointD0Ev,0,__ZNK12b2MouseJoint10GetAnchorAEv,0,__ZNK12b2MouseJoint10GetAnchorBEv,0,__ZNK12b2MouseJoint16GetReactionForceEf,0,__ZNK12b2MouseJoint17GetReactionTorqueEf,0,__ZN12b2MouseJoint4DumpEv,0,__ZN12b2MouseJointD1Ev,0,__ZN12b2MouseJointD0Ev,0,__ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN12b2MouseJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK16b2PrismaticJoint10GetAnchorAEv,0,__ZNK16b2PrismaticJoint10GetAnchorBEv,0,__ZNK16b2PrismaticJoint16GetReactionForceEf,0,__ZNK16b2PrismaticJoint17GetReactionTorqueEf,0,__ZN16b2PrismaticJoint4DumpEv,0,__ZN16b2PrismaticJointD1Ev,0,__ZN16b2PrismaticJointD0Ev,0,__ZN16b2PrismaticJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN16b2PrismaticJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN16b2PrismaticJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK13b2PulleyJoint10GetAnchorAEv,0,__ZNK13b2PulleyJoint10GetAnchorBEv,0,__ZNK13b2PulleyJoint16GetReactionForceEf,0,__ZNK13b2PulleyJoint17GetReactionTorqueEf,0,__ZN13b2PulleyJoint4DumpEv,0,__ZN13b2PulleyJointD1Ev,0,__ZN13b2PulleyJointD0Ev,0,__ZN13b2PulleyJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN13b2PulleyJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN13b2PulleyJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK15b2RevoluteJoint10GetAnchorAEv,0,__ZNK15b2RevoluteJoint10GetAnchorBEv,0,__ZNK15b2RevoluteJoint16GetReactionForceEf,0,__ZNK15b2RevoluteJoint17GetReactionTorqueEf,0,__ZN15b2RevoluteJoint4DumpEv,0,__ZN15b2RevoluteJointD1Ev,0,__ZN15b2RevoluteJointD0Ev,0,__ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN15b2RevoluteJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN15b2RevoluteJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK11b2RopeJoint10GetAnchorAEv,0,__ZNK11b2RopeJoint10GetAnchorBEv,0,__ZNK11b2RopeJoint16GetReactionForceEf,0,__ZNK11b2RopeJoint17GetReactionTorqueEf,0,__ZN11b2RopeJoint4DumpEv,0,__ZN11b2RopeJointD1Ev,0,__ZN11b2RopeJointD0Ev,0,__ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN11b2RopeJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN11b2RopeJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK11b2WeldJoint10GetAnchorAEv,0,__ZNK11b2WeldJoint10GetAnchorBEv,0,__ZNK11b2WeldJoint16GetReactionForceEf,0,__ZNK11b2WeldJoint17GetReactionTorqueEf,0,__ZN11b2WeldJoint4DumpEv,0,__ZN11b2WeldJointD1Ev,0,__ZN11b2WeldJointD0Ev,0,__ZN11b2WeldJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK12b2WheelJoint10GetAnchorAEv,0,__ZNK12b2WheelJoint10GetAnchorBEv,0,__ZNK12b2WheelJoint16GetReactionForceEf,0,__ZNK12b2WheelJoint17GetReactionTorqueEf,0,__ZN12b2WheelJoint4DumpEv,0,__ZN12b2WheelJointD1Ev,0,__ZN12b2WheelJointD0Ev,0,__ZN12b2WheelJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN12b2WheelJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN12b2WheelJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZN21b2DestructionListenerD1Ev,0,__ZN21b2DestructionListenerD0Ev,0,__ZN21b2DestructionListener10SayGoodbyeEP7b2Joint,0,__ZN21b2DestructionListener10SayGoodbyeEP9b2Fixture,0,__ZN15b2QueryCallbackD1Ev,0,__ZN15b2QueryCallbackD0Ev,0,__ZN15b2QueryCallback13ReportFixtureEP9b2Fixture,0,__ZN17b2RayCastCallbackD1Ev,0,__ZN17b2RayCastCallbackD0Ev,0,__ZN17b2RayCastCallback13ReportFixtureEP9b2FixtureRK6b2Vec2S4_f,0,_emscripten_bind_b2ContactManager__get_m_contactFilter_p0,0,_emscripten_bind_b2ContactManager__get_m_contactCount_p0,0,_emscripten_bind_b2ContactManager__set_m_contactFilter_p1,0,_emscripten_bind_b2ContactManager__b2ContactManager_p0,0,_emscripten_bind_b2ContactManager__AddPair_p2,0,_emscripten_bind_b2ContactManager__set_m_allocator_p1,0,_emscripten_bind_b2ContactManager__set_m_contactCount_p1,0,_emscripten_bind_b2ContactManager__Collide_p0,0,_emscripten_bind_b2ContactManager__set_m_contactList_p1,0,_emscripten_bind_b2ContactManager__FindNewContacts_p0,0,_emscripten_bind_b2ContactManager__get_m_contactListener_p0,0,_emscripten_bind_b2ContactManager____destroy___p0,0,_emscripten_bind_b2ContactManager__set_m_contactListener_p1,0,_emscripten_bind_b2ContactManager__get_m_broadPhase_p0,0,_emscripten_bind_b2ContactManager__Destroy_p1,0,_emscripten_bind_b2ContactManager__set_m_broadPhase_p1,0,_emscripten_bind_b2ContactManager__get_m_contactList_p0,0,_emscripten_bind_b2ContactManager__get_m_allocator_p0,0,_emscripten_bind_b2DistanceJoint__GetBodyA_p0,0,_emscripten_bind_b2DistanceJoint__GetBodyB_p0,0,_emscripten_bind_b2DistanceJoint__SetFrequency_p1,0,_emscripten_bind_b2DistanceJoint__GetUserData_p0,0,_emscripten_bind_b2DistanceJoint__SetUserData_p1,0,_emscripten_bind_b2DistanceJoint__GetAnchorB_p0,0,_emscripten_bind_b2DistanceJoint__GetAnchorA_p0,0,_emscripten_bind_b2DistanceJoint__GetNext_p0,0,_emscripten_bind_b2DistanceJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2DistanceJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2DistanceJoint__GetFrequency_p0,0,_emscripten_bind_b2DistanceJoint__GetReactionForce_p1,0,_emscripten_bind_b2DistanceJoint__GetLength_p0,0,_emscripten_bind_b2DistanceJoint__GetDampingRatio_p0,0,_emscripten_bind_b2DistanceJoint__GetCollideConnected_p0,0,_emscripten_bind_b2DistanceJoint____destroy___p0,0,_emscripten_bind_b2DistanceJoint__Dump_p0,0,_emscripten_bind_b2DistanceJoint__GetType_p0,0,_emscripten_bind_b2DistanceJoint__b2DistanceJoint_p1,0,_emscripten_bind_b2DistanceJoint__SetDampingRatio_p1,0,_emscripten_bind_b2DistanceJoint__GetReactionTorque_p1,0,_emscripten_bind_b2DistanceJoint__SetLength_p1,0,_emscripten_bind_b2DistanceJoint__IsActive_p0,0,_emscripten_bind_b2Fixture__GetRestitution_p0,0,_emscripten_bind_b2Fixture__SetFilterData_p1,0,_emscripten_bind_b2Fixture__SetFriction_p1,0,_emscripten_bind_b2Fixture__b2Fixture_p0,0,_emscripten_bind_b2Fixture__GetShape_p0,0,_emscripten_bind_b2Fixture__SetRestitution_p1,0,_emscripten_bind_b2Fixture__GetBody_p0,0,_emscripten_bind_b2Fixture__GetNext_p0,0,_emscripten_bind_b2Fixture__GetFriction_p0,0,_emscripten_bind_b2Fixture__GetUserData_p0,0,_emscripten_bind_b2Fixture__SetDensity_p1,0,_emscripten_bind_b2Fixture__GetMassData_p1,0,_emscripten_bind_b2Fixture__SetSensor_p1,0,_emscripten_bind_b2Fixture__GetAABB_p1,0,_emscripten_bind_b2Fixture__TestPoint_p1,0,_emscripten_bind_b2Fixture__SetUserData_p1,0,_emscripten_bind_b2Fixture____destroy___p0,0,_emscripten_bind_b2Fixture__RayCast_p3,0,_emscripten_bind_b2Fixture__Refilter_p0,0,_emscripten_bind_b2Fixture__Dump_p1,0,_emscripten_bind_b2Fixture__GetFilterData_p0,0,_emscripten_bind_b2Fixture__IsSensor_p0,0,_emscripten_bind_b2Fixture__GetType_p0,0,_emscripten_bind_b2Fixture__GetDensity_p0,0,_emscripten_bind_b2MouseJoint__GetBodyA_p0,0,_emscripten_bind_b2MouseJoint__GetBodyB_p0,0,_emscripten_bind_b2MouseJoint__SetFrequency_p1,0,_emscripten_bind_b2MouseJoint__GetUserData_p0,0,_emscripten_bind_b2MouseJoint__SetMaxForce_p1,0,_emscripten_bind_b2MouseJoint__SetUserData_p1,0,_emscripten_bind_b2MouseJoint__GetAnchorB_p0,0,_emscripten_bind_b2MouseJoint__GetAnchorA_p0,0,_emscripten_bind_b2MouseJoint__b2MouseJoint_p1,0,_emscripten_bind_b2MouseJoint__GetNext_p0,0,_emscripten_bind_b2MouseJoint__GetMaxForce_p0,0,_emscripten_bind_b2MouseJoint__GetTarget_p0,0,_emscripten_bind_b2MouseJoint__GetFrequency_p0,0,_emscripten_bind_b2MouseJoint__GetReactionForce_p1,0,_emscripten_bind_b2MouseJoint__GetDampingRatio_p0,0,_emscripten_bind_b2MouseJoint__GetCollideConnected_p0,0,_emscripten_bind_b2MouseJoint____destroy___p0,0,_emscripten_bind_b2MouseJoint__Dump_p0,0,_emscripten_bind_b2MouseJoint__SetTarget_p1,0,_emscripten_bind_b2MouseJoint__GetType_p0,0,_emscripten_bind_b2MouseJoint__SetDampingRatio_p1,0,_emscripten_bind_b2MouseJoint__GetReactionTorque_p1,0,_emscripten_bind_b2MouseJoint__IsActive_p0,0,_emscripten_bind_b2PulleyJoint__GetBodyA_p0,0,_emscripten_bind_b2PulleyJoint____destroy___p0,0,_emscripten_bind_b2PulleyJoint__GetAnchorA_p0,0,_emscripten_bind_b2PulleyJoint__GetType_p0,0,_emscripten_bind_b2PulleyJoint__GetGroundAnchorB_p0,0,_emscripten_bind_b2PulleyJoint__GetReactionTorque_p1,0,_emscripten_bind_b2PulleyJoint__Dump_p0,0,_emscripten_bind_b2PulleyJoint__GetGroundAnchorA_p0,0,_emscripten_bind_b2PulleyJoint__GetLengthB_p0,0,_emscripten_bind_b2PulleyJoint__GetUserData_p0,0,_emscripten_bind_b2PulleyJoint__GetLengthA_p0,0,_emscripten_bind_b2PulleyJoint__GetBodyB_p0,0,_emscripten_bind_b2PulleyJoint__GetCollideConnected_p0,0,_emscripten_bind_b2PulleyJoint__SetUserData_p1,0,_emscripten_bind_b2PulleyJoint__GetAnchorB_p0,0,_emscripten_bind_b2PulleyJoint__GetReactionForce_p1,0,_emscripten_bind_b2PulleyJoint__GetNext_p0,0,_emscripten_bind_b2PulleyJoint__b2PulleyJoint_p1,0,_emscripten_bind_b2PulleyJoint__IsActive_p0,0,_emscripten_bind_b2PulleyJoint__GetRatio_p0,0,_emscripten_bind_b2BroadPhase__GetTreeQuality_p0,0,_emscripten_bind_b2BroadPhase__GetFatAABB_p1,0,_emscripten_bind_b2BroadPhase__GetUserData_p1,0,_emscripten_bind_b2BroadPhase____destroy___p0,0,_emscripten_bind_b2BroadPhase__GetTreeHeight_p0,0,_emscripten_bind_b2BroadPhase__b2BroadPhase_p0,0,_emscripten_bind_b2BroadPhase__GetProxyCount_p0,0,_emscripten_bind_b2BroadPhase__GetTreeBalance_p0,0,_emscripten_bind_b2BroadPhase__TestOverlap_p2,0,_emscripten_bind_b2BroadPhase__TouchProxy_p1,0,_emscripten_bind_b2BroadPhase__CreateProxy_p2,0,_emscripten_bind_b2BroadPhase__MoveProxy_p3,0,_emscripten_bind_b2BroadPhase__DestroyProxy_p1,0,_emscripten_bind_b2World__QueryAABB_p2,0,_emscripten_bind_b2World__SetSubStepping_p1,0,_emscripten_bind_b2World__GetTreeQuality_p0,0,_emscripten_bind_b2World__GetTreeHeight_p0,0,_emscripten_bind_b2World__GetProfile_p0,0,_emscripten_bind_b2World__GetTreeBalance_p0,0,_emscripten_bind_b2World__GetSubStepping_p0,0,_emscripten_bind_b2World__GetContactManager_p0,0,_emscripten_bind_b2World__SetContactListener_p1,0,_emscripten_bind_b2World__DrawDebugData_p0,0,_emscripten_bind_b2World__SetContinuousPhysics_p1,0,_emscripten_bind_b2World__SetGravity_p1,0,_emscripten_bind_b2World__GetBodyCount_p0,0,_emscripten_bind_b2World__GetAutoClearForces_p0,0,_emscripten_bind_b2World__GetContinuousPhysics_p0,0,_emscripten_bind_b2World__GetJointList_p0,0,_emscripten_bind_b2World__CreateBody_p1,0,_emscripten_bind_b2World__GetBodyList_p0,0,_emscripten_bind_b2World__SetDestructionListener_p1,0,_emscripten_bind_b2World__DestroyJoint_p1,0,_emscripten_bind_b2World__b2World_p1,0,_emscripten_bind_b2World__GetJointCount_p0,0,_emscripten_bind_b2World__Step_p3,0,_emscripten_bind_b2World__ClearForces_p0,0,_emscripten_bind_b2World__GetWarmStarting_p0,0,_emscripten_bind_b2World__SetAllowSleeping_p1,0,_emscripten_bind_b2World__DestroyBody_p1,0,_emscripten_bind_b2World__GetAllowSleeping_p0,0,_emscripten_bind_b2World__CreateJoint_p1,0,_emscripten_bind_b2World__GetProxyCount_p0,0,_emscripten_bind_b2World__RayCast_p3,0,_emscripten_bind_b2World__IsLocked_p0,0,_emscripten_bind_b2World__GetContactList_p0,0,_emscripten_bind_b2World__SetDebugDraw_p1,0,_emscripten_bind_b2World____destroy___p0,0,_emscripten_bind_b2World__Dump_p0,0,_emscripten_bind_b2World__SetAutoClearForces_p1,0,_emscripten_bind_b2World__GetGravity_p0,0,_emscripten_bind_b2World__GetContactCount_p0,0,_emscripten_bind_b2World__SetWarmStarting_p1,0,_emscripten_bind_b2World__SetContactFilter_p1,0,_emscripten_bind_b2PrismaticJoint__GetBodyA_p0,0,_emscripten_bind_b2PrismaticJoint__GetBodyB_p0,0,_emscripten_bind_b2PrismaticJoint__GetUserData_p0,0,_emscripten_bind_b2PrismaticJoint__GetLocalAxisA_p0,0,_emscripten_bind_b2PrismaticJoint__GetLowerLimit_p0,0,_emscripten_bind_b2PrismaticJoint__GetAnchorA_p0,0,_emscripten_bind_b2PrismaticJoint__GetNext_p0,0,_emscripten_bind_b2PrismaticJoint__b2PrismaticJoint_p1,0,_emscripten_bind_b2PrismaticJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2PrismaticJoint__SetMotorSpeed_p1,0,_emscripten_bind_b2PrismaticJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2PrismaticJoint__GetMotorSpeed_p0,0,_emscripten_bind_b2PrismaticJoint__SetMaxMotorForce_p1,0,_emscripten_bind_b2PrismaticJoint__EnableLimit_p1,0,_emscripten_bind_b2PrismaticJoint__IsMotorEnabled_p0,0,_emscripten_bind_b2PrismaticJoint__SetUserData_p1,0,_emscripten_bind_b2PrismaticJoint__GetReactionForce_p1,0,_emscripten_bind_b2PrismaticJoint__GetMaxMotorForce_p0,0,_emscripten_bind_b2PrismaticJoint__GetCollideConnected_p0,0,_emscripten_bind_b2PrismaticJoint__GetJointSpeed_p0,0,_emscripten_bind_b2PrismaticJoint__EnableMotor_p1,0,_emscripten_bind_b2PrismaticJoint____destroy___p0,0,_emscripten_bind_b2PrismaticJoint__GetReferenceAngle_p0,0,_emscripten_bind_b2PrismaticJoint__Dump_p0,0,_emscripten_bind_b2PrismaticJoint__GetMotorForce_p1,0,_emscripten_bind_b2PrismaticJoint__GetJointTranslation_p0,0,_emscripten_bind_b2PrismaticJoint__GetType_p0,0,_emscripten_bind_b2PrismaticJoint__IsLimitEnabled_p0,0,_emscripten_bind_b2PrismaticJoint__GetReactionTorque_p1,0,_emscripten_bind_b2PrismaticJoint__SetLimits_p2,0,_emscripten_bind_b2PrismaticJoint__GetUpperLimit_p0,0,_emscripten_bind_b2PrismaticJoint__IsActive_p0,0,_emscripten_bind_b2PrismaticJoint__GetAnchorB_p0,0,_emscripten_bind_b2CircleShape____destroy___p0,0,_emscripten_bind_b2CircleShape__GetType_p0,0,_emscripten_bind_b2CircleShape__ComputeMass_p2,0,_emscripten_bind_b2CircleShape__set_m_radius_p1,0,_emscripten_bind_b2CircleShape__get_m_radius_p0,0,_emscripten_bind_b2CircleShape__GetVertex_p1,0,_emscripten_bind_b2CircleShape__Clone_p1,0,_emscripten_bind_b2CircleShape__GetSupportVertex_p1,0,_emscripten_bind_b2CircleShape__RayCast_p4,0,_emscripten_bind_b2CircleShape__ComputeAABB_p3,0,_emscripten_bind_b2CircleShape__GetVertexCount_p0,0,_emscripten_bind_b2CircleShape__GetChildCount_p0,0,_emscripten_bind_b2CircleShape__TestPoint_p2,0,_emscripten_bind_b2CircleShape__b2CircleShape_p0,0,_emscripten_bind_b2CircleShape__GetSupport_p1,0,_emscripten_bind_b2CircleShape__set_m_p_p1,0,_emscripten_bind_b2CircleShape__get_m_p_p0,0,_emscripten_bind_b2WheelJoint__GetBodyA_p0,0,_emscripten_bind_b2WheelJoint__GetBodyB_p0,0,_emscripten_bind_b2WheelJoint__GetUserData_p0,0,_emscripten_bind_b2WheelJoint__GetDefinition_p1,0,_emscripten_bind_b2WheelJoint__GetLocalAxisA_p0,0,_emscripten_bind_b2WheelJoint__SetSpringDampingRatio_p1,0,_emscripten_bind_b2WheelJoint__GetAnchorB_p0,0,_emscripten_bind_b2WheelJoint__GetAnchorA_p0,0,_emscripten_bind_b2WheelJoint__GetNext_p0,0,_emscripten_bind_b2WheelJoint__GetSpringFrequencyHz_p0,0,_emscripten_bind_b2WheelJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2WheelJoint__SetMotorSpeed_p1,0,_emscripten_bind_b2WheelJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2WheelJoint__GetMotorSpeed_p0,0,_emscripten_bind_b2WheelJoint__GetMotorTorque_p1,0,_emscripten_bind_b2WheelJoint__b2WheelJoint_p1,0,_emscripten_bind_b2WheelJoint__IsMotorEnabled_p0,0,_emscripten_bind_b2WheelJoint__GetJointTranslation_p0,0,_emscripten_bind_b2WheelJoint__SetUserData_p1,0,_emscripten_bind_b2WheelJoint__GetReactionForce_p1,0,_emscripten_bind_b2WheelJoint__GetSpringDampingRatio_p0,0,_emscripten_bind_b2WheelJoint__SetMaxMotorTorque_p1,0,_emscripten_bind_b2WheelJoint__GetCollideConnected_p0,0,_emscripten_bind_b2WheelJoint__GetJointSpeed_p0,0,_emscripten_bind_b2WheelJoint__EnableMotor_p1,0,_emscripten_bind_b2WheelJoint____destroy___p0,0,_emscripten_bind_b2WheelJoint__Dump_p0,0,_emscripten_bind_b2WheelJoint__GetMaxMotorTorque_p0,0,_emscripten_bind_b2WheelJoint__GetType_p0,0,_emscripten_bind_b2WheelJoint__GetReactionTorque_p1,0,_emscripten_bind_b2WheelJoint__SetSpringFrequencyHz_p1,0,_emscripten_bind_b2WheelJoint__IsActive_p0,0,_emscripten_bind_b2Draw____destroy___p0,0,_emscripten_bind_b2Draw__AppendFlags_p1,0,_emscripten_bind_b2Draw__DrawTransform_p1,0,_emscripten_bind_b2Draw__ClearFlags_p1,0,_emscripten_bind_b2Draw__DrawPolygon_p3,0,_emscripten_bind_b2Draw__DrawSolidCircle_p4,0,_emscripten_bind_b2Draw__DrawSolidPolygon_p3,0,_emscripten_bind_b2Draw__DrawCircle_p3,0,_emscripten_bind_b2Draw__SetFlags_p1,0,_emscripten_bind_b2Draw__DrawSegment_p3,0,_emscripten_bind_b2Draw__b2Draw_p0,0,_emscripten_bind_b2Draw__GetFlags_p0,0,_emscripten_bind_b2Joint__GetNext_p0,0,_emscripten_bind_b2Joint__GetBodyA_p0,0,_emscripten_bind_b2Joint__GetBodyB_p0,0,_emscripten_bind_b2Joint__GetReactionTorque_p1,0,_emscripten_bind_b2Joint__GetAnchorA_p0,0,_emscripten_bind_b2Joint__GetUserData_p0,0,_emscripten_bind_b2Joint__GetType_p0,0,_emscripten_bind_b2Joint__SetUserData_p1,0,_emscripten_bind_b2Joint__GetCollideConnected_p0,0,_emscripten_bind_b2Joint__Dump_p0,0,_emscripten_bind_b2Joint__GetAnchorB_p0,0,_emscripten_bind_b2Joint__GetReactionForce_p1,0,_emscripten_bind_b2Joint__IsActive_p0,0,_emscripten_bind_b2GearJoint__GetJoint1_p0,0,_emscripten_bind_b2GearJoint__b2GearJoint_p1,0,_emscripten_bind_b2GearJoint__GetAnchorA_p0,0,_emscripten_bind_b2GearJoint__GetJoint2_p0,0,_emscripten_bind_b2GearJoint__GetReactionTorque_p1,0,_emscripten_bind_b2GearJoint__Dump_p0,0,_emscripten_bind_b2GearJoint____destroy___p0,0,_emscripten_bind_b2GearJoint__SetRatio_p1,0,_emscripten_bind_b2GearJoint__GetType_p0,0,_emscripten_bind_b2GearJoint__GetUserData_p0,0,_emscripten_bind_b2GearJoint__GetBodyB_p0,0,_emscripten_bind_b2GearJoint__GetCollideConnected_p0,0,_emscripten_bind_b2GearJoint__SetUserData_p1,0,_emscripten_bind_b2GearJoint__GetAnchorB_p0,0,_emscripten_bind_b2GearJoint__GetReactionForce_p1,0,_emscripten_bind_b2GearJoint__GetBodyA_p0,0,_emscripten_bind_b2GearJoint__GetNext_p0,0,_emscripten_bind_b2GearJoint__IsActive_p0,0,_emscripten_bind_b2GearJoint__GetRatio_p0,0,_emscripten_bind_b2RayCastCallback__ReportFixture_p4,0,_emscripten_bind_b2RayCastCallback__b2RayCastCallback_p0,0,_emscripten_bind_b2RayCastCallback____destroy___p0,0,_emscripten_bind_b2DynamicTree____destroy___p0,0,_emscripten_bind_b2DynamicTree__b2DynamicTree_p0,0,_emscripten_bind_b2DynamicTree__GetFatAABB_p1,0,_emscripten_bind_b2DynamicTree__GetUserData_p1,0,_emscripten_bind_b2DynamicTree__GetMaxBalance_p0,0,_emscripten_bind_b2DynamicTree__GetHeight_p0,0,_emscripten_bind_b2DynamicTree__GetAreaRatio_p0,0,_emscripten_bind_b2DynamicTree__RebuildBottomUp_p0,0,_emscripten_bind_b2DynamicTree__CreateProxy_p2,0,_emscripten_bind_b2DynamicTree__MoveProxy_p3,0,_emscripten_bind_b2DynamicTree__Validate_p0,0,_emscripten_bind_b2DynamicTree__DestroyProxy_p1,0,_emscripten_bind_b2WeldJoint__GetBodyA_p0,0,_emscripten_bind_b2WeldJoint__GetBodyB_p0,0,_emscripten_bind_b2WeldJoint__SetFrequency_p1,0,_emscripten_bind_b2WeldJoint__GetUserData_p0,0,_emscripten_bind_b2WeldJoint__SetUserData_p1,0,_emscripten_bind_b2WeldJoint__GetAnchorB_p0,0,_emscripten_bind_b2WeldJoint__GetAnchorA_p0,0,_emscripten_bind_b2WeldJoint__GetNext_p0,0,_emscripten_bind_b2WeldJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2WeldJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2WeldJoint__GetFrequency_p0,0,_emscripten_bind_b2WeldJoint__b2WeldJoint_p1,0,_emscripten_bind_b2WeldJoint__GetReactionForce_p1,0,_emscripten_bind_b2WeldJoint__GetDampingRatio_p0,0,_emscripten_bind_b2WeldJoint__GetCollideConnected_p0,0,_emscripten_bind_b2WeldJoint____destroy___p0,0,_emscripten_bind_b2WeldJoint__GetReferenceAngle_p0,0,_emscripten_bind_b2WeldJoint__Dump_p0,0,_emscripten_bind_b2WeldJoint__GetType_p0,0,_emscripten_bind_b2WeldJoint__SetDampingRatio_p1,0,_emscripten_bind_b2WeldJoint__GetReactionTorque_p1,0,_emscripten_bind_b2WeldJoint__IsActive_p0,0,_emscripten_bind_b2RevoluteJoint__GetBodyA_p0,0,_emscripten_bind_b2RevoluteJoint__GetBodyB_p0,0,_emscripten_bind_b2RevoluteJoint__GetUserData_p0,0,_emscripten_bind_b2RevoluteJoint__GetLowerLimit_p0,0,_emscripten_bind_b2RevoluteJoint__GetAnchorA_p0,0,_emscripten_bind_b2RevoluteJoint__b2RevoluteJoint_p1,0,_emscripten_bind_b2RevoluteJoint__GetNext_p0,0,_emscripten_bind_b2RevoluteJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2RevoluteJoint__SetMotorSpeed_p1,0,_emscripten_bind_b2RevoluteJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2RevoluteJoint__GetJointAngle_p0,0,_emscripten_bind_b2RevoluteJoint__GetMotorSpeed_p0,0,_emscripten_bind_b2RevoluteJoint__GetMotorTorque_p1,0,_emscripten_bind_b2RevoluteJoint__IsLimitEnabled_p0,0,_emscripten_bind_b2RevoluteJoint__EnableLimit_p1,0,_emscripten_bind_b2RevoluteJoint__IsMotorEnabled_p0,0,_emscripten_bind_b2RevoluteJoint__SetUserData_p1,0,_emscripten_bind_b2RevoluteJoint__GetReactionForce_p1,0,_emscripten_bind_b2RevoluteJoint__SetMaxMotorTorque_p1,0,_emscripten_bind_b2RevoluteJoint__GetCollideConnected_p0,0,_emscripten_bind_b2RevoluteJoint__GetJointSpeed_p0,0,_emscripten_bind_b2RevoluteJoint__EnableMotor_p1,0,_emscripten_bind_b2RevoluteJoint____destroy___p0,0,_emscripten_bind_b2RevoluteJoint__GetReferenceAngle_p0,0,_emscripten_bind_b2RevoluteJoint__Dump_p0,0,_emscripten_bind_b2RevoluteJoint__SetLimits_p2,0,_emscripten_bind_b2RevoluteJoint__GetMaxMotorTorque_p0,0,_emscripten_bind_b2RevoluteJoint__GetType_p0,0,_emscripten_bind_b2RevoluteJoint__GetReactionTorque_p1,0,_emscripten_bind_b2RevoluteJoint__GetUpperLimit_p0,0,_emscripten_bind_b2RevoluteJoint__IsActive_p0,0,_emscripten_bind_b2RevoluteJoint__GetAnchorB_p0,0,_emscripten_bind_b2Timer__b2Timer_p0,0,_emscripten_bind_b2Timer__Reset_p0,0,_emscripten_bind_b2Timer____destroy___p0,0,_emscripten_bind_b2Timer__GetMilliseconds_p0,0,_emscripten_bind_b2ContactListener____destroy___p0,0,_emscripten_bind_b2ContactListener__b2ContactListener_p0,0,_emscripten_bind_b2ContactListener__EndContact_p1,0,_emscripten_bind_b2ContactListener__BeginContact_p1,0,_emscripten_bind_b2ContactListener__PreSolve_p2,0,_emscripten_bind_b2ContactListener__PostSolve_p2,0,_emscripten_bind_b2ChainShape____destroy___p0,0,_emscripten_bind_b2ChainShape__GetType_p0,0,_emscripten_bind_b2ChainShape__CreateChain_p2,0,_emscripten_bind_b2ChainShape__set_m_radius_p1,0,_emscripten_bind_b2ChainShape__get_m_radius_p0,0,_emscripten_bind_b2ChainShape__get_m_vertices_p0,0,_emscripten_bind_b2ChainShape__ComputeMass_p2,0,_emscripten_bind_b2ChainShape__Clone_p1,0,_emscripten_bind_b2ChainShape__get_m_count_p0,0,_emscripten_bind_b2ChainShape__GetChildEdge_p2,0,_emscripten_bind_b2ChainShape__b2ChainShape_p0,0,_emscripten_bind_b2ChainShape__ComputeAABB_p3,0,_emscripten_bind_b2ChainShape__RayCast_p4,0,_emscripten_bind_b2ChainShape__GetChildCount_p0,0,_emscripten_bind_b2ChainShape__TestPoint_p2,0,_emscripten_bind_b2ChainShape__SetPrevVertex_p1,0,_emscripten_bind_b2ChainShape__CreateLoop_p2,0,_emscripten_bind_b2ChainShape__set_m_vertices_p1,0,_emscripten_bind_b2ChainShape__SetNextVertex_p1,0,_emscripten_bind_b2ChainShape__set_m_count_p1,0,_emscripten_bind_b2QueryCallback__ReportFixture_p1,0,_emscripten_bind_b2QueryCallback____destroy___p0,0,_emscripten_bind_b2QueryCallback__b2QueryCallback_p0,0,_emscripten_bind_b2BlockAllocator____destroy___p0,0,_emscripten_bind_b2BlockAllocator__Clear_p0,0,_emscripten_bind_b2BlockAllocator__Free_p2,0,_emscripten_bind_b2BlockAllocator__Allocate_p1,0,_emscripten_bind_b2BlockAllocator__b2BlockAllocator_p0,0,_emscripten_bind_b2RopeJoint__GetNext_p0,0,_emscripten_bind_b2RopeJoint____destroy___p0,0,_emscripten_bind_b2RopeJoint__GetAnchorA_p0,0,_emscripten_bind_b2RopeJoint__GetReactionTorque_p1,0,_emscripten_bind_b2RopeJoint__GetMaxLength_p0,0,_emscripten_bind_b2RopeJoint__GetBodyA_p0,0,_emscripten_bind_b2RopeJoint__GetCollideConnected_p0,0,_emscripten_bind_b2RopeJoint__GetUserData_p0,0,_emscripten_bind_b2RopeJoint__GetType_p0,0,_emscripten_bind_b2RopeJoint__GetBodyB_p0,0,_emscripten_bind_b2RopeJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2RopeJoint__Dump_p0,0,_emscripten_bind_b2RopeJoint__SetMaxLength_p1,0,_emscripten_bind_b2RopeJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2RopeJoint__SetUserData_p1,0,_emscripten_bind_b2RopeJoint__GetAnchorB_p0,0,_emscripten_bind_b2RopeJoint__GetReactionForce_p1,0,_emscripten_bind_b2RopeJoint__b2RopeJoint_p1,0,_emscripten_bind_b2RopeJoint__GetLimitState_p0,0,_emscripten_bind_b2RopeJoint__IsActive_p0,0,_emscripten_bind_b2PolygonShape____destroy___p0,0,_emscripten_bind_b2PolygonShape__Set_p2,0,_emscripten_bind_b2PolygonShape__ComputeMass_p2,0,_emscripten_bind_b2PolygonShape__set_m_radius_p1,0,_emscripten_bind_b2PolygonShape__get_m_radius_p0,0,_emscripten_bind_b2PolygonShape__Clone_p1,0,_emscripten_bind_b2PolygonShape__GetVertex_p1,0,_emscripten_bind_b2PolygonShape__RayCast_p4,0,_emscripten_bind_b2PolygonShape__SetAsBox_p2,0,_emscripten_bind_b2PolygonShape__SetAsBox_p4,0,_emscripten_bind_b2PolygonShape__set_m_centroid_p1,0,_emscripten_bind_b2PolygonShape__ComputeAABB_p3,0,_emscripten_bind_b2PolygonShape__set_m_vertexCount_p1,0,_emscripten_bind_b2PolygonShape__GetVertexCount_p0,0,_emscripten_bind_b2PolygonShape__GetChildCount_p0,0,_emscripten_bind_b2PolygonShape__TestPoint_p2,0,_emscripten_bind_b2PolygonShape__GetType_p0,0,_emscripten_bind_b2PolygonShape__b2PolygonShape_p0,0,_emscripten_bind_b2PolygonShape__get_m_vertexCount_p0,0,_emscripten_bind_b2PolygonShape__get_m_centroid_p0,0,_emscripten_bind_b2EdgeShape____destroy___p0,0,_emscripten_bind_b2EdgeShape__Set_p2,0,_emscripten_bind_b2EdgeShape__ComputeMass_p2,0,_emscripten_bind_b2EdgeShape__set_m_radius_p1,0,_emscripten_bind_b2EdgeShape__get_m_radius_p0,0,_emscripten_bind_b2EdgeShape__Clone_p1,0,_emscripten_bind_b2EdgeShape__GetType_p0,0,_emscripten_bind_b2EdgeShape__RayCast_p4,0,_emscripten_bind_b2EdgeShape__ComputeAABB_p3,0,_emscripten_bind_b2EdgeShape__GetChildCount_p0,0,_emscripten_bind_b2EdgeShape__TestPoint_p2,0,_emscripten_bind_b2EdgeShape__b2EdgeShape_p0,0,_emscripten_bind_b2Contact__GetNext_p0,0,_emscripten_bind_b2Contact__SetEnabled_p1,0,_emscripten_bind_b2Contact__GetWorldManifold_p1,0,_emscripten_bind_b2Contact__GetRestitution_p0,0,_emscripten_bind_b2Contact__ResetFriction_p0,0,_emscripten_bind_b2Contact__GetFriction_p0,0,_emscripten_bind_b2Contact__IsTouching_p0,0,_emscripten_bind_b2Contact__IsEnabled_p0,0,_emscripten_bind_b2Contact__GetFixtureB_p0,0,_emscripten_bind_b2Contact__SetFriction_p1,0,_emscripten_bind_b2Contact__GetFixtureA_p0,0,_emscripten_bind_b2Contact__GetChildIndexA_p0,0,_emscripten_bind_b2Contact__GetChildIndexB_p0,0,_emscripten_bind_b2Contact__Evaluate_p3,0,_emscripten_bind_b2Contact__SetRestitution_p1,0,_emscripten_bind_b2Contact__GetManifold_p0,0,_emscripten_bind_b2Contact__ResetRestitution_p0,0,_emscripten_bind_b2Shape__get_m_radius_p0,0,_emscripten_bind_b2Shape__ComputeMass_p2,0,_emscripten_bind_b2Shape__set_m_radius_p1,0,_emscripten_bind_b2Shape__Clone_p1,0,_emscripten_bind_b2Shape__GetType_p0,0,_emscripten_bind_b2Shape__RayCast_p4,0,_emscripten_bind_b2Shape__ComputeAABB_p3,0,_emscripten_bind_b2Shape__GetChildCount_p0,0,_emscripten_bind_b2Shape__TestPoint_p2,0,_emscripten_bind_b2Body__GetAngle_p0,0,_emscripten_bind_b2Body__GetUserData_p0,0,_emscripten_bind_b2Body__IsSleepingAllowed_p0,0,_emscripten_bind_b2Body__SetAngularDamping_p1,0,_emscripten_bind_b2Body__SetActive_p1,0,_emscripten_bind_b2Body__SetGravityScale_p1,0,_emscripten_bind_b2Body__SetUserData_p1,0,_emscripten_bind_b2Body__GetAngularVelocity_p0,0,_emscripten_bind_b2Body__GetFixtureList_p0,0,_emscripten_bind_b2Body__ApplyForce_p2,0,_emscripten_bind_b2Body__GetLocalPoint_p1,0,_emscripten_bind_b2Body__SetLinearVelocity_p1,0,_emscripten_bind_b2Body__GetJointList_p0,0,_emscripten_bind_b2Body__GetLinearVelocity_p0,0,_emscripten_bind_b2Body__GetNext_p0,0,_emscripten_bind_b2Body__SetSleepingAllowed_p1,0,_emscripten_bind_b2Body__SetTransform_p2,0,_emscripten_bind_b2Body__GetMass_p0,0,_emscripten_bind_b2Body__SetAngularVelocity_p1,0,_emscripten_bind_b2Body__GetMassData_p1,0,_emscripten_bind_b2Body__GetLinearVelocityFromWorldPoint_p1,0,_emscripten_bind_b2Body__ResetMassData_p0,0,_emscripten_bind_b2Body__ApplyForceToCenter_p1,0,_emscripten_bind_b2Body__ApplyTorque_p1,0,_emscripten_bind_b2Body__IsAwake_p0,0,_emscripten_bind_b2Body__SetType_p1,0,_emscripten_bind_b2Body__CreateFixture_p1,0,_emscripten_bind_b2Body__CreateFixture_p2,0,_emscripten_bind_b2Body__SetMassData_p1,0,_emscripten_bind_b2Body__GetTransform_p0,0,_emscripten_bind_b2Body__GetWorldCenter_p0,0,_emscripten_bind_b2Body__GetAngularDamping_p0,0,_emscripten_bind_b2Body__ApplyLinearImpulse_p2,0,_emscripten_bind_b2Body__IsFixedRotation_p0,0,_emscripten_bind_b2Body__GetLocalCenter_p0,0,_emscripten_bind_b2Body__GetWorldVector_p1,0,_emscripten_bind_b2Body__GetLinearVelocityFromLocalPoint_p1,0,_emscripten_bind_b2Body__GetContactList_p0,0,_emscripten_bind_b2Body__GetWorldPoint_p1,0,_emscripten_bind_b2Body__SetAwake_p1,0,_emscripten_bind_b2Body__GetLinearDamping_p0,0,_emscripten_bind_b2Body__IsBullet_p0,0,_emscripten_bind_b2Body__GetWorld_p0,0,_emscripten_bind_b2Body__GetLocalVector_p1,0,_emscripten_bind_b2Body__SetLinearDamping_p1,0,_emscripten_bind_b2Body__Dump_p0,0,_emscripten_bind_b2Body__SetBullet_p1,0,_emscripten_bind_b2Body__GetType_p0,0,_emscripten_bind_b2Body__GetGravityScale_p0,0,_emscripten_bind_b2Body__DestroyFixture_p1,0,_emscripten_bind_b2Body__GetInertia_p0,0,_emscripten_bind_b2Body__IsActive_p0,0,_emscripten_bind_b2Body__SetFixedRotation_p1,0,_emscripten_bind_b2Body__ApplyAngularImpulse_p1,0,_emscripten_bind_b2Body__GetPosition_p0,0,_emscripten_bind_b2FrictionJoint__SetMaxTorque_p1,0,_emscripten_bind_b2FrictionJoint__GetMaxForce_p0,0,_emscripten_bind_b2FrictionJoint__GetAnchorA_p0,0,_emscripten_bind_b2FrictionJoint__GetReactionTorque_p1,0,_emscripten_bind_b2FrictionJoint__Dump_p0,0,_emscripten_bind_b2FrictionJoint____destroy___p0,0,_emscripten_bind_b2FrictionJoint__GetCollideConnected_p0,0,_emscripten_bind_b2FrictionJoint__GetUserData_p0,0,_emscripten_bind_b2FrictionJoint__GetType_p0,0,_emscripten_bind_b2FrictionJoint__SetMaxForce_p1,0,_emscripten_bind_b2FrictionJoint__GetBodyB_p0,0,_emscripten_bind_b2FrictionJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2FrictionJoint__b2FrictionJoint_p1,0,_emscripten_bind_b2FrictionJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2FrictionJoint__SetUserData_p1,0,_emscripten_bind_b2FrictionJoint__GetAnchorB_p0,0,_emscripten_bind_b2FrictionJoint__GetReactionForce_p1,0,_emscripten_bind_b2FrictionJoint__GetBodyA_p0,0,_emscripten_bind_b2FrictionJoint__GetNext_p0,0,_emscripten_bind_b2FrictionJoint__GetMaxTorque_p0,0,_emscripten_bind_b2FrictionJoint__IsActive_p0,0,_emscripten_bind_b2StackAllocator__GetMaxAllocation_p0,0,_emscripten_bind_b2StackAllocator____destroy___p0,0,_emscripten_bind_b2StackAllocator__b2StackAllocator_p0,0,_emscripten_bind_b2StackAllocator__Allocate_p1,0,_emscripten_bind_b2StackAllocator__Free_p1,0,_emscripten_bind_b2DestructionListener____destroy___p0,0,_emscripten_bind_b2DestructionListener__SayGoodbye_p1,0,_emscripten_bind_b2DestructionListener__b2DestructionListener_p0,0,_emscripten_bind_b2Filter____destroy___p0,0,_emscripten_bind_b2Filter__set_maskBits_p1,0,_emscripten_bind_b2Filter__set_categoryBits_p1,0,_emscripten_bind_b2Filter__get_groupIndex_p0,0,_emscripten_bind_b2Filter__set_groupIndex_p1,0,_emscripten_bind_b2Filter__get_maskBits_p0,0,_emscripten_bind_b2Filter__b2Filter_p0,0,_emscripten_bind_b2Filter__get_categoryBits_p0,0,_emscripten_bind_b2FrictionJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2FrictionJointDef__get_bodyA_p1,0,_emscripten_bind_b2FrictionJointDef__get_bodyB_p1,0,_emscripten_bind_b2FrictionJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2FrictionJointDef__set_bodyA_p1,0,_emscripten_bind_b2FrictionJointDef__set_bodyB_p1,0,_emscripten_bind_b2FrictionJointDef____destroy___p0,0,_emscripten_bind_b2FrictionJointDef__get_maxForce_p0,0,_emscripten_bind_b2FrictionJointDef__b2FrictionJointDef_p0,0,_emscripten_bind_b2FrictionJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2FrictionJointDef__set_maxForce_p1,0,_emscripten_bind_b2FrictionJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2FrictionJointDef__get_collideConnected_p1,0,_emscripten_bind_b2FrictionJointDef__set_maxTorque_p1,0,_emscripten_bind_b2FrictionJointDef__set_collideConnected_p1,0,_emscripten_bind_b2FrictionJointDef__Initialize_p3,0,_emscripten_bind_b2FrictionJointDef__get_maxTorque_p0,0,_emscripten_bind_b2BodyDef__get_linearDamping_p0,0,_emscripten_bind_b2BodyDef__get_awake_p0,0,_emscripten_bind_b2BodyDef__get_type_p0,0,_emscripten_bind_b2BodyDef__get_allowSleep_p0,0,_emscripten_bind_b2BodyDef__set_position_p1,0,_emscripten_bind_b2BodyDef__set_linearVelocity_p1,0,_emscripten_bind_b2BodyDef__b2BodyDef_p0,0,_emscripten_bind_b2BodyDef__get_bullet_p0,0,_emscripten_bind_b2BodyDef__get_userData_p0,0,_emscripten_bind_b2BodyDef__set_angularDamping_p1,0,_emscripten_bind_b2BodyDef__set_fixedRotation_p1,0,_emscripten_bind_b2BodyDef__set_allowSleep_p1,0,_emscripten_bind_b2BodyDef__get_gravityScale_p0,0,_emscripten_bind_b2BodyDef__set_angularVelocity_p1,0,_emscripten_bind_b2BodyDef__set_userData_p1,0,_emscripten_bind_b2BodyDef__get_position_p0,0,_emscripten_bind_b2BodyDef____destroy___p0,0,_emscripten_bind_b2BodyDef__set_type_p1,0,_emscripten_bind_b2BodyDef__set_gravityScale_p1,0,_emscripten_bind_b2BodyDef__get_angularDamping_p0,0,_emscripten_bind_b2BodyDef__set_bullet_p1,0,_emscripten_bind_b2BodyDef__set_active_p1,0,_emscripten_bind_b2BodyDef__set_angle_p1,0,_emscripten_bind_b2BodyDef__get_angle_p0,0,_emscripten_bind_b2BodyDef__get_angularVelocity_p0,0,_emscripten_bind_b2BodyDef__get_linearVelocity_p0,0,_emscripten_bind_b2BodyDef__get_active_p0,0,_emscripten_bind_b2BodyDef__set_linearDamping_p1,0,_emscripten_bind_b2BodyDef__get_fixedRotation_p0,0,_emscripten_bind_b2BodyDef__set_awake_p1,0,_emscripten_bind_b2Vec2__Normalize_p0,0,_emscripten_bind_b2Vec2__set_x_p1,0,_emscripten_bind_b2Vec2__b2Vec2_p0,0,_emscripten_bind_b2Vec2__b2Vec2_p2,0,_emscripten_bind_b2Vec2__Set_p2,0,_emscripten_bind_b2Vec2__get_x_p0,0,_emscripten_bind_b2Vec2__get_y_p0,0,_emscripten_bind_b2Vec2__set_y_p1,0,_emscripten_bind_b2Vec2__IsValid_p0,0,_emscripten_bind_b2Vec2__Skew_p0,0,_emscripten_bind_b2Vec2__LengthSquared_p0,0,_emscripten_bind_b2Vec2__op_add_p1,0,_emscripten_bind_b2Vec2__SetZero_p0,0,_emscripten_bind_b2Vec2__Length_p0,0,_emscripten_bind_b2Vec2____destroy___p0,0,_emscripten_bind_b2Vec2__op_mul_p1,0,_emscripten_bind_b2Vec2__op_sub_p0,0,_emscripten_bind_b2Vec3____destroy___p0,0,_emscripten_bind_b2Vec3__set_z_p1,0,_emscripten_bind_b2Vec3__Set_p3,0,_emscripten_bind_b2Vec3__get_z_p0,0,_emscripten_bind_b2Vec3__op_add_p1,0,_emscripten_bind_b2Vec3__SetZero_p0,0,_emscripten_bind_b2Vec3__b2Vec3_p0,0,_emscripten_bind_b2Vec3__b2Vec3_p3,0,_emscripten_bind_b2Vec3__op_mul_p1,0,_emscripten_bind_b2Vec3__op_sub_p0,0,_emscripten_bind_b2DistanceProxy__get_m_radius_p0,0,_emscripten_bind_b2DistanceProxy__Set_p2,0,_emscripten_bind_b2DistanceProxy__b2DistanceProxy_p0,0,_emscripten_bind_b2DistanceProxy__set_m_radius_p1,0,_emscripten_bind_b2DistanceProxy____destroy___p0,0,_emscripten_bind_b2DistanceProxy__get_m_vertices_p0,0,_emscripten_bind_b2DistanceProxy__GetSupportVertex_p1,0,_emscripten_bind_b2DistanceProxy__get_m_count_p0,0,_emscripten_bind_b2DistanceProxy__GetVertexCount_p0,0,_emscripten_bind_b2DistanceProxy__GetVertex_p1,0,_emscripten_bind_b2DistanceProxy__GetSupport_p1,0,_emscripten_bind_b2DistanceProxy__set_m_vertices_p1,0,_emscripten_bind_b2DistanceProxy__set_m_count_p1,0,_emscripten_bind_b2FixtureDef____destroy___p0,0,_emscripten_bind_b2FixtureDef__get_isSensor_p0,0,_emscripten_bind_b2FixtureDef__set_userData_p1,0,_emscripten_bind_b2FixtureDef__set_shape_p1,0,_emscripten_bind_b2FixtureDef__get_density_p0,0,_emscripten_bind_b2FixtureDef__get_shape_p0,0,_emscripten_bind_b2FixtureDef__b2FixtureDef_p0,0,_emscripten_bind_b2FixtureDef__set_density_p1,0,_emscripten_bind_b2FixtureDef__set_restitution_p1,0,_emscripten_bind_b2FixtureDef__get_restitution_p0,0,_emscripten_bind_b2FixtureDef__set_isSensor_p1,0,_emscripten_bind_b2FixtureDef__get_filter_p0,0,_emscripten_bind_b2FixtureDef__get_friction_p0,0,_emscripten_bind_b2FixtureDef__set_friction_p1,0,_emscripten_bind_b2FixtureDef__get_userData_p0,0,_emscripten_bind_b2FixtureDef__set_filter_p1,0,_emscripten_bind_b2PrismaticJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2PrismaticJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2PrismaticJointDef__get_motorSpeed_p0,0,_emscripten_bind_b2PrismaticJointDef__get_enableMotor_p0,0,_emscripten_bind_b2PrismaticJointDef__get_referenceAngle_p0,0,_emscripten_bind_b2PrismaticJointDef__set_enableLimit_p1,0,_emscripten_bind_b2PrismaticJointDef__set_motorSpeed_p1,0,_emscripten_bind_b2PrismaticJointDef__get_localAxisA_p0,0,_emscripten_bind_b2PrismaticJointDef__set_bodyA_p1,0,_emscripten_bind_b2PrismaticJointDef__set_bodyB_p1,0,_emscripten_bind_b2PrismaticJointDef__b2PrismaticJointDef_p0,0,_emscripten_bind_b2PrismaticJointDef__Initialize_p4,0,_emscripten_bind_b2PrismaticJointDef__set_lowerTranslation_p1,0,_emscripten_bind_b2PrismaticJointDef__get_upperTranslation_p0,0,_emscripten_bind_b2PrismaticJointDef__get_enableLimit_p0,0,_emscripten_bind_b2PrismaticJointDef____destroy___p0,0,_emscripten_bind_b2PrismaticJointDef__set_referenceAngle_p1,0,_emscripten_bind_b2PrismaticJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2PrismaticJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2PrismaticJointDef__get_collideConnected_p1,0,_emscripten_bind_b2PrismaticJointDef__get_bodyA_p1,0,_emscripten_bind_b2PrismaticJointDef__get_bodyB_p1,0,_emscripten_bind_b2PrismaticJointDef__set_upperTranslation_p1,0,_emscripten_bind_b2PrismaticJointDef__get_maxMotorForce_p0,0,_emscripten_bind_b2PrismaticJointDef__set_maxMotorForce_p1,0,_emscripten_bind_b2PrismaticJointDef__set_enableMotor_p1,0,_emscripten_bind_b2PrismaticJointDef__set_collideConnected_p1,0,_emscripten_bind_b2PrismaticJointDef__get_lowerTranslation_p0,0,_emscripten_bind_b2PrismaticJointDef__set_localAxisA_p1,0,_emscripten_bind_b2Rot____destroy___p0,0,_emscripten_bind_b2Rot__Set_p1,0,_emscripten_bind_b2Rot__GetAngle_p0,0,_emscripten_bind_b2Rot__GetYAxis_p0,0,_emscripten_bind_b2Rot__GetXAxis_p0,0,_emscripten_bind_b2Rot__set_c_p1,0,_emscripten_bind_b2Rot__SetIdentity_p0,0,_emscripten_bind_b2Rot__b2Rot_p0,0,_emscripten_bind_b2Rot__b2Rot_p1,0,_emscripten_bind_b2Rot__get_c_p0,0,_emscripten_bind_b2WheelJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2WheelJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2WheelJointDef__get_motorSpeed_p0,0,_emscripten_bind_b2WheelJointDef__set_maxMotorTorque_p1,0,_emscripten_bind_b2WheelJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2WheelJointDef__set_motorSpeed_p1,0,_emscripten_bind_b2WheelJointDef__get_localAxisA_p0,0,_emscripten_bind_b2WheelJointDef__set_bodyA_p1,0,_emscripten_bind_b2WheelJointDef__set_bodyB_p1,0,_emscripten_bind_b2WheelJointDef__Initialize_p4,0,_emscripten_bind_b2WheelJointDef__b2WheelJointDef_p0,0,_emscripten_bind_b2WheelJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2WheelJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2WheelJointDef____destroy___p0,0,_emscripten_bind_b2WheelJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2WheelJointDef__get_maxMotorTorque_p0,0,_emscripten_bind_b2WheelJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2WheelJointDef__get_collideConnected_p1,0,_emscripten_bind_b2WheelJointDef__get_enableMotor_p0,0,_emscripten_bind_b2WheelJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2WheelJointDef__get_bodyA_p1,0,_emscripten_bind_b2WheelJointDef__get_bodyB_p1,0,_emscripten_bind_b2WheelJointDef__set_enableMotor_p1,0,_emscripten_bind_b2WheelJointDef__set_collideConnected_p1,0,_emscripten_bind_b2WheelJointDef__set_localAxisA_p1,0,_emscripten_bind_b2RevoluteJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2RevoluteJointDef__get_lowerAngle_p0,0,_emscripten_bind_b2RevoluteJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2RevoluteJointDef__set_lowerAngle_p1,0,_emscripten_bind_b2RevoluteJointDef__get_enableMotor_p0,0,_emscripten_bind_b2RevoluteJointDef__set_upperAngle_p1,0,_emscripten_bind_b2RevoluteJointDef__get_referenceAngle_p0,0,_emscripten_bind_b2RevoluteJointDef__set_enableLimit_p1,0,_emscripten_bind_b2RevoluteJointDef__get_motorSpeed_p0,0,_emscripten_bind_b2RevoluteJointDef__set_motorSpeed_p1,0,_emscripten_bind_b2RevoluteJointDef__get_maxMotorTorque_p0,0,_emscripten_bind_b2RevoluteJointDef__set_bodyA_p1,0,_emscripten_bind_b2RevoluteJointDef__set_bodyB_p1,0,_emscripten_bind_b2RevoluteJointDef__b2RevoluteJointDef_p0,0,_emscripten_bind_b2RevoluteJointDef__Initialize_p3,0,_emscripten_bind_b2RevoluteJointDef__get_enableLimit_p0,0,_emscripten_bind_b2RevoluteJointDef____destroy___p0,0,_emscripten_bind_b2RevoluteJointDef__get_upperAngle_p0,0,_emscripten_bind_b2RevoluteJointDef__set_referenceAngle_p1,0,_emscripten_bind_b2RevoluteJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2RevoluteJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2RevoluteJointDef__get_collideConnected_p1,0,_emscripten_bind_b2RevoluteJointDef__get_bodyA_p1,0,_emscripten_bind_b2RevoluteJointDef__get_bodyB_p1,0,_emscripten_bind_b2RevoluteJointDef__set_maxMotorTorque_p1,0,_emscripten_bind_b2RevoluteJointDef__set_enableMotor_p1,0,_emscripten_bind_b2RevoluteJointDef__set_collideConnected_p1,0,_emscripten_bind_b2PulleyJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2PulleyJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2PulleyJointDef__set_ratio_p1,0,_emscripten_bind_b2PulleyJointDef__set_groundAnchorB_p1,0,_emscripten_bind_b2PulleyJointDef__set_groundAnchorA_p1,0,_emscripten_bind_b2PulleyJointDef__get_groundAnchorB_p0,0,_emscripten_bind_b2PulleyJointDef__get_groundAnchorA_p0,0,_emscripten_bind_b2PulleyJointDef__set_bodyA_p1,0,_emscripten_bind_b2PulleyJointDef__set_bodyB_p1,0,_emscripten_bind_b2PulleyJointDef__Initialize_p7,0,_emscripten_bind_b2PulleyJointDef__get_ratio_p0,0,_emscripten_bind_b2PulleyJointDef____destroy___p0,0,_emscripten_bind_b2PulleyJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2PulleyJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2PulleyJointDef__get_collideConnected_p1,0,_emscripten_bind_b2PulleyJointDef__set_lengthB_p1,0,_emscripten_bind_b2PulleyJointDef__set_lengthA_p1,0,_emscripten_bind_b2PulleyJointDef__get_bodyA_p1,0,_emscripten_bind_b2PulleyJointDef__get_bodyB_p1,0,_emscripten_bind_b2PulleyJointDef__get_lengthB_p0,0,_emscripten_bind_b2PulleyJointDef__get_lengthA_p0,0,_emscripten_bind_b2PulleyJointDef__set_collideConnected_p1,0,_emscripten_bind_b2PulleyJointDef__b2PulleyJointDef_p0,0,_emscripten_bind_b2JointDef__get_bodyA_p0,0,_emscripten_bind_b2JointDef__set_userData_p1,0,_emscripten_bind_b2JointDef__set_bodyA_p1,0,_emscripten_bind_b2JointDef__set_bodyB_p1,0,_emscripten_bind_b2JointDef____destroy___p0,0,_emscripten_bind_b2JointDef__get_bodyB_p0,0,_emscripten_bind_b2JointDef__set_type_p1,0,_emscripten_bind_b2JointDef__get_collideConnected_p0,0,_emscripten_bind_b2JointDef__get_type_p0,0,_emscripten_bind_b2JointDef__set_collideConnected_p1,0,_emscripten_bind_b2JointDef__b2JointDef_p0,0,_emscripten_bind_b2JointDef__get_userData_p0,0,_emscripten_bind_b2Transform____destroy___p0,0,_emscripten_bind_b2Transform__Set_p2,0,_emscripten_bind_b2Transform__set_p_p1,0,_emscripten_bind_b2Transform__set_q_p1,0,_emscripten_bind_b2Transform__get_p_p0,0,_emscripten_bind_b2Transform__get_q_p0,0,_emscripten_bind_b2Transform__b2Transform_p0,0,_emscripten_bind_b2Transform__b2Transform_p2,0,_emscripten_bind_b2Transform__SetIdentity_p0,0,_emscripten_bind_b2Color____destroy___p0,0,_emscripten_bind_b2Color__Set_p3,0,_emscripten_bind_b2Color__set_r_p1,0,_emscripten_bind_b2Color__get_r_p0,0,_emscripten_bind_b2Color__b2Color_p0,0,_emscripten_bind_b2Color__b2Color_p3,0,_emscripten_bind_b2Color__set_b_p1,0,_emscripten_bind_b2Color__get_g_p0,0,_emscripten_bind_b2Color__get_b_p0,0,_emscripten_bind_b2Color__set_g_p1,0,_emscripten_bind_b2AABB____destroy___p0,0,_emscripten_bind_b2AABB__b2AABB_p0,0,_emscripten_bind_b2AABB__set_upperBound_p1,0,_emscripten_bind_b2AABB__IsValid_p0,0,_emscripten_bind_b2AABB__Contains_p1,0,_emscripten_bind_b2AABB__GetExtents_p0,0,_emscripten_bind_b2AABB__GetCenter_p0,0,_emscripten_bind_b2AABB__get_upperBound_p0,0,_emscripten_bind_b2AABB__GetPerimeter_p0,0,_emscripten_bind_b2AABB__Combine_p1,0,_emscripten_bind_b2AABB__Combine_p2,0,_emscripten_bind_b2AABB__RayCast_p2,0,_emscripten_bind_b2AABB__set_lowerBound_p1,0,_emscripten_bind_b2AABB__get_lowerBound_p0,0,_emscripten_bind_b2WeldJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2WeldJointDef__get_bodyA_p1,0,_emscripten_bind_b2WeldJointDef__get_bodyB_p1,0,_emscripten_bind_b2WeldJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2WeldJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2WeldJointDef__set_bodyA_p1,0,_emscripten_bind_b2WeldJointDef__set_bodyB_p1,0,_emscripten_bind_b2WeldJointDef____destroy___p0,0,_emscripten_bind_b2WeldJointDef__set_referenceAngle_p1,0,_emscripten_bind_b2WeldJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2WeldJointDef__get_referenceAngle_p0,0,_emscripten_bind_b2WeldJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2WeldJointDef__get_collideConnected_p1,0,_emscripten_bind_b2WeldJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2WeldJointDef__set_collideConnected_p1,0,_emscripten_bind_b2WeldJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2WeldJointDef__Initialize_p3,0,_emscripten_bind_b2WeldJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2WeldJointDef__b2WeldJointDef_p0,0,_emscripten_bind_b2MouseJointDef__get_bodyA_p1,0,_emscripten_bind_b2MouseJointDef__get_bodyB_p1,0,_emscripten_bind_b2MouseJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2MouseJointDef__set_bodyA_p1,0,_emscripten_bind_b2MouseJointDef__set_bodyB_p1,0,_emscripten_bind_b2MouseJointDef__b2MouseJointDef_p0,0,_emscripten_bind_b2MouseJointDef__get_maxForce_p0,0,_emscripten_bind_b2MouseJointDef__set_target_p1,0,_emscripten_bind_b2MouseJointDef__set_maxForce_p1,0,_emscripten_bind_b2MouseJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2MouseJointDef__get_target_p0,0,_emscripten_bind_b2MouseJointDef__get_collideConnected_p1,0,_emscripten_bind_b2MouseJointDef____destroy___p0,0,_emscripten_bind_b2MouseJointDef__set_collideConnected_p1,0,_emscripten_bind_b2MouseJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2MouseJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2DistanceJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2DistanceJointDef__get_bodyA_p1,0,_emscripten_bind_b2DistanceJointDef__get_bodyB_p1,0,_emscripten_bind_b2DistanceJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2DistanceJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2DistanceJointDef__set_bodyA_p1,0,_emscripten_bind_b2DistanceJointDef__set_bodyB_p1,0,_emscripten_bind_b2DistanceJointDef__get_length_p0,0,_emscripten_bind_b2DistanceJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2DistanceJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2DistanceJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2DistanceJointDef__get_collideConnected_p1,0,_emscripten_bind_b2DistanceJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2DistanceJointDef__b2DistanceJointDef_p0,0,_emscripten_bind_b2DistanceJointDef____destroy___p0,0,_emscripten_bind_b2DistanceJointDef__set_collideConnected_p1,0,_emscripten_bind_b2DistanceJointDef__set_length_p1,0,_emscripten_bind_b2DistanceJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2DistanceJointDef__Initialize_p4,0,_emscripten_bind_b2GearJointDef____destroy___p0,0,_emscripten_bind_b2GearJointDef__get_bodyA_p1,0,_emscripten_bind_b2GearJointDef__get_bodyB_p1,0,_emscripten_bind_b2GearJointDef__get_joint1_p0,0,_emscripten_bind_b2GearJointDef__set_bodyA_p1,0,_emscripten_bind_b2GearJointDef__set_bodyB_p1,0,_emscripten_bind_b2GearJointDef__set_joint2_p1,0,_emscripten_bind_b2GearJointDef__set_ratio_p1,0,_emscripten_bind_b2GearJointDef__get_collideConnected_p1,0,_emscripten_bind_b2GearJointDef__get_joint2_p0,0,_emscripten_bind_b2GearJointDef__set_collideConnected_p1,0,_emscripten_bind_b2GearJointDef__b2GearJointDef_p0,0,_emscripten_bind_b2GearJointDef__get_ratio_p0,0,_emscripten_bind_b2GearJointDef__set_joint1_p1,0,_emscripten_bind_b2ContactEdge____destroy___p0,0,_emscripten_bind_b2ContactEdge__set_contact_p1,0,_emscripten_bind_b2ContactEdge__get_prev_p0,0,_emscripten_bind_b2ContactEdge__get_other_p0,0,_emscripten_bind_b2ContactEdge__set_prev_p1,0,_emscripten_bind_b2ContactEdge__get_next_p0,0,_emscripten_bind_b2ContactEdge__set_other_p1,0,_emscripten_bind_b2ContactEdge__set_next_p1,0,_emscripten_bind_b2ContactEdge__b2ContactEdge_p0,0,_emscripten_bind_b2ContactEdge__get_contact_p0,0,_emscripten_bind_b2RopeJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2RopeJointDef__get_bodyA_p1,0,_emscripten_bind_b2RopeJointDef__get_bodyB_p1,0,_emscripten_bind_b2RopeJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2RopeJointDef__set_bodyA_p1,0,_emscripten_bind_b2RopeJointDef__set_bodyB_p1,0,_emscripten_bind_b2RopeJointDef____destroy___p0,0,_emscripten_bind_b2RopeJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2RopeJointDef__get_maxLength_p0,0,_emscripten_bind_b2RopeJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2RopeJointDef__get_collideConnected_p1,0,_emscripten_bind_b2RopeJointDef__set_collideConnected_p1,0,_emscripten_bind_b2RopeJointDef__b2RopeJointDef_p0,0,_emscripten_bind_b2RopeJointDef__set_maxLength_p1,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv117__class_type_infoD0Ev,0,__ZNK10__cxxabiv116__shim_type_info5noop1Ev,0,__ZNK10__cxxabiv116__shim_type_info5noop2Ev,0,__ZNK10__cxxabiv117__class_type_info9can_catchEPKNS_16__shim_type_infoERPv,0,__ZNK10__cxxabiv117__class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib,0,__ZNK10__cxxabiv117__class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,0,__ZNK10__cxxabiv117__class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv120__si_class_type_infoD0Ev,0,__ZNK10__cxxabiv120__si_class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib,0,__ZNK10__cxxabiv120__si_class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,0,__ZNK10__cxxabiv120__si_class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi,0,__ZNSt9bad_allocD0Ev,0,__ZNKSt9bad_alloc4whatEv,0,__ZN12b2BroadPhaseC2Ev,0,__ZN12b2BroadPhaseD2Ev,0,__ZN13b2DynamicTreeC2Ev,0,__ZN13b2DynamicTreeD2Ev,0,__ZN12b2ChainShapeD2Ev,0,__ZN16b2BlockAllocatorC2Ev,0,__ZN16b2BlockAllocatorD2Ev,0,__ZN6b2DrawC2Ev,0,__ZN16b2StackAllocatorC2Ev,0,__ZN16b2StackAllocatorD2Ev,0,__ZN7b2TimerC2Ev,0,__ZN6b2BodyC2EPK9b2BodyDefP7b2World,0,__ZN6b2BodyD2Ev,0,__ZN16b2ContactManagerC2Ev,0,__ZN9b2FixtureC2Ev,0,__ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener,0,__ZN8b2IslandD2Ev,0,__ZN7b2WorldC2ERK6b2Vec2,0,__ZN7b2WorldD2Ev,0,__ZN23b2ChainAndCircleContactC2EP9b2FixtureiS1_i,0,__ZN24b2ChainAndPolygonContactC2EP9b2FixtureiS1_i,0,__ZN15b2CircleContactC2EP9b2FixtureS1_,0,__ZN15b2ContactSolverC2EP18b2ContactSolverDef,0,__ZN15b2ContactSolverD2Ev,0,__ZN22b2EdgeAndCircleContactC2EP9b2FixtureS1_,0,__ZN23b2EdgeAndPolygonContactC2EP9b2FixtureS1_,0,__ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_,0,__ZN16b2PolygonContactC2EP9b2FixtureS1_,0,__ZN15b2DistanceJointC2EPK18b2DistanceJointDef,0,__ZN15b2FrictionJointC2EPK18b2FrictionJointDef,0,__ZN11b2GearJointC2EPK14b2GearJointDef,0,__ZN12b2MouseJointC2EPK15b2MouseJointDef,0,__ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef,0,__ZN13b2PulleyJointC2EPK16b2PulleyJointDef,0,__ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef,0,__ZN11b2RopeJointC2EPK14b2RopeJointDef,0,__ZN11b2WeldJointC2EPK14b2WeldJointDef,0,__ZN12b2WheelJointC2EPK15b2WheelJointDef,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZNSt9bad_allocC2Ev,0,__ZNSt9bad_allocD2Ev,0]; Module["FUNCTION_TABLE"] = FUNCTION_TABLE;
+__ZN12b2BroadPhaseC1Ev = 2298;
+__ZN12b2BroadPhaseD1Ev = 2300;
+__ZN13b2DynamicTreeC1Ev = 2302;
+__ZN13b2DynamicTreeD1Ev = 2304;
+__ZN12b2ChainShapeD1Ev = 2306;
+__ZN16b2BlockAllocatorC1Ev = 2308;
+__ZN16b2BlockAllocatorD1Ev = 2310;
+__ZN6b2DrawC1Ev = 2312;
+__ZN16b2StackAllocatorC1Ev = 2314;
+__ZN16b2StackAllocatorD1Ev = 2316;
+__ZN7b2TimerC1Ev = 2318;
+__ZN6b2BodyC1EPK9b2BodyDefP7b2World = 2320;
+__ZN6b2BodyD1Ev = 2322;
+__ZN16b2ContactManagerC1Ev = 2324;
+__ZN9b2FixtureC1Ev = 2326;
+__ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener = 2328;
+__ZN8b2IslandD1Ev = 2330;
+__ZN7b2WorldC1ERK6b2Vec2 = 2332;
+__ZN7b2WorldD1Ev = 2334;
+__ZN23b2ChainAndCircleContactC1EP9b2FixtureiS1_i = 2336;
+__ZN24b2ChainAndPolygonContactC1EP9b2FixtureiS1_i = 2338;
+__ZN15b2CircleContactC1EP9b2FixtureS1_ = 2340;
+__ZN15b2ContactSolverC1EP18b2ContactSolverDef = 2342;
+__ZN15b2ContactSolverD1Ev = 2344;
+__ZN22b2EdgeAndCircleContactC1EP9b2FixtureS1_ = 2346;
+__ZN23b2EdgeAndPolygonContactC1EP9b2FixtureS1_ = 2348;
+__ZN25b2PolygonAndCircleContactC1EP9b2FixtureS1_ = 2350;
+__ZN16b2PolygonContactC1EP9b2FixtureS1_ = 2352;
+__ZN15b2DistanceJointC1EPK18b2DistanceJointDef = 2354;
+__ZN15b2FrictionJointC1EPK18b2FrictionJointDef = 2356;
+__ZN11b2GearJointC1EPK14b2GearJointDef = 2358;
+__ZN12b2MouseJointC1EPK15b2MouseJointDef = 2360;
+__ZN16b2PrismaticJointC1EPK19b2PrismaticJointDef = 2362;
+__ZN13b2PulleyJointC1EPK16b2PulleyJointDef = 2364;
+__ZN15b2RevoluteJointC1EPK18b2RevoluteJointDef = 2366;
+__ZN11b2RopeJointC1EPK14b2RopeJointDef = 2368;
+__ZN11b2WeldJointC1EPK14b2WeldJointDef = 2370;
+__ZN12b2WheelJointC1EPK15b2WheelJointDef = 2372;
+__ZN10__cxxabiv117__class_type_infoD1Ev = 2374;
+__ZN10__cxxabiv117__class_type_infoD2Ev = 2376;
+__ZN10__cxxabiv120__si_class_type_infoD1Ev = 2378;
+__ZN10__cxxabiv120__si_class_type_infoD2Ev = 2374;
+__ZNSt9bad_allocC1Ev = 2380;
+__ZNSt9bad_allocD1Ev = 2382;
+FUNCTION_TABLE = [0,0,__ZN15b2ContactFilterD1Ev,0,__ZN17b2ContactListenerD1Ev,0,__Z14b2PairLessThanRK6b2PairS1_,0,__ZN15b2CircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN25b2PolygonAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN22b2EdgeAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN22b2EdgeAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN23b2EdgeAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN23b2EdgeAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN23b2ChainAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN23b2ChainAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZN24b2ChainAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator,0,__ZN24b2ChainAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator,0,__ZNSt9bad_allocD2Ev,0,__ZN12b2ChainShapeD2Ev,0,__ZN12b2ChainShapeD0Ev,0,__ZNK12b2ChainShape5CloneEP16b2BlockAllocator,0,__ZNK12b2ChainShape13GetChildCountEv,0,__ZNK12b2ChainShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK12b2ChainShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK12b2ChainShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK12b2ChainShape11ComputeMassEP10b2MassDataf,0,__ZN7b2ShapeD1Ev,0,__ZN7b2ShapeD0Ev,0,___cxa_pure_virtual,0,__ZN13b2CircleShapeD1Ev,0,__ZN13b2CircleShapeD0Ev,0,__ZNK13b2CircleShape5CloneEP16b2BlockAllocator,0,__ZNK13b2CircleShape13GetChildCountEv,0,__ZNK13b2CircleShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK13b2CircleShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK13b2CircleShape11ComputeMassEP10b2MassDataf,0,__ZN11b2EdgeShapeD1Ev,0,__ZN11b2EdgeShapeD0Ev,0,__ZNK11b2EdgeShape5CloneEP16b2BlockAllocator,0,__ZNK11b2EdgeShape13GetChildCountEv,0,__ZNK11b2EdgeShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK11b2EdgeShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK11b2EdgeShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK11b2EdgeShape11ComputeMassEP10b2MassDataf,0,__ZN14b2PolygonShapeD1Ev,0,__ZN14b2PolygonShapeD0Ev,0,__ZNK14b2PolygonShape5CloneEP16b2BlockAllocator,0,__ZNK14b2PolygonShape13GetChildCountEv,0,__ZNK14b2PolygonShape9TestPointERK11b2TransformRK6b2Vec2,0,__ZNK14b2PolygonShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi,0,__ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK11b2Transformi,0,__ZNK14b2PolygonShape11ComputeMassEP10b2MassDataf,0,__ZN6b2DrawD1Ev,0,__ZN6b2DrawD0Ev,0,__ZN6b2Draw11DrawPolygonEPK6b2Vec2iRK7b2Color,0,__ZN6b2Draw16DrawSolidPolygonEPK6b2Vec2iRK7b2Color,0,__ZN6b2Draw10DrawCircleERK6b2Vec2fRK7b2Color,0,__ZN6b2Draw15DrawSolidCircleERK6b2Vec2fS2_RK7b2Color,0,__ZN6b2Draw11DrawSegmentERK6b2Vec2S2_RK7b2Color,0,__ZN6b2Draw13DrawTransformERK11b2Transform,0,__ZN17b2ContactListenerD0Ev,0,__ZN17b2ContactListener12BeginContactEP9b2Contact,0,__ZN17b2ContactListener10EndContactEP9b2Contact,0,__ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold,0,__ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse,0,__ZN15b2ContactFilterD0Ev,0,__ZN15b2ContactFilter13ShouldCollideEP9b2FixtureS1_,0,__ZN23b2ChainAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN23b2ChainAndCircleContactD1Ev,0,__ZN23b2ChainAndCircleContactD0Ev,0,__ZN24b2ChainAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN24b2ChainAndPolygonContactD1Ev,0,__ZN24b2ChainAndPolygonContactD0Ev,0,__ZN15b2CircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN15b2CircleContactD1Ev,0,__ZN15b2CircleContactD0Ev,0,__ZN9b2ContactD1Ev,0,__ZN9b2ContactD0Ev,0,__ZN22b2EdgeAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN22b2EdgeAndCircleContactD1Ev,0,__ZN22b2EdgeAndCircleContactD0Ev,0,__ZN23b2EdgeAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN23b2EdgeAndPolygonContactD1Ev,0,__ZN23b2EdgeAndPolygonContactD0Ev,0,__ZN25b2PolygonAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN25b2PolygonAndCircleContactD1Ev,0,__ZN25b2PolygonAndCircleContactD0Ev,0,__ZN16b2PolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_,0,__ZN16b2PolygonContactD1Ev,0,__ZN16b2PolygonContactD0Ev,0,__ZNK15b2DistanceJoint10GetAnchorAEv,0,__ZNK15b2DistanceJoint10GetAnchorBEv,0,__ZNK15b2DistanceJoint16GetReactionForceEf,0,__ZNK15b2DistanceJoint17GetReactionTorqueEf,0,__ZN15b2DistanceJoint4DumpEv,0,__ZN15b2DistanceJointD1Ev,0,__ZN15b2DistanceJointD0Ev,0,__ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN15b2DistanceJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK15b2FrictionJoint10GetAnchorAEv,0,__ZNK15b2FrictionJoint10GetAnchorBEv,0,__ZNK15b2FrictionJoint16GetReactionForceEf,0,__ZNK15b2FrictionJoint17GetReactionTorqueEf,0,__ZN15b2FrictionJoint4DumpEv,0,__ZN15b2FrictionJointD1Ev,0,__ZN15b2FrictionJointD0Ev,0,__ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN15b2FrictionJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN15b2FrictionJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK11b2GearJoint10GetAnchorAEv,0,__ZNK11b2GearJoint10GetAnchorBEv,0,__ZNK11b2GearJoint16GetReactionForceEf,0,__ZNK11b2GearJoint17GetReactionTorqueEf,0,__ZN11b2GearJoint4DumpEv,0,__ZN11b2GearJointD1Ev,0,__ZN11b2GearJointD0Ev,0,__ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN11b2GearJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZN7b2Joint4DumpEv,0,__ZN7b2JointD1Ev,0,__ZN7b2JointD0Ev,0,__ZNK12b2MouseJoint10GetAnchorAEv,0,__ZNK12b2MouseJoint10GetAnchorBEv,0,__ZNK12b2MouseJoint16GetReactionForceEf,0,__ZNK12b2MouseJoint17GetReactionTorqueEf,0,__ZN12b2MouseJoint4DumpEv,0,__ZN12b2MouseJointD1Ev,0,__ZN12b2MouseJointD0Ev,0,__ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN12b2MouseJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK16b2PrismaticJoint10GetAnchorAEv,0,__ZNK16b2PrismaticJoint10GetAnchorBEv,0,__ZNK16b2PrismaticJoint16GetReactionForceEf,0,__ZNK16b2PrismaticJoint17GetReactionTorqueEf,0,__ZN16b2PrismaticJoint4DumpEv,0,__ZN16b2PrismaticJointD1Ev,0,__ZN16b2PrismaticJointD0Ev,0,__ZN16b2PrismaticJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN16b2PrismaticJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN16b2PrismaticJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK13b2PulleyJoint10GetAnchorAEv,0,__ZNK13b2PulleyJoint10GetAnchorBEv,0,__ZNK13b2PulleyJoint16GetReactionForceEf,0,__ZNK13b2PulleyJoint17GetReactionTorqueEf,0,__ZN13b2PulleyJoint4DumpEv,0,__ZN13b2PulleyJointD1Ev,0,__ZN13b2PulleyJointD0Ev,0,__ZN13b2PulleyJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN13b2PulleyJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN13b2PulleyJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK15b2RevoluteJoint10GetAnchorAEv,0,__ZNK15b2RevoluteJoint10GetAnchorBEv,0,__ZNK15b2RevoluteJoint16GetReactionForceEf,0,__ZNK15b2RevoluteJoint17GetReactionTorqueEf,0,__ZN15b2RevoluteJoint4DumpEv,0,__ZN15b2RevoluteJointD1Ev,0,__ZN15b2RevoluteJointD0Ev,0,__ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN15b2RevoluteJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN15b2RevoluteJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK11b2RopeJoint10GetAnchorAEv,0,__ZNK11b2RopeJoint10GetAnchorBEv,0,__ZNK11b2RopeJoint16GetReactionForceEf,0,__ZNK11b2RopeJoint17GetReactionTorqueEf,0,__ZN11b2RopeJoint4DumpEv,0,__ZN11b2RopeJointD1Ev,0,__ZN11b2RopeJointD0Ev,0,__ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN11b2RopeJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN11b2RopeJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK11b2WeldJoint10GetAnchorAEv,0,__ZNK11b2WeldJoint10GetAnchorBEv,0,__ZNK11b2WeldJoint16GetReactionForceEf,0,__ZNK11b2WeldJoint17GetReactionTorqueEf,0,__ZN11b2WeldJoint4DumpEv,0,__ZN11b2WeldJointD1Ev,0,__ZN11b2WeldJointD0Ev,0,__ZN11b2WeldJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZNK12b2WheelJoint10GetAnchorAEv,0,__ZNK12b2WheelJoint10GetAnchorBEv,0,__ZNK12b2WheelJoint16GetReactionForceEf,0,__ZNK12b2WheelJoint17GetReactionTorqueEf,0,__ZN12b2WheelJoint4DumpEv,0,__ZN12b2WheelJointD1Ev,0,__ZN12b2WheelJointD0Ev,0,__ZN12b2WheelJoint23InitVelocityConstraintsERK12b2SolverData,0,__ZN12b2WheelJoint24SolveVelocityConstraintsERK12b2SolverData,0,__ZN12b2WheelJoint24SolvePositionConstraintsERK12b2SolverData,0,__ZN21b2DestructionListenerD1Ev,0,__ZN21b2DestructionListenerD0Ev,0,__ZN21b2DestructionListener10SayGoodbyeEP7b2Joint,0,__ZN21b2DestructionListener10SayGoodbyeEP9b2Fixture,0,__ZN15b2QueryCallbackD1Ev,0,__ZN15b2QueryCallbackD0Ev,0,__ZN15b2QueryCallback13ReportFixtureEP9b2Fixture,0,__ZN17b2RayCastCallbackD1Ev,0,__ZN17b2RayCastCallbackD0Ev,0,__ZN17b2RayCastCallback13ReportFixtureEP9b2FixtureRK6b2Vec2S4_f,0,_emscripten_bind_b2ContactManager__get_m_contactFilter_p0,0,_emscripten_bind_b2ContactManager__get_m_contactCount_p0,0,_emscripten_bind_b2ContactManager__set_m_contactFilter_p1,0,_emscripten_bind_b2ContactManager__b2ContactManager_p0,0,_emscripten_bind_b2ContactManager__AddPair_p2,0,_emscripten_bind_b2ContactManager__set_m_allocator_p1,0,_emscripten_bind_b2ContactManager__set_m_contactCount_p1,0,_emscripten_bind_b2ContactManager__Collide_p0,0,_emscripten_bind_b2ContactManager__set_m_contactList_p1,0,_emscripten_bind_b2ContactManager__FindNewContacts_p0,0,_emscripten_bind_b2ContactManager__get_m_contactListener_p0,0,_emscripten_bind_b2ContactManager____destroy___p0,0,_emscripten_bind_b2ContactManager__set_m_contactListener_p1,0,_emscripten_bind_b2ContactManager__get_m_broadPhase_p0,0,_emscripten_bind_b2ContactManager__Destroy_p1,0,_emscripten_bind_b2ContactManager__set_m_broadPhase_p1,0,_emscripten_bind_b2ContactManager__get_m_contactList_p0,0,_emscripten_bind_b2ContactManager__get_m_allocator_p0,0,_emscripten_bind_b2DistanceJoint__GetBodyA_p0,0,_emscripten_bind_b2DistanceJoint__GetBodyB_p0,0,_emscripten_bind_b2DistanceJoint__SetFrequency_p1,0,_emscripten_bind_b2DistanceJoint__GetUserData_p0,0,_emscripten_bind_b2DistanceJoint__SetUserData_p1,0,_emscripten_bind_b2DistanceJoint__GetAnchorB_p0,0,_emscripten_bind_b2DistanceJoint__GetAnchorA_p0,0,_emscripten_bind_b2DistanceJoint__GetNext_p0,0,_emscripten_bind_b2DistanceJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2DistanceJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2DistanceJoint__GetFrequency_p0,0,_emscripten_bind_b2DistanceJoint__GetReactionForce_p1,0,_emscripten_bind_b2DistanceJoint__GetLength_p0,0,_emscripten_bind_b2DistanceJoint__GetDampingRatio_p0,0,_emscripten_bind_b2DistanceJoint__GetCollideConnected_p0,0,_emscripten_bind_b2DistanceJoint____destroy___p0,0,_emscripten_bind_b2DistanceJoint__Dump_p0,0,_emscripten_bind_b2DistanceJoint__GetType_p0,0,_emscripten_bind_b2DistanceJoint__b2DistanceJoint_p1,0,_emscripten_bind_b2DistanceJoint__SetDampingRatio_p1,0,_emscripten_bind_b2DistanceJoint__GetReactionTorque_p1,0,_emscripten_bind_b2DistanceJoint__SetLength_p1,0,_emscripten_bind_b2DistanceJoint__IsActive_p0,0,_emscripten_bind_b2Fixture__GetRestitution_p0,0,_emscripten_bind_b2Fixture__SetFilterData_p1,0,_emscripten_bind_b2Fixture__SetFriction_p1,0,_emscripten_bind_b2Fixture__b2Fixture_p0,0,_emscripten_bind_b2Fixture__GetShape_p0,0,_emscripten_bind_b2Fixture__SetRestitution_p1,0,_emscripten_bind_b2Fixture__GetBody_p0,0,_emscripten_bind_b2Fixture__GetNext_p0,0,_emscripten_bind_b2Fixture__GetFriction_p0,0,_emscripten_bind_b2Fixture__GetUserData_p0,0,_emscripten_bind_b2Fixture__SetDensity_p1,0,_emscripten_bind_b2Fixture__GetMassData_p1,0,_emscripten_bind_b2Fixture__SetSensor_p1,0,_emscripten_bind_b2Fixture__GetAABB_p1,0,_emscripten_bind_b2Fixture__TestPoint_p1,0,_emscripten_bind_b2Fixture__SetUserData_p1,0,_emscripten_bind_b2Fixture____destroy___p0,0,_emscripten_bind_b2Fixture__RayCast_p3,0,_emscripten_bind_b2Fixture__Refilter_p0,0,_emscripten_bind_b2Fixture__Dump_p1,0,_emscripten_bind_b2Fixture__GetFilterData_p0,0,_emscripten_bind_b2Fixture__IsSensor_p0,0,_emscripten_bind_b2Fixture__GetType_p0,0,_emscripten_bind_b2Fixture__GetDensity_p0,0,_emscripten_bind_b2MouseJoint__GetBodyA_p0,0,_emscripten_bind_b2MouseJoint__GetBodyB_p0,0,_emscripten_bind_b2MouseJoint__SetFrequency_p1,0,_emscripten_bind_b2MouseJoint__GetUserData_p0,0,_emscripten_bind_b2MouseJoint__SetMaxForce_p1,0,_emscripten_bind_b2MouseJoint__SetUserData_p1,0,_emscripten_bind_b2MouseJoint__GetAnchorB_p0,0,_emscripten_bind_b2MouseJoint__GetAnchorA_p0,0,_emscripten_bind_b2MouseJoint__b2MouseJoint_p1,0,_emscripten_bind_b2MouseJoint__GetNext_p0,0,_emscripten_bind_b2MouseJoint__GetMaxForce_p0,0,_emscripten_bind_b2MouseJoint__GetTarget_p0,0,_emscripten_bind_b2MouseJoint__GetFrequency_p0,0,_emscripten_bind_b2MouseJoint__GetReactionForce_p1,0,_emscripten_bind_b2MouseJoint__GetDampingRatio_p0,0,_emscripten_bind_b2MouseJoint__GetCollideConnected_p0,0,_emscripten_bind_b2MouseJoint____destroy___p0,0,_emscripten_bind_b2MouseJoint__Dump_p0,0,_emscripten_bind_b2MouseJoint__SetTarget_p1,0,_emscripten_bind_b2MouseJoint__GetType_p0,0,_emscripten_bind_b2MouseJoint__SetDampingRatio_p1,0,_emscripten_bind_b2MouseJoint__GetReactionTorque_p1,0,_emscripten_bind_b2MouseJoint__IsActive_p0,0,_emscripten_bind_b2PulleyJoint__GetBodyA_p0,0,_emscripten_bind_b2PulleyJoint____destroy___p0,0,_emscripten_bind_b2PulleyJoint__GetAnchorA_p0,0,_emscripten_bind_b2PulleyJoint__GetType_p0,0,_emscripten_bind_b2PulleyJoint__GetGroundAnchorB_p0,0,_emscripten_bind_b2PulleyJoint__GetReactionTorque_p1,0,_emscripten_bind_b2PulleyJoint__Dump_p0,0,_emscripten_bind_b2PulleyJoint__GetGroundAnchorA_p0,0,_emscripten_bind_b2PulleyJoint__GetLengthB_p0,0,_emscripten_bind_b2PulleyJoint__GetUserData_p0,0,_emscripten_bind_b2PulleyJoint__GetLengthA_p0,0,_emscripten_bind_b2PulleyJoint__GetBodyB_p0,0,_emscripten_bind_b2PulleyJoint__GetCollideConnected_p0,0,_emscripten_bind_b2PulleyJoint__SetUserData_p1,0,_emscripten_bind_b2PulleyJoint__GetAnchorB_p0,0,_emscripten_bind_b2PulleyJoint__GetReactionForce_p1,0,_emscripten_bind_b2PulleyJoint__GetNext_p0,0,_emscripten_bind_b2PulleyJoint__b2PulleyJoint_p1,0,_emscripten_bind_b2PulleyJoint__IsActive_p0,0,_emscripten_bind_b2PulleyJoint__GetRatio_p0,0,_emscripten_bind_b2BroadPhase__GetTreeQuality_p0,0,_emscripten_bind_b2BroadPhase__GetFatAABB_p1,0,_emscripten_bind_b2BroadPhase__GetUserData_p1,0,_emscripten_bind_b2BroadPhase____destroy___p0,0,_emscripten_bind_b2BroadPhase__GetTreeHeight_p0,0,_emscripten_bind_b2BroadPhase__b2BroadPhase_p0,0,_emscripten_bind_b2BroadPhase__GetProxyCount_p0,0,_emscripten_bind_b2BroadPhase__GetTreeBalance_p0,0,_emscripten_bind_b2BroadPhase__TestOverlap_p2,0,_emscripten_bind_b2BroadPhase__TouchProxy_p1,0,_emscripten_bind_b2BroadPhase__CreateProxy_p2,0,_emscripten_bind_b2BroadPhase__MoveProxy_p3,0,_emscripten_bind_b2BroadPhase__DestroyProxy_p1,0,_emscripten_bind_b2World__QueryAABB_p2,0,_emscripten_bind_b2World__SetSubStepping_p1,0,_emscripten_bind_b2World__GetTreeQuality_p0,0,_emscripten_bind_b2World__GetTreeHeight_p0,0,_emscripten_bind_b2World__GetProfile_p0,0,_emscripten_bind_b2World__GetTreeBalance_p0,0,_emscripten_bind_b2World__GetSubStepping_p0,0,_emscripten_bind_b2World__GetContactManager_p0,0,_emscripten_bind_b2World__SetContactListener_p1,0,_emscripten_bind_b2World__DrawDebugData_p0,0,_emscripten_bind_b2World__SetContinuousPhysics_p1,0,_emscripten_bind_b2World__SetGravity_p1,0,_emscripten_bind_b2World__GetBodyCount_p0,0,_emscripten_bind_b2World__GetAutoClearForces_p0,0,_emscripten_bind_b2World__GetContinuousPhysics_p0,0,_emscripten_bind_b2World__GetJointList_p0,0,_emscripten_bind_b2World__CreateBody_p1,0,_emscripten_bind_b2World__GetBodyList_p0,0,_emscripten_bind_b2World__SetDestructionListener_p1,0,_emscripten_bind_b2World__DestroyJoint_p1,0,_emscripten_bind_b2World__b2World_p1,0,_emscripten_bind_b2World__GetJointCount_p0,0,_emscripten_bind_b2World__Step_p3,0,_emscripten_bind_b2World__ClearForces_p0,0,_emscripten_bind_b2World__GetWarmStarting_p0,0,_emscripten_bind_b2World__SetAllowSleeping_p1,0,_emscripten_bind_b2World__DestroyBody_p1,0,_emscripten_bind_b2World__GetAllowSleeping_p0,0,_emscripten_bind_b2World__CreateJoint_p1,0,_emscripten_bind_b2World__GetProxyCount_p0,0,_emscripten_bind_b2World__RayCast_p3,0,_emscripten_bind_b2World__IsLocked_p0,0,_emscripten_bind_b2World__GetContactList_p0,0,_emscripten_bind_b2World__SetDebugDraw_p1,0,_emscripten_bind_b2World____destroy___p0,0,_emscripten_bind_b2World__Dump_p0,0,_emscripten_bind_b2World__SetAutoClearForces_p1,0,_emscripten_bind_b2World__GetGravity_p0,0,_emscripten_bind_b2World__GetContactCount_p0,0,_emscripten_bind_b2World__SetWarmStarting_p1,0,_emscripten_bind_b2World__SetContactFilter_p1,0,_emscripten_bind_b2PrismaticJoint__GetBodyA_p0,0,_emscripten_bind_b2PrismaticJoint__GetBodyB_p0,0,_emscripten_bind_b2PrismaticJoint__GetUserData_p0,0,_emscripten_bind_b2PrismaticJoint__GetLocalAxisA_p0,0,_emscripten_bind_b2PrismaticJoint__GetLowerLimit_p0,0,_emscripten_bind_b2PrismaticJoint__GetAnchorA_p0,0,_emscripten_bind_b2PrismaticJoint__GetNext_p0,0,_emscripten_bind_b2PrismaticJoint__b2PrismaticJoint_p1,0,_emscripten_bind_b2PrismaticJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2PrismaticJoint__SetMotorSpeed_p1,0,_emscripten_bind_b2PrismaticJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2PrismaticJoint__GetMotorSpeed_p0,0,_emscripten_bind_b2PrismaticJoint__SetMaxMotorForce_p1,0,_emscripten_bind_b2PrismaticJoint__EnableLimit_p1,0,_emscripten_bind_b2PrismaticJoint__IsMotorEnabled_p0,0,_emscripten_bind_b2PrismaticJoint__SetUserData_p1,0,_emscripten_bind_b2PrismaticJoint__GetReactionForce_p1,0,_emscripten_bind_b2PrismaticJoint__GetMaxMotorForce_p0,0,_emscripten_bind_b2PrismaticJoint__GetCollideConnected_p0,0,_emscripten_bind_b2PrismaticJoint__GetJointSpeed_p0,0,_emscripten_bind_b2PrismaticJoint__EnableMotor_p1,0,_emscripten_bind_b2PrismaticJoint____destroy___p0,0,_emscripten_bind_b2PrismaticJoint__GetReferenceAngle_p0,0,_emscripten_bind_b2PrismaticJoint__Dump_p0,0,_emscripten_bind_b2PrismaticJoint__GetMotorForce_p1,0,_emscripten_bind_b2PrismaticJoint__GetJointTranslation_p0,0,_emscripten_bind_b2PrismaticJoint__GetType_p0,0,_emscripten_bind_b2PrismaticJoint__IsLimitEnabled_p0,0,_emscripten_bind_b2PrismaticJoint__GetReactionTorque_p1,0,_emscripten_bind_b2PrismaticJoint__SetLimits_p2,0,_emscripten_bind_b2PrismaticJoint__GetUpperLimit_p0,0,_emscripten_bind_b2PrismaticJoint__IsActive_p0,0,_emscripten_bind_b2PrismaticJoint__GetAnchorB_p0,0,_emscripten_bind_b2CircleShape____destroy___p0,0,_emscripten_bind_b2CircleShape__GetType_p0,0,_emscripten_bind_b2CircleShape__ComputeMass_p2,0,_emscripten_bind_b2CircleShape__set_m_radius_p1,0,_emscripten_bind_b2CircleShape__get_m_radius_p0,0,_emscripten_bind_b2CircleShape__GetVertex_p1,0,_emscripten_bind_b2CircleShape__Clone_p1,0,_emscripten_bind_b2CircleShape__GetSupportVertex_p1,0,_emscripten_bind_b2CircleShape__RayCast_p4,0,_emscripten_bind_b2CircleShape__ComputeAABB_p3,0,_emscripten_bind_b2CircleShape__GetVertexCount_p0,0,_emscripten_bind_b2CircleShape__GetChildCount_p0,0,_emscripten_bind_b2CircleShape__TestPoint_p2,0,_emscripten_bind_b2CircleShape__b2CircleShape_p0,0,_emscripten_bind_b2CircleShape__GetSupport_p1,0,_emscripten_bind_b2CircleShape__set_m_p_p1,0,_emscripten_bind_b2CircleShape__get_m_p_p0,0,_emscripten_bind_b2WheelJoint__GetBodyA_p0,0,_emscripten_bind_b2WheelJoint__GetBodyB_p0,0,_emscripten_bind_b2WheelJoint__GetUserData_p0,0,_emscripten_bind_b2WheelJoint__GetDefinition_p1,0,_emscripten_bind_b2WheelJoint__GetLocalAxisA_p0,0,_emscripten_bind_b2WheelJoint__SetSpringDampingRatio_p1,0,_emscripten_bind_b2WheelJoint__GetAnchorB_p0,0,_emscripten_bind_b2WheelJoint__GetAnchorA_p0,0,_emscripten_bind_b2WheelJoint__GetNext_p0,0,_emscripten_bind_b2WheelJoint__GetSpringFrequencyHz_p0,0,_emscripten_bind_b2WheelJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2WheelJoint__SetMotorSpeed_p1,0,_emscripten_bind_b2WheelJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2WheelJoint__GetMotorSpeed_p0,0,_emscripten_bind_b2WheelJoint__GetMotorTorque_p1,0,_emscripten_bind_b2WheelJoint__b2WheelJoint_p1,0,_emscripten_bind_b2WheelJoint__IsMotorEnabled_p0,0,_emscripten_bind_b2WheelJoint__GetJointTranslation_p0,0,_emscripten_bind_b2WheelJoint__SetUserData_p1,0,_emscripten_bind_b2WheelJoint__GetReactionForce_p1,0,_emscripten_bind_b2WheelJoint__GetSpringDampingRatio_p0,0,_emscripten_bind_b2WheelJoint__SetMaxMotorTorque_p1,0,_emscripten_bind_b2WheelJoint__GetCollideConnected_p0,0,_emscripten_bind_b2WheelJoint__GetJointSpeed_p0,0,_emscripten_bind_b2WheelJoint__EnableMotor_p1,0,_emscripten_bind_b2WheelJoint____destroy___p0,0,_emscripten_bind_b2WheelJoint__Dump_p0,0,_emscripten_bind_b2WheelJoint__GetMaxMotorTorque_p0,0,_emscripten_bind_b2WheelJoint__GetType_p0,0,_emscripten_bind_b2WheelJoint__GetReactionTorque_p1,0,_emscripten_bind_b2WheelJoint__SetSpringFrequencyHz_p1,0,_emscripten_bind_b2WheelJoint__IsActive_p0,0,_emscripten_bind_b2Draw____destroy___p0,0,_emscripten_bind_b2Draw__AppendFlags_p1,0,_emscripten_bind_b2Draw__DrawTransform_p1,0,_emscripten_bind_b2Draw__ClearFlags_p1,0,_emscripten_bind_b2Draw__DrawPolygon_p3,0,_emscripten_bind_b2Draw__DrawSolidCircle_p4,0,_emscripten_bind_b2Draw__DrawSolidPolygon_p3,0,_emscripten_bind_b2Draw__DrawCircle_p3,0,_emscripten_bind_b2Draw__SetFlags_p1,0,_emscripten_bind_b2Draw__DrawSegment_p3,0,_emscripten_bind_b2Draw__b2Draw_p0,0,_emscripten_bind_b2Draw__GetFlags_p0,0,_emscripten_bind_b2Joint__GetNext_p0,0,_emscripten_bind_b2Joint__GetBodyA_p0,0,_emscripten_bind_b2Joint__GetBodyB_p0,0,_emscripten_bind_b2Joint__GetReactionTorque_p1,0,_emscripten_bind_b2Joint__GetAnchorA_p0,0,_emscripten_bind_b2Joint__GetUserData_p0,0,_emscripten_bind_b2Joint__GetType_p0,0,_emscripten_bind_b2Joint__SetUserData_p1,0,_emscripten_bind_b2Joint__GetCollideConnected_p0,0,_emscripten_bind_b2Joint__Dump_p0,0,_emscripten_bind_b2Joint__GetAnchorB_p0,0,_emscripten_bind_b2Joint__GetReactionForce_p1,0,_emscripten_bind_b2Joint__IsActive_p0,0,_emscripten_bind_b2GearJoint__GetJoint1_p0,0,_emscripten_bind_b2GearJoint__b2GearJoint_p1,0,_emscripten_bind_b2GearJoint__GetAnchorA_p0,0,_emscripten_bind_b2GearJoint__GetJoint2_p0,0,_emscripten_bind_b2GearJoint__GetReactionTorque_p1,0,_emscripten_bind_b2GearJoint__Dump_p0,0,_emscripten_bind_b2GearJoint____destroy___p0,0,_emscripten_bind_b2GearJoint__SetRatio_p1,0,_emscripten_bind_b2GearJoint__GetType_p0,0,_emscripten_bind_b2GearJoint__GetUserData_p0,0,_emscripten_bind_b2GearJoint__GetBodyB_p0,0,_emscripten_bind_b2GearJoint__GetCollideConnected_p0,0,_emscripten_bind_b2GearJoint__SetUserData_p1,0,_emscripten_bind_b2GearJoint__GetAnchorB_p0,0,_emscripten_bind_b2GearJoint__GetReactionForce_p1,0,_emscripten_bind_b2GearJoint__GetBodyA_p0,0,_emscripten_bind_b2GearJoint__GetNext_p0,0,_emscripten_bind_b2GearJoint__IsActive_p0,0,_emscripten_bind_b2GearJoint__GetRatio_p0,0,_emscripten_bind_b2RayCastCallback__ReportFixture_p4,0,_emscripten_bind_b2RayCastCallback__b2RayCastCallback_p0,0,_emscripten_bind_b2RayCastCallback____destroy___p0,0,_emscripten_bind_b2DynamicTree____destroy___p0,0,_emscripten_bind_b2DynamicTree__b2DynamicTree_p0,0,_emscripten_bind_b2DynamicTree__GetFatAABB_p1,0,_emscripten_bind_b2DynamicTree__GetUserData_p1,0,_emscripten_bind_b2DynamicTree__GetMaxBalance_p0,0,_emscripten_bind_b2DynamicTree__GetHeight_p0,0,_emscripten_bind_b2DynamicTree__GetAreaRatio_p0,0,_emscripten_bind_b2DynamicTree__RebuildBottomUp_p0,0,_emscripten_bind_b2DynamicTree__CreateProxy_p2,0,_emscripten_bind_b2DynamicTree__MoveProxy_p3,0,_emscripten_bind_b2DynamicTree__Validate_p0,0,_emscripten_bind_b2DynamicTree__DestroyProxy_p1,0,_emscripten_bind_b2WeldJoint__GetBodyA_p0,0,_emscripten_bind_b2WeldJoint__GetBodyB_p0,0,_emscripten_bind_b2WeldJoint__SetFrequency_p1,0,_emscripten_bind_b2WeldJoint__GetUserData_p0,0,_emscripten_bind_b2WeldJoint__SetUserData_p1,0,_emscripten_bind_b2WeldJoint__GetAnchorB_p0,0,_emscripten_bind_b2WeldJoint__GetAnchorA_p0,0,_emscripten_bind_b2WeldJoint__GetNext_p0,0,_emscripten_bind_b2WeldJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2WeldJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2WeldJoint__GetFrequency_p0,0,_emscripten_bind_b2WeldJoint__b2WeldJoint_p1,0,_emscripten_bind_b2WeldJoint__GetReactionForce_p1,0,_emscripten_bind_b2WeldJoint__GetDampingRatio_p0,0,_emscripten_bind_b2WeldJoint__GetCollideConnected_p0,0,_emscripten_bind_b2WeldJoint____destroy___p0,0,_emscripten_bind_b2WeldJoint__GetReferenceAngle_p0,0,_emscripten_bind_b2WeldJoint__Dump_p0,0,_emscripten_bind_b2WeldJoint__GetType_p0,0,_emscripten_bind_b2WeldJoint__SetDampingRatio_p1,0,_emscripten_bind_b2WeldJoint__GetReactionTorque_p1,0,_emscripten_bind_b2WeldJoint__IsActive_p0,0,_emscripten_bind_b2RevoluteJoint__GetBodyA_p0,0,_emscripten_bind_b2RevoluteJoint__GetBodyB_p0,0,_emscripten_bind_b2RevoluteJoint__GetUserData_p0,0,_emscripten_bind_b2RevoluteJoint__GetLowerLimit_p0,0,_emscripten_bind_b2RevoluteJoint__GetAnchorA_p0,0,_emscripten_bind_b2RevoluteJoint__b2RevoluteJoint_p1,0,_emscripten_bind_b2RevoluteJoint__GetNext_p0,0,_emscripten_bind_b2RevoluteJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2RevoluteJoint__SetMotorSpeed_p1,0,_emscripten_bind_b2RevoluteJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2RevoluteJoint__GetJointAngle_p0,0,_emscripten_bind_b2RevoluteJoint__GetMotorSpeed_p0,0,_emscripten_bind_b2RevoluteJoint__GetMotorTorque_p1,0,_emscripten_bind_b2RevoluteJoint__IsLimitEnabled_p0,0,_emscripten_bind_b2RevoluteJoint__EnableLimit_p1,0,_emscripten_bind_b2RevoluteJoint__IsMotorEnabled_p0,0,_emscripten_bind_b2RevoluteJoint__SetUserData_p1,0,_emscripten_bind_b2RevoluteJoint__GetReactionForce_p1,0,_emscripten_bind_b2RevoluteJoint__SetMaxMotorTorque_p1,0,_emscripten_bind_b2RevoluteJoint__GetCollideConnected_p0,0,_emscripten_bind_b2RevoluteJoint__GetJointSpeed_p0,0,_emscripten_bind_b2RevoluteJoint__EnableMotor_p1,0,_emscripten_bind_b2RevoluteJoint____destroy___p0,0,_emscripten_bind_b2RevoluteJoint__GetReferenceAngle_p0,0,_emscripten_bind_b2RevoluteJoint__Dump_p0,0,_emscripten_bind_b2RevoluteJoint__SetLimits_p2,0,_emscripten_bind_b2RevoluteJoint__GetMaxMotorTorque_p0,0,_emscripten_bind_b2RevoluteJoint__GetType_p0,0,_emscripten_bind_b2RevoluteJoint__GetReactionTorque_p1,0,_emscripten_bind_b2RevoluteJoint__GetUpperLimit_p0,0,_emscripten_bind_b2RevoluteJoint__IsActive_p0,0,_emscripten_bind_b2RevoluteJoint__GetAnchorB_p0,0,_emscripten_bind_b2Timer__b2Timer_p0,0,_emscripten_bind_b2Timer__Reset_p0,0,_emscripten_bind_b2Timer____destroy___p0,0,_emscripten_bind_b2Timer__GetMilliseconds_p0,0,_emscripten_bind_b2ContactListener____destroy___p0,0,_emscripten_bind_b2ContactListener__b2ContactListener_p0,0,_emscripten_bind_b2ContactListener__EndContact_p1,0,_emscripten_bind_b2ContactListener__BeginContact_p1,0,_emscripten_bind_b2ContactListener__PreSolve_p2,0,_emscripten_bind_b2ContactListener__PostSolve_p2,0,_emscripten_bind_b2ChainShape____destroy___p0,0,_emscripten_bind_b2ChainShape__GetType_p0,0,_emscripten_bind_b2ChainShape__CreateChain_p2,0,_emscripten_bind_b2ChainShape__set_m_radius_p1,0,_emscripten_bind_b2ChainShape__get_m_radius_p0,0,_emscripten_bind_b2ChainShape__get_m_vertices_p0,0,_emscripten_bind_b2ChainShape__ComputeMass_p2,0,_emscripten_bind_b2ChainShape__Clone_p1,0,_emscripten_bind_b2ChainShape__get_m_count_p0,0,_emscripten_bind_b2ChainShape__GetChildEdge_p2,0,_emscripten_bind_b2ChainShape__b2ChainShape_p0,0,_emscripten_bind_b2ChainShape__ComputeAABB_p3,0,_emscripten_bind_b2ChainShape__RayCast_p4,0,_emscripten_bind_b2ChainShape__GetChildCount_p0,0,_emscripten_bind_b2ChainShape__TestPoint_p2,0,_emscripten_bind_b2ChainShape__SetPrevVertex_p1,0,_emscripten_bind_b2ChainShape__CreateLoop_p2,0,_emscripten_bind_b2ChainShape__set_m_vertices_p1,0,_emscripten_bind_b2ChainShape__SetNextVertex_p1,0,_emscripten_bind_b2ChainShape__set_m_count_p1,0,_emscripten_bind_b2QueryCallback__ReportFixture_p1,0,_emscripten_bind_b2QueryCallback____destroy___p0,0,_emscripten_bind_b2QueryCallback__b2QueryCallback_p0,0,_emscripten_bind_b2BlockAllocator____destroy___p0,0,_emscripten_bind_b2BlockAllocator__Clear_p0,0,_emscripten_bind_b2BlockAllocator__Free_p2,0,_emscripten_bind_b2BlockAllocator__Allocate_p1,0,_emscripten_bind_b2BlockAllocator__b2BlockAllocator_p0,0,_emscripten_bind_b2RopeJoint__GetNext_p0,0,_emscripten_bind_b2RopeJoint____destroy___p0,0,_emscripten_bind_b2RopeJoint__GetAnchorA_p0,0,_emscripten_bind_b2RopeJoint__GetReactionTorque_p1,0,_emscripten_bind_b2RopeJoint__GetMaxLength_p0,0,_emscripten_bind_b2RopeJoint__GetBodyA_p0,0,_emscripten_bind_b2RopeJoint__GetCollideConnected_p0,0,_emscripten_bind_b2RopeJoint__GetUserData_p0,0,_emscripten_bind_b2RopeJoint__GetType_p0,0,_emscripten_bind_b2RopeJoint__GetBodyB_p0,0,_emscripten_bind_b2RopeJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2RopeJoint__Dump_p0,0,_emscripten_bind_b2RopeJoint__SetMaxLength_p1,0,_emscripten_bind_b2RopeJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2RopeJoint__SetUserData_p1,0,_emscripten_bind_b2RopeJoint__GetAnchorB_p0,0,_emscripten_bind_b2RopeJoint__GetReactionForce_p1,0,_emscripten_bind_b2RopeJoint__b2RopeJoint_p1,0,_emscripten_bind_b2RopeJoint__GetLimitState_p0,0,_emscripten_bind_b2RopeJoint__IsActive_p0,0,_emscripten_bind_b2PolygonShape____destroy___p0,0,_emscripten_bind_b2PolygonShape__Set_p2,0,_emscripten_bind_b2PolygonShape__ComputeMass_p2,0,_emscripten_bind_b2PolygonShape__set_m_radius_p1,0,_emscripten_bind_b2PolygonShape__get_m_radius_p0,0,_emscripten_bind_b2PolygonShape__Clone_p1,0,_emscripten_bind_b2PolygonShape__GetVertex_p1,0,_emscripten_bind_b2PolygonShape__RayCast_p4,0,_emscripten_bind_b2PolygonShape__SetAsBox_p2,0,_emscripten_bind_b2PolygonShape__SetAsBox_p4,0,_emscripten_bind_b2PolygonShape__set_m_centroid_p1,0,_emscripten_bind_b2PolygonShape__ComputeAABB_p3,0,_emscripten_bind_b2PolygonShape__set_m_vertexCount_p1,0,_emscripten_bind_b2PolygonShape__GetVertexCount_p0,0,_emscripten_bind_b2PolygonShape__GetChildCount_p0,0,_emscripten_bind_b2PolygonShape__TestPoint_p2,0,_emscripten_bind_b2PolygonShape__GetType_p0,0,_emscripten_bind_b2PolygonShape__b2PolygonShape_p0,0,_emscripten_bind_b2PolygonShape__get_m_vertexCount_p0,0,_emscripten_bind_b2PolygonShape__get_m_centroid_p0,0,_emscripten_bind_b2EdgeShape____destroy___p0,0,_emscripten_bind_b2EdgeShape__Set_p2,0,_emscripten_bind_b2EdgeShape__ComputeMass_p2,0,_emscripten_bind_b2EdgeShape__set_m_radius_p1,0,_emscripten_bind_b2EdgeShape__get_m_radius_p0,0,_emscripten_bind_b2EdgeShape__Clone_p1,0,_emscripten_bind_b2EdgeShape__GetType_p0,0,_emscripten_bind_b2EdgeShape__RayCast_p4,0,_emscripten_bind_b2EdgeShape__ComputeAABB_p3,0,_emscripten_bind_b2EdgeShape__GetChildCount_p0,0,_emscripten_bind_b2EdgeShape__TestPoint_p2,0,_emscripten_bind_b2EdgeShape__b2EdgeShape_p0,0,_emscripten_bind_b2Contact__GetNext_p0,0,_emscripten_bind_b2Contact__SetEnabled_p1,0,_emscripten_bind_b2Contact__GetWorldManifold_p1,0,_emscripten_bind_b2Contact__GetRestitution_p0,0,_emscripten_bind_b2Contact__ResetFriction_p0,0,_emscripten_bind_b2Contact__GetFriction_p0,0,_emscripten_bind_b2Contact__IsTouching_p0,0,_emscripten_bind_b2Contact__IsEnabled_p0,0,_emscripten_bind_b2Contact__GetFixtureB_p0,0,_emscripten_bind_b2Contact__SetFriction_p1,0,_emscripten_bind_b2Contact__GetFixtureA_p0,0,_emscripten_bind_b2Contact__GetChildIndexA_p0,0,_emscripten_bind_b2Contact__GetChildIndexB_p0,0,_emscripten_bind_b2Contact__Evaluate_p3,0,_emscripten_bind_b2Contact__SetRestitution_p1,0,_emscripten_bind_b2Contact__GetManifold_p0,0,_emscripten_bind_b2Contact__ResetRestitution_p0,0,_emscripten_bind_b2Shape__get_m_radius_p0,0,_emscripten_bind_b2Shape__ComputeMass_p2,0,_emscripten_bind_b2Shape__set_m_radius_p1,0,_emscripten_bind_b2Shape__Clone_p1,0,_emscripten_bind_b2Shape__GetType_p0,0,_emscripten_bind_b2Shape__RayCast_p4,0,_emscripten_bind_b2Shape__ComputeAABB_p3,0,_emscripten_bind_b2Shape__GetChildCount_p0,0,_emscripten_bind_b2Shape__TestPoint_p2,0,_emscripten_bind_b2Body__GetAngle_p0,0,_emscripten_bind_b2Body__GetUserData_p0,0,_emscripten_bind_b2Body__IsSleepingAllowed_p0,0,_emscripten_bind_b2Body__SetAngularDamping_p1,0,_emscripten_bind_b2Body__SetActive_p1,0,_emscripten_bind_b2Body__SetGravityScale_p1,0,_emscripten_bind_b2Body__SetUserData_p1,0,_emscripten_bind_b2Body__GetAngularVelocity_p0,0,_emscripten_bind_b2Body__GetFixtureList_p0,0,_emscripten_bind_b2Body__ApplyForce_p2,0,_emscripten_bind_b2Body__GetLocalPoint_p1,0,_emscripten_bind_b2Body__SetLinearVelocity_p1,0,_emscripten_bind_b2Body__GetJointList_p0,0,_emscripten_bind_b2Body__GetLinearVelocity_p0,0,_emscripten_bind_b2Body__GetNext_p0,0,_emscripten_bind_b2Body__SetSleepingAllowed_p1,0,_emscripten_bind_b2Body__SetTransform_p2,0,_emscripten_bind_b2Body__GetMass_p0,0,_emscripten_bind_b2Body__SetAngularVelocity_p1,0,_emscripten_bind_b2Body__GetMassData_p1,0,_emscripten_bind_b2Body__GetLinearVelocityFromWorldPoint_p1,0,_emscripten_bind_b2Body__ResetMassData_p0,0,_emscripten_bind_b2Body__ApplyForceToCenter_p1,0,_emscripten_bind_b2Body__ApplyTorque_p1,0,_emscripten_bind_b2Body__IsAwake_p0,0,_emscripten_bind_b2Body__SetType_p1,0,_emscripten_bind_b2Body__CreateFixture_p1,0,_emscripten_bind_b2Body__CreateFixture_p2,0,_emscripten_bind_b2Body__SetMassData_p1,0,_emscripten_bind_b2Body__GetTransform_p0,0,_emscripten_bind_b2Body__GetWorldCenter_p0,0,_emscripten_bind_b2Body__GetAngularDamping_p0,0,_emscripten_bind_b2Body__ApplyLinearImpulse_p2,0,_emscripten_bind_b2Body__IsFixedRotation_p0,0,_emscripten_bind_b2Body__GetLocalCenter_p0,0,_emscripten_bind_b2Body__GetWorldVector_p1,0,_emscripten_bind_b2Body__GetLinearVelocityFromLocalPoint_p1,0,_emscripten_bind_b2Body__GetContactList_p0,0,_emscripten_bind_b2Body__GetWorldPoint_p1,0,_emscripten_bind_b2Body__SetAwake_p1,0,_emscripten_bind_b2Body__GetLinearDamping_p0,0,_emscripten_bind_b2Body__IsBullet_p0,0,_emscripten_bind_b2Body__GetWorld_p0,0,_emscripten_bind_b2Body__GetLocalVector_p1,0,_emscripten_bind_b2Body__SetLinearDamping_p1,0,_emscripten_bind_b2Body__Dump_p0,0,_emscripten_bind_b2Body__SetBullet_p1,0,_emscripten_bind_b2Body__GetType_p0,0,_emscripten_bind_b2Body__GetGravityScale_p0,0,_emscripten_bind_b2Body__DestroyFixture_p1,0,_emscripten_bind_b2Body__GetInertia_p0,0,_emscripten_bind_b2Body__IsActive_p0,0,_emscripten_bind_b2Body__SetFixedRotation_p1,0,_emscripten_bind_b2Body__ApplyAngularImpulse_p1,0,_emscripten_bind_b2Body__GetPosition_p0,0,_emscripten_bind_b2FrictionJoint__SetMaxTorque_p1,0,_emscripten_bind_b2FrictionJoint__GetMaxForce_p0,0,_emscripten_bind_b2FrictionJoint__GetAnchorA_p0,0,_emscripten_bind_b2FrictionJoint__GetReactionTorque_p1,0,_emscripten_bind_b2FrictionJoint__Dump_p0,0,_emscripten_bind_b2FrictionJoint____destroy___p0,0,_emscripten_bind_b2FrictionJoint__GetCollideConnected_p0,0,_emscripten_bind_b2FrictionJoint__GetUserData_p0,0,_emscripten_bind_b2FrictionJoint__GetType_p0,0,_emscripten_bind_b2FrictionJoint__SetMaxForce_p1,0,_emscripten_bind_b2FrictionJoint__GetBodyB_p0,0,_emscripten_bind_b2FrictionJoint__GetLocalAnchorA_p0,0,_emscripten_bind_b2FrictionJoint__b2FrictionJoint_p1,0,_emscripten_bind_b2FrictionJoint__GetLocalAnchorB_p0,0,_emscripten_bind_b2FrictionJoint__SetUserData_p1,0,_emscripten_bind_b2FrictionJoint__GetAnchorB_p0,0,_emscripten_bind_b2FrictionJoint__GetReactionForce_p1,0,_emscripten_bind_b2FrictionJoint__GetBodyA_p0,0,_emscripten_bind_b2FrictionJoint__GetNext_p0,0,_emscripten_bind_b2FrictionJoint__GetMaxTorque_p0,0,_emscripten_bind_b2FrictionJoint__IsActive_p0,0,_emscripten_bind_b2StackAllocator__GetMaxAllocation_p0,0,_emscripten_bind_b2StackAllocator____destroy___p0,0,_emscripten_bind_b2StackAllocator__b2StackAllocator_p0,0,_emscripten_bind_b2StackAllocator__Allocate_p1,0,_emscripten_bind_b2StackAllocator__Free_p1,0,_emscripten_bind_b2DestructionListener____destroy___p0,0,_emscripten_bind_b2DestructionListener__SayGoodbye_p1,0,_emscripten_bind_b2DestructionListener__b2DestructionListener_p0,0,_emscripten_bind_b2Filter____destroy___p0,0,_emscripten_bind_b2Filter__set_maskBits_p1,0,_emscripten_bind_b2Filter__set_categoryBits_p1,0,_emscripten_bind_b2Filter__get_groupIndex_p0,0,_emscripten_bind_b2Filter__set_groupIndex_p1,0,_emscripten_bind_b2Filter__get_maskBits_p0,0,_emscripten_bind_b2Filter__b2Filter_p0,0,_emscripten_bind_b2Filter__get_categoryBits_p0,0,_emscripten_bind_b2FrictionJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2FrictionJointDef__get_bodyA_p1,0,_emscripten_bind_b2FrictionJointDef__get_bodyB_p1,0,_emscripten_bind_b2FrictionJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2FrictionJointDef__set_bodyA_p1,0,_emscripten_bind_b2FrictionJointDef__set_bodyB_p1,0,_emscripten_bind_b2FrictionJointDef____destroy___p0,0,_emscripten_bind_b2FrictionJointDef__get_maxForce_p0,0,_emscripten_bind_b2FrictionJointDef__b2FrictionJointDef_p0,0,_emscripten_bind_b2FrictionJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2FrictionJointDef__set_maxForce_p1,0,_emscripten_bind_b2FrictionJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2FrictionJointDef__get_collideConnected_p1,0,_emscripten_bind_b2FrictionJointDef__set_maxTorque_p1,0,_emscripten_bind_b2FrictionJointDef__set_collideConnected_p1,0,_emscripten_bind_b2FrictionJointDef__Initialize_p3,0,_emscripten_bind_b2FrictionJointDef__get_maxTorque_p0,0,_emscripten_bind_b2BodyDef__get_linearDamping_p0,0,_emscripten_bind_b2BodyDef__get_awake_p0,0,_emscripten_bind_b2BodyDef__get_type_p0,0,_emscripten_bind_b2BodyDef__get_allowSleep_p0,0,_emscripten_bind_b2BodyDef__set_position_p1,0,_emscripten_bind_b2BodyDef__set_linearVelocity_p1,0,_emscripten_bind_b2BodyDef__b2BodyDef_p0,0,_emscripten_bind_b2BodyDef__get_bullet_p0,0,_emscripten_bind_b2BodyDef__get_userData_p0,0,_emscripten_bind_b2BodyDef__set_angularDamping_p1,0,_emscripten_bind_b2BodyDef__set_fixedRotation_p1,0,_emscripten_bind_b2BodyDef__set_allowSleep_p1,0,_emscripten_bind_b2BodyDef__get_gravityScale_p0,0,_emscripten_bind_b2BodyDef__set_angularVelocity_p1,0,_emscripten_bind_b2BodyDef__set_userData_p1,0,_emscripten_bind_b2BodyDef__get_position_p0,0,_emscripten_bind_b2BodyDef____destroy___p0,0,_emscripten_bind_b2BodyDef__set_type_p1,0,_emscripten_bind_b2BodyDef__set_gravityScale_p1,0,_emscripten_bind_b2BodyDef__get_angularDamping_p0,0,_emscripten_bind_b2BodyDef__set_bullet_p1,0,_emscripten_bind_b2BodyDef__set_active_p1,0,_emscripten_bind_b2BodyDef__set_angle_p1,0,_emscripten_bind_b2BodyDef__get_angle_p0,0,_emscripten_bind_b2BodyDef__get_angularVelocity_p0,0,_emscripten_bind_b2BodyDef__get_linearVelocity_p0,0,_emscripten_bind_b2BodyDef__get_active_p0,0,_emscripten_bind_b2BodyDef__set_linearDamping_p1,0,_emscripten_bind_b2BodyDef__get_fixedRotation_p0,0,_emscripten_bind_b2BodyDef__set_awake_p1,0,_emscripten_bind_b2Vec2__Normalize_p0,0,_emscripten_bind_b2Vec2__set_x_p1,0,_emscripten_bind_b2Vec2__b2Vec2_p0,0,_emscripten_bind_b2Vec2__b2Vec2_p2,0,_emscripten_bind_b2Vec2__Set_p2,0,_emscripten_bind_b2Vec2__get_x_p0,0,_emscripten_bind_b2Vec2__get_y_p0,0,_emscripten_bind_b2Vec2__set_y_p1,0,_emscripten_bind_b2Vec2__IsValid_p0,0,_emscripten_bind_b2Vec2__Skew_p0,0,_emscripten_bind_b2Vec2__LengthSquared_p0,0,_emscripten_bind_b2Vec2__op_add_p1,0,_emscripten_bind_b2Vec2__SetZero_p0,0,_emscripten_bind_b2Vec2__Length_p0,0,_emscripten_bind_b2Vec2____destroy___p0,0,_emscripten_bind_b2Vec2__op_mul_p1,0,_emscripten_bind_b2Vec2__op_sub_p0,0,_emscripten_bind_b2Vec3____destroy___p0,0,_emscripten_bind_b2Vec3__set_z_p1,0,_emscripten_bind_b2Vec3__Set_p3,0,_emscripten_bind_b2Vec3__get_z_p0,0,_emscripten_bind_b2Vec3__op_add_p1,0,_emscripten_bind_b2Vec3__SetZero_p0,0,_emscripten_bind_b2Vec3__b2Vec3_p0,0,_emscripten_bind_b2Vec3__b2Vec3_p3,0,_emscripten_bind_b2Vec3__op_mul_p1,0,_emscripten_bind_b2Vec3__op_sub_p0,0,_emscripten_bind_b2DistanceProxy__get_m_radius_p0,0,_emscripten_bind_b2DistanceProxy__Set_p2,0,_emscripten_bind_b2DistanceProxy__b2DistanceProxy_p0,0,_emscripten_bind_b2DistanceProxy__set_m_radius_p1,0,_emscripten_bind_b2DistanceProxy____destroy___p0,0,_emscripten_bind_b2DistanceProxy__get_m_vertices_p0,0,_emscripten_bind_b2DistanceProxy__GetSupportVertex_p1,0,_emscripten_bind_b2DistanceProxy__get_m_count_p0,0,_emscripten_bind_b2DistanceProxy__GetVertexCount_p0,0,_emscripten_bind_b2DistanceProxy__GetVertex_p1,0,_emscripten_bind_b2DistanceProxy__GetSupport_p1,0,_emscripten_bind_b2DistanceProxy__set_m_vertices_p1,0,_emscripten_bind_b2DistanceProxy__set_m_count_p1,0,_emscripten_bind_b2FixtureDef____destroy___p0,0,_emscripten_bind_b2FixtureDef__get_isSensor_p0,0,_emscripten_bind_b2FixtureDef__set_userData_p1,0,_emscripten_bind_b2FixtureDef__set_shape_p1,0,_emscripten_bind_b2FixtureDef__get_density_p0,0,_emscripten_bind_b2FixtureDef__get_shape_p0,0,_emscripten_bind_b2FixtureDef__b2FixtureDef_p0,0,_emscripten_bind_b2FixtureDef__set_density_p1,0,_emscripten_bind_b2FixtureDef__set_restitution_p1,0,_emscripten_bind_b2FixtureDef__get_restitution_p0,0,_emscripten_bind_b2FixtureDef__set_isSensor_p1,0,_emscripten_bind_b2FixtureDef__get_filter_p0,0,_emscripten_bind_b2FixtureDef__get_friction_p0,0,_emscripten_bind_b2FixtureDef__set_friction_p1,0,_emscripten_bind_b2FixtureDef__get_userData_p0,0,_emscripten_bind_b2FixtureDef__set_filter_p1,0,_emscripten_bind_b2Manifold____destroy___p0,0,_emscripten_bind_b2Manifold__get_localPoint_p0,0,_emscripten_bind_b2Manifold__b2Manifold_p0,0,_emscripten_bind_b2Manifold__set_localPoint_p1,0,_emscripten_bind_b2Manifold__set_localNormal_p1,0,_emscripten_bind_b2Manifold__set_type_p1,0,_emscripten_bind_b2Manifold__get_pointCount_p0,0,_emscripten_bind_b2Manifold__get_type_p0,0,_emscripten_bind_b2Manifold__set_pointCount_p1,0,_emscripten_bind_b2Manifold__get_localNormal_p0,0,_emscripten_bind_b2PrismaticJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2PrismaticJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2PrismaticJointDef__get_motorSpeed_p0,0,_emscripten_bind_b2PrismaticJointDef__get_enableMotor_p0,0,_emscripten_bind_b2PrismaticJointDef__get_referenceAngle_p0,0,_emscripten_bind_b2PrismaticJointDef__set_enableLimit_p1,0,_emscripten_bind_b2PrismaticJointDef__set_motorSpeed_p1,0,_emscripten_bind_b2PrismaticJointDef__get_localAxisA_p0,0,_emscripten_bind_b2PrismaticJointDef__set_bodyA_p1,0,_emscripten_bind_b2PrismaticJointDef__set_bodyB_p1,0,_emscripten_bind_b2PrismaticJointDef__b2PrismaticJointDef_p0,0,_emscripten_bind_b2PrismaticJointDef__Initialize_p4,0,_emscripten_bind_b2PrismaticJointDef__set_lowerTranslation_p1,0,_emscripten_bind_b2PrismaticJointDef__get_upperTranslation_p0,0,_emscripten_bind_b2PrismaticJointDef__get_enableLimit_p0,0,_emscripten_bind_b2PrismaticJointDef____destroy___p0,0,_emscripten_bind_b2PrismaticJointDef__set_referenceAngle_p1,0,_emscripten_bind_b2PrismaticJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2PrismaticJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2PrismaticJointDef__get_collideConnected_p1,0,_emscripten_bind_b2PrismaticJointDef__get_bodyA_p1,0,_emscripten_bind_b2PrismaticJointDef__get_bodyB_p1,0,_emscripten_bind_b2PrismaticJointDef__set_upperTranslation_p1,0,_emscripten_bind_b2PrismaticJointDef__get_maxMotorForce_p0,0,_emscripten_bind_b2PrismaticJointDef__set_maxMotorForce_p1,0,_emscripten_bind_b2PrismaticJointDef__set_enableMotor_p1,0,_emscripten_bind_b2PrismaticJointDef__set_collideConnected_p1,0,_emscripten_bind_b2PrismaticJointDef__get_lowerTranslation_p0,0,_emscripten_bind_b2PrismaticJointDef__set_localAxisA_p1,0,_emscripten_bind_b2Rot____destroy___p0,0,_emscripten_bind_b2Rot__Set_p1,0,_emscripten_bind_b2Rot__GetAngle_p0,0,_emscripten_bind_b2Rot__GetYAxis_p0,0,_emscripten_bind_b2Rot__GetXAxis_p0,0,_emscripten_bind_b2Rot__set_c_p1,0,_emscripten_bind_b2Rot__SetIdentity_p0,0,_emscripten_bind_b2Rot__b2Rot_p0,0,_emscripten_bind_b2Rot__b2Rot_p1,0,_emscripten_bind_b2Rot__get_c_p0,0,_emscripten_bind_b2WheelJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2WheelJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2WheelJointDef__get_motorSpeed_p0,0,_emscripten_bind_b2WheelJointDef__set_maxMotorTorque_p1,0,_emscripten_bind_b2WheelJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2WheelJointDef__set_motorSpeed_p1,0,_emscripten_bind_b2WheelJointDef__get_localAxisA_p0,0,_emscripten_bind_b2WheelJointDef__set_bodyA_p1,0,_emscripten_bind_b2WheelJointDef__set_bodyB_p1,0,_emscripten_bind_b2WheelJointDef__Initialize_p4,0,_emscripten_bind_b2WheelJointDef__b2WheelJointDef_p0,0,_emscripten_bind_b2WheelJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2WheelJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2WheelJointDef____destroy___p0,0,_emscripten_bind_b2WheelJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2WheelJointDef__get_maxMotorTorque_p0,0,_emscripten_bind_b2WheelJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2WheelJointDef__get_collideConnected_p1,0,_emscripten_bind_b2WheelJointDef__get_enableMotor_p0,0,_emscripten_bind_b2WheelJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2WheelJointDef__get_bodyA_p1,0,_emscripten_bind_b2WheelJointDef__get_bodyB_p1,0,_emscripten_bind_b2WheelJointDef__set_enableMotor_p1,0,_emscripten_bind_b2WheelJointDef__set_collideConnected_p1,0,_emscripten_bind_b2WheelJointDef__set_localAxisA_p1,0,_emscripten_bind_b2RevoluteJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2RevoluteJointDef__get_lowerAngle_p0,0,_emscripten_bind_b2RevoluteJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2RevoluteJointDef__set_lowerAngle_p1,0,_emscripten_bind_b2RevoluteJointDef__get_enableMotor_p0,0,_emscripten_bind_b2RevoluteJointDef__set_upperAngle_p1,0,_emscripten_bind_b2RevoluteJointDef__get_referenceAngle_p0,0,_emscripten_bind_b2RevoluteJointDef__set_enableLimit_p1,0,_emscripten_bind_b2RevoluteJointDef__get_motorSpeed_p0,0,_emscripten_bind_b2RevoluteJointDef__set_motorSpeed_p1,0,_emscripten_bind_b2RevoluteJointDef__get_maxMotorTorque_p0,0,_emscripten_bind_b2RevoluteJointDef__set_bodyA_p1,0,_emscripten_bind_b2RevoluteJointDef__set_bodyB_p1,0,_emscripten_bind_b2RevoluteJointDef__b2RevoluteJointDef_p0,0,_emscripten_bind_b2RevoluteJointDef__Initialize_p3,0,_emscripten_bind_b2RevoluteJointDef__get_enableLimit_p0,0,_emscripten_bind_b2RevoluteJointDef____destroy___p0,0,_emscripten_bind_b2RevoluteJointDef__get_upperAngle_p0,0,_emscripten_bind_b2RevoluteJointDef__set_referenceAngle_p1,0,_emscripten_bind_b2RevoluteJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2RevoluteJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2RevoluteJointDef__get_collideConnected_p1,0,_emscripten_bind_b2RevoluteJointDef__get_bodyA_p1,0,_emscripten_bind_b2RevoluteJointDef__get_bodyB_p1,0,_emscripten_bind_b2RevoluteJointDef__set_maxMotorTorque_p1,0,_emscripten_bind_b2RevoluteJointDef__set_enableMotor_p1,0,_emscripten_bind_b2RevoluteJointDef__set_collideConnected_p1,0,_emscripten_bind_b2PulleyJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2PulleyJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2PulleyJointDef__set_ratio_p1,0,_emscripten_bind_b2PulleyJointDef__set_groundAnchorB_p1,0,_emscripten_bind_b2PulleyJointDef__set_groundAnchorA_p1,0,_emscripten_bind_b2PulleyJointDef__get_groundAnchorB_p0,0,_emscripten_bind_b2PulleyJointDef__get_groundAnchorA_p0,0,_emscripten_bind_b2PulleyJointDef__set_bodyA_p1,0,_emscripten_bind_b2PulleyJointDef__set_bodyB_p1,0,_emscripten_bind_b2PulleyJointDef__Initialize_p7,0,_emscripten_bind_b2PulleyJointDef__get_ratio_p0,0,_emscripten_bind_b2PulleyJointDef____destroy___p0,0,_emscripten_bind_b2PulleyJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2PulleyJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2PulleyJointDef__get_collideConnected_p1,0,_emscripten_bind_b2PulleyJointDef__set_lengthB_p1,0,_emscripten_bind_b2PulleyJointDef__set_lengthA_p1,0,_emscripten_bind_b2PulleyJointDef__get_bodyA_p1,0,_emscripten_bind_b2PulleyJointDef__get_bodyB_p1,0,_emscripten_bind_b2PulleyJointDef__get_lengthB_p0,0,_emscripten_bind_b2PulleyJointDef__get_lengthA_p0,0,_emscripten_bind_b2PulleyJointDef__set_collideConnected_p1,0,_emscripten_bind_b2PulleyJointDef__b2PulleyJointDef_p0,0,_emscripten_bind_b2JointDef__get_bodyA_p0,0,_emscripten_bind_b2JointDef__set_userData_p1,0,_emscripten_bind_b2JointDef__set_bodyA_p1,0,_emscripten_bind_b2JointDef__set_bodyB_p1,0,_emscripten_bind_b2JointDef____destroy___p0,0,_emscripten_bind_b2JointDef__get_bodyB_p0,0,_emscripten_bind_b2JointDef__set_type_p1,0,_emscripten_bind_b2JointDef__get_collideConnected_p0,0,_emscripten_bind_b2JointDef__get_type_p0,0,_emscripten_bind_b2JointDef__set_collideConnected_p1,0,_emscripten_bind_b2JointDef__b2JointDef_p0,0,_emscripten_bind_b2JointDef__get_userData_p0,0,_emscripten_bind_b2Transform____destroy___p0,0,_emscripten_bind_b2Transform__Set_p2,0,_emscripten_bind_b2Transform__set_p_p1,0,_emscripten_bind_b2Transform__set_q_p1,0,_emscripten_bind_b2Transform__get_p_p0,0,_emscripten_bind_b2Transform__get_q_p0,0,_emscripten_bind_b2Transform__b2Transform_p0,0,_emscripten_bind_b2Transform__b2Transform_p2,0,_emscripten_bind_b2Transform__SetIdentity_p0,0,_emscripten_bind_b2Color____destroy___p0,0,_emscripten_bind_b2Color__Set_p3,0,_emscripten_bind_b2Color__set_r_p1,0,_emscripten_bind_b2Color__get_r_p0,0,_emscripten_bind_b2Color__b2Color_p0,0,_emscripten_bind_b2Color__b2Color_p3,0,_emscripten_bind_b2Color__set_b_p1,0,_emscripten_bind_b2Color__get_g_p0,0,_emscripten_bind_b2Color__get_b_p0,0,_emscripten_bind_b2Color__set_g_p1,0,_emscripten_bind_b2AABB____destroy___p0,0,_emscripten_bind_b2AABB__b2AABB_p0,0,_emscripten_bind_b2AABB__set_upperBound_p1,0,_emscripten_bind_b2AABB__IsValid_p0,0,_emscripten_bind_b2AABB__Contains_p1,0,_emscripten_bind_b2AABB__GetExtents_p0,0,_emscripten_bind_b2AABB__GetCenter_p0,0,_emscripten_bind_b2AABB__get_upperBound_p0,0,_emscripten_bind_b2AABB__GetPerimeter_p0,0,_emscripten_bind_b2AABB__Combine_p1,0,_emscripten_bind_b2AABB__Combine_p2,0,_emscripten_bind_b2AABB__RayCast_p2,0,_emscripten_bind_b2AABB__set_lowerBound_p1,0,_emscripten_bind_b2AABB__get_lowerBound_p0,0,_emscripten_bind_b2WeldJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2WeldJointDef__get_bodyA_p1,0,_emscripten_bind_b2WeldJointDef__get_bodyB_p1,0,_emscripten_bind_b2WeldJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2WeldJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2WeldJointDef__set_bodyA_p1,0,_emscripten_bind_b2WeldJointDef__set_bodyB_p1,0,_emscripten_bind_b2WeldJointDef____destroy___p0,0,_emscripten_bind_b2WeldJointDef__set_referenceAngle_p1,0,_emscripten_bind_b2WeldJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2WeldJointDef__get_referenceAngle_p0,0,_emscripten_bind_b2WeldJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2WeldJointDef__get_collideConnected_p1,0,_emscripten_bind_b2WeldJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2WeldJointDef__set_collideConnected_p1,0,_emscripten_bind_b2WeldJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2WeldJointDef__Initialize_p3,0,_emscripten_bind_b2WeldJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2WeldJointDef__b2WeldJointDef_p0,0,_emscripten_bind_b2MouseJointDef__get_bodyA_p1,0,_emscripten_bind_b2MouseJointDef__get_bodyB_p1,0,_emscripten_bind_b2MouseJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2MouseJointDef__set_bodyA_p1,0,_emscripten_bind_b2MouseJointDef__set_bodyB_p1,0,_emscripten_bind_b2MouseJointDef__b2MouseJointDef_p0,0,_emscripten_bind_b2MouseJointDef__get_maxForce_p0,0,_emscripten_bind_b2MouseJointDef__set_target_p1,0,_emscripten_bind_b2MouseJointDef__set_maxForce_p1,0,_emscripten_bind_b2MouseJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2MouseJointDef__get_target_p0,0,_emscripten_bind_b2MouseJointDef__get_collideConnected_p1,0,_emscripten_bind_b2MouseJointDef____destroy___p0,0,_emscripten_bind_b2MouseJointDef__set_collideConnected_p1,0,_emscripten_bind_b2MouseJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2MouseJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2DistanceJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2DistanceJointDef__get_bodyA_p1,0,_emscripten_bind_b2DistanceJointDef__get_bodyB_p1,0,_emscripten_bind_b2DistanceJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2DistanceJointDef__set_dampingRatio_p1,0,_emscripten_bind_b2DistanceJointDef__set_bodyA_p1,0,_emscripten_bind_b2DistanceJointDef__set_bodyB_p1,0,_emscripten_bind_b2DistanceJointDef__get_length_p0,0,_emscripten_bind_b2DistanceJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2DistanceJointDef__get_frequencyHz_p0,0,_emscripten_bind_b2DistanceJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2DistanceJointDef__get_collideConnected_p1,0,_emscripten_bind_b2DistanceJointDef__get_dampingRatio_p0,0,_emscripten_bind_b2DistanceJointDef__b2DistanceJointDef_p0,0,_emscripten_bind_b2DistanceJointDef____destroy___p0,0,_emscripten_bind_b2DistanceJointDef__set_collideConnected_p1,0,_emscripten_bind_b2DistanceJointDef__set_length_p1,0,_emscripten_bind_b2DistanceJointDef__set_frequencyHz_p1,0,_emscripten_bind_b2DistanceJointDef__Initialize_p4,0,_emscripten_bind_b2GearJointDef____destroy___p0,0,_emscripten_bind_b2GearJointDef__get_bodyA_p1,0,_emscripten_bind_b2GearJointDef__get_bodyB_p1,0,_emscripten_bind_b2GearJointDef__get_joint1_p0,0,_emscripten_bind_b2GearJointDef__set_bodyA_p1,0,_emscripten_bind_b2GearJointDef__set_bodyB_p1,0,_emscripten_bind_b2GearJointDef__set_joint2_p1,0,_emscripten_bind_b2GearJointDef__set_ratio_p1,0,_emscripten_bind_b2GearJointDef__get_collideConnected_p1,0,_emscripten_bind_b2GearJointDef__get_joint2_p0,0,_emscripten_bind_b2GearJointDef__set_collideConnected_p1,0,_emscripten_bind_b2GearJointDef__b2GearJointDef_p0,0,_emscripten_bind_b2GearJointDef__get_ratio_p0,0,_emscripten_bind_b2GearJointDef__set_joint1_p1,0,_emscripten_bind_b2ContactEdge____destroy___p0,0,_emscripten_bind_b2ContactEdge__set_contact_p1,0,_emscripten_bind_b2ContactEdge__get_prev_p0,0,_emscripten_bind_b2ContactEdge__get_other_p0,0,_emscripten_bind_b2ContactEdge__set_prev_p1,0,_emscripten_bind_b2ContactEdge__get_next_p0,0,_emscripten_bind_b2ContactEdge__set_other_p1,0,_emscripten_bind_b2ContactEdge__set_next_p1,0,_emscripten_bind_b2ContactEdge__b2ContactEdge_p0,0,_emscripten_bind_b2ContactEdge__get_contact_p0,0,_emscripten_bind_b2RopeJointDef__set_localAnchorA_p1,0,_emscripten_bind_b2RopeJointDef__get_bodyA_p1,0,_emscripten_bind_b2RopeJointDef__get_bodyB_p1,0,_emscripten_bind_b2RopeJointDef__set_localAnchorB_p1,0,_emscripten_bind_b2RopeJointDef__set_bodyA_p1,0,_emscripten_bind_b2RopeJointDef__set_bodyB_p1,0,_emscripten_bind_b2RopeJointDef____destroy___p0,0,_emscripten_bind_b2RopeJointDef__get_localAnchorA_p0,0,_emscripten_bind_b2RopeJointDef__get_maxLength_p0,0,_emscripten_bind_b2RopeJointDef__get_localAnchorB_p0,0,_emscripten_bind_b2RopeJointDef__get_collideConnected_p1,0,_emscripten_bind_b2RopeJointDef__set_collideConnected_p1,0,_emscripten_bind_b2RopeJointDef__b2RopeJointDef_p0,0,_emscripten_bind_b2RopeJointDef__set_maxLength_p1,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv117__class_type_infoD0Ev,0,__ZNK10__cxxabiv116__shim_type_info5noop1Ev,0,__ZNK10__cxxabiv116__shim_type_info5noop2Ev,0,__ZNK10__cxxabiv117__class_type_info9can_catchEPKNS_16__shim_type_infoERPv,0,__ZNK10__cxxabiv117__class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib,0,__ZNK10__cxxabiv117__class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,0,__ZNK10__cxxabiv117__class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv120__si_class_type_infoD0Ev,0,__ZNK10__cxxabiv120__si_class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib,0,__ZNK10__cxxabiv120__si_class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,0,__ZNK10__cxxabiv120__si_class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi,0,__ZNSt9bad_allocD0Ev,0,__ZNKSt9bad_alloc4whatEv,0,__ZN12b2BroadPhaseC2Ev,0,__ZN12b2BroadPhaseD2Ev,0,__ZN13b2DynamicTreeC2Ev,0,__ZN13b2DynamicTreeD2Ev,0,__ZN12b2ChainShapeD2Ev,0,__ZN16b2BlockAllocatorC2Ev,0,__ZN16b2BlockAllocatorD2Ev,0,__ZN6b2DrawC2Ev,0,__ZN16b2StackAllocatorC2Ev,0,__ZN16b2StackAllocatorD2Ev,0,__ZN7b2TimerC2Ev,0,__ZN6b2BodyC2EPK9b2BodyDefP7b2World,0,__ZN6b2BodyD2Ev,0,__ZN16b2ContactManagerC2Ev,0,__ZN9b2FixtureC2Ev,0,__ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener,0,__ZN8b2IslandD2Ev,0,__ZN7b2WorldC2ERK6b2Vec2,0,__ZN7b2WorldD2Ev,0,__ZN23b2ChainAndCircleContactC2EP9b2FixtureiS1_i,0,__ZN24b2ChainAndPolygonContactC2EP9b2FixtureiS1_i,0,__ZN15b2CircleContactC2EP9b2FixtureS1_,0,__ZN15b2ContactSolverC2EP18b2ContactSolverDef,0,__ZN15b2ContactSolverD2Ev,0,__ZN22b2EdgeAndCircleContactC2EP9b2FixtureS1_,0,__ZN23b2EdgeAndPolygonContactC2EP9b2FixtureS1_,0,__ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_,0,__ZN16b2PolygonContactC2EP9b2FixtureS1_,0,__ZN15b2DistanceJointC2EPK18b2DistanceJointDef,0,__ZN15b2FrictionJointC2EPK18b2FrictionJointDef,0,__ZN11b2GearJointC2EPK14b2GearJointDef,0,__ZN12b2MouseJointC2EPK15b2MouseJointDef,0,__ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef,0,__ZN13b2PulleyJointC2EPK16b2PulleyJointDef,0,__ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef,0,__ZN11b2RopeJointC2EPK14b2RopeJointDef,0,__ZN11b2WeldJointC2EPK14b2WeldJointDef,0,__ZN12b2WheelJointC2EPK15b2WheelJointDef,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZN10__cxxabiv116__shim_type_infoD2Ev,0,__ZNSt9bad_allocC2Ev,0,__ZNSt9bad_allocD2Ev,0]; Module["FUNCTION_TABLE"] = FUNCTION_TABLE;
 
 
 function run(args) {
@@ -88342,7 +88524,7 @@ if (shouldRunNow) {
   // {{MODULE_ADDITIONS}}
 
 
-// EMSCRIPTEN_GENERATED_FUNCTIONS: ["__Z5b2MinIiET_S0_S0_","__Z5b2MaxIiET_S0_S0_","__ZN12b2BroadPhase12UnBufferMoveEi","__Z5b2DotRK6b2Vec2S1_","__ZN6b2Vec27SetZeroEv","__ZN12b2BroadPhase11CreateProxyERK6b2AABBPv","__ZN12b2BroadPhase10BufferMoveEi","__ZN12b2BroadPhase12DestroyProxyEi","__ZN12b2BroadPhase9MoveProxyEiRK6b2AABBRK6b2Vec2","__ZN12b2BroadPhase10TouchProxyEi","__ZN12b2BroadPhase13QueryCallbackEi","__Z16b2CollideCirclesP10b2ManifoldPK13b2CircleShapeRK11b2TransformS3_S6_","__Z5b2MulRK11b2TransformRK6b2Vec2","__ZmiRK6b2Vec2S1_","__Z25b2CollidePolygonAndCircleP10b2ManifoldPK14b2PolygonShapeRK11b2TransformPK13b2CircleShapeS6_","__ZN12b2BroadPhaseC2Ev","__ZN12b2BroadPhaseD2Ev","__ZN6b2Vec2C2Eff","__ZN6b2Vec23SetEff","__Z6b2MulTRK11b2TransformRK6b2Vec2","__ZmlfRK6b2Vec2","__ZplRK6b2Vec2S1_","__Z17b2DistanceSquaredRK6b2Vec2S1_","__ZN6b2Vec29NormalizeEv","__ZNK6b2Vec26LengthEv","__ZN6b2Vec2C1Eff","__Z22b2CollideEdgeAndCircleP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK13b2CircleShapeS6_","__ZN12b2EPCollider7CollideEP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS7_","__ZN6b2Vec2C2Ev","__ZN5b2RotC2Ev","__Z5b2MinIfET_S0_S0_","__Z7b2CrossRK6b2Vec2S1_","__Z6b2MulTRK11b2TransformS1_","__ZNK6b2Vec2ngEv","__Z5b2MulRK5b2RotRK6b2Vec2","__ZN12b2EPCollider21ComputeEdgeSeparationEv","__ZN12b2EPCollider24ComputePolygonSeparationEv","__ZN12b2ClipVertexC1Ev","__ZN15b2ReferenceFaceC1Ev","__Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_","__ZN12b2EPColliderC1Ev","__ZN12b2EPColliderC2Ev","__ZN13b2TempPolygonC1Ev","__ZN11b2TransformC1Ev","__ZN6b2Vec2C1Ev","__ZN11b2TransformC2Ev","__ZN5b2RotC1Ev","__ZN13b2TempPolygonC2Ev","__ZN15b2ReferenceFaceC2Ev","__ZN12b2ClipVertexC2Ev","__Z6b2MulTRK5b2RotS1_","__Z6b2MulTRK5b2RotRK6b2Vec2","__Z17b2CollidePolygonsP10b2ManifoldPK14b2PolygonShapeRK11b2TransformS3_S6_","__ZL19b2FindMaxSeparationPiPK14b2PolygonShapeRK11b2TransformS2_S5_","__ZL18b2FindIncidentEdgeP12b2ClipVertexPK14b2PolygonShapeRK11b2TransformiS3_S6_","__Z7b2CrossRK6b2Vec2f","__ZL16b2EdgeSeparationPK14b2PolygonShapeRK11b2TransformiS1_S4_","__ZN15b2WorldManifold10InitializeEPK10b2ManifoldRK11b2TransformfS5_f","__Z6b2SwapIfEvRT_S1_","__Z5b2AbsIfET_S0_","__ZN6b2Vec2clEi","__ZNK6b2Vec2clEi","__ZNK7b2Shape7GetTypeEv","__ZNK6b2AABB7RayCastEP15b2RayCastOutputRK14b2RayCastInput","__Z5b2AbsRK6b2Vec2","__Z19b2ClipSegmentToLineP12b2ClipVertexPKS_RK6b2Vec2fi","__Z13b2TestOverlapPK7b2ShapeiS1_iRK11b2TransformS4_","__ZN15b2DistanceInputC1Ev","__ZN16b2DistanceOutputC1Ev","__ZN16b2DistanceOutputC2Ev","__ZN15b2DistanceInputC2Ev","__ZN15b2DistanceProxyC1Ev","__ZN15b2DistanceProxyC2Ev","__ZN15b2DistanceProxy3SetEPK7b2Shapei","__ZN9b2Simplex6Solve2Ev","__ZN9b2Simplex6Solve3Ev","__Z10b2DistanceP16b2DistanceOutputP14b2SimplexCachePK15b2DistanceInput","__ZN9b2SimplexC1Ev","__ZN9b2Simplex9ReadCacheEPK14b2SimplexCachePK15b2DistanceProxyRK11b2TransformS5_S8_","__ZNK6b2Vec213LengthSquaredEv","__ZN6b2Vec2pLERKS_","__ZN6b2Vec2mIERKS_","__ZNK9b2Simplex15GetClosestPointEv","__ZNK9b2Simplex18GetSearchDirectionEv","__ZNK15b2DistanceProxy10GetSupportERK6b2Vec2","__ZNK15b2DistanceProxy9GetVertexEi","__ZNK9b2Simplex16GetWitnessPointsEP6b2Vec2S1_","__Z10b2DistanceRK6b2Vec2S1_","__ZNK9b2Simplex10WriteCacheEP14b2SimplexCache","__ZNK9b2Simplex9GetMetricEv","__Z7b2CrossfRK6b2Vec2","__ZN9b2SimplexC2Ev","__ZN15b2SimplexVertexC1Ev","__ZN15b2SimplexVertexC2Ev","__ZN13b2DynamicTreeC2Ev","__ZN13b2DynamicTreeD2Ev","__ZN13b2DynamicTree12AllocateNodeEv","__ZN13b2DynamicTree8FreeNodeEi","__ZN13b2DynamicTree11CreateProxyERK6b2AABBPv","__ZNK10b2TreeNode6IsLeafEv","__ZN13b2DynamicTree10InsertLeafEi","__ZN13b2DynamicTree12DestroyProxyEi","__ZN13b2DynamicTree10RemoveLeafEi","__ZN13b2DynamicTree9MoveProxyEiRK6b2AABBRK6b2Vec2","__ZNK6b2AABB8ContainsERKS_","__ZNK6b2AABB12GetPerimeterEv","__ZNK13b2DynamicTree9GetHeightEv","__ZN6b2AABBC1Ev","__ZN6b2AABB7CombineERKS_S1_","__ZN13b2DynamicTree7BalanceEi","__ZNK13b2DynamicTree12GetAreaRatioEv","__Z5b2AbsIiET_S0_","__ZeqRK6b2Vec2S1_","__ZNK13b2DynamicTree13ComputeHeightEi","__ZNK13b2DynamicTree13ComputeHeightEv","__ZNK13b2DynamicTree17ValidateStructureEi","__ZNK13b2DynamicTree15ValidateMetricsEi","__ZNK13b2DynamicTree8ValidateEv","__ZNK13b2DynamicTree13GetMaxBalanceEv","__ZN13b2DynamicTree15RebuildBottomUpEv","__Z5b2MinRK6b2Vec2S1_","__Z5b2MaxIfET_S0_S0_","__Z5b2MaxRK6b2Vec2S1_","__ZN6b2AABBC2Ev","__Z14b2TimeOfImpactP11b2TOIOutputPK10b2TOIInput","__ZN7b2Sweep9NormalizeEv","__ZNK7b2Sweep12GetTransformEP11b2Transformf","__ZN20b2SeparationFunctionC1Ev","__ZN20b2SeparationFunction10InitializeEPK14b2SimplexCachePK15b2DistanceProxyRK7b2SweepS5_S8_f","__ZN7b2ShapeD2Ev","__ZNK12b2ChainShape9TestPointERK11b2TransformRK6b2Vec2","__ZNK12b2ChainShape13GetChildCountEv","__ZNK20b2SeparationFunction17FindMinSeparationEPiS0_f","__ZNK20b2SeparationFunction8EvaluateEiif","__ZN20b2SeparationFunctionC2Ev","__ZN7b2SweepC1Ev","__ZN7b2SweepC2Ev","__ZN5b2Rot3SetEf","__ZN12b2ChainShapeD0Ev","__ZN12b2ChainShape10CreateLoopEPK6b2Vec2i","__ZN12b2ChainShape11CreateChainEPK6b2Vec2i","__ZN12b2ChainShape13SetPrevVertexERK6b2Vec2","__ZN12b2ChainShape13SetNextVertexERK6b2Vec2","__ZNK12b2ChainShape5CloneEP16b2BlockAllocator","__ZN12b2ChainShapeC1Ev","__ZNK12b2ChainShape12GetChildEdgeEP11b2EdgeShapei","__ZN11b2EdgeShapeC1Ev","__ZN11b2EdgeShapeD1Ev","__ZN12b2ChainShapeD2Ev","__ZNK12b2ChainShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK13b2CircleShape13GetChildCountEv","__ZNK11b2EdgeShape13GetChildCountEv","__ZNK11b2EdgeShape9TestPointERK11b2TransformRK6b2Vec2","__ZN7b2ShapeC2Ev","__ZN7b2ShapeaSERKS_","__ZNK12b2ChainShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK12b2ChainShape11ComputeMassEP10b2MassDataf","__ZN11b2EdgeShapeD2Ev","__ZN7b2ShapeD1Ev","__ZN7b2ShapeD0Ev","__ZNK13b2CircleShape5CloneEP16b2BlockAllocator","__ZN13b2CircleShapeC1Ev","__ZN13b2CircleShapeaSERKS_","__ZNK13b2CircleShape9TestPointERK11b2TransformRK6b2Vec2","__ZNK13b2CircleShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK13b2CircleShape11ComputeMassEP10b2MassDataf","__ZN13b2CircleShapeD1Ev","__ZN13b2CircleShapeD0Ev","__ZN13b2CircleShapeD2Ev","__ZN11b2EdgeShape3SetERK6b2Vec2S2_","__ZNK11b2EdgeShape5CloneEP16b2BlockAllocator","__ZN11b2EdgeShapeaSERKS_","__ZN11b2EdgeShapeC2Ev","__ZN12b2ChainShapeC2Ev","__ZN13b2CircleShapeC2Ev","__ZNK14b2PolygonShape13GetChildCountEv","__ZNK11b2EdgeShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK11b2EdgeShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK11b2EdgeShape11ComputeMassEP10b2MassDataf","__ZN11b2EdgeShapeD0Ev","__ZNK14b2PolygonShape5CloneEP16b2BlockAllocator","__ZN14b2PolygonShapeC1Ev","__ZN14b2PolygonShapeaSERKS_","__ZN14b2PolygonShape8SetAsBoxEff","__ZN14b2PolygonShape8SetAsBoxEffRK6b2Vec2f","__ZN14b2PolygonShape3SetEPK6b2Vec2i","__ZL15ComputeCentroidPK6b2Vec2i","__ZNK14b2PolygonShape9TestPointERK11b2TransformRK6b2Vec2","__ZN6b2Vec2mLEf","__ZNK14b2PolygonShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK14b2PolygonShape11ComputeMassEP10b2MassDataf","__ZN14b2PolygonShapeD1Ev","__ZN14b2PolygonShapeD0Ev","__ZN14b2PolygonShapeD2Ev","__ZN16b2BlockAllocatorC2Ev","__ZN16b2BlockAllocatorD2Ev","__ZN14b2PolygonShapeC2Ev","__ZN6b2Draw11DrawPolygonEPK6b2Vec2iRK7b2Color","__ZN6b2Draw16DrawSolidPolygonEPK6b2Vec2iRK7b2Color","__ZN6b2Draw10DrawCircleERK6b2Vec2fRK7b2Color","__ZN6b2Draw15DrawSolidCircleERK6b2Vec2fS2_RK7b2Color","__ZN6b2Draw11DrawSegmentERK6b2Vec2S2_RK7b2Color","__ZN6b2Draw13DrawTransformERK11b2Transform","__ZN6b2DrawD2Ev","__ZN6b2DrawC2Ev","__ZN6b2Draw8SetFlagsEj","__ZNK6b2Draw8GetFlagsEv","__ZN6b2Draw11AppendFlagsEj","__ZN6b2Draw10ClearFlagsEj","__Z5b2DotRK6b2Vec3S1_","__ZNK7b2Mat3312GetInverse22EPS_","__ZN16b2BlockAllocator8AllocateEi","__ZN16b2BlockAllocator4FreeEPvi","__ZN16b2BlockAllocator5ClearEv","__ZN6b2DrawD1Ev","__ZN6b2DrawD0Ev","___cxx_global_var_init","__ZNK7b2Mat337Solve33ERK6b2Vec3","__Z7b2CrossRK6b2Vec3S1_","__ZN6b2Vec3C1Ev","__ZNK7b2Mat337Solve22ERK6b2Vec2","__ZN6b2Vec3C2Ev","__ZN7b2TimerC2Ev","__ZN7b2Timer5ResetEv","__ZNK7b2Timer15GetMillisecondsEv","__ZN6b2BodyD2Ev","__Z9b2IsValidf","__ZN6b2Vec3C2Efff","__ZN16b2StackAllocatorC2Ev","__ZNK16b2StackAllocator16GetMaxAllocationEv","__ZNK7b2World8IsLockedEv","__ZNK7b2Mat3315GetSymInverse33EPS_","__ZN6b2Vec3C1Efff","__GLOBAL__I_a","__Z7b2Alloci","__Z6b2FreePv","__Z5b2LogPKcz","__ZN16b2StackAllocatorD2Ev","__ZN16b2StackAllocator8AllocateEi","__ZN16b2StackAllocator4FreeEPv","__ZN6b2BodyC2EPK9b2BodyDefP7b2World","__ZNK6b2Vec27IsValidEv","__ZN6b2Body7SetTypeE10b2BodyType","__ZN9b2Contact11GetFixtureAEv","__ZN9b2Contact11GetFixtureBEv","__ZNK6b2Body13ShouldCollideEPKS_","__ZN6b2Body13ResetMassDataEv","__ZN6b2Body19SynchronizeFixturesEv","__ZN6b2Body8SetAwakeEb","__ZN6b2Body13CreateFixtureEPK12b2FixtureDef","__ZN6b2Body13CreateFixtureEPK7b2Shapef","__ZN12b2FixtureDefC1Ev","__ZN6b2Body14DestroyFixtureEP9b2Fixture","__ZN10b2MassDataC1Ev","__ZNK9b2Fixture11GetMassDataEP10b2MassData","__ZN6b2Body11SetMassDataEPK10b2MassData","__ZNK6b2Body8IsActiveEv","__ZN8b2FilterC2Ev","__ZN9b2Fixture7GetBodyEv","__ZNK9b2Contact10IsTouchingEv","__ZNK9b2Contact14GetChildIndexAEv","__ZNK9b2Contact14GetChildIndexBEv","__ZN9b2Contact7GetNextEv","__ZNK6b2Body7IsAwakeEv","__ZN6b2Body12SetTransformERK6b2Vec2f","__ZN6b2Body9SetActiveEb","__ZN6b2Body4DumpEv","__ZN10b2MassDataC2Ev","__ZN12b2FixtureDefC2Ev","__ZN8b2FilterC1Ev","___cxx_global_var_init115","__ZN15b2ContactFilterC1Ev","__ZN15b2ContactFilterD1Ev","___cxx_global_var_init1","__ZN17b2ContactListenerC1Ev","__ZN17b2ContactListenerD1Ev","__ZN16b2ContactManagerC2Ev","__ZN16b2ContactManager7DestroyEP9b2Contact","__ZN16b2ContactManager7CollideEv","__ZN6b2Body14GetContactListEv","__Z14b2PairLessThanRK6b2PairS1_","__ZNK12b2BroadPhase11TestOverlapEii","__ZN16b2ContactManager15FindNewContactsEv","__ZN12b2BroadPhase11UpdatePairsI16b2ContactManagerEEvPT_","__ZN16b2ContactManager7AddPairEPvS0_","__ZNK13b2DynamicTree10GetFatAABBEi","__ZNK13b2DynamicTree11GetUserDataEi","__ZNK13b2DynamicTree5QueryI12b2BroadPhaseEEvPT_RK6b2AABB","__ZNSt3__16__sortIRPFbRK6b2PairS3_EPS1_EEvT0_S8_T_","__ZNSt3__17__sort3IRPFbRK6b2PairS3_EPS1_EEjT0_S8_S8_T_","__ZN17b2ContactListenerD2Ev","__ZN17b2ContactListener12BeginContactEP9b2Contact","__ZN17b2ContactListener10EndContactEP9b2Contact","__ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold","__ZN17b2ContactListenerC2Ev","__ZN15b2GrowableStackIiLi256EE8GetCountEv","__ZN15b2GrowableStackIiLi256EEC2Ev","__ZNSt3__17__sort4IRPFbRK6b2PairS3_EPS1_EEjT0_S8_S8_S8_T_","__ZNSt3__17__sort5IRPFbRK6b2PairS3_EPS1_EEjT0_S8_S8_S8_S8_T_","__ZNSt3__118__insertion_sort_3IRPFbRK6b2PairS3_EPS1_EEvT0_S8_T_","__ZNSt3__127__insertion_sort_incompleteIRPFbRK6b2PairS3_EPS1_EEbT0_S8_T_","__ZN15b2GrowableStackIiLi256EEC1Ev","__ZN15b2GrowableStackIiLi256EE4PushERKi","__ZN15b2GrowableStackIiLi256EE3PopEv","__Z13b2TestOverlapRK6b2AABBS1_","__ZN15b2GrowableStackIiLi256EED1Ev","__ZN15b2GrowableStackIiLi256EED2Ev","__ZN17b2ContactListenerD0Ev","__ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse","__ZN15b2ContactFilterD2Ev","__ZN15b2ContactFilterC2Ev","__ZN9b2Contact16FlagForFilteringEv","__ZN6b2Body8GetWorldEv","__GLOBAL__I_a120","__ZN9b2FixtureC2Ev","__ZN9b2Fixture6CreateEP16b2BlockAllocatorP6b2BodyPK12b2FixtureDef","__ZN9b2Fixture7DestroyEP16b2BlockAllocator","__ZN9b2Fixture13CreateProxiesEP12b2BroadPhaseRK11b2Transform","__ZN9b2Fixture14DestroyProxiesEP12b2BroadPhase","__ZN9b2Fixture11SynchronizeEP12b2BroadPhaseRK11b2TransformS4_","__ZN9b2Fixture13SetFilterDataERK8b2Filter","__ZN9b2Fixture8RefilterEv","__ZN9b2Fixture9SetSensorEb","__ZN9b2Fixture4DumpEi","__ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener","__ZN8b2IslandD2Ev","__Z7b2ClampIfET_S0_S0_S0_","__ZN6b2Body20SynchronizeTransformEv","__ZN8b2Island5SolveEP9b2ProfileRK10b2TimeStepRK6b2Vec2b","__ZNK6b2Body7GetTypeEv","__ZN7b2World22SetDestructionListenerEP21b2DestructionListener","__ZN7b2World16SetContactFilterEP15b2ContactFilter","__ZN7b2World18SetContactListenerEP17b2ContactListener","__ZN7b2World12SetDebugDrawEP6b2Draw","__ZN8b2Island6ReportEPK27b2ContactVelocityConstraint","__ZN16b2ContactManagerD1Ev","__ZN8b2Island8SolveTOIERK10b2TimeStepii","__ZN7b2WorldC2ERK6b2Vec2","__ZN7b2WorldD2Ev","__ZN7b2World10CreateBodyEPK9b2BodyDef","__ZN7b2World11DestroyBodyEP6b2Body","__ZN7b2World12DestroyJointEP7b2Joint","__ZN7b2World11CreateJointEPK10b2JointDef","__ZN7b2World16SetAllowSleepingEb","__ZN8b2Island5ClearEv","__ZNK9b2Contact9IsEnabledEv","__ZN6b2Body7GetNextEv","__ZN8b2Island3AddEP6b2Body","__ZN8b2Island3AddEP9b2Contact","__ZN8b2Island3AddEP7b2Joint","__ZN7b2World5SolveERK10b2TimeStep","__ZN7b2World8SolveTOIERK10b2TimeStep","__ZNK9b2Fixture8IsSensorEv","__ZNK6b2Body8IsBulletEv","__ZN9b2Fixture8GetShapeEv","__ZN9b2Contact10SetEnabledEb","__ZN7b2Joint8GetBodyAEv","__ZN7b2Joint8GetBodyBEv","__ZNK6b2Body12GetTransformEv","__ZNK7b2Joint7GetTypeEv","__ZN7b2Sweep7AdvanceEf","__ZN10b2TOIInputC1Ev","__ZN6b2Body7AdvanceEf","__ZN7b2World4StepEfii","__ZN7b2World11ClearForcesEv","__ZNK7b2World9QueryAABBEP15b2QueryCallbackRK6b2AABB","__ZNK12b2BroadPhase5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB","__ZNK7b2World7RayCastEP17b2RayCastCallbackRK6b2Vec2S4_","__ZN14b2RayCastInputC1Ev","__ZNK12b2BroadPhase7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput","__ZN7b2World9DrawShapeEP9b2FixtureRK11b2TransformRK7b2Color","__ZNK9b2Fixture7GetTypeEv","__ZN7b2World9DrawJointEP7b2Joint","__ZN7b2ColorC1Efff","__ZN6b2Body14GetFixtureListEv","__ZN9b2Fixture7GetNextEv","__ZN7b2Joint7GetNextEv","__ZNK6b2Body14GetWorldCenterEv","__ZNK12b2BroadPhase13GetProxyCountEv","__ZN7b2World13DrawDebugDataEv","__ZNK12b2BroadPhase10GetFatAABBEi","__ZNK7b2World13GetProxyCountEv","__ZNK7b2World13GetTreeHeightEv","__ZNK12b2BroadPhase13GetTreeHeightEv","__ZNK7b2World14GetTreeBalanceEv","__ZNK12b2BroadPhase14GetTreeBalanceEv","__ZNK7b2World14GetTreeQualityEv","__ZNK12b2BroadPhase14GetTreeQualityEv","__ZN7b2World4DumpEv","__ZN9b2ContactD2Ev","__ZN7b2ColorC2Efff","__ZNK9b2Fixture13GetFilterDataEv","__ZNK6b2AABB9GetCenterEv","__ZNK6b2AABB10GetExtentsEv","__ZN21b2WorldRayCastWrapper15RayCastCallbackERK14b2RayCastInputi","__ZNK12b2BroadPhase11GetUserDataEi","__ZN15b2RayCastOutputC1Ev","__ZNK9b2Fixture7RayCastEP15b2RayCastOutputRK14b2RayCastInputi","__ZN15b2RayCastOutputC2Ev","__ZN19b2WorldQueryWrapper13QueryCallbackEi","__ZN14b2RayCastInputC2Ev","__ZN10b2TOIInputC2Ev","__ZN16b2ContactManagerD2Ev","__ZN15b2ContactFilter13ShouldCollideEP9b2FixtureS1_","__ZN15b2ContactFilterD0Ev","__ZN23b2ChainAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN23b2ChainAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZNK13b2DynamicTree7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput","__ZNK13b2DynamicTree5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB","__ZN23b2ChainAndCircleContactC2EP9b2FixtureiS1_i","__ZN23b2ChainAndCircleContactD1Ev","__ZN23b2ChainAndCircleContactD0Ev","__ZN23b2ChainAndCircleContactD2Ev","__ZN24b2ChainAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN24b2ChainAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN24b2ChainAndPolygonContactD1Ev","__ZN24b2ChainAndPolygonContactD0Ev","__ZN24b2ChainAndPolygonContactD2Ev","__ZN15b2CircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN15b2CircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN15b2CircleContactD1Ev","__ZN15b2CircleContactD0Ev","__ZN15b2CircleContactD2Ev","__ZN9b2Contact19InitializeRegistersEv","__ZN9b2Contact7AddTypeEPFPS_P9b2FixtureiS2_iP16b2BlockAllocatorEPFvS0_S4_EN7b2Shape4TypeESA_","__ZN9b2Contact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN9b2Contact7DestroyEPS_P16b2BlockAllocator","__ZN23b2ChainAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN24b2ChainAndPolygonContactC2EP9b2FixtureiS1_i","__ZN24b2ChainAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN15b2CircleContactC2EP9b2FixtureS1_","__ZN13b2ContactEdgeC2Ev","__Z16b2MixRestitutionff","__ZN9b2Contact11GetManifoldEv","__ZN7b2Mat227SetZeroEv","__ZN9b2ContactC2EP9b2FixtureiS1_i","__ZN13b2ContactEdgeC1Ev","__ZN10b2ManifoldC1Ev","__Z13b2MixFrictionff","__ZN9b2Contact6UpdateEP17b2ContactListener","__ZN9b2ContactD1Ev","__ZN9b2ContactD0Ev","__ZN10b2ManifoldC2Ev","__ZN15b2ManifoldPointC1Ev","__ZN15b2ManifoldPointC2Ev","__ZN15b2ContactSolverC2EP18b2ContactSolverDef","__ZN15b2ContactSolverD2Ev","__ZN15b2ContactSolver29InitializeVelocityConstraintsEv","__ZN15b2WorldManifoldC1Ev","__ZNK7b2Mat2210GetInverseEv","__ZN15b2ContactSolver9WarmStartEv","__ZN15b2ContactSolver24SolveVelocityConstraintsEv","__Z5b2MulRK7b2Mat22RK6b2Vec2","__ZN15b2ContactSolver13StoreImpulsesEv","__ZN15b2ContactSolver24SolvePositionConstraintsEv","__ZN24b2PositionSolverManifoldC1Ev","__ZN24b2PositionSolverManifold10InitializeEP27b2ContactPositionConstraintRK11b2TransformS4_i","__ZN15b2ContactSolver27SolveTOIPositionConstraintsEii","__ZN24b2PositionSolverManifoldC2Ev","__ZN7b2Mat22C1Ev","__ZN7b2Mat22C2Ev","__ZN15b2WorldManifoldC2Ev","__ZN22b2EdgeAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN22b2EdgeAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN22b2EdgeAndCircleContactC2EP9b2FixtureS1_","__ZN7b2JointD2Ev","__ZN22b2EdgeAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN22b2EdgeAndCircleContactD1Ev","__ZN22b2EdgeAndCircleContactD0Ev","__ZN22b2EdgeAndCircleContactD2Ev","__ZN23b2EdgeAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN23b2EdgeAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN23b2EdgeAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN23b2EdgeAndPolygonContactD1Ev","__ZN23b2EdgeAndPolygonContactD0Ev","__ZN23b2EdgeAndPolygonContactD2Ev","__ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN25b2PolygonAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN25b2PolygonAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN25b2PolygonAndCircleContactD1Ev","__ZN25b2PolygonAndCircleContactD0Ev","__ZN25b2PolygonAndCircleContactD2Ev","__ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN16b2PolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN16b2PolygonContactD1Ev","__ZN16b2PolygonContactD0Ev","__ZN16b2PolygonContactD2Ev","__ZN18b2DistanceJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_","__ZNK6b2Body13GetLocalPointERK6b2Vec2","__ZN23b2EdgeAndPolygonContactC2EP9b2FixtureS1_","__ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_","__ZN16b2PolygonContactC2EP9b2FixtureS1_","__ZN15b2DistanceJointC2EPK18b2DistanceJointDef","__ZNK15b2DistanceJoint17GetReactionTorqueEf","__ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData","__ZN5b2RotC1Ef","__ZN15b2DistanceJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK15b2DistanceJoint10GetAnchorAEv","__ZNK6b2Body13GetWorldPointERK6b2Vec2","__ZNK15b2DistanceJoint10GetAnchorBEv","__ZNK15b2DistanceJoint16GetReactionForceEf","__ZN15b2DistanceJoint4DumpEv","__ZN15b2DistanceJointD1Ev","__ZN15b2DistanceJointD0Ev","__ZN15b2DistanceJointD2Ev","__ZN5b2RotC2Ef","__ZN15b2FrictionJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK15b2FrictionJoint17GetReactionTorqueEf","__ZNK15b2FrictionJoint11GetMaxForceEv","__ZNK15b2FrictionJoint12GetMaxTorqueEv","__ZN18b2FrictionJointDef10InitializeEP6b2BodyS1_RK6b2Vec2","__ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData","__ZN15b2FrictionJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK15b2FrictionJoint10GetAnchorAEv","__ZNK15b2FrictionJoint10GetAnchorBEv","__ZNK15b2FrictionJoint16GetReactionForceEf","__ZN15b2FrictionJoint11SetMaxForceEf","__ZN15b2FrictionJoint12SetMaxTorqueEf","__ZN15b2FrictionJoint4DumpEv","__ZN15b2FrictionJointD1Ev","__ZN15b2FrictionJointD0Ev","__ZN15b2FrictionJointC2EPK18b2FrictionJointDef","__ZN15b2FrictionJointD2Ev","__ZN11b2GearJointC2EPK14b2GearJointDef","__ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData","__ZN11b2GearJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK11b2GearJoint17GetReactionTorqueEf","__ZNK11b2GearJoint8GetRatioEv","__ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK11b2GearJoint10GetAnchorAEv","__ZNK11b2GearJoint10GetAnchorBEv","__ZNK11b2GearJoint16GetReactionForceEf","__ZN11b2GearJoint8SetRatioEf","__ZN11b2GearJoint4DumpEv","__ZN11b2GearJointD1Ev","__ZN11b2GearJointD0Ev","__ZN11b2GearJointD2Ev","__ZN7b2Joint6CreateEPK10b2JointDefP16b2BlockAllocator","__ZNK12b2MouseJoint9GetTargetEv","__ZN12b2MouseJoint11SetMaxForceEf","__ZNK12b2MouseJoint11GetMaxForceEv","__ZN12b2MouseJoint12SetFrequencyEf","__ZNK12b2MouseJoint12GetFrequencyEv","__ZN12b2MouseJoint15SetDampingRatioEf","__ZNK12b2MouseJoint15GetDampingRatioEv","__ZNK6b2Body7GetMassEv","__ZN7b2Joint7DestroyEPS_P16b2BlockAllocator","__ZN7b2JointC2EPK10b2JointDef","__ZNK7b2Joint8IsActiveEv","__ZN7b2Joint4DumpEv","__ZN7b2JointD1Ev","__ZN7b2JointD0Ev","__ZN12b2MouseJoint9SetTargetERK6b2Vec2","__ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData","__ZN12b2MouseJointC2EPK15b2MouseJointDef","__ZN12b2MouseJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK12b2MouseJoint17GetReactionTorqueEf","__ZNK6b2Body8GetAngleEv","__ZN6b2Vec37SetZeroEv","__ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK12b2MouseJoint10GetAnchorAEv","__ZNK12b2MouseJoint10GetAnchorBEv","__ZNK12b2MouseJoint16GetReactionForceEf","__ZN12b2MouseJoint4DumpEv","__ZN12b2MouseJointD1Ev","__ZN12b2MouseJointD0Ev","__ZN12b2MouseJointD2Ev","__ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_","__ZNK6b2Body14GetLocalVectorERK6b2Vec2","__ZN7b2Mat33C1Ev","__ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef","__ZN6b2Vec33SetEfff","__ZN6b2Vec3mLEf","__ZN16b2PrismaticJoint23InitVelocityConstraintsERK12b2SolverData","__ZN6b2Vec3pLERKS_","__ZN16b2PrismaticJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK6b2Vec3ngEv","__ZmiRK6b2Vec3S1_","__Z7b2Mul22RK7b2Mat33RK6b2Vec2","__ZNK16b2PrismaticJoint17GetReactionTorqueEf","__ZNK16b2PrismaticJoint14IsLimitEnabledEv","__ZNK16b2PrismaticJoint13GetLowerLimitEv","__ZNK16b2PrismaticJoint13GetUpperLimitEv","__ZNK16b2PrismaticJoint14IsMotorEnabledEv","__ZN16b2PrismaticJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK7b2Mat225SolveERK6b2Vec2","__ZNK16b2PrismaticJoint10GetAnchorAEv","__ZNK16b2PrismaticJoint10GetAnchorBEv","__ZNK16b2PrismaticJoint16GetReactionForceEf","__ZNK16b2PrismaticJoint19GetJointTranslationEv","__ZNK6b2Body14GetWorldVectorERK6b2Vec2","__ZNK16b2PrismaticJoint13GetJointSpeedEv","__ZN16b2PrismaticJoint11EnableLimitEb","__ZN16b2PrismaticJoint9SetLimitsEff","__ZN16b2PrismaticJoint11EnableMotorEb","__ZN16b2PrismaticJoint13SetMotorSpeedEf","__ZNK16b2PrismaticJoint13GetMotorForceEf","__ZN16b2PrismaticJoint16SetMaxMotorForceEf","__ZN16b2PrismaticJoint4DumpEv","__ZN16b2PrismaticJointD1Ev","__ZN16b2PrismaticJointD0Ev","__ZN16b2PrismaticJointD2Ev","__ZN7b2Mat33C2Ev","__ZN16b2PulleyJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_S4_S4_f","__ZN13b2PulleyJoint23InitVelocityConstraintsERK12b2SolverData","__ZN13b2PulleyJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN13b2PulleyJointC2EPK16b2PulleyJointDef","__ZNK13b2PulleyJoint17GetReactionTorqueEf","__ZNK13b2PulleyJoint8GetRatioEv","__ZN13b2PulleyJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK13b2PulleyJoint10GetAnchorAEv","__ZNK13b2PulleyJoint10GetAnchorBEv","__ZNK13b2PulleyJoint16GetReactionForceEf","__ZNK13b2PulleyJoint16GetGroundAnchorAEv","__ZNK13b2PulleyJoint16GetGroundAnchorBEv","__ZNK13b2PulleyJoint10GetLengthAEv","__ZNK13b2PulleyJoint10GetLengthBEv","__ZN13b2PulleyJoint4DumpEv","__ZN13b2PulleyJointD1Ev","__ZN13b2PulleyJointD0Ev","__ZN13b2PulleyJointD2Ev","__ZN18b2RevoluteJointDef10InitializeEP6b2BodyS1_RK6b2Vec2","__ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef","__ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData","__ZNK15b2RevoluteJoint17GetReactionTorqueEf","__ZNK15b2RevoluteJoint13GetJointAngleEv","__ZN15b2RevoluteJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN15b2RevoluteJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK15b2RevoluteJoint10GetAnchorAEv","__ZNK15b2RevoluteJoint10GetAnchorBEv","__ZNK15b2RevoluteJoint16GetReactionForceEf","__ZNK15b2RevoluteJoint13GetJointSpeedEv","__ZNK15b2RevoluteJoint14IsMotorEnabledEv","__ZNK15b2RevoluteJoint14GetMotorTorqueEf","__ZNK15b2RevoluteJoint14IsLimitEnabledEv","__ZNK15b2RevoluteJoint13GetLowerLimitEv","__ZNK15b2RevoluteJoint13GetUpperLimitEv","__ZN15b2RevoluteJoint11EnableMotorEb","__ZN15b2RevoluteJoint13SetMotorSpeedEf","__ZN15b2RevoluteJoint17SetMaxMotorTorqueEf","__ZN15b2RevoluteJoint11EnableLimitEb","__ZN15b2RevoluteJoint9SetLimitsEff","__ZN15b2RevoluteJoint4DumpEv","__ZN15b2RevoluteJointD1Ev","__ZN15b2RevoluteJointD0Ev","__ZN15b2RevoluteJointD2Ev","__ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData","__ZN11b2RopeJointC2EPK14b2RopeJointDef","__ZNK11b2RopeJoint17GetReactionTorqueEf","__ZNK11b2RopeJoint12GetMaxLengthEv","__ZNK11b2RopeJoint13GetLimitStateEv","__ZN11b2RopeJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN11b2RopeJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK11b2RopeJoint10GetAnchorAEv","__ZNK11b2RopeJoint10GetAnchorBEv","__ZNK11b2RopeJoint16GetReactionForceEf","__ZN11b2RopeJoint4DumpEv","__ZN11b2RopeJointD1Ev","__ZN11b2RopeJointD0Ev","__ZN11b2RopeJointD2Ev","__ZN14b2WeldJointDef10InitializeEP6b2BodyS1_RK6b2Vec2","__ZN11b2WeldJointC2EPK14b2WeldJointDef","__ZN11b2WeldJoint23InitVelocityConstraintsERK12b2SolverData","__ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData","__Z5b2MulRK7b2Mat33RK6b2Vec3","__ZNK11b2WeldJoint17GetReactionTorqueEf","__ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK11b2WeldJoint10GetAnchorAEv","__ZNK11b2WeldJoint10GetAnchorBEv","__ZNK11b2WeldJoint16GetReactionForceEf","__ZN11b2WeldJoint4DumpEv","__ZN11b2WeldJointD1Ev","__ZN11b2WeldJointD0Ev","__ZN11b2WeldJointD2Ev","__ZplRK6b2Vec3S1_","__ZmlfRK6b2Vec3","__ZN15b2WheelJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_","__ZN12b2WheelJointC2EPK15b2WheelJointDef","__ZN12b2WheelJoint23InitVelocityConstraintsERK12b2SolverData","__ZN12b2WheelJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK12b2WheelJoint17GetReactionTorqueEf","__ZNK12b2WheelJoint13GetJointSpeedEv","__ZNK12b2WheelJoint14IsMotorEnabledEv","__ZNK12b2WheelJoint14GetMotorTorqueEf","_emscripten_bind_b2ContactManager__get_m_contactFilter_p0","_emscripten_bind_b2ContactManager__get_m_contactCount_p0","_emscripten_bind_b2ContactManager__set_m_contactFilter_p1","_emscripten_bind_b2ContactManager__set_m_allocator_p1","_emscripten_bind_b2ContactManager__set_m_contactCount_p1","_emscripten_bind_b2ContactManager__set_m_contactList_p1","_emscripten_bind_b2ContactManager__get_m_contactListener_p0","_emscripten_bind_b2ContactManager__set_m_contactListener_p1","_emscripten_bind_b2ContactManager__get_m_broadPhase_p0","_emscripten_bind_b2ContactManager__get_m_contactList_p0","_emscripten_bind_b2ContactManager__get_m_allocator_p0","__ZN15b2DistanceJoint12SetFrequencyEf","__ZNK7b2Joint11GetUserDataEv","__ZN7b2Joint11SetUserDataEPv","__ZNK15b2DistanceJoint15GetLocalAnchorAEv","__ZNK15b2DistanceJoint15GetLocalAnchorBEv","__ZNK15b2DistanceJoint12GetFrequencyEv","__ZN12b2WheelJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK12b2WheelJoint10GetAnchorAEv","__ZNK12b2WheelJoint10GetAnchorBEv","__ZNK12b2WheelJoint16GetReactionForceEf","__ZNK12b2WheelJoint19GetJointTranslationEv","__ZN12b2WheelJoint11EnableMotorEb","__ZN12b2WheelJoint13SetMotorSpeedEf","__ZN12b2WheelJoint17SetMaxMotorTorqueEf","__ZN12b2WheelJoint4DumpEv","__ZN12b2WheelJointD1Ev","__ZN12b2WheelJointD0Ev","__ZN12b2WheelJointD2Ev","__ZNK6b2Vec24SkewEv","_emscripten_bind_b2ContactManager__b2ContactManager_p0","_emscripten_bind_b2ContactManager__AddPair_p2","_emscripten_bind_b2ContactManager__Collide_p0","_emscripten_bind_b2ContactManager__FindNewContacts_p0","_emscripten_bind_b2ContactManager____destroy___p0","_emscripten_bind_b2ContactManager__Destroy_p1","_emscripten_bind_b2ContactManager__set_m_broadPhase_p1","_emscripten_bind_b2DistanceJoint__GetBodyA_p0","_emscripten_bind_b2DistanceJoint__GetBodyB_p0","_emscripten_bind_b2DistanceJoint__SetFrequency_p1","_emscripten_bind_b2DistanceJoint__GetUserData_p0","_emscripten_bind_b2DistanceJoint__SetUserData_p1","_emscripten_bind_b2DistanceJoint__GetAnchorB_p0","_emscripten_bind_b2DistanceJoint__GetAnchorA_p0","_emscripten_bind_b2DistanceJoint__GetNext_p0","_emscripten_bind_b2DistanceJoint__GetLocalAnchorA_p0","_emscripten_bind_b2DistanceJoint__GetLocalAnchorB_p0","_emscripten_bind_b2DistanceJoint__GetFrequency_p0","__ZNK15b2DistanceJoint9GetLengthEv","__ZNK15b2DistanceJoint15GetDampingRatioEv","__ZNK7b2Joint19GetCollideConnectedEv","__ZN15b2DistanceJoint15SetDampingRatioEf","__ZN15b2DistanceJoint9SetLengthEf","__ZNK9b2Fixture14GetRestitutionEv","__ZN9b2Fixture11SetFrictionEf","__ZN9b2Fixture14SetRestitutionEf","__ZNK9b2Fixture11GetFrictionEv","__ZNK9b2Fixture11GetUserDataEv","__ZN9b2Fixture10SetDensityEf","__ZNK9b2Fixture7GetAABBEi","__ZN9b2Fixture11SetUserDataEPv","__ZNK9b2Fixture10GetDensityEv","_emscripten_bind_b2DistanceJoint__GetReactionForce_p1","_emscripten_bind_b2DistanceJoint__GetLength_p0","_emscripten_bind_b2DistanceJoint__GetDampingRatio_p0","_emscripten_bind_b2DistanceJoint__GetCollideConnected_p0","_emscripten_bind_b2DistanceJoint____destroy___p0","_emscripten_bind_b2DistanceJoint__Dump_p0","_emscripten_bind_b2DistanceJoint__GetType_p0","_emscripten_bind_b2DistanceJoint__b2DistanceJoint_p1","_emscripten_bind_b2DistanceJoint__SetDampingRatio_p1","_emscripten_bind_b2DistanceJoint__GetReactionTorque_p1","_emscripten_bind_b2DistanceJoint__SetLength_p1","_emscripten_bind_b2DistanceJoint__IsActive_p0","_emscripten_bind_b2Fixture__GetRestitution_p0","_emscripten_bind_b2Fixture__SetFilterData_p1","_emscripten_bind_b2Fixture__SetFriction_p1","_emscripten_bind_b2Fixture__b2Fixture_p0","_emscripten_bind_b2Fixture__GetShape_p0","_emscripten_bind_b2Fixture__SetRestitution_p1","_emscripten_bind_b2Fixture__GetBody_p0","_emscripten_bind_b2Fixture__GetNext_p0","_emscripten_bind_b2Fixture__GetFriction_p0","_emscripten_bind_b2Fixture__GetUserData_p0","_emscripten_bind_b2Fixture__SetDensity_p1","_emscripten_bind_b2Fixture__GetMassData_p1","_emscripten_bind_b2Fixture__SetSensor_p1","_emscripten_bind_b2Fixture__GetAABB_p1","_emscripten_bind_b2Fixture__TestPoint_p1","__ZNK9b2Fixture9TestPointERK6b2Vec2","_emscripten_bind_b2Fixture__SetUserData_p1","_emscripten_bind_b2Fixture____destroy___p0","_emscripten_bind_b2Fixture__RayCast_p3","_emscripten_bind_b2Fixture__Refilter_p0","_emscripten_bind_b2Fixture__Dump_p1","_emscripten_bind_b2Fixture__GetFilterData_p0","_emscripten_bind_b2Fixture__IsSensor_p0","_emscripten_bind_b2Fixture__GetType_p0","_emscripten_bind_b2Fixture__GetDensity_p0","_emscripten_bind_b2MouseJoint__GetBodyA_p0","_emscripten_bind_b2MouseJoint__GetBodyB_p0","_emscripten_bind_b2MouseJoint__SetFrequency_p1","_emscripten_bind_b2MouseJoint__GetUserData_p0","_emscripten_bind_b2MouseJoint__SetMaxForce_p1","_emscripten_bind_b2MouseJoint__SetUserData_p1","_emscripten_bind_b2MouseJoint__GetAnchorB_p0","_emscripten_bind_b2MouseJoint__GetAnchorA_p0","_emscripten_bind_b2MouseJoint__b2MouseJoint_p1","_emscripten_bind_b2MouseJoint__GetNext_p0","_emscripten_bind_b2MouseJoint__GetMaxForce_p0","_emscripten_bind_b2MouseJoint__GetTarget_p0","_emscripten_bind_b2MouseJoint__GetFrequency_p0","_emscripten_bind_b2MouseJoint__GetReactionForce_p1","_emscripten_bind_b2MouseJoint__GetDampingRatio_p0","_emscripten_bind_b2MouseJoint__GetCollideConnected_p0","_emscripten_bind_b2MouseJoint____destroy___p0","_emscripten_bind_b2MouseJoint__Dump_p0","_emscripten_bind_b2MouseJoint__SetTarget_p1","_emscripten_bind_b2MouseJoint__GetType_p0","_emscripten_bind_b2MouseJoint__SetDampingRatio_p1","_emscripten_bind_b2MouseJoint__GetReactionTorque_p1","_emscripten_bind_b2MouseJoint__IsActive_p0","_emscripten_bind_b2PulleyJoint__GetBodyA_p0","_emscripten_bind_b2PulleyJoint____destroy___p0","__ZN7b2World14SetSubSteppingEb","__ZNK7b2World10GetProfileEv","__ZNK7b2World14GetSubSteppingEv","__ZNK7b2World17GetContactManagerEv","__ZN7b2World20SetContinuousPhysicsEb","__ZNK7b2World12GetBodyCountEv","__ZNK7b2World18GetAutoClearForcesEv","__ZNK7b2World20GetContinuousPhysicsEv","__ZN7b2World12GetJointListEv","__ZN7b2World11GetBodyListEv","__ZNK7b2World13GetJointCountEv","__ZNK7b2World15GetWarmStartingEv","__ZNK7b2World16GetAllowSleepingEv","_emscripten_bind_b2PulleyJoint__GetAnchorA_p0","_emscripten_bind_b2PulleyJoint__GetType_p0","_emscripten_bind_b2PulleyJoint__GetGroundAnchorB_p0","_emscripten_bind_b2PulleyJoint__GetReactionTorque_p1","_emscripten_bind_b2PulleyJoint__Dump_p0","_emscripten_bind_b2PulleyJoint__GetGroundAnchorA_p0","_emscripten_bind_b2PulleyJoint__GetLengthB_p0","_emscripten_bind_b2PulleyJoint__GetUserData_p0","_emscripten_bind_b2PulleyJoint__GetLengthA_p0","_emscripten_bind_b2PulleyJoint__GetBodyB_p0","_emscripten_bind_b2PulleyJoint__GetCollideConnected_p0","_emscripten_bind_b2PulleyJoint__SetUserData_p1","_emscripten_bind_b2PulleyJoint__GetAnchorB_p0","_emscripten_bind_b2PulleyJoint__GetReactionForce_p1","_emscripten_bind_b2PulleyJoint__GetNext_p0","_emscripten_bind_b2PulleyJoint__b2PulleyJoint_p1","_emscripten_bind_b2PulleyJoint__IsActive_p0","_emscripten_bind_b2PulleyJoint__GetRatio_p0","_emscripten_bind_b2BroadPhase__GetTreeQuality_p0","_emscripten_bind_b2BroadPhase__GetFatAABB_p1","_emscripten_bind_b2BroadPhase__GetUserData_p1","_emscripten_bind_b2BroadPhase____destroy___p0","_emscripten_bind_b2BroadPhase__GetTreeHeight_p0","_emscripten_bind_b2BroadPhase__b2BroadPhase_p0","_emscripten_bind_b2BroadPhase__GetProxyCount_p0","_emscripten_bind_b2BroadPhase__GetTreeBalance_p0","_emscripten_bind_b2BroadPhase__TestOverlap_p2","_emscripten_bind_b2BroadPhase__TouchProxy_p1","_emscripten_bind_b2BroadPhase__CreateProxy_p2","_emscripten_bind_b2BroadPhase__MoveProxy_p3","_emscripten_bind_b2BroadPhase__DestroyProxy_p1","_emscripten_bind_b2World__QueryAABB_p2","_emscripten_bind_b2World__SetSubStepping_p1","_emscripten_bind_b2World__GetTreeQuality_p0","_emscripten_bind_b2World__GetTreeHeight_p0","_emscripten_bind_b2World__GetProfile_p0","_emscripten_bind_b2World__GetTreeBalance_p0","_emscripten_bind_b2World__GetSubStepping_p0","_emscripten_bind_b2World__GetContactManager_p0","_emscripten_bind_b2World__SetContactListener_p1","_emscripten_bind_b2World__DrawDebugData_p0","_emscripten_bind_b2World__SetContinuousPhysics_p1","_emscripten_bind_b2World__SetGravity_p1","__ZN7b2World10SetGravityERK6b2Vec2","_emscripten_bind_b2World__GetBodyCount_p0","_emscripten_bind_b2World__GetAutoClearForces_p0","_emscripten_bind_b2World__GetContinuousPhysics_p0","_emscripten_bind_b2World__GetJointList_p0","_emscripten_bind_b2World__CreateBody_p1","_emscripten_bind_b2World__GetBodyList_p0","_emscripten_bind_b2World__SetDestructionListener_p1","_emscripten_bind_b2World__DestroyJoint_p1","_emscripten_bind_b2World__b2World_p1","_emscripten_bind_b2World__GetJointCount_p0","_emscripten_bind_b2World__Step_p3","_emscripten_bind_b2World__ClearForces_p0","_emscripten_bind_b2World__GetWarmStarting_p0","_emscripten_bind_b2World__SetAllowSleeping_p1","_emscripten_bind_b2World__DestroyBody_p1","_emscripten_bind_b2World__GetAllowSleeping_p0","_emscripten_bind_b2World__CreateJoint_p1","_emscripten_bind_b2World__GetProxyCount_p0","_emscripten_bind_b2World__RayCast_p3","__ZNK13b2CircleShape14GetVertexCountEv","__ZNK13b2CircleShape10GetSupportERK6b2Vec2","__ZN7b2World14GetContactListEv","__ZN7b2World18SetAutoClearForcesEb","__ZNK7b2World15GetContactCountEv","__ZN7b2World15SetWarmStartingEb","__ZNK16b2PrismaticJoint13GetLocalAxisAEv","__ZNK16b2PrismaticJoint15GetLocalAnchorAEv","__ZNK16b2PrismaticJoint15GetLocalAnchorBEv","__ZNK16b2PrismaticJoint13GetMotorSpeedEv","__ZNK16b2PrismaticJoint16GetMaxMotorForceEv","__ZNK16b2PrismaticJoint17GetReferenceAngleEv","_emscripten_bind_b2CircleShape__set_m_radius_p1","_emscripten_bind_b2CircleShape__get_m_radius_p0","__ZNK13b2CircleShape9GetVertexEi","__ZNK13b2CircleShape16GetSupportVertexERK6b2Vec2","_emscripten_bind_b2CircleShape__get_m_p_p0","_emscripten_bind_b2World__IsLocked_p0","_emscripten_bind_b2World__GetContactList_p0","_emscripten_bind_b2World__SetDebugDraw_p1","_emscripten_bind_b2World____destroy___p0","_emscripten_bind_b2World__Dump_p0","_emscripten_bind_b2World__SetAutoClearForces_p1","_emscripten_bind_b2World__GetGravity_p0","__ZNK7b2World10GetGravityEv","_emscripten_bind_b2World__GetContactCount_p0","_emscripten_bind_b2World__SetWarmStarting_p1","_emscripten_bind_b2World__SetContactFilter_p1","_emscripten_bind_b2PrismaticJoint__GetBodyA_p0","_emscripten_bind_b2PrismaticJoint__GetBodyB_p0","_emscripten_bind_b2PrismaticJoint__GetUserData_p0","_emscripten_bind_b2PrismaticJoint__GetLocalAxisA_p0","_emscripten_bind_b2PrismaticJoint__GetLowerLimit_p0","_emscripten_bind_b2PrismaticJoint__GetAnchorA_p0","_emscripten_bind_b2PrismaticJoint__GetNext_p0","_emscripten_bind_b2PrismaticJoint__b2PrismaticJoint_p1","_emscripten_bind_b2PrismaticJoint__GetLocalAnchorA_p0","_emscripten_bind_b2PrismaticJoint__SetMotorSpeed_p1","_emscripten_bind_b2PrismaticJoint__GetLocalAnchorB_p0","_emscripten_bind_b2PrismaticJoint__GetMotorSpeed_p0","_emscripten_bind_b2PrismaticJoint__SetMaxMotorForce_p1","_emscripten_bind_b2PrismaticJoint__EnableLimit_p1","_emscripten_bind_b2PrismaticJoint__IsMotorEnabled_p0","_emscripten_bind_b2PrismaticJoint__SetUserData_p1","_emscripten_bind_b2PrismaticJoint__GetReactionForce_p1","_emscripten_bind_b2PrismaticJoint__GetMaxMotorForce_p0","_emscripten_bind_b2PrismaticJoint__GetCollideConnected_p0","_emscripten_bind_b2PrismaticJoint__GetJointSpeed_p0","_emscripten_bind_b2PrismaticJoint__EnableMotor_p1","_emscripten_bind_b2PrismaticJoint____destroy___p0","_emscripten_bind_b2PrismaticJoint__GetReferenceAngle_p0","_emscripten_bind_b2PrismaticJoint__Dump_p0","_emscripten_bind_b2PrismaticJoint__GetMotorForce_p1","_emscripten_bind_b2PrismaticJoint__GetJointTranslation_p0","_emscripten_bind_b2PrismaticJoint__GetType_p0","_emscripten_bind_b2PrismaticJoint__IsLimitEnabled_p0","_emscripten_bind_b2PrismaticJoint__GetReactionTorque_p1","_emscripten_bind_b2PrismaticJoint__SetLimits_p2","_emscripten_bind_b2PrismaticJoint__GetUpperLimit_p0","_emscripten_bind_b2PrismaticJoint__IsActive_p0","_emscripten_bind_b2PrismaticJoint__GetAnchorB_p0","_emscripten_bind_b2CircleShape____destroy___p0","_emscripten_bind_b2CircleShape__GetType_p0","_emscripten_bind_b2CircleShape__ComputeMass_p2","_emscripten_bind_b2CircleShape__GetVertex_p1","_emscripten_bind_b2CircleShape__Clone_p1","_emscripten_bind_b2CircleShape__GetSupportVertex_p1","_emscripten_bind_b2CircleShape__RayCast_p4","_emscripten_bind_b2CircleShape__ComputeAABB_p3","_emscripten_bind_b2CircleShape__GetVertexCount_p0","_emscripten_bind_b2CircleShape__GetChildCount_p0","_emscripten_bind_b2CircleShape__TestPoint_p2","_emscripten_bind_b2CircleShape__b2CircleShape_p0","_emscripten_bind_b2CircleShape__GetSupport_p1","_emscripten_bind_b2CircleShape__set_m_p_p1","_emscripten_bind_b2WheelJoint__GetBodyA_p0","__ZNK12b2WheelJoint13GetLocalAxisAEv","__ZN12b2WheelJoint21SetSpringDampingRatioEf","__ZNK12b2WheelJoint20GetSpringFrequencyHzEv","__ZNK12b2WheelJoint15GetLocalAnchorAEv","__ZNK12b2WheelJoint15GetLocalAnchorBEv","__ZNK12b2WheelJoint13GetMotorSpeedEv","__ZNK12b2WheelJoint21GetSpringDampingRatioEv","__ZNK12b2WheelJoint17GetMaxMotorTorqueEv","__ZN12b2WheelJoint20SetSpringFrequencyHzEf","__ZN11b2GearJoint9GetJoint1Ev","_emscripten_bind_b2WheelJoint__GetBodyB_p0","_emscripten_bind_b2WheelJoint__GetUserData_p0","_emscripten_bind_b2WheelJoint__GetDefinition_p1","_emscripten_bind_b2WheelJoint__GetLocalAxisA_p0","_emscripten_bind_b2WheelJoint__SetSpringDampingRatio_p1","_emscripten_bind_b2WheelJoint__GetAnchorB_p0","_emscripten_bind_b2WheelJoint__GetAnchorA_p0","_emscripten_bind_b2WheelJoint__GetNext_p0","_emscripten_bind_b2WheelJoint__GetSpringFrequencyHz_p0","_emscripten_bind_b2WheelJoint__GetLocalAnchorA_p0","_emscripten_bind_b2WheelJoint__SetMotorSpeed_p1","_emscripten_bind_b2WheelJoint__GetLocalAnchorB_p0","_emscripten_bind_b2WheelJoint__GetMotorSpeed_p0","_emscripten_bind_b2WheelJoint__GetMotorTorque_p1","_emscripten_bind_b2WheelJoint__b2WheelJoint_p1","_emscripten_bind_b2WheelJoint__IsMotorEnabled_p0","_emscripten_bind_b2WheelJoint__GetJointTranslation_p0","_emscripten_bind_b2WheelJoint__SetUserData_p1","_emscripten_bind_b2WheelJoint__GetReactionForce_p1","_emscripten_bind_b2WheelJoint__GetSpringDampingRatio_p0","_emscripten_bind_b2WheelJoint__SetMaxMotorTorque_p1","_emscripten_bind_b2WheelJoint__GetCollideConnected_p0","_emscripten_bind_b2WheelJoint__GetJointSpeed_p0","_emscripten_bind_b2WheelJoint__EnableMotor_p1","_emscripten_bind_b2WheelJoint____destroy___p0","_emscripten_bind_b2WheelJoint__Dump_p0","_emscripten_bind_b2WheelJoint__GetMaxMotorTorque_p0","_emscripten_bind_b2WheelJoint__GetType_p0","_emscripten_bind_b2WheelJoint__GetReactionTorque_p1","_emscripten_bind_b2WheelJoint__SetSpringFrequencyHz_p1","_emscripten_bind_b2WheelJoint__IsActive_p0","_emscripten_bind_b2Draw____destroy___p0","_emscripten_bind_b2Draw__AppendFlags_p1","_emscripten_bind_b2Draw__DrawTransform_p1","_emscripten_bind_b2Draw__ClearFlags_p1","_emscripten_bind_b2Draw__DrawPolygon_p3","_emscripten_bind_b2Draw__DrawSolidCircle_p4","_emscripten_bind_b2Draw__DrawSolidPolygon_p3","_emscripten_bind_b2Draw__DrawCircle_p3","_emscripten_bind_b2Draw__SetFlags_p1","_emscripten_bind_b2Draw__DrawSegment_p3","_emscripten_bind_b2Draw__b2Draw_p0","_emscripten_bind_b2Draw__GetFlags_p0","_emscripten_bind_b2Joint__GetNext_p0","_emscripten_bind_b2Joint__GetBodyA_p0","_emscripten_bind_b2Joint__GetBodyB_p0","_emscripten_bind_b2Joint__GetReactionTorque_p1","_emscripten_bind_b2Joint__GetAnchorA_p0","_emscripten_bind_b2Joint__GetUserData_p0","_emscripten_bind_b2Joint__GetType_p0","_emscripten_bind_b2Joint__SetUserData_p1","_emscripten_bind_b2Joint__GetCollideConnected_p0","_emscripten_bind_b2Joint__Dump_p0","_emscripten_bind_b2Joint__GetAnchorB_p0","_emscripten_bind_b2Joint__GetReactionForce_p1","_emscripten_bind_b2Joint__IsActive_p0","_emscripten_bind_b2GearJoint__GetJoint1_p0","_emscripten_bind_b2GearJoint__b2GearJoint_p1","__ZN11b2GearJoint9GetJoint2Ev","__ZN11b2WeldJoint12SetFrequencyEf","__ZNK11b2WeldJoint15GetLocalAnchorAEv","__ZNK11b2WeldJoint15GetLocalAnchorBEv","__ZNK11b2WeldJoint12GetFrequencyEv","__ZNK11b2WeldJoint15GetDampingRatioEv","__ZNK11b2WeldJoint17GetReferenceAngleEv","__ZN11b2WeldJoint15SetDampingRatioEf","_emscripten_bind_b2GearJoint__GetAnchorA_p0","_emscripten_bind_b2GearJoint__GetJoint2_p0","_emscripten_bind_b2GearJoint__GetReactionTorque_p1","_emscripten_bind_b2GearJoint__Dump_p0","_emscripten_bind_b2GearJoint____destroy___p0","_emscripten_bind_b2GearJoint__SetRatio_p1","_emscripten_bind_b2GearJoint__GetType_p0","_emscripten_bind_b2GearJoint__GetUserData_p0","_emscripten_bind_b2GearJoint__GetBodyB_p0","_emscripten_bind_b2GearJoint__GetCollideConnected_p0","_emscripten_bind_b2GearJoint__SetUserData_p1","_emscripten_bind_b2GearJoint__GetAnchorB_p0","_emscripten_bind_b2GearJoint__GetReactionForce_p1","_emscripten_bind_b2GearJoint__GetBodyA_p0","_emscripten_bind_b2GearJoint__GetNext_p0","_emscripten_bind_b2GearJoint__IsActive_p0","_emscripten_bind_b2GearJoint__GetRatio_p0","_emscripten_bind_b2RayCastCallback__ReportFixture_p4","_emscripten_bind_b2RayCastCallback__b2RayCastCallback_p0","__ZN17b2RayCastCallbackC1Ev","_emscripten_bind_b2RayCastCallback____destroy___p0","_emscripten_bind_b2DynamicTree____destroy___p0","_emscripten_bind_b2DynamicTree__b2DynamicTree_p0","_emscripten_bind_b2DynamicTree__GetFatAABB_p1","_emscripten_bind_b2DynamicTree__GetUserData_p1","_emscripten_bind_b2DynamicTree__GetMaxBalance_p0","_emscripten_bind_b2DynamicTree__GetHeight_p0","_emscripten_bind_b2DynamicTree__GetAreaRatio_p0","_emscripten_bind_b2DynamicTree__RebuildBottomUp_p0","_emscripten_bind_b2DynamicTree__CreateProxy_p2","_emscripten_bind_b2DynamicTree__MoveProxy_p3","_emscripten_bind_b2DynamicTree__Validate_p0","_emscripten_bind_b2DynamicTree__DestroyProxy_p1","_emscripten_bind_b2WeldJoint__GetBodyA_p0","_emscripten_bind_b2WeldJoint__GetBodyB_p0","_emscripten_bind_b2WeldJoint__SetFrequency_p1","_emscripten_bind_b2WeldJoint__GetUserData_p0","_emscripten_bind_b2WeldJoint__SetUserData_p1","_emscripten_bind_b2WeldJoint__GetAnchorB_p0","_emscripten_bind_b2WeldJoint__GetAnchorA_p0","_emscripten_bind_b2WeldJoint__GetNext_p0","_emscripten_bind_b2WeldJoint__GetLocalAnchorA_p0","_emscripten_bind_b2WeldJoint__GetLocalAnchorB_p0","_emscripten_bind_b2WeldJoint__GetFrequency_p0","_emscripten_bind_b2WeldJoint__b2WeldJoint_p1","_emscripten_bind_b2WeldJoint__GetReactionForce_p1","_emscripten_bind_b2WeldJoint__GetDampingRatio_p0","_emscripten_bind_b2WeldJoint__GetCollideConnected_p0","_emscripten_bind_b2WeldJoint____destroy___p0","_emscripten_bind_b2WeldJoint__GetReferenceAngle_p0","_emscripten_bind_b2WeldJoint__Dump_p0","_emscripten_bind_b2WeldJoint__GetType_p0","_emscripten_bind_b2WeldJoint__SetDampingRatio_p1","_emscripten_bind_b2WeldJoint__GetReactionTorque_p1","_emscripten_bind_b2WeldJoint__IsActive_p0","_emscripten_bind_b2RevoluteJoint__GetBodyA_p0","_emscripten_bind_b2RevoluteJoint__GetBodyB_p0","_emscripten_bind_b2RevoluteJoint__GetUserData_p0","_emscripten_bind_b2RevoluteJoint__GetLowerLimit_p0","__ZNK15b2RevoluteJoint15GetLocalAnchorAEv","__ZNK15b2RevoluteJoint15GetLocalAnchorBEv","__ZNK15b2RevoluteJoint13GetMotorSpeedEv","__ZNK15b2RevoluteJoint17GetReferenceAngleEv","__ZNK15b2RevoluteJoint17GetMaxMotorTorqueEv","_emscripten_bind_b2ChainShape__set_m_radius_p1","_emscripten_bind_b2ChainShape__get_m_radius_p0","_emscripten_bind_b2ChainShape__get_m_vertices_p0","_emscripten_bind_b2ChainShape__get_m_count_p0","_emscripten_bind_b2ChainShape__set_m_vertices_p1","_emscripten_bind_b2ChainShape__set_m_count_p1","_emscripten_bind_b2RevoluteJoint__GetAnchorA_p0","_emscripten_bind_b2RevoluteJoint__b2RevoluteJoint_p1","_emscripten_bind_b2RevoluteJoint__GetNext_p0","_emscripten_bind_b2RevoluteJoint__GetLocalAnchorA_p0","_emscripten_bind_b2RevoluteJoint__SetMotorSpeed_p1","_emscripten_bind_b2RevoluteJoint__GetLocalAnchorB_p0","_emscripten_bind_b2RevoluteJoint__GetJointAngle_p0","_emscripten_bind_b2RevoluteJoint__GetMotorSpeed_p0","_emscripten_bind_b2RevoluteJoint__GetMotorTorque_p1","_emscripten_bind_b2RevoluteJoint__IsLimitEnabled_p0","_emscripten_bind_b2RevoluteJoint__EnableLimit_p1","_emscripten_bind_b2RevoluteJoint__IsMotorEnabled_p0","_emscripten_bind_b2RevoluteJoint__SetUserData_p1","_emscripten_bind_b2RevoluteJoint__GetReactionForce_p1","_emscripten_bind_b2RevoluteJoint__SetMaxMotorTorque_p1","_emscripten_bind_b2RevoluteJoint__GetCollideConnected_p0","_emscripten_bind_b2RevoluteJoint__GetJointSpeed_p0","_emscripten_bind_b2RevoluteJoint__EnableMotor_p1","_emscripten_bind_b2RevoluteJoint____destroy___p0","_emscripten_bind_b2RevoluteJoint__GetReferenceAngle_p0","_emscripten_bind_b2RevoluteJoint__Dump_p0","_emscripten_bind_b2RevoluteJoint__SetLimits_p2","_emscripten_bind_b2RevoluteJoint__GetMaxMotorTorque_p0","_emscripten_bind_b2RevoluteJoint__GetType_p0","_emscripten_bind_b2RevoluteJoint__GetReactionTorque_p1","_emscripten_bind_b2RevoluteJoint__GetUpperLimit_p0","_emscripten_bind_b2RevoluteJoint__IsActive_p0","_emscripten_bind_b2RevoluteJoint__GetAnchorB_p0","_emscripten_bind_b2Timer__b2Timer_p0","_emscripten_bind_b2Timer__Reset_p0","_emscripten_bind_b2Timer____destroy___p0","_emscripten_bind_b2Timer__GetMilliseconds_p0","_emscripten_bind_b2ContactListener____destroy___p0","_emscripten_bind_b2ContactListener__b2ContactListener_p0","_emscripten_bind_b2ContactListener__EndContact_p1","_emscripten_bind_b2ContactListener__BeginContact_p1","_emscripten_bind_b2ContactListener__PreSolve_p2","_emscripten_bind_b2ContactListener__PostSolve_p2","_emscripten_bind_b2ChainShape____destroy___p0","_emscripten_bind_b2ChainShape__GetType_p0","_emscripten_bind_b2ChainShape__CreateChain_p2","_emscripten_bind_b2ChainShape__ComputeMass_p2","_emscripten_bind_b2ChainShape__Clone_p1","_emscripten_bind_b2ChainShape__GetChildEdge_p2","_emscripten_bind_b2ChainShape__b2ChainShape_p0","_emscripten_bind_b2ChainShape__ComputeAABB_p3","_emscripten_bind_b2ChainShape__RayCast_p4","_emscripten_bind_b2ChainShape__GetChildCount_p0","_emscripten_bind_b2ChainShape__TestPoint_p2","_emscripten_bind_b2ChainShape__SetPrevVertex_p1","_emscripten_bind_b2ChainShape__CreateLoop_p2","_emscripten_bind_b2ChainShape__SetNextVertex_p1","_emscripten_bind_b2QueryCallback__ReportFixture_p1","_emscripten_bind_b2QueryCallback____destroy___p0","_emscripten_bind_b2QueryCallback__b2QueryCallback_p0","__ZN15b2QueryCallbackC1Ev","_emscripten_bind_b2BlockAllocator____destroy___p0","_emscripten_bind_b2BlockAllocator__Clear_p0","__ZNK11b2RopeJoint15GetLocalAnchorAEv","__ZN11b2RopeJoint12SetMaxLengthEf","__ZNK11b2RopeJoint15GetLocalAnchorBEv","_emscripten_bind_b2PolygonShape__set_m_radius_p1","_emscripten_bind_b2PolygonShape__get_m_radius_p0","__ZNK14b2PolygonShape9GetVertexEi","_emscripten_bind_b2PolygonShape__set_m_vertexCount_p1","__ZNK14b2PolygonShape14GetVertexCountEv","_emscripten_bind_b2PolygonShape__get_m_vertexCount_p0","_emscripten_bind_b2PolygonShape__get_m_centroid_p0","_emscripten_bind_b2EdgeShape__set_m_radius_p1","_emscripten_bind_b2EdgeShape__get_m_radius_p0","__ZNK9b2Contact14GetRestitutionEv","_emscripten_bind_b2BlockAllocator__Free_p2","_emscripten_bind_b2BlockAllocator__Allocate_p1","_emscripten_bind_b2BlockAllocator__b2BlockAllocator_p0","_emscripten_bind_b2RopeJoint__GetNext_p0","_emscripten_bind_b2RopeJoint____destroy___p0","_emscripten_bind_b2RopeJoint__GetAnchorA_p0","_emscripten_bind_b2RopeJoint__GetReactionTorque_p1","_emscripten_bind_b2RopeJoint__GetMaxLength_p0","_emscripten_bind_b2RopeJoint__GetBodyA_p0","_emscripten_bind_b2RopeJoint__GetCollideConnected_p0","_emscripten_bind_b2RopeJoint__GetUserData_p0","_emscripten_bind_b2RopeJoint__GetType_p0","_emscripten_bind_b2RopeJoint__GetBodyB_p0","_emscripten_bind_b2RopeJoint__GetLocalAnchorA_p0","_emscripten_bind_b2RopeJoint__Dump_p0","_emscripten_bind_b2RopeJoint__SetMaxLength_p1","_emscripten_bind_b2RopeJoint__GetLocalAnchorB_p0","_emscripten_bind_b2RopeJoint__SetUserData_p1","_emscripten_bind_b2RopeJoint__GetAnchorB_p0","_emscripten_bind_b2RopeJoint__GetReactionForce_p1","_emscripten_bind_b2RopeJoint__b2RopeJoint_p1","_emscripten_bind_b2RopeJoint__GetLimitState_p0","_emscripten_bind_b2RopeJoint__IsActive_p0","_emscripten_bind_b2PolygonShape____destroy___p0","_emscripten_bind_b2PolygonShape__Set_p2","_emscripten_bind_b2PolygonShape__ComputeMass_p2","_emscripten_bind_b2PolygonShape__Clone_p1","_emscripten_bind_b2PolygonShape__GetVertex_p1","_emscripten_bind_b2PolygonShape__RayCast_p4","_emscripten_bind_b2PolygonShape__SetAsBox_p2","_emscripten_bind_b2PolygonShape__SetAsBox_p4","_emscripten_bind_b2PolygonShape__set_m_centroid_p1","_emscripten_bind_b2PolygonShape__ComputeAABB_p3","_emscripten_bind_b2PolygonShape__GetVertexCount_p0","_emscripten_bind_b2PolygonShape__GetChildCount_p0","_emscripten_bind_b2PolygonShape__TestPoint_p2","_emscripten_bind_b2PolygonShape__GetType_p0","_emscripten_bind_b2PolygonShape__b2PolygonShape_p0","_emscripten_bind_b2EdgeShape____destroy___p0","_emscripten_bind_b2EdgeShape__Set_p2","_emscripten_bind_b2EdgeShape__ComputeMass_p2","_emscripten_bind_b2EdgeShape__Clone_p1","_emscripten_bind_b2EdgeShape__GetType_p0","_emscripten_bind_b2EdgeShape__RayCast_p4","_emscripten_bind_b2EdgeShape__ComputeAABB_p3","_emscripten_bind_b2EdgeShape__GetChildCount_p0","_emscripten_bind_b2EdgeShape__TestPoint_p2","_emscripten_bind_b2EdgeShape__b2EdgeShape_p0","_emscripten_bind_b2Contact__GetNext_p0","_emscripten_bind_b2Contact__SetEnabled_p1","_emscripten_bind_b2Contact__GetWorldManifold_p1","__ZNK9b2Contact16GetWorldManifoldEP15b2WorldManifold","_emscripten_bind_b2Contact__GetRestitution_p0","_emscripten_bind_b2Contact__ResetFriction_p0","__ZNK9b2Contact11GetFrictionEv","__ZN9b2Contact11SetFrictionEf","__ZN9b2Contact14SetRestitutionEf","_emscripten_bind_b2Shape__get_m_radius_p0","_emscripten_bind_b2Shape__set_m_radius_p1","__ZNK6b2Body11GetUserDataEv","__ZNK6b2Body17IsSleepingAllowedEv","__ZN6b2Body17SetAngularDampingEf","__ZN6b2Body15SetGravityScaleEf","__ZN6b2Body11SetUserDataEPv","__ZNK6b2Body18GetAngularVelocityEv","__ZN6b2Body12GetJointListEv","__ZN9b2Contact13ResetFrictionEv","_emscripten_bind_b2Contact__GetFriction_p0","_emscripten_bind_b2Contact__IsTouching_p0","_emscripten_bind_b2Contact__IsEnabled_p0","_emscripten_bind_b2Contact__GetFixtureB_p0","_emscripten_bind_b2Contact__SetFriction_p1","_emscripten_bind_b2Contact__GetFixtureA_p0","_emscripten_bind_b2Contact__GetChildIndexA_p0","_emscripten_bind_b2Contact__GetChildIndexB_p0","_emscripten_bind_b2Contact__Evaluate_p3","_emscripten_bind_b2Contact__SetRestitution_p1","_emscripten_bind_b2Contact__GetManifold_p0","_emscripten_bind_b2Contact__ResetRestitution_p0","__ZN9b2Contact16ResetRestitutionEv","_emscripten_bind_b2Shape__ComputeMass_p2","_emscripten_bind_b2Shape__Clone_p1","_emscripten_bind_b2Shape__GetType_p0","_emscripten_bind_b2Shape__RayCast_p4","_emscripten_bind_b2Shape__ComputeAABB_p3","_emscripten_bind_b2Shape__GetChildCount_p0","_emscripten_bind_b2Shape__TestPoint_p2","_emscripten_bind_b2Body__GetAngle_p0","_emscripten_bind_b2Body__GetUserData_p0","_emscripten_bind_b2Body__IsSleepingAllowed_p0","_emscripten_bind_b2Body__SetAngularDamping_p1","_emscripten_bind_b2Body__SetActive_p1","_emscripten_bind_b2Body__SetGravityScale_p1","_emscripten_bind_b2Body__SetUserData_p1","_emscripten_bind_b2Body__GetAngularVelocity_p0","_emscripten_bind_b2Body__GetFixtureList_p0","_emscripten_bind_b2Body__ApplyForce_p2","__ZN6b2Body10ApplyForceERK6b2Vec2S2_","_emscripten_bind_b2Body__GetLocalPoint_p1","_emscripten_bind_b2Body__SetLinearVelocity_p1","__ZN6b2Body17SetLinearVelocityERK6b2Vec2","_emscripten_bind_b2Body__GetJointList_p0","_emscripten_bind_b2Body__GetLinearVelocity_p0","__ZNK6b2Body17GetLinearVelocityEv","_emscripten_bind_b2Body__GetNext_p0","_emscripten_bind_b2Body__SetSleepingAllowed_p1","__ZN6b2Body18SetSleepingAllowedEb","_emscripten_bind_b2Body__SetTransform_p2","_emscripten_bind_b2Body__GetMass_p0","_emscripten_bind_b2Body__SetAngularVelocity_p1","__ZN6b2Body18SetAngularVelocityEf","_emscripten_bind_b2Body__GetMassData_p1","__ZNK6b2Body11GetMassDataEP10b2MassData","_emscripten_bind_b2Body__GetLinearVelocityFromWorldPoint_p1","__ZNK6b2Body31GetLinearVelocityFromWorldPointERK6b2Vec2","_emscripten_bind_b2Body__ResetMassData_p0","_emscripten_bind_b2Body__ApplyForceToCenter_p1","__ZN6b2Body18ApplyForceToCenterERK6b2Vec2","_emscripten_bind_b2Body__ApplyTorque_p1","__ZN6b2Body11ApplyTorqueEf","_emscripten_bind_b2Body__IsAwake_p0","_emscripten_bind_b2Body__SetType_p1","__ZNK6b2Body17GetAngularDampingEv","__ZNK6b2Body15IsFixedRotationEv","__ZNK6b2Body14GetLocalCenterEv","__ZNK6b2Body16GetLinearDampingEv","__ZN6b2Body16SetLinearDampingEf","__ZN6b2Body9SetBulletEb","__ZNK6b2Body15GetGravityScaleEv","__ZNK6b2Body11GetPositionEv","__ZNK15b2FrictionJoint15GetLocalAnchorAEv","__ZNK15b2FrictionJoint15GetLocalAnchorBEv","_emscripten_bind_b2Body__CreateFixture_p1","_emscripten_bind_b2Body__CreateFixture_p2","_emscripten_bind_b2Body__SetMassData_p1","_emscripten_bind_b2Body__GetTransform_p0","_emscripten_bind_b2Body__GetWorldCenter_p0","_emscripten_bind_b2Body__GetAngularDamping_p0","_emscripten_bind_b2Body__ApplyLinearImpulse_p2","__ZN6b2Body18ApplyLinearImpulseERK6b2Vec2S2_","_emscripten_bind_b2Body__IsFixedRotation_p0","_emscripten_bind_b2Body__GetLocalCenter_p0","_emscripten_bind_b2Body__GetWorldVector_p1","_emscripten_bind_b2Body__GetLinearVelocityFromLocalPoint_p1","__ZNK6b2Body31GetLinearVelocityFromLocalPointERK6b2Vec2","_emscripten_bind_b2Body__GetContactList_p0","_emscripten_bind_b2Body__GetWorldPoint_p1","_emscripten_bind_b2Body__SetAwake_p1","_emscripten_bind_b2Body__GetLinearDamping_p0","_emscripten_bind_b2Body__IsBullet_p0","_emscripten_bind_b2Body__GetWorld_p0","_emscripten_bind_b2Body__GetLocalVector_p1","_emscripten_bind_b2Body__SetLinearDamping_p1","_emscripten_bind_b2Body__Dump_p0","_emscripten_bind_b2Body__SetBullet_p1","_emscripten_bind_b2Body__GetType_p0","_emscripten_bind_b2Body__GetGravityScale_p0","_emscripten_bind_b2Body__DestroyFixture_p1","_emscripten_bind_b2Body__GetInertia_p0","__ZNK6b2Body10GetInertiaEv","_emscripten_bind_b2Body__IsActive_p0","_emscripten_bind_b2Body__SetFixedRotation_p1","__ZN6b2Body16SetFixedRotationEb","_emscripten_bind_b2Body__ApplyAngularImpulse_p1","__ZN6b2Body19ApplyAngularImpulseEf","_emscripten_bind_b2Body__GetPosition_p0","_emscripten_bind_b2FrictionJoint__SetMaxTorque_p1","_emscripten_bind_b2FrictionJoint__GetMaxForce_p0","_emscripten_bind_b2FrictionJoint__GetAnchorA_p0","_emscripten_bind_b2FrictionJoint__GetReactionTorque_p1","_emscripten_bind_b2FrictionJoint__Dump_p0","_emscripten_bind_b2FrictionJoint____destroy___p0","_emscripten_bind_b2FrictionJoint__GetCollideConnected_p0","_emscripten_bind_b2FrictionJoint__GetUserData_p0","_emscripten_bind_b2FrictionJoint__GetType_p0","_emscripten_bind_b2FrictionJoint__SetMaxForce_p1","_emscripten_bind_b2FrictionJoint__GetBodyB_p0","_emscripten_bind_b2FrictionJoint__GetLocalAnchorA_p0","_emscripten_bind_b2FrictionJoint__b2FrictionJoint_p1","_emscripten_bind_b2FrictionJoint__GetLocalAnchorB_p0","_emscripten_bind_b2FrictionJoint__SetUserData_p1","_emscripten_bind_b2FrictionJoint__GetAnchorB_p0","_emscripten_bind_b2FrictionJoint__GetReactionForce_p1","_emscripten_bind_b2FrictionJoint__GetBodyA_p0","_emscripten_bind_b2Filter__set_maskBits_p1","_emscripten_bind_b2Filter__set_categoryBits_p1","_emscripten_bind_b2Filter__get_groupIndex_p0","_emscripten_bind_b2Filter__set_groupIndex_p1","_emscripten_bind_b2Filter__get_maskBits_p0","_emscripten_bind_b2Filter__get_categoryBits_p0","__ZN18b2FrictionJointDef9get_bodyAEP6b2Body","__ZN18b2FrictionJointDef9get_bodyBEP6b2Body","__ZN18b2FrictionJointDef9set_bodyAEP6b2Body","__ZN18b2FrictionJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2FrictionJointDef__get_maxForce_p0","_emscripten_bind_b2FrictionJointDef__get_localAnchorA_p0","_emscripten_bind_b2FrictionJointDef__set_maxForce_p1","_emscripten_bind_b2FrictionJointDef__get_localAnchorB_p0","__ZN18b2FrictionJointDef20get_collideConnectedEb","_emscripten_bind_b2FrictionJointDef__set_maxTorque_p1","__ZN18b2FrictionJointDef20set_collideConnectedEb","_emscripten_bind_b2FrictionJointDef__get_maxTorque_p0","_emscripten_bind_b2BodyDef__get_linearDamping_p0","_emscripten_bind_b2BodyDef__get_awake_p0","_emscripten_bind_b2BodyDef__get_type_p0","_emscripten_bind_b2BodyDef__get_allowSleep_p0","_emscripten_bind_b2BodyDef__get_bullet_p0","_emscripten_bind_b2BodyDef__get_userData_p0","_emscripten_bind_b2BodyDef__set_angularDamping_p1","_emscripten_bind_b2BodyDef__set_fixedRotation_p1","_emscripten_bind_b2BodyDef__set_allowSleep_p1","_emscripten_bind_b2BodyDef__get_gravityScale_p0","_emscripten_bind_b2BodyDef__set_angularVelocity_p1","_emscripten_bind_b2BodyDef__set_userData_p1","_emscripten_bind_b2BodyDef__get_position_p0","_emscripten_bind_b2BodyDef__set_type_p1","_emscripten_bind_b2BodyDef__set_gravityScale_p1","_emscripten_bind_b2BodyDef__get_angularDamping_p0","_emscripten_bind_b2BodyDef__set_bullet_p1","_emscripten_bind_b2BodyDef__set_active_p1","_emscripten_bind_b2BodyDef__set_angle_p1","_emscripten_bind_b2BodyDef__get_angle_p0","_emscripten_bind_b2BodyDef__get_angularVelocity_p0","_emscripten_bind_b2BodyDef__get_linearVelocity_p0","_emscripten_bind_b2BodyDef__get_active_p0","_emscripten_bind_b2BodyDef__set_linearDamping_p1","_emscripten_bind_b2BodyDef__get_fixedRotation_p0","_emscripten_bind_b2BodyDef__set_awake_p1","_emscripten_bind_b2Vec2__set_x_p1","_emscripten_bind_b2FrictionJoint__GetNext_p0","_emscripten_bind_b2FrictionJoint__GetMaxTorque_p0","_emscripten_bind_b2FrictionJoint__IsActive_p0","_emscripten_bind_b2StackAllocator__GetMaxAllocation_p0","_emscripten_bind_b2StackAllocator____destroy___p0","_emscripten_bind_b2StackAllocator__b2StackAllocator_p0","_emscripten_bind_b2StackAllocator__Allocate_p1","_emscripten_bind_b2StackAllocator__Free_p1","_emscripten_bind_b2DestructionListener____destroy___p0","_emscripten_bind_b2DestructionListener__SayGoodbye_p1","_emscripten_bind_b2DestructionListener__b2DestructionListener_p0","__ZN21b2DestructionListenerC1Ev","_emscripten_bind_b2Filter____destroy___p0","_emscripten_bind_b2Filter__b2Filter_p0","_emscripten_bind_b2FrictionJointDef__set_localAnchorA_p1","_emscripten_bind_b2FrictionJointDef__get_bodyA_p1","_emscripten_bind_b2FrictionJointDef__get_bodyB_p1","_emscripten_bind_b2FrictionJointDef__set_localAnchorB_p1","_emscripten_bind_b2FrictionJointDef__set_bodyA_p1","_emscripten_bind_b2FrictionJointDef__set_bodyB_p1","_emscripten_bind_b2FrictionJointDef____destroy___p0","_emscripten_bind_b2FrictionJointDef__b2FrictionJointDef_p0","__ZN18b2FrictionJointDefC1Ev","_emscripten_bind_b2FrictionJointDef__get_collideConnected_p1","_emscripten_bind_b2FrictionJointDef__set_collideConnected_p1","_emscripten_bind_b2FrictionJointDef__Initialize_p3","_emscripten_bind_b2BodyDef__set_position_p1","_emscripten_bind_b2BodyDef__set_linearVelocity_p1","_emscripten_bind_b2BodyDef__b2BodyDef_p0","__ZN9b2BodyDefC1Ev","_emscripten_bind_b2BodyDef____destroy___p0","_emscripten_bind_b2Vec2__Normalize_p0","_emscripten_bind_b2Vec2__b2Vec2_p0","_emscripten_bind_b2Vec2__b2Vec2_p2","_emscripten_bind_b2Vec2__Set_p2","_emscripten_bind_b2Vec2__get_x_p0","_emscripten_bind_b2Vec2__get_y_p0","_emscripten_bind_b2Vec2__set_y_p1","_emscripten_bind_b2Vec3__set_z_p1","_emscripten_bind_b2Vec3__get_z_p0","_emscripten_bind_b2DistanceProxy__get_m_radius_p0","_emscripten_bind_b2DistanceProxy__set_m_radius_p1","_emscripten_bind_b2DistanceProxy__get_m_vertices_p0","_emscripten_bind_b2DistanceProxy__get_m_count_p0","__ZNK15b2DistanceProxy14GetVertexCountEv","_emscripten_bind_b2DistanceProxy__set_m_vertices_p1","_emscripten_bind_b2DistanceProxy__set_m_count_p1","_emscripten_bind_b2FixtureDef__get_isSensor_p0","_emscripten_bind_b2FixtureDef__set_userData_p1","_emscripten_bind_b2FixtureDef__set_shape_p1","_emscripten_bind_b2FixtureDef__get_density_p0","_emscripten_bind_b2FixtureDef__get_shape_p0","_emscripten_bind_b2FixtureDef__set_density_p1","_emscripten_bind_b2FixtureDef__set_restitution_p1","_emscripten_bind_b2FixtureDef__get_restitution_p0","_emscripten_bind_b2FixtureDef__set_isSensor_p1","_emscripten_bind_b2FixtureDef__get_filter_p0","_emscripten_bind_b2FixtureDef__get_friction_p0","_emscripten_bind_b2FixtureDef__set_friction_p1","_emscripten_bind_b2FixtureDef__get_userData_p0","_emscripten_bind_b2PrismaticJointDef__get_motorSpeed_p0","_emscripten_bind_b2PrismaticJointDef__get_enableMotor_p0","_emscripten_bind_b2PrismaticJointDef__get_referenceAngle_p0","_emscripten_bind_b2PrismaticJointDef__set_enableLimit_p1","_emscripten_bind_b2PrismaticJointDef__set_motorSpeed_p1","_emscripten_bind_b2PrismaticJointDef__get_localAxisA_p0","__ZN19b2PrismaticJointDef9set_bodyAEP6b2Body","__ZN19b2PrismaticJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2PrismaticJointDef__set_lowerTranslation_p1","_emscripten_bind_b2PrismaticJointDef__get_upperTranslation_p0","_emscripten_bind_b2PrismaticJointDef__get_enableLimit_p0","_emscripten_bind_b2Vec2__IsValid_p0","_emscripten_bind_b2Vec2__Skew_p0","_emscripten_bind_b2Vec2__LengthSquared_p0","_emscripten_bind_b2Vec2__op_add_p1","_emscripten_bind_b2Vec2__SetZero_p0","_emscripten_bind_b2Vec2__Length_p0","_emscripten_bind_b2Vec2____destroy___p0","_emscripten_bind_b2Vec2__op_mul_p1","_emscripten_bind_b2Vec2__op_sub_p0","_emscripten_bind_b2Vec3____destroy___p0","_emscripten_bind_b2Vec3__Set_p3","_emscripten_bind_b2Vec3__op_add_p1","_emscripten_bind_b2Vec3__SetZero_p0","_emscripten_bind_b2Vec3__b2Vec3_p0","_emscripten_bind_b2Vec3__b2Vec3_p3","_emscripten_bind_b2Vec3__op_mul_p1","_emscripten_bind_b2Vec3__op_sub_p0","_emscripten_bind_b2DistanceProxy__Set_p2","_emscripten_bind_b2DistanceProxy__b2DistanceProxy_p0","_emscripten_bind_b2DistanceProxy____destroy___p0","_emscripten_bind_b2DistanceProxy__GetSupportVertex_p1","__ZNK15b2DistanceProxy16GetSupportVertexERK6b2Vec2","_emscripten_bind_b2DistanceProxy__GetVertexCount_p0","_emscripten_bind_b2DistanceProxy__GetVertex_p1","_emscripten_bind_b2DistanceProxy__GetSupport_p1","_emscripten_bind_b2FixtureDef____destroy___p0","_emscripten_bind_b2FixtureDef__b2FixtureDef_p0","_emscripten_bind_b2FixtureDef__set_filter_p1","_emscripten_bind_b2PrismaticJointDef__set_localAnchorA_p1","_emscripten_bind_b2PrismaticJointDef__set_localAnchorB_p1","_emscripten_bind_b2PrismaticJointDef__set_bodyA_p1","_emscripten_bind_b2PrismaticJointDef__set_bodyB_p1","_emscripten_bind_b2PrismaticJointDef__b2PrismaticJointDef_p0","__ZN19b2PrismaticJointDefC1Ev","_emscripten_bind_b2PrismaticJointDef__Initialize_p4","_emscripten_bind_b2PrismaticJointDef____destroy___p0","_emscripten_bind_b2PrismaticJointDef__set_referenceAngle_p1","_emscripten_bind_b2PrismaticJointDef__get_localAnchorA_p0","_emscripten_bind_b2PrismaticJointDef__get_localAnchorB_p0","__ZN19b2PrismaticJointDef20get_collideConnectedEb","__ZN19b2PrismaticJointDef9get_bodyAEP6b2Body","__ZN19b2PrismaticJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2PrismaticJointDef__set_upperTranslation_p1","_emscripten_bind_b2PrismaticJointDef__get_maxMotorForce_p0","_emscripten_bind_b2PrismaticJointDef__set_maxMotorForce_p1","_emscripten_bind_b2PrismaticJointDef__set_enableMotor_p1","__ZN19b2PrismaticJointDef20set_collideConnectedEb","_emscripten_bind_b2PrismaticJointDef__get_lowerTranslation_p0","_emscripten_bind_b2Rot__set_c_p1","__ZN5b2Rot11SetIdentityEv","_emscripten_bind_b2Rot__get_c_p0","_emscripten_bind_b2WheelJointDef__get_motorSpeed_p0","_emscripten_bind_b2WheelJointDef__set_maxMotorTorque_p1","_emscripten_bind_b2WheelJointDef__set_frequencyHz_p1","_emscripten_bind_b2WheelJointDef__set_motorSpeed_p1","_emscripten_bind_b2WheelJointDef__get_localAxisA_p0","__ZN15b2WheelJointDef9set_bodyAEP6b2Body","__ZN15b2WheelJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2WheelJointDef__get_frequencyHz_p0","_emscripten_bind_b2WheelJointDef__set_dampingRatio_p1","_emscripten_bind_b2WheelJointDef__get_localAnchorA_p0","_emscripten_bind_b2WheelJointDef__get_maxMotorTorque_p0","_emscripten_bind_b2WheelJointDef__get_localAnchorB_p0","__ZN15b2WheelJointDef20get_collideConnectedEb","_emscripten_bind_b2WheelJointDef__get_enableMotor_p0","_emscripten_bind_b2WheelJointDef__get_dampingRatio_p0","__ZN15b2WheelJointDef9get_bodyAEP6b2Body","__ZN15b2WheelJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2WheelJointDef__set_enableMotor_p1","__ZN15b2WheelJointDef20set_collideConnectedEb","_emscripten_bind_b2RevoluteJointDef__get_lowerAngle_p0","_emscripten_bind_b2RevoluteJointDef__set_lowerAngle_p1","_emscripten_bind_b2RevoluteJointDef__get_enableMotor_p0","_emscripten_bind_b2RevoluteJointDef__set_upperAngle_p1","_emscripten_bind_b2RevoluteJointDef__get_referenceAngle_p0","_emscripten_bind_b2RevoluteJointDef__set_enableLimit_p1","_emscripten_bind_b2RevoluteJointDef__get_motorSpeed_p0","_emscripten_bind_b2RevoluteJointDef__set_motorSpeed_p1","_emscripten_bind_b2RevoluteJointDef__get_maxMotorTorque_p0","__ZN18b2RevoluteJointDef9set_bodyAEP6b2Body","__ZN18b2RevoluteJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2PrismaticJointDef__get_collideConnected_p1","_emscripten_bind_b2PrismaticJointDef__get_bodyA_p1","_emscripten_bind_b2PrismaticJointDef__get_bodyB_p1","_emscripten_bind_b2PrismaticJointDef__set_collideConnected_p1","_emscripten_bind_b2PrismaticJointDef__set_localAxisA_p1","_emscripten_bind_b2Rot____destroy___p0","_emscripten_bind_b2Rot__Set_p1","_emscripten_bind_b2Rot__GetAngle_p0","__ZNK5b2Rot8GetAngleEv","_emscripten_bind_b2Rot__GetYAxis_p0","__ZNK5b2Rot8GetYAxisEv","_emscripten_bind_b2Rot__GetXAxis_p0","__ZNK5b2Rot8GetXAxisEv","_emscripten_bind_b2Rot__SetIdentity_p0","_emscripten_bind_b2Rot__b2Rot_p0","_emscripten_bind_b2Rot__b2Rot_p1","_emscripten_bind_b2WheelJointDef__set_localAnchorA_p1","_emscripten_bind_b2WheelJointDef__set_localAnchorB_p1","_emscripten_bind_b2WheelJointDef__set_bodyA_p1","_emscripten_bind_b2WheelJointDef__set_bodyB_p1","_emscripten_bind_b2WheelJointDef__Initialize_p4","_emscripten_bind_b2WheelJointDef__b2WheelJointDef_p0","__ZN15b2WheelJointDefC1Ev","_emscripten_bind_b2WheelJointDef____destroy___p0","_emscripten_bind_b2WheelJointDef__get_collideConnected_p1","_emscripten_bind_b2WheelJointDef__get_bodyA_p1","_emscripten_bind_b2WheelJointDef__get_bodyB_p1","_emscripten_bind_b2WheelJointDef__set_collideConnected_p1","_emscripten_bind_b2WheelJointDef__set_localAxisA_p1","_emscripten_bind_b2RevoluteJointDef__set_localAnchorA_p1","_emscripten_bind_b2RevoluteJointDef__set_localAnchorB_p1","_emscripten_bind_b2RevoluteJointDef__set_bodyA_p1","_emscripten_bind_b2RevoluteJointDef__set_bodyB_p1","_emscripten_bind_b2RevoluteJointDef__b2RevoluteJointDef_p0","_emscripten_bind_b2RevoluteJointDef__get_enableLimit_p0","_emscripten_bind_b2RevoluteJointDef__get_upperAngle_p0","_emscripten_bind_b2RevoluteJointDef__set_referenceAngle_p1","_emscripten_bind_b2RevoluteJointDef__get_localAnchorA_p0","_emscripten_bind_b2RevoluteJointDef__get_localAnchorB_p0","__ZN18b2RevoluteJointDef20get_collideConnectedEb","__ZN18b2RevoluteJointDef9get_bodyAEP6b2Body","__ZN18b2RevoluteJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2RevoluteJointDef__set_maxMotorTorque_p1","_emscripten_bind_b2RevoluteJointDef__set_enableMotor_p1","__ZN18b2RevoluteJointDef20set_collideConnectedEb","_emscripten_bind_b2PulleyJointDef__set_ratio_p1","_emscripten_bind_b2PulleyJointDef__get_groundAnchorB_p0","_emscripten_bind_b2PulleyJointDef__get_groundAnchorA_p0","__ZN16b2PulleyJointDef9set_bodyAEP6b2Body","__ZN16b2PulleyJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2PulleyJointDef__get_ratio_p0","_emscripten_bind_b2PulleyJointDef__get_localAnchorA_p0","_emscripten_bind_b2PulleyJointDef__get_localAnchorB_p0","__ZN16b2PulleyJointDef20get_collideConnectedEb","_emscripten_bind_b2PulleyJointDef__set_lengthB_p1","_emscripten_bind_b2PulleyJointDef__set_lengthA_p1","__ZN16b2PulleyJointDef9get_bodyAEP6b2Body","__ZN16b2PulleyJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2PulleyJointDef__get_lengthB_p0","_emscripten_bind_b2PulleyJointDef__get_lengthA_p0","__ZN16b2PulleyJointDef20set_collideConnectedEb","_emscripten_bind_b2JointDef__get_bodyA_p0","_emscripten_bind_b2JointDef__set_userData_p1","_emscripten_bind_b2JointDef__set_bodyA_p1","_emscripten_bind_b2JointDef__set_bodyB_p1","_emscripten_bind_b2JointDef__get_bodyB_p0","_emscripten_bind_b2JointDef__set_type_p1","_emscripten_bind_b2JointDef__get_collideConnected_p0","_emscripten_bind_b2JointDef__get_type_p0","_emscripten_bind_b2JointDef__set_collideConnected_p1","_emscripten_bind_b2JointDef__get_userData_p0","_emscripten_bind_b2Transform__get_p_p0","_emscripten_bind_b2Transform__get_q_p0","__ZN7b2Color3SetEfff","_emscripten_bind_b2Color__set_r_p1","_emscripten_bind_b2Color__get_r_p0","__ZN18b2RevoluteJointDefC1Ev","_emscripten_bind_b2RevoluteJointDef__Initialize_p3","_emscripten_bind_b2RevoluteJointDef____destroy___p0","_emscripten_bind_b2RevoluteJointDef__get_collideConnected_p1","_emscripten_bind_b2RevoluteJointDef__get_bodyA_p1","_emscripten_bind_b2RevoluteJointDef__get_bodyB_p1","_emscripten_bind_b2RevoluteJointDef__set_collideConnected_p1","_emscripten_bind_b2PulleyJointDef__set_localAnchorA_p1","_emscripten_bind_b2PulleyJointDef__set_localAnchorB_p1","_emscripten_bind_b2PulleyJointDef__set_groundAnchorB_p1","_emscripten_bind_b2PulleyJointDef__set_groundAnchorA_p1","_emscripten_bind_b2PulleyJointDef__set_bodyA_p1","_emscripten_bind_b2PulleyJointDef__set_bodyB_p1","_emscripten_bind_b2PulleyJointDef__Initialize_p7","_emscripten_bind_b2PulleyJointDef____destroy___p0","_emscripten_bind_b2PulleyJointDef__get_collideConnected_p1","_emscripten_bind_b2PulleyJointDef__get_bodyA_p1","_emscripten_bind_b2PulleyJointDef__get_bodyB_p1","_emscripten_bind_b2PulleyJointDef__set_collideConnected_p1","_emscripten_bind_b2PulleyJointDef__b2PulleyJointDef_p0","__ZN16b2PulleyJointDefC1Ev","_emscripten_bind_b2JointDef____destroy___p0","_emscripten_bind_b2JointDef__b2JointDef_p0","__ZN10b2JointDefC1Ev","_emscripten_bind_b2Transform____destroy___p0","_emscripten_bind_b2Transform__Set_p2","__ZN11b2Transform3SetERK6b2Vec2f","_emscripten_bind_b2Transform__set_p_p1","_emscripten_bind_b2Transform__set_q_p1","_emscripten_bind_b2Transform__b2Transform_p0","_emscripten_bind_b2Transform__b2Transform_p2","__ZN11b2TransformC1ERK6b2Vec2RK5b2Rot","_emscripten_bind_b2Transform__SetIdentity_p0","__ZN11b2Transform11SetIdentityEv","_emscripten_bind_b2Color____destroy___p0","_emscripten_bind_b2Color__Set_p3","_emscripten_bind_b2Color__b2Color_p0","__ZN7b2ColorC1Ev","_emscripten_bind_b2Color__set_b_p1","_emscripten_bind_b2Color__get_g_p0","_emscripten_bind_b2Color__get_b_p0","_emscripten_bind_b2Color__set_g_p1","_emscripten_bind_b2AABB__get_upperBound_p0","_emscripten_bind_b2AABB__get_lowerBound_p0","__ZN14b2WeldJointDef9get_bodyAEP6b2Body","__ZN14b2WeldJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2WeldJointDef__get_frequencyHz_p0","__ZN14b2WeldJointDef9set_bodyAEP6b2Body","__ZN14b2WeldJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2WeldJointDef__set_referenceAngle_p1","_emscripten_bind_b2WeldJointDef__get_localAnchorA_p0","_emscripten_bind_b2WeldJointDef__get_referenceAngle_p0","_emscripten_bind_b2WeldJointDef__get_localAnchorB_p0","__ZN14b2WeldJointDef20get_collideConnectedEb","_emscripten_bind_b2WeldJointDef__get_dampingRatio_p0","__ZN14b2WeldJointDef20set_collideConnectedEb","_emscripten_bind_b2WeldJointDef__set_frequencyHz_p1","_emscripten_bind_b2WeldJointDef__set_dampingRatio_p1","__ZN15b2MouseJointDef9get_bodyAEP6b2Body","__ZN15b2MouseJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2MouseJointDef__set_dampingRatio_p1","__ZN15b2MouseJointDef9set_bodyAEP6b2Body","__ZN15b2MouseJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2MouseJointDef__get_maxForce_p0","_emscripten_bind_b2MouseJointDef__set_maxForce_p1","_emscripten_bind_b2MouseJointDef__get_frequencyHz_p0","_emscripten_bind_b2MouseJointDef__get_target_p0","__ZN15b2MouseJointDef20get_collideConnectedEb","__ZN15b2MouseJointDef20set_collideConnectedEb","_emscripten_bind_b2MouseJointDef__set_frequencyHz_p1","_emscripten_bind_b2MouseJointDef__get_dampingRatio_p0","__ZN18b2DistanceJointDef9get_bodyAEP6b2Body","_emscripten_bind_b2Color__b2Color_p3","_emscripten_bind_b2AABB____destroy___p0","_emscripten_bind_b2AABB__b2AABB_p0","_emscripten_bind_b2AABB__set_upperBound_p1","_emscripten_bind_b2AABB__IsValid_p0","__ZNK6b2AABB7IsValidEv","_emscripten_bind_b2AABB__Contains_p1","_emscripten_bind_b2AABB__GetExtents_p0","_emscripten_bind_b2AABB__GetCenter_p0","_emscripten_bind_b2AABB__GetPerimeter_p0","_emscripten_bind_b2AABB__Combine_p1","__ZN6b2AABB7CombineERKS_","_emscripten_bind_b2AABB__Combine_p2","_emscripten_bind_b2AABB__RayCast_p2","_emscripten_bind_b2AABB__set_lowerBound_p1","_emscripten_bind_b2WeldJointDef__set_localAnchorA_p1","_emscripten_bind_b2WeldJointDef__get_bodyA_p1","_emscripten_bind_b2WeldJointDef__get_bodyB_p1","_emscripten_bind_b2WeldJointDef__set_localAnchorB_p1","_emscripten_bind_b2WeldJointDef__set_bodyA_p1","_emscripten_bind_b2WeldJointDef__set_bodyB_p1","_emscripten_bind_b2WeldJointDef____destroy___p0","_emscripten_bind_b2WeldJointDef__get_collideConnected_p1","_emscripten_bind_b2WeldJointDef__set_collideConnected_p1","_emscripten_bind_b2WeldJointDef__Initialize_p3","_emscripten_bind_b2WeldJointDef__b2WeldJointDef_p0","__ZN14b2WeldJointDefC1Ev","_emscripten_bind_b2MouseJointDef__get_bodyA_p1","_emscripten_bind_b2MouseJointDef__get_bodyB_p1","_emscripten_bind_b2MouseJointDef__set_bodyA_p1","_emscripten_bind_b2MouseJointDef__set_bodyB_p1","_emscripten_bind_b2MouseJointDef__b2MouseJointDef_p0","__ZN15b2MouseJointDefC1Ev","_emscripten_bind_b2MouseJointDef__set_target_p1","_emscripten_bind_b2MouseJointDef__get_collideConnected_p1","_emscripten_bind_b2MouseJointDef____destroy___p0","_emscripten_bind_b2MouseJointDef__set_collideConnected_p1","_emscripten_bind_b2DistanceJointDef__set_localAnchorA_p1","_emscripten_bind_b2DistanceJointDef__get_bodyA_p1","_emscripten_bind_b2DistanceJointDef__get_bodyB_p1","__ZN18b2DistanceJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2DistanceJointDef__set_dampingRatio_p1","__ZN18b2DistanceJointDef9set_bodyAEP6b2Body","__ZN18b2DistanceJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2DistanceJointDef__get_length_p0","_emscripten_bind_b2DistanceJointDef__get_localAnchorA_p0","_emscripten_bind_b2DistanceJointDef__get_frequencyHz_p0","_emscripten_bind_b2DistanceJointDef__get_localAnchorB_p0","__ZN18b2DistanceJointDef20get_collideConnectedEb","_emscripten_bind_b2DistanceJointDef__get_dampingRatio_p0","__ZN18b2DistanceJointDef20set_collideConnectedEb","_emscripten_bind_b2DistanceJointDef__set_length_p1","_emscripten_bind_b2DistanceJointDef__set_frequencyHz_p1","__ZN14b2GearJointDef9get_bodyAEP6b2Body","__ZN14b2GearJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2GearJointDef__get_joint1_p0","__ZN14b2GearJointDef9set_bodyAEP6b2Body","__ZN14b2GearJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2GearJointDef__set_joint2_p1","_emscripten_bind_b2GearJointDef__set_ratio_p1","__ZN14b2GearJointDef20get_collideConnectedEb","_emscripten_bind_b2GearJointDef__get_joint2_p0","__ZN14b2GearJointDef20set_collideConnectedEb","_emscripten_bind_b2GearJointDef__get_ratio_p0","_emscripten_bind_b2GearJointDef__set_joint1_p1","_emscripten_bind_b2ContactEdge__set_contact_p1","_emscripten_bind_b2ContactEdge__get_prev_p0","_emscripten_bind_b2ContactEdge__get_other_p0","_emscripten_bind_b2ContactEdge__set_prev_p1","_emscripten_bind_b2ContactEdge__get_next_p0","_emscripten_bind_b2ContactEdge__set_other_p1","_emscripten_bind_b2ContactEdge__set_next_p1","_emscripten_bind_b2ContactEdge__get_contact_p0","__ZN14b2RopeJointDef9get_bodyAEP6b2Body","__ZN14b2RopeJointDef9get_bodyBEP6b2Body","__ZN14b2RopeJointDef9set_bodyAEP6b2Body","__ZN14b2RopeJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2RopeJointDef__get_localAnchorA_p0","_emscripten_bind_b2RopeJointDef__get_maxLength_p0","_emscripten_bind_b2RopeJointDef__get_localAnchorB_p0","__ZN14b2RopeJointDef20get_collideConnectedEb","__ZN14b2RopeJointDef20set_collideConnectedEb","_emscripten_bind_b2RopeJointDef__set_maxLength_p1","__ZN10b2JointDefC2Ev","_emscripten_bind_b2DistanceJointDef__set_localAnchorB_p1","_emscripten_bind_b2DistanceJointDef__set_bodyA_p1","_emscripten_bind_b2DistanceJointDef__set_bodyB_p1","_emscripten_bind_b2DistanceJointDef__get_collideConnected_p1","_emscripten_bind_b2DistanceJointDef__b2DistanceJointDef_p0","__ZN18b2DistanceJointDefC1Ev","_emscripten_bind_b2DistanceJointDef____destroy___p0","_emscripten_bind_b2DistanceJointDef__set_collideConnected_p1","_emscripten_bind_b2DistanceJointDef__Initialize_p4","_emscripten_bind_b2GearJointDef____destroy___p0","_emscripten_bind_b2GearJointDef__get_bodyA_p1","_emscripten_bind_b2GearJointDef__get_bodyB_p1","_emscripten_bind_b2GearJointDef__set_bodyA_p1","_emscripten_bind_b2GearJointDef__set_bodyB_p1","_emscripten_bind_b2GearJointDef__get_collideConnected_p1","_emscripten_bind_b2GearJointDef__set_collideConnected_p1","_emscripten_bind_b2GearJointDef__b2GearJointDef_p0","__ZN14b2GearJointDefC1Ev","_emscripten_bind_b2ContactEdge____destroy___p0","_emscripten_bind_b2ContactEdge__b2ContactEdge_p0","_emscripten_bind_b2RopeJointDef__set_localAnchorA_p1","_emscripten_bind_b2RopeJointDef__get_bodyA_p1","_emscripten_bind_b2RopeJointDef__get_bodyB_p1","_emscripten_bind_b2RopeJointDef__set_localAnchorB_p1","_emscripten_bind_b2RopeJointDef__set_bodyA_p1","_emscripten_bind_b2RopeJointDef__set_bodyB_p1","_emscripten_bind_b2RopeJointDef____destroy___p0","_emscripten_bind_b2RopeJointDef__get_collideConnected_p1","_emscripten_bind_b2RopeJointDef__set_collideConnected_p1","_emscripten_bind_b2RopeJointDef__b2RopeJointDef_p0","__ZN14b2RopeJointDefC1Ev","__ZN14b2RopeJointDefC2Ev","__ZN14b2GearJointDefC2Ev","__ZN18b2DistanceJointDefC2Ev","__ZN15b2MouseJointDefC2Ev","__ZN14b2WeldJointDefC2Ev","__ZN7b2ColorC2Ev","__ZN21b2DestructionListener10SayGoodbyeEP7b2Joint","__ZN21b2DestructionListener10SayGoodbyeEP9b2Fixture","__ZN21b2DestructionListenerD2Ev","__ZN15b2QueryCallback13ReportFixtureEP9b2Fixture","__ZN15b2QueryCallbackD2Ev","__ZN17b2RayCastCallback13ReportFixtureEP9b2FixtureRK6b2Vec2S4_f","__ZN17b2RayCastCallbackD2Ev","__ZNSt9type_infoD2Ev","__ZNK10__cxxabiv116__shim_type_info5noop1Ev","__ZNK10__cxxabiv116__shim_type_info5noop2Ev","__ZN10__cxxabiv18is_equalEPKSt9type_infoS2_b","__ZN21b2DestructionListenerC2Ev","__ZN15b2QueryCallbackC2Ev","__ZN17b2RayCastCallbackC2Ev","__ZNK10__cxxabiv117__class_type_info24process_found_base_classEPNS_19__dynamic_cast_infoEPvi","__ZN11b2TransformC2ERK6b2Vec2RK5b2Rot","__ZN16b2PulleyJointDefC2Ev","__ZN18b2RevoluteJointDefC2Ev","__ZN15b2WheelJointDefC2Ev","__ZN19b2PrismaticJointDefC2Ev","__ZN9b2BodyDefC2Ev","__ZN18b2FrictionJointDefC2Ev","__ZN21b2DestructionListenerD1Ev","__ZN21b2DestructionListenerD0Ev","__ZN15b2QueryCallbackD1Ev","__ZN15b2QueryCallbackD0Ev","__ZN17b2RayCastCallbackD1Ev","__ZN17b2RayCastCallbackD0Ev","__ZN10__cxxabiv116__shim_type_infoD2Ev","__ZN10__cxxabiv117__class_type_infoD0Ev","__ZN10__cxxabiv120__si_class_type_infoD0Ev","__ZNK10__cxxabiv117__class_type_info9can_catchEPKNS_16__shim_type_infoERPv","__ZNK10__cxxabiv117__class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi","__ZNK10__cxxabiv120__si_class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi","___dynamic_cast","__ZNK10__cxxabiv117__class_type_info29process_static_type_above_dstEPNS_19__dynamic_cast_infoEPKvS4_i","__ZNK10__cxxabiv117__class_type_info29process_static_type_below_dstEPNS_19__dynamic_cast_infoEPKvi","__ZNK10__cxxabiv120__si_class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib","__ZNK10__cxxabiv117__class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib","__ZNK10__cxxabiv120__si_class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib","__ZNK10__cxxabiv117__class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib","_malloc","_tmalloc_small","_tmalloc_large","_sys_alloc","_free","_sys_trim","_segment_holding","_release_unused_segments","_init_mparams","_init_top","_mmap_alloc","_init_bins","_prepend_alloc","__ZNKSt9bad_alloc4whatEv","__ZSt15get_new_handlerv","__ZNSt9bad_allocC2Ev","__ZdlPv","__ZNSt9bad_allocD0Ev","__ZNSt9bad_allocD2Ev","_add_segment","__Znwj"]
+// EMSCRIPTEN_GENERATED_FUNCTIONS: ["__Z5b2MinIiET_S0_S0_","__Z5b2MaxIiET_S0_S0_","__ZN12b2BroadPhase12UnBufferMoveEi","__Z5b2DotRK6b2Vec2S1_","__ZN6b2Vec27SetZeroEv","__ZN12b2BroadPhase11CreateProxyERK6b2AABBPv","__ZN12b2BroadPhase10BufferMoveEi","__ZN12b2BroadPhase12DestroyProxyEi","__ZN12b2BroadPhase9MoveProxyEiRK6b2AABBRK6b2Vec2","__ZN12b2BroadPhase10TouchProxyEi","__ZN12b2BroadPhase13QueryCallbackEi","__Z16b2CollideCirclesP10b2ManifoldPK13b2CircleShapeRK11b2TransformS3_S6_","__Z5b2MulRK11b2TransformRK6b2Vec2","__ZmiRK6b2Vec2S1_","__Z25b2CollidePolygonAndCircleP10b2ManifoldPK14b2PolygonShapeRK11b2TransformPK13b2CircleShapeS6_","__ZN12b2BroadPhaseC2Ev","__ZN12b2BroadPhaseD2Ev","__ZN6b2Vec2C2Eff","__ZN6b2Vec23SetEff","__Z6b2MulTRK11b2TransformRK6b2Vec2","__ZmlfRK6b2Vec2","__ZplRK6b2Vec2S1_","__Z17b2DistanceSquaredRK6b2Vec2S1_","__ZN6b2Vec29NormalizeEv","__ZNK6b2Vec26LengthEv","__ZN6b2Vec2C1Eff","__Z22b2CollideEdgeAndCircleP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK13b2CircleShapeS6_","__ZN12b2EPCollider7CollideEP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS7_","__ZN6b2Vec2C2Ev","__ZN5b2RotC2Ev","__Z5b2MinIfET_S0_S0_","__Z7b2CrossRK6b2Vec2S1_","__Z6b2MulTRK11b2TransformS1_","__ZNK6b2Vec2ngEv","__Z5b2MulRK5b2RotRK6b2Vec2","__ZN12b2EPCollider21ComputeEdgeSeparationEv","__ZN12b2EPCollider24ComputePolygonSeparationEv","__ZN12b2ClipVertexC1Ev","__ZN15b2ReferenceFaceC1Ev","__Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_","__ZN12b2EPColliderC1Ev","__ZN12b2EPColliderC2Ev","__ZN13b2TempPolygonC1Ev","__ZN11b2TransformC1Ev","__ZN6b2Vec2C1Ev","__ZN11b2TransformC2Ev","__ZN5b2RotC1Ev","__ZN13b2TempPolygonC2Ev","__ZN15b2ReferenceFaceC2Ev","__ZN12b2ClipVertexC2Ev","__Z6b2MulTRK5b2RotS1_","__Z6b2MulTRK5b2RotRK6b2Vec2","__Z17b2CollidePolygonsP10b2ManifoldPK14b2PolygonShapeRK11b2TransformS3_S6_","__ZL19b2FindMaxSeparationPiPK14b2PolygonShapeRK11b2TransformS2_S5_","__ZL18b2FindIncidentEdgeP12b2ClipVertexPK14b2PolygonShapeRK11b2TransformiS3_S6_","__Z7b2CrossRK6b2Vec2f","__ZL16b2EdgeSeparationPK14b2PolygonShapeRK11b2TransformiS1_S4_","__ZN15b2WorldManifold10InitializeEPK10b2ManifoldRK11b2TransformfS5_f","__Z6b2SwapIfEvRT_S1_","__Z5b2AbsIfET_S0_","__ZN6b2Vec2clEi","__ZNK6b2Vec2clEi","__ZNK7b2Shape7GetTypeEv","__ZNK6b2AABB7RayCastEP15b2RayCastOutputRK14b2RayCastInput","__Z5b2AbsRK6b2Vec2","__Z19b2ClipSegmentToLineP12b2ClipVertexPKS_RK6b2Vec2fi","__Z13b2TestOverlapPK7b2ShapeiS1_iRK11b2TransformS4_","__ZN15b2DistanceInputC1Ev","__ZN16b2DistanceOutputC1Ev","__ZN16b2DistanceOutputC2Ev","__ZN15b2DistanceInputC2Ev","__ZN15b2DistanceProxyC1Ev","__ZN15b2DistanceProxyC2Ev","__ZN15b2DistanceProxy3SetEPK7b2Shapei","__ZN9b2Simplex6Solve2Ev","__ZN9b2Simplex6Solve3Ev","__Z10b2DistanceP16b2DistanceOutputP14b2SimplexCachePK15b2DistanceInput","__ZN9b2SimplexC1Ev","__ZN9b2Simplex9ReadCacheEPK14b2SimplexCachePK15b2DistanceProxyRK11b2TransformS5_S8_","__ZNK6b2Vec213LengthSquaredEv","__ZN6b2Vec2pLERKS_","__ZN6b2Vec2mIERKS_","__ZNK9b2Simplex15GetClosestPointEv","__ZNK9b2Simplex18GetSearchDirectionEv","__ZNK15b2DistanceProxy10GetSupportERK6b2Vec2","__ZNK15b2DistanceProxy9GetVertexEi","__ZNK9b2Simplex16GetWitnessPointsEP6b2Vec2S1_","__Z10b2DistanceRK6b2Vec2S1_","__ZNK9b2Simplex10WriteCacheEP14b2SimplexCache","__ZNK9b2Simplex9GetMetricEv","__Z7b2CrossfRK6b2Vec2","__ZN9b2SimplexC2Ev","__ZN15b2SimplexVertexC1Ev","__ZN15b2SimplexVertexC2Ev","__ZN13b2DynamicTreeC2Ev","__ZN13b2DynamicTreeD2Ev","__ZN13b2DynamicTree12AllocateNodeEv","__ZN13b2DynamicTree8FreeNodeEi","__ZN13b2DynamicTree11CreateProxyERK6b2AABBPv","__ZNK10b2TreeNode6IsLeafEv","__ZN13b2DynamicTree10InsertLeafEi","__ZN13b2DynamicTree12DestroyProxyEi","__ZN13b2DynamicTree10RemoveLeafEi","__ZN13b2DynamicTree9MoveProxyEiRK6b2AABBRK6b2Vec2","__ZNK6b2AABB8ContainsERKS_","__ZNK6b2AABB12GetPerimeterEv","__ZNK13b2DynamicTree9GetHeightEv","__ZN6b2AABBC1Ev","__ZN6b2AABB7CombineERKS_S1_","__ZN13b2DynamicTree7BalanceEi","__ZNK13b2DynamicTree12GetAreaRatioEv","__Z5b2AbsIiET_S0_","__ZeqRK6b2Vec2S1_","__ZNK13b2DynamicTree13ComputeHeightEi","__ZNK13b2DynamicTree13ComputeHeightEv","__ZNK13b2DynamicTree17ValidateStructureEi","__ZNK13b2DynamicTree15ValidateMetricsEi","__ZNK13b2DynamicTree8ValidateEv","__ZNK13b2DynamicTree13GetMaxBalanceEv","__ZN13b2DynamicTree15RebuildBottomUpEv","__Z5b2MinRK6b2Vec2S1_","__Z5b2MaxIfET_S0_S0_","__Z5b2MaxRK6b2Vec2S1_","__ZN6b2AABBC2Ev","__Z14b2TimeOfImpactP11b2TOIOutputPK10b2TOIInput","__ZN7b2Sweep9NormalizeEv","__ZNK7b2Sweep12GetTransformEP11b2Transformf","__ZN20b2SeparationFunctionC1Ev","__ZN20b2SeparationFunction10InitializeEPK14b2SimplexCachePK15b2DistanceProxyRK7b2SweepS5_S8_f","__ZN7b2ShapeD2Ev","__ZNK12b2ChainShape9TestPointERK11b2TransformRK6b2Vec2","__ZNK12b2ChainShape13GetChildCountEv","__ZNK20b2SeparationFunction17FindMinSeparationEPiS0_f","__ZNK20b2SeparationFunction8EvaluateEiif","__ZN20b2SeparationFunctionC2Ev","__ZN7b2SweepC1Ev","__ZN7b2SweepC2Ev","__ZN5b2Rot3SetEf","__ZN12b2ChainShapeD0Ev","__ZN12b2ChainShape10CreateLoopEPK6b2Vec2i","__ZN12b2ChainShape11CreateChainEPK6b2Vec2i","__ZN12b2ChainShape13SetPrevVertexERK6b2Vec2","__ZN12b2ChainShape13SetNextVertexERK6b2Vec2","__ZNK12b2ChainShape5CloneEP16b2BlockAllocator","__ZN12b2ChainShapeC1Ev","__ZNK12b2ChainShape12GetChildEdgeEP11b2EdgeShapei","__ZN11b2EdgeShapeC1Ev","__ZN11b2EdgeShapeD1Ev","__ZN12b2ChainShapeD2Ev","__ZNK12b2ChainShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK13b2CircleShape13GetChildCountEv","__ZNK11b2EdgeShape13GetChildCountEv","__ZNK11b2EdgeShape9TestPointERK11b2TransformRK6b2Vec2","__ZN7b2ShapeC2Ev","__ZN7b2ShapeaSERKS_","__ZNK12b2ChainShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK12b2ChainShape11ComputeMassEP10b2MassDataf","__ZN11b2EdgeShapeD2Ev","__ZN7b2ShapeD1Ev","__ZN7b2ShapeD0Ev","__ZNK13b2CircleShape5CloneEP16b2BlockAllocator","__ZN13b2CircleShapeC1Ev","__ZN13b2CircleShapeaSERKS_","__ZNK13b2CircleShape9TestPointERK11b2TransformRK6b2Vec2","__ZNK13b2CircleShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK13b2CircleShape11ComputeMassEP10b2MassDataf","__ZN13b2CircleShapeD1Ev","__ZN13b2CircleShapeD0Ev","__ZN13b2CircleShapeD2Ev","__ZN11b2EdgeShape3SetERK6b2Vec2S2_","__ZNK11b2EdgeShape5CloneEP16b2BlockAllocator","__ZN11b2EdgeShapeaSERKS_","__ZN11b2EdgeShapeC2Ev","__ZN12b2ChainShapeC2Ev","__ZN13b2CircleShapeC2Ev","__ZNK14b2PolygonShape13GetChildCountEv","__ZNK11b2EdgeShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK11b2EdgeShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK11b2EdgeShape11ComputeMassEP10b2MassDataf","__ZN11b2EdgeShapeD0Ev","__ZNK14b2PolygonShape5CloneEP16b2BlockAllocator","__ZN14b2PolygonShapeC1Ev","__ZN14b2PolygonShapeaSERKS_","__ZN14b2PolygonShape8SetAsBoxEff","__ZN14b2PolygonShape8SetAsBoxEffRK6b2Vec2f","__ZN14b2PolygonShape3SetEPK6b2Vec2i","__ZL15ComputeCentroidPK6b2Vec2i","__ZNK14b2PolygonShape9TestPointERK11b2TransformRK6b2Vec2","__ZN6b2Vec2mLEf","__ZNK14b2PolygonShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi","__ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK11b2Transformi","__ZNK14b2PolygonShape11ComputeMassEP10b2MassDataf","__ZN14b2PolygonShapeD1Ev","__ZN14b2PolygonShapeD0Ev","__ZN14b2PolygonShapeD2Ev","__ZN16b2BlockAllocatorC2Ev","__ZN16b2BlockAllocatorD2Ev","__ZN14b2PolygonShapeC2Ev","__ZN6b2Draw11DrawPolygonEPK6b2Vec2iRK7b2Color","__ZN6b2Draw16DrawSolidPolygonEPK6b2Vec2iRK7b2Color","__ZN6b2Draw10DrawCircleERK6b2Vec2fRK7b2Color","__ZN6b2Draw15DrawSolidCircleERK6b2Vec2fS2_RK7b2Color","__ZN6b2Draw11DrawSegmentERK6b2Vec2S2_RK7b2Color","__ZN6b2Draw13DrawTransformERK11b2Transform","__ZN6b2DrawD2Ev","__ZN6b2DrawC2Ev","__ZN6b2Draw8SetFlagsEj","__ZNK6b2Draw8GetFlagsEv","__ZN6b2Draw11AppendFlagsEj","__ZN6b2Draw10ClearFlagsEj","__Z5b2DotRK6b2Vec3S1_","__ZNK7b2Mat3312GetInverse22EPS_","__ZN16b2BlockAllocator8AllocateEi","__ZN16b2BlockAllocator4FreeEPvi","__ZN16b2BlockAllocator5ClearEv","__ZN6b2DrawD1Ev","__ZN6b2DrawD0Ev","___cxx_global_var_init","__ZNK7b2Mat337Solve33ERK6b2Vec3","__Z7b2CrossRK6b2Vec3S1_","__ZN6b2Vec3C1Ev","__ZNK7b2Mat337Solve22ERK6b2Vec2","__ZN6b2Vec3C2Ev","__ZN7b2TimerC2Ev","__ZN7b2Timer5ResetEv","__ZNK7b2Timer15GetMillisecondsEv","__ZN6b2BodyD2Ev","__Z9b2IsValidf","__ZN6b2Vec3C2Efff","__ZN16b2StackAllocatorC2Ev","__ZNK16b2StackAllocator16GetMaxAllocationEv","__ZNK7b2World8IsLockedEv","__ZNK7b2Mat3315GetSymInverse33EPS_","__ZN6b2Vec3C1Efff","__GLOBAL__I_a","__Z7b2Alloci","__Z6b2FreePv","__Z5b2LogPKcz","__ZN16b2StackAllocatorD2Ev","__ZN16b2StackAllocator8AllocateEi","__ZN16b2StackAllocator4FreeEPv","__ZN6b2BodyC2EPK9b2BodyDefP7b2World","__ZNK6b2Vec27IsValidEv","__ZN6b2Body7SetTypeE10b2BodyType","__ZN9b2Contact11GetFixtureAEv","__ZN9b2Contact11GetFixtureBEv","__ZNK6b2Body13ShouldCollideEPKS_","__ZN6b2Body13ResetMassDataEv","__ZN6b2Body19SynchronizeFixturesEv","__ZN6b2Body8SetAwakeEb","__ZN6b2Body13CreateFixtureEPK12b2FixtureDef","__ZN6b2Body13CreateFixtureEPK7b2Shapef","__ZN12b2FixtureDefC1Ev","__ZN6b2Body14DestroyFixtureEP9b2Fixture","__ZN10b2MassDataC1Ev","__ZNK9b2Fixture11GetMassDataEP10b2MassData","__ZN6b2Body11SetMassDataEPK10b2MassData","__ZNK6b2Body8IsActiveEv","__ZN8b2FilterC2Ev","__ZN9b2Fixture7GetBodyEv","__ZNK9b2Contact10IsTouchingEv","__ZNK9b2Contact14GetChildIndexAEv","__ZNK9b2Contact14GetChildIndexBEv","__ZN9b2Contact7GetNextEv","__ZNK6b2Body7IsAwakeEv","__ZN6b2Body12SetTransformERK6b2Vec2f","__ZN6b2Body9SetActiveEb","__ZN6b2Body4DumpEv","__ZN10b2MassDataC2Ev","__ZN12b2FixtureDefC2Ev","__ZN8b2FilterC1Ev","___cxx_global_var_init115","__ZN15b2ContactFilterC1Ev","__ZN15b2ContactFilterD1Ev","___cxx_global_var_init1","__ZN17b2ContactListenerC1Ev","__ZN17b2ContactListenerD1Ev","__ZN16b2ContactManagerC2Ev","__ZN16b2ContactManager7DestroyEP9b2Contact","__ZN16b2ContactManager7CollideEv","__ZN6b2Body14GetContactListEv","__Z14b2PairLessThanRK6b2PairS1_","__ZNK12b2BroadPhase11TestOverlapEii","__ZN16b2ContactManager15FindNewContactsEv","__ZN12b2BroadPhase11UpdatePairsI16b2ContactManagerEEvPT_","__ZN16b2ContactManager7AddPairEPvS0_","__ZNK13b2DynamicTree10GetFatAABBEi","__ZNK13b2DynamicTree11GetUserDataEi","__ZNK13b2DynamicTree5QueryI12b2BroadPhaseEEvPT_RK6b2AABB","__ZNSt3__16__sortIRPFbRK6b2PairS3_EPS1_EEvT0_S8_T_","__ZNSt3__17__sort3IRPFbRK6b2PairS3_EPS1_EEjT0_S8_S8_T_","__ZN17b2ContactListenerD2Ev","__ZN17b2ContactListener12BeginContactEP9b2Contact","__ZN17b2ContactListener10EndContactEP9b2Contact","__ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold","__ZN17b2ContactListenerC2Ev","__ZN15b2GrowableStackIiLi256EE8GetCountEv","__ZN15b2GrowableStackIiLi256EEC2Ev","__ZNSt3__17__sort4IRPFbRK6b2PairS3_EPS1_EEjT0_S8_S8_S8_T_","__ZNSt3__17__sort5IRPFbRK6b2PairS3_EPS1_EEjT0_S8_S8_S8_S8_T_","__ZNSt3__118__insertion_sort_3IRPFbRK6b2PairS3_EPS1_EEvT0_S8_T_","__ZNSt3__127__insertion_sort_incompleteIRPFbRK6b2PairS3_EPS1_EEbT0_S8_T_","__ZN15b2GrowableStackIiLi256EEC1Ev","__ZN15b2GrowableStackIiLi256EE4PushERKi","__ZN15b2GrowableStackIiLi256EE3PopEv","__Z13b2TestOverlapRK6b2AABBS1_","__ZN15b2GrowableStackIiLi256EED1Ev","__ZN15b2GrowableStackIiLi256EED2Ev","__ZN17b2ContactListenerD0Ev","__ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse","__ZN15b2ContactFilterD2Ev","__ZN15b2ContactFilterC2Ev","__ZN9b2Contact16FlagForFilteringEv","__ZN6b2Body8GetWorldEv","__GLOBAL__I_a120","__ZN9b2FixtureC2Ev","__ZN9b2Fixture6CreateEP16b2BlockAllocatorP6b2BodyPK12b2FixtureDef","__ZN9b2Fixture7DestroyEP16b2BlockAllocator","__ZN9b2Fixture13CreateProxiesEP12b2BroadPhaseRK11b2Transform","__ZN9b2Fixture14DestroyProxiesEP12b2BroadPhase","__ZN9b2Fixture11SynchronizeEP12b2BroadPhaseRK11b2TransformS4_","__ZN9b2Fixture13SetFilterDataERK8b2Filter","__ZN9b2Fixture8RefilterEv","__ZN9b2Fixture9SetSensorEb","__ZN9b2Fixture4DumpEi","__ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener","__ZN8b2IslandD2Ev","__Z7b2ClampIfET_S0_S0_S0_","__ZN6b2Body20SynchronizeTransformEv","__ZN8b2Island5SolveEP9b2ProfileRK10b2TimeStepRK6b2Vec2b","__ZNK6b2Body7GetTypeEv","__ZN7b2World22SetDestructionListenerEP21b2DestructionListener","__ZN7b2World16SetContactFilterEP15b2ContactFilter","__ZN7b2World18SetContactListenerEP17b2ContactListener","__ZN7b2World12SetDebugDrawEP6b2Draw","__ZN8b2Island6ReportEPK27b2ContactVelocityConstraint","__ZN16b2ContactManagerD1Ev","__ZN8b2Island8SolveTOIERK10b2TimeStepii","__ZN7b2WorldC2ERK6b2Vec2","__ZN7b2WorldD2Ev","__ZN7b2World10CreateBodyEPK9b2BodyDef","__ZN7b2World11DestroyBodyEP6b2Body","__ZN7b2World12DestroyJointEP7b2Joint","__ZN7b2World11CreateJointEPK10b2JointDef","__ZN7b2World16SetAllowSleepingEb","__ZN8b2Island5ClearEv","__ZNK9b2Contact9IsEnabledEv","__ZN6b2Body7GetNextEv","__ZN8b2Island3AddEP6b2Body","__ZN8b2Island3AddEP9b2Contact","__ZN8b2Island3AddEP7b2Joint","__ZN7b2World5SolveERK10b2TimeStep","__ZN7b2World8SolveTOIERK10b2TimeStep","__ZNK9b2Fixture8IsSensorEv","__ZNK6b2Body8IsBulletEv","__ZN9b2Fixture8GetShapeEv","__ZN9b2Contact10SetEnabledEb","__ZN7b2Joint8GetBodyAEv","__ZN7b2Joint8GetBodyBEv","__ZNK6b2Body12GetTransformEv","__ZNK7b2Joint7GetTypeEv","__ZN7b2Sweep7AdvanceEf","__ZN10b2TOIInputC1Ev","__ZN6b2Body7AdvanceEf","__ZN7b2World4StepEfii","__ZN7b2World11ClearForcesEv","__ZNK7b2World9QueryAABBEP15b2QueryCallbackRK6b2AABB","__ZNK12b2BroadPhase5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB","__ZNK7b2World7RayCastEP17b2RayCastCallbackRK6b2Vec2S4_","__ZN14b2RayCastInputC1Ev","__ZNK12b2BroadPhase7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput","__ZN7b2World9DrawShapeEP9b2FixtureRK11b2TransformRK7b2Color","__ZNK9b2Fixture7GetTypeEv","__ZN7b2World9DrawJointEP7b2Joint","__ZN7b2ColorC1Efff","__ZN6b2Body14GetFixtureListEv","__ZN9b2Fixture7GetNextEv","__ZN7b2Joint7GetNextEv","__ZNK6b2Body14GetWorldCenterEv","__ZNK12b2BroadPhase13GetProxyCountEv","__ZN7b2World13DrawDebugDataEv","__ZNK12b2BroadPhase10GetFatAABBEi","__ZNK7b2World13GetProxyCountEv","__ZNK7b2World13GetTreeHeightEv","__ZNK12b2BroadPhase13GetTreeHeightEv","__ZNK7b2World14GetTreeBalanceEv","__ZNK12b2BroadPhase14GetTreeBalanceEv","__ZNK7b2World14GetTreeQualityEv","__ZNK12b2BroadPhase14GetTreeQualityEv","__ZN7b2World4DumpEv","__ZN9b2ContactD2Ev","__ZN7b2ColorC2Efff","__ZNK9b2Fixture13GetFilterDataEv","__ZNK6b2AABB9GetCenterEv","__ZNK6b2AABB10GetExtentsEv","__ZN21b2WorldRayCastWrapper15RayCastCallbackERK14b2RayCastInputi","__ZNK12b2BroadPhase11GetUserDataEi","__ZN15b2RayCastOutputC1Ev","__ZNK9b2Fixture7RayCastEP15b2RayCastOutputRK14b2RayCastInputi","__ZN15b2RayCastOutputC2Ev","__ZN19b2WorldQueryWrapper13QueryCallbackEi","__ZN14b2RayCastInputC2Ev","__ZN10b2TOIInputC2Ev","__ZN16b2ContactManagerD2Ev","__ZN15b2ContactFilter13ShouldCollideEP9b2FixtureS1_","__ZN15b2ContactFilterD0Ev","__ZN23b2ChainAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN23b2ChainAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZNK13b2DynamicTree7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput","__ZNK13b2DynamicTree5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB","__ZN23b2ChainAndCircleContactC2EP9b2FixtureiS1_i","__ZN23b2ChainAndCircleContactD1Ev","__ZN23b2ChainAndCircleContactD0Ev","__ZN23b2ChainAndCircleContactD2Ev","__ZN24b2ChainAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN24b2ChainAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN24b2ChainAndPolygonContactD1Ev","__ZN24b2ChainAndPolygonContactD0Ev","__ZN24b2ChainAndPolygonContactD2Ev","__ZN15b2CircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN15b2CircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN15b2CircleContactD1Ev","__ZN15b2CircleContactD0Ev","__ZN15b2CircleContactD2Ev","__ZN9b2Contact19InitializeRegistersEv","__ZN9b2Contact7AddTypeEPFPS_P9b2FixtureiS2_iP16b2BlockAllocatorEPFvS0_S4_EN7b2Shape4TypeESA_","__ZN9b2Contact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN9b2Contact7DestroyEPS_P16b2BlockAllocator","__ZN23b2ChainAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN24b2ChainAndPolygonContactC2EP9b2FixtureiS1_i","__ZN24b2ChainAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN15b2CircleContactC2EP9b2FixtureS1_","__ZN13b2ContactEdgeC2Ev","__Z16b2MixRestitutionff","__ZN9b2Contact11GetManifoldEv","__ZN7b2Mat227SetZeroEv","__ZN9b2ContactC2EP9b2FixtureiS1_i","__ZN13b2ContactEdgeC1Ev","__ZN10b2ManifoldC1Ev","__Z13b2MixFrictionff","__ZN9b2Contact6UpdateEP17b2ContactListener","__ZN9b2ContactD1Ev","__ZN9b2ContactD0Ev","__ZN10b2ManifoldC2Ev","__ZN15b2ManifoldPointC1Ev","__ZN15b2ManifoldPointC2Ev","__ZN15b2ContactSolverC2EP18b2ContactSolverDef","__ZN15b2ContactSolverD2Ev","__ZN15b2ContactSolver29InitializeVelocityConstraintsEv","__ZN15b2WorldManifoldC1Ev","__ZNK7b2Mat2210GetInverseEv","__ZN15b2ContactSolver9WarmStartEv","__ZN15b2ContactSolver24SolveVelocityConstraintsEv","__Z5b2MulRK7b2Mat22RK6b2Vec2","__ZN15b2ContactSolver13StoreImpulsesEv","__ZN15b2ContactSolver24SolvePositionConstraintsEv","__ZN24b2PositionSolverManifoldC1Ev","__ZN24b2PositionSolverManifold10InitializeEP27b2ContactPositionConstraintRK11b2TransformS4_i","__ZN15b2ContactSolver27SolveTOIPositionConstraintsEii","__ZN24b2PositionSolverManifoldC2Ev","__ZN7b2Mat22C1Ev","__ZN7b2Mat22C2Ev","__ZN15b2WorldManifoldC2Ev","__ZN22b2EdgeAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN22b2EdgeAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN22b2EdgeAndCircleContactC2EP9b2FixtureS1_","__ZN7b2JointD2Ev","__ZN22b2EdgeAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN22b2EdgeAndCircleContactD1Ev","__ZN22b2EdgeAndCircleContactD0Ev","__ZN22b2EdgeAndCircleContactD2Ev","__ZN23b2EdgeAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN23b2EdgeAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN23b2EdgeAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN23b2EdgeAndPolygonContactD1Ev","__ZN23b2EdgeAndPolygonContactD0Ev","__ZN23b2EdgeAndPolygonContactD2Ev","__ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN25b2PolygonAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN25b2PolygonAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN25b2PolygonAndCircleContactD1Ev","__ZN25b2PolygonAndCircleContactD0Ev","__ZN25b2PolygonAndCircleContactD2Ev","__ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator","__ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator","__ZN16b2PolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_","__ZN16b2PolygonContactD1Ev","__ZN16b2PolygonContactD0Ev","__ZN16b2PolygonContactD2Ev","__ZN18b2DistanceJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_","__ZNK6b2Body13GetLocalPointERK6b2Vec2","__ZN23b2EdgeAndPolygonContactC2EP9b2FixtureS1_","__ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_","__ZN16b2PolygonContactC2EP9b2FixtureS1_","__ZN15b2DistanceJointC2EPK18b2DistanceJointDef","__ZNK15b2DistanceJoint17GetReactionTorqueEf","__ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData","__ZN5b2RotC1Ef","__ZN15b2DistanceJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK15b2DistanceJoint10GetAnchorAEv","__ZNK6b2Body13GetWorldPointERK6b2Vec2","__ZNK15b2DistanceJoint10GetAnchorBEv","__ZNK15b2DistanceJoint16GetReactionForceEf","__ZN15b2DistanceJoint4DumpEv","__ZN15b2DistanceJointD1Ev","__ZN15b2DistanceJointD0Ev","__ZN15b2DistanceJointD2Ev","__ZN5b2RotC2Ef","__ZN15b2FrictionJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK15b2FrictionJoint17GetReactionTorqueEf","__ZNK15b2FrictionJoint11GetMaxForceEv","__ZNK15b2FrictionJoint12GetMaxTorqueEv","__ZN18b2FrictionJointDef10InitializeEP6b2BodyS1_RK6b2Vec2","__ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData","__ZN15b2FrictionJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK15b2FrictionJoint10GetAnchorAEv","__ZNK15b2FrictionJoint10GetAnchorBEv","__ZNK15b2FrictionJoint16GetReactionForceEf","__ZN15b2FrictionJoint11SetMaxForceEf","__ZN15b2FrictionJoint12SetMaxTorqueEf","__ZN15b2FrictionJoint4DumpEv","__ZN15b2FrictionJointD1Ev","__ZN15b2FrictionJointD0Ev","__ZN15b2FrictionJointC2EPK18b2FrictionJointDef","__ZN15b2FrictionJointD2Ev","__ZN11b2GearJointC2EPK14b2GearJointDef","__ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData","__ZN11b2GearJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK11b2GearJoint17GetReactionTorqueEf","__ZNK11b2GearJoint8GetRatioEv","__ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK11b2GearJoint10GetAnchorAEv","__ZNK11b2GearJoint10GetAnchorBEv","__ZNK11b2GearJoint16GetReactionForceEf","__ZN11b2GearJoint8SetRatioEf","__ZN11b2GearJoint4DumpEv","__ZN11b2GearJointD1Ev","__ZN11b2GearJointD0Ev","__ZN11b2GearJointD2Ev","__ZN7b2Joint6CreateEPK10b2JointDefP16b2BlockAllocator","__ZNK12b2MouseJoint9GetTargetEv","__ZN12b2MouseJoint11SetMaxForceEf","__ZNK12b2MouseJoint11GetMaxForceEv","__ZN12b2MouseJoint12SetFrequencyEf","__ZNK12b2MouseJoint12GetFrequencyEv","__ZN12b2MouseJoint15SetDampingRatioEf","__ZNK12b2MouseJoint15GetDampingRatioEv","__ZNK6b2Body7GetMassEv","__ZN7b2Joint7DestroyEPS_P16b2BlockAllocator","__ZN7b2JointC2EPK10b2JointDef","__ZNK7b2Joint8IsActiveEv","__ZN7b2Joint4DumpEv","__ZN7b2JointD1Ev","__ZN7b2JointD0Ev","__ZN12b2MouseJoint9SetTargetERK6b2Vec2","__ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData","__ZN12b2MouseJointC2EPK15b2MouseJointDef","__ZN12b2MouseJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK12b2MouseJoint17GetReactionTorqueEf","__ZNK6b2Body8GetAngleEv","__ZN6b2Vec37SetZeroEv","__ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK12b2MouseJoint10GetAnchorAEv","__ZNK12b2MouseJoint10GetAnchorBEv","__ZNK12b2MouseJoint16GetReactionForceEf","__ZN12b2MouseJoint4DumpEv","__ZN12b2MouseJointD1Ev","__ZN12b2MouseJointD0Ev","__ZN12b2MouseJointD2Ev","__ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_","__ZNK6b2Body14GetLocalVectorERK6b2Vec2","__ZN7b2Mat33C1Ev","__ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef","__ZN6b2Vec33SetEfff","__ZN6b2Vec3mLEf","__ZN16b2PrismaticJoint23InitVelocityConstraintsERK12b2SolverData","__ZN6b2Vec3pLERKS_","__ZN16b2PrismaticJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK6b2Vec3ngEv","__ZmiRK6b2Vec3S1_","__Z7b2Mul22RK7b2Mat33RK6b2Vec2","__ZNK16b2PrismaticJoint17GetReactionTorqueEf","__ZNK16b2PrismaticJoint14IsLimitEnabledEv","__ZNK16b2PrismaticJoint13GetLowerLimitEv","__ZNK16b2PrismaticJoint13GetUpperLimitEv","__ZNK16b2PrismaticJoint14IsMotorEnabledEv","__ZN16b2PrismaticJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK7b2Mat225SolveERK6b2Vec2","__ZNK16b2PrismaticJoint10GetAnchorAEv","__ZNK16b2PrismaticJoint10GetAnchorBEv","__ZNK16b2PrismaticJoint16GetReactionForceEf","__ZNK16b2PrismaticJoint19GetJointTranslationEv","__ZNK6b2Body14GetWorldVectorERK6b2Vec2","__ZNK16b2PrismaticJoint13GetJointSpeedEv","__ZN16b2PrismaticJoint11EnableLimitEb","__ZN16b2PrismaticJoint9SetLimitsEff","__ZN16b2PrismaticJoint11EnableMotorEb","__ZN16b2PrismaticJoint13SetMotorSpeedEf","__ZNK16b2PrismaticJoint13GetMotorForceEf","__ZN16b2PrismaticJoint16SetMaxMotorForceEf","__ZN16b2PrismaticJoint4DumpEv","__ZN16b2PrismaticJointD1Ev","__ZN16b2PrismaticJointD0Ev","__ZN16b2PrismaticJointD2Ev","__ZN7b2Mat33C2Ev","__ZN16b2PulleyJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_S4_S4_f","__ZN13b2PulleyJoint23InitVelocityConstraintsERK12b2SolverData","__ZN13b2PulleyJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN13b2PulleyJointC2EPK16b2PulleyJointDef","__ZNK13b2PulleyJoint17GetReactionTorqueEf","__ZNK13b2PulleyJoint8GetRatioEv","__ZN13b2PulleyJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK13b2PulleyJoint10GetAnchorAEv","__ZNK13b2PulleyJoint10GetAnchorBEv","__ZNK13b2PulleyJoint16GetReactionForceEf","__ZNK13b2PulleyJoint16GetGroundAnchorAEv","__ZNK13b2PulleyJoint16GetGroundAnchorBEv","__ZNK13b2PulleyJoint10GetLengthAEv","__ZNK13b2PulleyJoint10GetLengthBEv","__ZN13b2PulleyJoint4DumpEv","__ZN13b2PulleyJointD1Ev","__ZN13b2PulleyJointD0Ev","__ZN13b2PulleyJointD2Ev","__ZN18b2RevoluteJointDef10InitializeEP6b2BodyS1_RK6b2Vec2","__ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef","__ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData","__ZNK15b2RevoluteJoint17GetReactionTorqueEf","__ZNK15b2RevoluteJoint13GetJointAngleEv","__ZN15b2RevoluteJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN15b2RevoluteJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK15b2RevoluteJoint10GetAnchorAEv","__ZNK15b2RevoluteJoint10GetAnchorBEv","__ZNK15b2RevoluteJoint16GetReactionForceEf","__ZNK15b2RevoluteJoint13GetJointSpeedEv","__ZNK15b2RevoluteJoint14IsMotorEnabledEv","__ZNK15b2RevoluteJoint14GetMotorTorqueEf","__ZNK15b2RevoluteJoint14IsLimitEnabledEv","__ZNK15b2RevoluteJoint13GetLowerLimitEv","__ZNK15b2RevoluteJoint13GetUpperLimitEv","__ZN15b2RevoluteJoint11EnableMotorEb","__ZN15b2RevoluteJoint13SetMotorSpeedEf","__ZN15b2RevoluteJoint17SetMaxMotorTorqueEf","__ZN15b2RevoluteJoint11EnableLimitEb","__ZN15b2RevoluteJoint9SetLimitsEff","__ZN15b2RevoluteJoint4DumpEv","__ZN15b2RevoluteJointD1Ev","__ZN15b2RevoluteJointD0Ev","__ZN15b2RevoluteJointD2Ev","__ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData","__ZN11b2RopeJointC2EPK14b2RopeJointDef","__ZNK11b2RopeJoint17GetReactionTorqueEf","__ZNK11b2RopeJoint12GetMaxLengthEv","__ZNK11b2RopeJoint13GetLimitStateEv","__ZN11b2RopeJoint24SolveVelocityConstraintsERK12b2SolverData","__ZN11b2RopeJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK11b2RopeJoint10GetAnchorAEv","__ZNK11b2RopeJoint10GetAnchorBEv","__ZNK11b2RopeJoint16GetReactionForceEf","__ZN11b2RopeJoint4DumpEv","__ZN11b2RopeJointD1Ev","__ZN11b2RopeJointD0Ev","__ZN11b2RopeJointD2Ev","__ZN14b2WeldJointDef10InitializeEP6b2BodyS1_RK6b2Vec2","__ZN11b2WeldJointC2EPK14b2WeldJointDef","__ZN11b2WeldJoint23InitVelocityConstraintsERK12b2SolverData","__ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData","__Z5b2MulRK7b2Mat33RK6b2Vec3","__ZNK11b2WeldJoint17GetReactionTorqueEf","__ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK11b2WeldJoint10GetAnchorAEv","__ZNK11b2WeldJoint10GetAnchorBEv","__ZNK11b2WeldJoint16GetReactionForceEf","__ZN11b2WeldJoint4DumpEv","__ZN11b2WeldJointD1Ev","__ZN11b2WeldJointD0Ev","__ZN11b2WeldJointD2Ev","__ZplRK6b2Vec3S1_","__ZmlfRK6b2Vec3","__ZN15b2WheelJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_","__ZN12b2WheelJointC2EPK15b2WheelJointDef","__ZN12b2WheelJoint23InitVelocityConstraintsERK12b2SolverData","__ZN12b2WheelJoint24SolveVelocityConstraintsERK12b2SolverData","__ZNK12b2WheelJoint17GetReactionTorqueEf","__ZNK12b2WheelJoint13GetJointSpeedEv","__ZNK12b2WheelJoint14IsMotorEnabledEv","__ZNK12b2WheelJoint14GetMotorTorqueEf","_emscripten_bind_b2ContactManager__get_m_contactFilter_p0","_emscripten_bind_b2ContactManager__get_m_contactCount_p0","_emscripten_bind_b2ContactManager__set_m_contactFilter_p1","_emscripten_bind_b2ContactManager__set_m_allocator_p1","_emscripten_bind_b2ContactManager__set_m_contactCount_p1","_emscripten_bind_b2ContactManager__set_m_contactList_p1","_emscripten_bind_b2ContactManager__get_m_contactListener_p0","_emscripten_bind_b2ContactManager__set_m_contactListener_p1","_emscripten_bind_b2ContactManager__get_m_broadPhase_p0","_emscripten_bind_b2ContactManager__get_m_contactList_p0","_emscripten_bind_b2ContactManager__get_m_allocator_p0","__ZN15b2DistanceJoint12SetFrequencyEf","__ZNK7b2Joint11GetUserDataEv","__ZN7b2Joint11SetUserDataEPv","__ZNK15b2DistanceJoint15GetLocalAnchorAEv","__ZNK15b2DistanceJoint15GetLocalAnchorBEv","__ZNK15b2DistanceJoint12GetFrequencyEv","__ZN12b2WheelJoint24SolvePositionConstraintsERK12b2SolverData","__ZNK12b2WheelJoint10GetAnchorAEv","__ZNK12b2WheelJoint10GetAnchorBEv","__ZNK12b2WheelJoint16GetReactionForceEf","__ZNK12b2WheelJoint19GetJointTranslationEv","__ZN12b2WheelJoint11EnableMotorEb","__ZN12b2WheelJoint13SetMotorSpeedEf","__ZN12b2WheelJoint17SetMaxMotorTorqueEf","__ZN12b2WheelJoint4DumpEv","__ZN12b2WheelJointD1Ev","__ZN12b2WheelJointD0Ev","__ZN12b2WheelJointD2Ev","__ZNK6b2Vec24SkewEv","_emscripten_bind_b2ContactManager__b2ContactManager_p0","_emscripten_bind_b2ContactManager__AddPair_p2","_emscripten_bind_b2ContactManager__Collide_p0","_emscripten_bind_b2ContactManager__FindNewContacts_p0","_emscripten_bind_b2ContactManager____destroy___p0","_emscripten_bind_b2ContactManager__Destroy_p1","_emscripten_bind_b2ContactManager__set_m_broadPhase_p1","_emscripten_bind_b2DistanceJoint__GetBodyA_p0","_emscripten_bind_b2DistanceJoint__GetBodyB_p0","_emscripten_bind_b2DistanceJoint__SetFrequency_p1","_emscripten_bind_b2DistanceJoint__GetUserData_p0","_emscripten_bind_b2DistanceJoint__SetUserData_p1","_emscripten_bind_b2DistanceJoint__GetAnchorB_p0","_emscripten_bind_b2DistanceJoint__GetAnchorA_p0","_emscripten_bind_b2DistanceJoint__GetNext_p0","_emscripten_bind_b2DistanceJoint__GetLocalAnchorA_p0","_emscripten_bind_b2DistanceJoint__GetLocalAnchorB_p0","_emscripten_bind_b2DistanceJoint__GetFrequency_p0","__ZNK15b2DistanceJoint9GetLengthEv","__ZNK15b2DistanceJoint15GetDampingRatioEv","__ZNK7b2Joint19GetCollideConnectedEv","__ZN15b2DistanceJoint15SetDampingRatioEf","__ZN15b2DistanceJoint9SetLengthEf","__ZNK9b2Fixture14GetRestitutionEv","__ZN9b2Fixture11SetFrictionEf","__ZN9b2Fixture14SetRestitutionEf","__ZNK9b2Fixture11GetFrictionEv","__ZNK9b2Fixture11GetUserDataEv","__ZN9b2Fixture10SetDensityEf","__ZNK9b2Fixture7GetAABBEi","__ZN9b2Fixture11SetUserDataEPv","__ZNK9b2Fixture10GetDensityEv","_emscripten_bind_b2DistanceJoint__GetReactionForce_p1","_emscripten_bind_b2DistanceJoint__GetLength_p0","_emscripten_bind_b2DistanceJoint__GetDampingRatio_p0","_emscripten_bind_b2DistanceJoint__GetCollideConnected_p0","_emscripten_bind_b2DistanceJoint____destroy___p0","_emscripten_bind_b2DistanceJoint__Dump_p0","_emscripten_bind_b2DistanceJoint__GetType_p0","_emscripten_bind_b2DistanceJoint__b2DistanceJoint_p1","_emscripten_bind_b2DistanceJoint__SetDampingRatio_p1","_emscripten_bind_b2DistanceJoint__GetReactionTorque_p1","_emscripten_bind_b2DistanceJoint__SetLength_p1","_emscripten_bind_b2DistanceJoint__IsActive_p0","_emscripten_bind_b2Fixture__GetRestitution_p0","_emscripten_bind_b2Fixture__SetFilterData_p1","_emscripten_bind_b2Fixture__SetFriction_p1","_emscripten_bind_b2Fixture__b2Fixture_p0","_emscripten_bind_b2Fixture__GetShape_p0","_emscripten_bind_b2Fixture__SetRestitution_p1","_emscripten_bind_b2Fixture__GetBody_p0","_emscripten_bind_b2Fixture__GetNext_p0","_emscripten_bind_b2Fixture__GetFriction_p0","_emscripten_bind_b2Fixture__GetUserData_p0","_emscripten_bind_b2Fixture__SetDensity_p1","_emscripten_bind_b2Fixture__GetMassData_p1","_emscripten_bind_b2Fixture__SetSensor_p1","_emscripten_bind_b2Fixture__GetAABB_p1","_emscripten_bind_b2Fixture__TestPoint_p1","__ZNK9b2Fixture9TestPointERK6b2Vec2","_emscripten_bind_b2Fixture__SetUserData_p1","_emscripten_bind_b2Fixture____destroy___p0","_emscripten_bind_b2Fixture__RayCast_p3","_emscripten_bind_b2Fixture__Refilter_p0","_emscripten_bind_b2Fixture__Dump_p1","_emscripten_bind_b2Fixture__GetFilterData_p0","_emscripten_bind_b2Fixture__IsSensor_p0","_emscripten_bind_b2Fixture__GetType_p0","_emscripten_bind_b2Fixture__GetDensity_p0","_emscripten_bind_b2MouseJoint__GetBodyA_p0","_emscripten_bind_b2MouseJoint__GetBodyB_p0","_emscripten_bind_b2MouseJoint__SetFrequency_p1","_emscripten_bind_b2MouseJoint__GetUserData_p0","_emscripten_bind_b2MouseJoint__SetMaxForce_p1","_emscripten_bind_b2MouseJoint__SetUserData_p1","_emscripten_bind_b2MouseJoint__GetAnchorB_p0","_emscripten_bind_b2MouseJoint__GetAnchorA_p0","_emscripten_bind_b2MouseJoint__b2MouseJoint_p1","_emscripten_bind_b2MouseJoint__GetNext_p0","_emscripten_bind_b2MouseJoint__GetMaxForce_p0","_emscripten_bind_b2MouseJoint__GetTarget_p0","_emscripten_bind_b2MouseJoint__GetFrequency_p0","_emscripten_bind_b2MouseJoint__GetReactionForce_p1","_emscripten_bind_b2MouseJoint__GetDampingRatio_p0","_emscripten_bind_b2MouseJoint__GetCollideConnected_p0","_emscripten_bind_b2MouseJoint____destroy___p0","_emscripten_bind_b2MouseJoint__Dump_p0","_emscripten_bind_b2MouseJoint__SetTarget_p1","_emscripten_bind_b2MouseJoint__GetType_p0","_emscripten_bind_b2MouseJoint__SetDampingRatio_p1","_emscripten_bind_b2MouseJoint__GetReactionTorque_p1","_emscripten_bind_b2MouseJoint__IsActive_p0","_emscripten_bind_b2PulleyJoint__GetBodyA_p0","_emscripten_bind_b2PulleyJoint____destroy___p0","__ZN7b2World14SetSubSteppingEb","__ZNK7b2World10GetProfileEv","__ZNK7b2World14GetSubSteppingEv","__ZNK7b2World17GetContactManagerEv","__ZN7b2World20SetContinuousPhysicsEb","__ZNK7b2World12GetBodyCountEv","__ZNK7b2World18GetAutoClearForcesEv","__ZNK7b2World20GetContinuousPhysicsEv","__ZN7b2World12GetJointListEv","__ZN7b2World11GetBodyListEv","__ZNK7b2World13GetJointCountEv","__ZNK7b2World15GetWarmStartingEv","__ZNK7b2World16GetAllowSleepingEv","_emscripten_bind_b2PulleyJoint__GetAnchorA_p0","_emscripten_bind_b2PulleyJoint__GetType_p0","_emscripten_bind_b2PulleyJoint__GetGroundAnchorB_p0","_emscripten_bind_b2PulleyJoint__GetReactionTorque_p1","_emscripten_bind_b2PulleyJoint__Dump_p0","_emscripten_bind_b2PulleyJoint__GetGroundAnchorA_p0","_emscripten_bind_b2PulleyJoint__GetLengthB_p0","_emscripten_bind_b2PulleyJoint__GetUserData_p0","_emscripten_bind_b2PulleyJoint__GetLengthA_p0","_emscripten_bind_b2PulleyJoint__GetBodyB_p0","_emscripten_bind_b2PulleyJoint__GetCollideConnected_p0","_emscripten_bind_b2PulleyJoint__SetUserData_p1","_emscripten_bind_b2PulleyJoint__GetAnchorB_p0","_emscripten_bind_b2PulleyJoint__GetReactionForce_p1","_emscripten_bind_b2PulleyJoint__GetNext_p0","_emscripten_bind_b2PulleyJoint__b2PulleyJoint_p1","_emscripten_bind_b2PulleyJoint__IsActive_p0","_emscripten_bind_b2PulleyJoint__GetRatio_p0","_emscripten_bind_b2BroadPhase__GetTreeQuality_p0","_emscripten_bind_b2BroadPhase__GetFatAABB_p1","_emscripten_bind_b2BroadPhase__GetUserData_p1","_emscripten_bind_b2BroadPhase____destroy___p0","_emscripten_bind_b2BroadPhase__GetTreeHeight_p0","_emscripten_bind_b2BroadPhase__b2BroadPhase_p0","_emscripten_bind_b2BroadPhase__GetProxyCount_p0","_emscripten_bind_b2BroadPhase__GetTreeBalance_p0","_emscripten_bind_b2BroadPhase__TestOverlap_p2","_emscripten_bind_b2BroadPhase__TouchProxy_p1","_emscripten_bind_b2BroadPhase__CreateProxy_p2","_emscripten_bind_b2BroadPhase__MoveProxy_p3","_emscripten_bind_b2BroadPhase__DestroyProxy_p1","_emscripten_bind_b2World__QueryAABB_p2","_emscripten_bind_b2World__SetSubStepping_p1","_emscripten_bind_b2World__GetTreeQuality_p0","_emscripten_bind_b2World__GetTreeHeight_p0","_emscripten_bind_b2World__GetProfile_p0","_emscripten_bind_b2World__GetTreeBalance_p0","_emscripten_bind_b2World__GetSubStepping_p0","_emscripten_bind_b2World__GetContactManager_p0","_emscripten_bind_b2World__SetContactListener_p1","_emscripten_bind_b2World__DrawDebugData_p0","_emscripten_bind_b2World__SetContinuousPhysics_p1","_emscripten_bind_b2World__SetGravity_p1","__ZN7b2World10SetGravityERK6b2Vec2","_emscripten_bind_b2World__GetBodyCount_p0","_emscripten_bind_b2World__GetAutoClearForces_p0","_emscripten_bind_b2World__GetContinuousPhysics_p0","_emscripten_bind_b2World__GetJointList_p0","_emscripten_bind_b2World__CreateBody_p1","_emscripten_bind_b2World__GetBodyList_p0","_emscripten_bind_b2World__SetDestructionListener_p1","_emscripten_bind_b2World__DestroyJoint_p1","_emscripten_bind_b2World__b2World_p1","_emscripten_bind_b2World__GetJointCount_p0","_emscripten_bind_b2World__Step_p3","_emscripten_bind_b2World__ClearForces_p0","_emscripten_bind_b2World__GetWarmStarting_p0","_emscripten_bind_b2World__SetAllowSleeping_p1","_emscripten_bind_b2World__DestroyBody_p1","_emscripten_bind_b2World__GetAllowSleeping_p0","_emscripten_bind_b2World__CreateJoint_p1","_emscripten_bind_b2World__GetProxyCount_p0","_emscripten_bind_b2World__RayCast_p3","__ZNK13b2CircleShape14GetVertexCountEv","__ZNK13b2CircleShape10GetSupportERK6b2Vec2","__ZN7b2World14GetContactListEv","__ZN7b2World18SetAutoClearForcesEb","__ZNK7b2World15GetContactCountEv","__ZN7b2World15SetWarmStartingEb","__ZNK16b2PrismaticJoint13GetLocalAxisAEv","__ZNK16b2PrismaticJoint15GetLocalAnchorAEv","__ZNK16b2PrismaticJoint15GetLocalAnchorBEv","__ZNK16b2PrismaticJoint13GetMotorSpeedEv","__ZNK16b2PrismaticJoint16GetMaxMotorForceEv","__ZNK16b2PrismaticJoint17GetReferenceAngleEv","_emscripten_bind_b2CircleShape__set_m_radius_p1","_emscripten_bind_b2CircleShape__get_m_radius_p0","__ZNK13b2CircleShape9GetVertexEi","__ZNK13b2CircleShape16GetSupportVertexERK6b2Vec2","_emscripten_bind_b2CircleShape__get_m_p_p0","_emscripten_bind_b2World__IsLocked_p0","_emscripten_bind_b2World__GetContactList_p0","_emscripten_bind_b2World__SetDebugDraw_p1","_emscripten_bind_b2World____destroy___p0","_emscripten_bind_b2World__Dump_p0","_emscripten_bind_b2World__SetAutoClearForces_p1","_emscripten_bind_b2World__GetGravity_p0","__ZNK7b2World10GetGravityEv","_emscripten_bind_b2World__GetContactCount_p0","_emscripten_bind_b2World__SetWarmStarting_p1","_emscripten_bind_b2World__SetContactFilter_p1","_emscripten_bind_b2PrismaticJoint__GetBodyA_p0","_emscripten_bind_b2PrismaticJoint__GetBodyB_p0","_emscripten_bind_b2PrismaticJoint__GetUserData_p0","_emscripten_bind_b2PrismaticJoint__GetLocalAxisA_p0","_emscripten_bind_b2PrismaticJoint__GetLowerLimit_p0","_emscripten_bind_b2PrismaticJoint__GetAnchorA_p0","_emscripten_bind_b2PrismaticJoint__GetNext_p0","_emscripten_bind_b2PrismaticJoint__b2PrismaticJoint_p1","_emscripten_bind_b2PrismaticJoint__GetLocalAnchorA_p0","_emscripten_bind_b2PrismaticJoint__SetMotorSpeed_p1","_emscripten_bind_b2PrismaticJoint__GetLocalAnchorB_p0","_emscripten_bind_b2PrismaticJoint__GetMotorSpeed_p0","_emscripten_bind_b2PrismaticJoint__SetMaxMotorForce_p1","_emscripten_bind_b2PrismaticJoint__EnableLimit_p1","_emscripten_bind_b2PrismaticJoint__IsMotorEnabled_p0","_emscripten_bind_b2PrismaticJoint__SetUserData_p1","_emscripten_bind_b2PrismaticJoint__GetReactionForce_p1","_emscripten_bind_b2PrismaticJoint__GetMaxMotorForce_p0","_emscripten_bind_b2PrismaticJoint__GetCollideConnected_p0","_emscripten_bind_b2PrismaticJoint__GetJointSpeed_p0","_emscripten_bind_b2PrismaticJoint__EnableMotor_p1","_emscripten_bind_b2PrismaticJoint____destroy___p0","_emscripten_bind_b2PrismaticJoint__GetReferenceAngle_p0","_emscripten_bind_b2PrismaticJoint__Dump_p0","_emscripten_bind_b2PrismaticJoint__GetMotorForce_p1","_emscripten_bind_b2PrismaticJoint__GetJointTranslation_p0","_emscripten_bind_b2PrismaticJoint__GetType_p0","_emscripten_bind_b2PrismaticJoint__IsLimitEnabled_p0","_emscripten_bind_b2PrismaticJoint__GetReactionTorque_p1","_emscripten_bind_b2PrismaticJoint__SetLimits_p2","_emscripten_bind_b2PrismaticJoint__GetUpperLimit_p0","_emscripten_bind_b2PrismaticJoint__IsActive_p0","_emscripten_bind_b2PrismaticJoint__GetAnchorB_p0","_emscripten_bind_b2CircleShape____destroy___p0","_emscripten_bind_b2CircleShape__GetType_p0","_emscripten_bind_b2CircleShape__ComputeMass_p2","_emscripten_bind_b2CircleShape__GetVertex_p1","_emscripten_bind_b2CircleShape__Clone_p1","_emscripten_bind_b2CircleShape__GetSupportVertex_p1","_emscripten_bind_b2CircleShape__RayCast_p4","_emscripten_bind_b2CircleShape__ComputeAABB_p3","_emscripten_bind_b2CircleShape__GetVertexCount_p0","_emscripten_bind_b2CircleShape__GetChildCount_p0","_emscripten_bind_b2CircleShape__TestPoint_p2","_emscripten_bind_b2CircleShape__b2CircleShape_p0","_emscripten_bind_b2CircleShape__GetSupport_p1","_emscripten_bind_b2CircleShape__set_m_p_p1","_emscripten_bind_b2WheelJoint__GetBodyA_p0","__ZNK12b2WheelJoint13GetLocalAxisAEv","__ZN12b2WheelJoint21SetSpringDampingRatioEf","__ZNK12b2WheelJoint20GetSpringFrequencyHzEv","__ZNK12b2WheelJoint15GetLocalAnchorAEv","__ZNK12b2WheelJoint15GetLocalAnchorBEv","__ZNK12b2WheelJoint13GetMotorSpeedEv","__ZNK12b2WheelJoint21GetSpringDampingRatioEv","__ZNK12b2WheelJoint17GetMaxMotorTorqueEv","__ZN12b2WheelJoint20SetSpringFrequencyHzEf","__ZN11b2GearJoint9GetJoint1Ev","_emscripten_bind_b2WheelJoint__GetBodyB_p0","_emscripten_bind_b2WheelJoint__GetUserData_p0","_emscripten_bind_b2WheelJoint__GetDefinition_p1","_emscripten_bind_b2WheelJoint__GetLocalAxisA_p0","_emscripten_bind_b2WheelJoint__SetSpringDampingRatio_p1","_emscripten_bind_b2WheelJoint__GetAnchorB_p0","_emscripten_bind_b2WheelJoint__GetAnchorA_p0","_emscripten_bind_b2WheelJoint__GetNext_p0","_emscripten_bind_b2WheelJoint__GetSpringFrequencyHz_p0","_emscripten_bind_b2WheelJoint__GetLocalAnchorA_p0","_emscripten_bind_b2WheelJoint__SetMotorSpeed_p1","_emscripten_bind_b2WheelJoint__GetLocalAnchorB_p0","_emscripten_bind_b2WheelJoint__GetMotorSpeed_p0","_emscripten_bind_b2WheelJoint__GetMotorTorque_p1","_emscripten_bind_b2WheelJoint__b2WheelJoint_p1","_emscripten_bind_b2WheelJoint__IsMotorEnabled_p0","_emscripten_bind_b2WheelJoint__GetJointTranslation_p0","_emscripten_bind_b2WheelJoint__SetUserData_p1","_emscripten_bind_b2WheelJoint__GetReactionForce_p1","_emscripten_bind_b2WheelJoint__GetSpringDampingRatio_p0","_emscripten_bind_b2WheelJoint__SetMaxMotorTorque_p1","_emscripten_bind_b2WheelJoint__GetCollideConnected_p0","_emscripten_bind_b2WheelJoint__GetJointSpeed_p0","_emscripten_bind_b2WheelJoint__EnableMotor_p1","_emscripten_bind_b2WheelJoint____destroy___p0","_emscripten_bind_b2WheelJoint__Dump_p0","_emscripten_bind_b2WheelJoint__GetMaxMotorTorque_p0","_emscripten_bind_b2WheelJoint__GetType_p0","_emscripten_bind_b2WheelJoint__GetReactionTorque_p1","_emscripten_bind_b2WheelJoint__SetSpringFrequencyHz_p1","_emscripten_bind_b2WheelJoint__IsActive_p0","_emscripten_bind_b2Draw____destroy___p0","_emscripten_bind_b2Draw__AppendFlags_p1","_emscripten_bind_b2Draw__DrawTransform_p1","_emscripten_bind_b2Draw__ClearFlags_p1","_emscripten_bind_b2Draw__DrawPolygon_p3","_emscripten_bind_b2Draw__DrawSolidCircle_p4","_emscripten_bind_b2Draw__DrawSolidPolygon_p3","_emscripten_bind_b2Draw__DrawCircle_p3","_emscripten_bind_b2Draw__SetFlags_p1","_emscripten_bind_b2Draw__DrawSegment_p3","_emscripten_bind_b2Draw__b2Draw_p0","_emscripten_bind_b2Draw__GetFlags_p0","_emscripten_bind_b2Joint__GetNext_p0","_emscripten_bind_b2Joint__GetBodyA_p0","_emscripten_bind_b2Joint__GetBodyB_p0","_emscripten_bind_b2Joint__GetReactionTorque_p1","_emscripten_bind_b2Joint__GetAnchorA_p0","_emscripten_bind_b2Joint__GetUserData_p0","_emscripten_bind_b2Joint__GetType_p0","_emscripten_bind_b2Joint__SetUserData_p1","_emscripten_bind_b2Joint__GetCollideConnected_p0","_emscripten_bind_b2Joint__Dump_p0","_emscripten_bind_b2Joint__GetAnchorB_p0","_emscripten_bind_b2Joint__GetReactionForce_p1","_emscripten_bind_b2Joint__IsActive_p0","_emscripten_bind_b2GearJoint__GetJoint1_p0","_emscripten_bind_b2GearJoint__b2GearJoint_p1","__ZN11b2GearJoint9GetJoint2Ev","__ZN11b2WeldJoint12SetFrequencyEf","__ZNK11b2WeldJoint15GetLocalAnchorAEv","__ZNK11b2WeldJoint15GetLocalAnchorBEv","__ZNK11b2WeldJoint12GetFrequencyEv","__ZNK11b2WeldJoint15GetDampingRatioEv","__ZNK11b2WeldJoint17GetReferenceAngleEv","__ZN11b2WeldJoint15SetDampingRatioEf","_emscripten_bind_b2GearJoint__GetAnchorA_p0","_emscripten_bind_b2GearJoint__GetJoint2_p0","_emscripten_bind_b2GearJoint__GetReactionTorque_p1","_emscripten_bind_b2GearJoint__Dump_p0","_emscripten_bind_b2GearJoint____destroy___p0","_emscripten_bind_b2GearJoint__SetRatio_p1","_emscripten_bind_b2GearJoint__GetType_p0","_emscripten_bind_b2GearJoint__GetUserData_p0","_emscripten_bind_b2GearJoint__GetBodyB_p0","_emscripten_bind_b2GearJoint__GetCollideConnected_p0","_emscripten_bind_b2GearJoint__SetUserData_p1","_emscripten_bind_b2GearJoint__GetAnchorB_p0","_emscripten_bind_b2GearJoint__GetReactionForce_p1","_emscripten_bind_b2GearJoint__GetBodyA_p0","_emscripten_bind_b2GearJoint__GetNext_p0","_emscripten_bind_b2GearJoint__IsActive_p0","_emscripten_bind_b2GearJoint__GetRatio_p0","_emscripten_bind_b2RayCastCallback__ReportFixture_p4","_emscripten_bind_b2RayCastCallback__b2RayCastCallback_p0","__ZN17b2RayCastCallbackC1Ev","_emscripten_bind_b2RayCastCallback____destroy___p0","_emscripten_bind_b2DynamicTree____destroy___p0","_emscripten_bind_b2DynamicTree__b2DynamicTree_p0","_emscripten_bind_b2DynamicTree__GetFatAABB_p1","_emscripten_bind_b2DynamicTree__GetUserData_p1","_emscripten_bind_b2DynamicTree__GetMaxBalance_p0","_emscripten_bind_b2DynamicTree__GetHeight_p0","_emscripten_bind_b2DynamicTree__GetAreaRatio_p0","_emscripten_bind_b2DynamicTree__RebuildBottomUp_p0","_emscripten_bind_b2DynamicTree__CreateProxy_p2","_emscripten_bind_b2DynamicTree__MoveProxy_p3","_emscripten_bind_b2DynamicTree__Validate_p0","_emscripten_bind_b2DynamicTree__DestroyProxy_p1","_emscripten_bind_b2WeldJoint__GetBodyA_p0","_emscripten_bind_b2WeldJoint__GetBodyB_p0","_emscripten_bind_b2WeldJoint__SetFrequency_p1","_emscripten_bind_b2WeldJoint__GetUserData_p0","_emscripten_bind_b2WeldJoint__SetUserData_p1","_emscripten_bind_b2WeldJoint__GetAnchorB_p0","_emscripten_bind_b2WeldJoint__GetAnchorA_p0","_emscripten_bind_b2WeldJoint__GetNext_p0","_emscripten_bind_b2WeldJoint__GetLocalAnchorA_p0","_emscripten_bind_b2WeldJoint__GetLocalAnchorB_p0","_emscripten_bind_b2WeldJoint__GetFrequency_p0","_emscripten_bind_b2WeldJoint__b2WeldJoint_p1","_emscripten_bind_b2WeldJoint__GetReactionForce_p1","_emscripten_bind_b2WeldJoint__GetDampingRatio_p0","_emscripten_bind_b2WeldJoint__GetCollideConnected_p0","_emscripten_bind_b2WeldJoint____destroy___p0","_emscripten_bind_b2WeldJoint__GetReferenceAngle_p0","_emscripten_bind_b2WeldJoint__Dump_p0","_emscripten_bind_b2WeldJoint__GetType_p0","_emscripten_bind_b2WeldJoint__SetDampingRatio_p1","_emscripten_bind_b2WeldJoint__GetReactionTorque_p1","_emscripten_bind_b2WeldJoint__IsActive_p0","_emscripten_bind_b2RevoluteJoint__GetBodyA_p0","_emscripten_bind_b2RevoluteJoint__GetBodyB_p0","_emscripten_bind_b2RevoluteJoint__GetUserData_p0","_emscripten_bind_b2RevoluteJoint__GetLowerLimit_p0","__ZNK15b2RevoluteJoint15GetLocalAnchorAEv","__ZNK15b2RevoluteJoint15GetLocalAnchorBEv","__ZNK15b2RevoluteJoint13GetMotorSpeedEv","__ZNK15b2RevoluteJoint17GetReferenceAngleEv","__ZNK15b2RevoluteJoint17GetMaxMotorTorqueEv","_emscripten_bind_b2ChainShape__set_m_radius_p1","_emscripten_bind_b2ChainShape__get_m_radius_p0","_emscripten_bind_b2ChainShape__get_m_vertices_p0","_emscripten_bind_b2ChainShape__get_m_count_p0","_emscripten_bind_b2ChainShape__set_m_vertices_p1","_emscripten_bind_b2ChainShape__set_m_count_p1","_emscripten_bind_b2RevoluteJoint__GetAnchorA_p0","_emscripten_bind_b2RevoluteJoint__b2RevoluteJoint_p1","_emscripten_bind_b2RevoluteJoint__GetNext_p0","_emscripten_bind_b2RevoluteJoint__GetLocalAnchorA_p0","_emscripten_bind_b2RevoluteJoint__SetMotorSpeed_p1","_emscripten_bind_b2RevoluteJoint__GetLocalAnchorB_p0","_emscripten_bind_b2RevoluteJoint__GetJointAngle_p0","_emscripten_bind_b2RevoluteJoint__GetMotorSpeed_p0","_emscripten_bind_b2RevoluteJoint__GetMotorTorque_p1","_emscripten_bind_b2RevoluteJoint__IsLimitEnabled_p0","_emscripten_bind_b2RevoluteJoint__EnableLimit_p1","_emscripten_bind_b2RevoluteJoint__IsMotorEnabled_p0","_emscripten_bind_b2RevoluteJoint__SetUserData_p1","_emscripten_bind_b2RevoluteJoint__GetReactionForce_p1","_emscripten_bind_b2RevoluteJoint__SetMaxMotorTorque_p1","_emscripten_bind_b2RevoluteJoint__GetCollideConnected_p0","_emscripten_bind_b2RevoluteJoint__GetJointSpeed_p0","_emscripten_bind_b2RevoluteJoint__EnableMotor_p1","_emscripten_bind_b2RevoluteJoint____destroy___p0","_emscripten_bind_b2RevoluteJoint__GetReferenceAngle_p0","_emscripten_bind_b2RevoluteJoint__Dump_p0","_emscripten_bind_b2RevoluteJoint__SetLimits_p2","_emscripten_bind_b2RevoluteJoint__GetMaxMotorTorque_p0","_emscripten_bind_b2RevoluteJoint__GetType_p0","_emscripten_bind_b2RevoluteJoint__GetReactionTorque_p1","_emscripten_bind_b2RevoluteJoint__GetUpperLimit_p0","_emscripten_bind_b2RevoluteJoint__IsActive_p0","_emscripten_bind_b2RevoluteJoint__GetAnchorB_p0","_emscripten_bind_b2Timer__b2Timer_p0","_emscripten_bind_b2Timer__Reset_p0","_emscripten_bind_b2Timer____destroy___p0","_emscripten_bind_b2Timer__GetMilliseconds_p0","_emscripten_bind_b2ContactListener____destroy___p0","_emscripten_bind_b2ContactListener__b2ContactListener_p0","_emscripten_bind_b2ContactListener__EndContact_p1","_emscripten_bind_b2ContactListener__BeginContact_p1","_emscripten_bind_b2ContactListener__PreSolve_p2","_emscripten_bind_b2ContactListener__PostSolve_p2","_emscripten_bind_b2ChainShape____destroy___p0","_emscripten_bind_b2ChainShape__GetType_p0","_emscripten_bind_b2ChainShape__CreateChain_p2","_emscripten_bind_b2ChainShape__ComputeMass_p2","_emscripten_bind_b2ChainShape__Clone_p1","_emscripten_bind_b2ChainShape__GetChildEdge_p2","_emscripten_bind_b2ChainShape__b2ChainShape_p0","_emscripten_bind_b2ChainShape__ComputeAABB_p3","_emscripten_bind_b2ChainShape__RayCast_p4","_emscripten_bind_b2ChainShape__GetChildCount_p0","_emscripten_bind_b2ChainShape__TestPoint_p2","_emscripten_bind_b2ChainShape__SetPrevVertex_p1","_emscripten_bind_b2ChainShape__CreateLoop_p2","_emscripten_bind_b2ChainShape__SetNextVertex_p1","_emscripten_bind_b2QueryCallback__ReportFixture_p1","_emscripten_bind_b2QueryCallback____destroy___p0","_emscripten_bind_b2QueryCallback__b2QueryCallback_p0","__ZN15b2QueryCallbackC1Ev","_emscripten_bind_b2BlockAllocator____destroy___p0","_emscripten_bind_b2BlockAllocator__Clear_p0","__ZNK11b2RopeJoint15GetLocalAnchorAEv","__ZN11b2RopeJoint12SetMaxLengthEf","__ZNK11b2RopeJoint15GetLocalAnchorBEv","_emscripten_bind_b2PolygonShape__set_m_radius_p1","_emscripten_bind_b2PolygonShape__get_m_radius_p0","__ZNK14b2PolygonShape9GetVertexEi","_emscripten_bind_b2PolygonShape__set_m_vertexCount_p1","__ZNK14b2PolygonShape14GetVertexCountEv","_emscripten_bind_b2PolygonShape__get_m_vertexCount_p0","_emscripten_bind_b2PolygonShape__get_m_centroid_p0","_emscripten_bind_b2EdgeShape__set_m_radius_p1","_emscripten_bind_b2EdgeShape__get_m_radius_p0","__ZNK9b2Contact14GetRestitutionEv","_emscripten_bind_b2BlockAllocator__Free_p2","_emscripten_bind_b2BlockAllocator__Allocate_p1","_emscripten_bind_b2BlockAllocator__b2BlockAllocator_p0","_emscripten_bind_b2RopeJoint__GetNext_p0","_emscripten_bind_b2RopeJoint____destroy___p0","_emscripten_bind_b2RopeJoint__GetAnchorA_p0","_emscripten_bind_b2RopeJoint__GetReactionTorque_p1","_emscripten_bind_b2RopeJoint__GetMaxLength_p0","_emscripten_bind_b2RopeJoint__GetBodyA_p0","_emscripten_bind_b2RopeJoint__GetCollideConnected_p0","_emscripten_bind_b2RopeJoint__GetUserData_p0","_emscripten_bind_b2RopeJoint__GetType_p0","_emscripten_bind_b2RopeJoint__GetBodyB_p0","_emscripten_bind_b2RopeJoint__GetLocalAnchorA_p0","_emscripten_bind_b2RopeJoint__Dump_p0","_emscripten_bind_b2RopeJoint__SetMaxLength_p1","_emscripten_bind_b2RopeJoint__GetLocalAnchorB_p0","_emscripten_bind_b2RopeJoint__SetUserData_p1","_emscripten_bind_b2RopeJoint__GetAnchorB_p0","_emscripten_bind_b2RopeJoint__GetReactionForce_p1","_emscripten_bind_b2RopeJoint__b2RopeJoint_p1","_emscripten_bind_b2RopeJoint__GetLimitState_p0","_emscripten_bind_b2RopeJoint__IsActive_p0","_emscripten_bind_b2PolygonShape____destroy___p0","_emscripten_bind_b2PolygonShape__Set_p2","_emscripten_bind_b2PolygonShape__ComputeMass_p2","_emscripten_bind_b2PolygonShape__Clone_p1","_emscripten_bind_b2PolygonShape__GetVertex_p1","_emscripten_bind_b2PolygonShape__RayCast_p4","_emscripten_bind_b2PolygonShape__SetAsBox_p2","_emscripten_bind_b2PolygonShape__SetAsBox_p4","_emscripten_bind_b2PolygonShape__set_m_centroid_p1","_emscripten_bind_b2PolygonShape__ComputeAABB_p3","_emscripten_bind_b2PolygonShape__GetVertexCount_p0","_emscripten_bind_b2PolygonShape__GetChildCount_p0","_emscripten_bind_b2PolygonShape__TestPoint_p2","_emscripten_bind_b2PolygonShape__GetType_p0","_emscripten_bind_b2PolygonShape__b2PolygonShape_p0","_emscripten_bind_b2EdgeShape____destroy___p0","_emscripten_bind_b2EdgeShape__Set_p2","_emscripten_bind_b2EdgeShape__ComputeMass_p2","_emscripten_bind_b2EdgeShape__Clone_p1","_emscripten_bind_b2EdgeShape__GetType_p0","_emscripten_bind_b2EdgeShape__RayCast_p4","_emscripten_bind_b2EdgeShape__ComputeAABB_p3","_emscripten_bind_b2EdgeShape__GetChildCount_p0","_emscripten_bind_b2EdgeShape__TestPoint_p2","_emscripten_bind_b2EdgeShape__b2EdgeShape_p0","_emscripten_bind_b2Contact__GetNext_p0","_emscripten_bind_b2Contact__SetEnabled_p1","_emscripten_bind_b2Contact__GetWorldManifold_p1","__ZNK9b2Contact16GetWorldManifoldEP15b2WorldManifold","_emscripten_bind_b2Contact__GetRestitution_p0","_emscripten_bind_b2Contact__ResetFriction_p0","__ZNK9b2Contact11GetFrictionEv","__ZN9b2Contact11SetFrictionEf","__ZN9b2Contact14SetRestitutionEf","_emscripten_bind_b2Shape__get_m_radius_p0","_emscripten_bind_b2Shape__set_m_radius_p1","__ZNK6b2Body11GetUserDataEv","__ZNK6b2Body17IsSleepingAllowedEv","__ZN6b2Body17SetAngularDampingEf","__ZN6b2Body15SetGravityScaleEf","__ZN6b2Body11SetUserDataEPv","__ZNK6b2Body18GetAngularVelocityEv","__ZN6b2Body12GetJointListEv","__ZN9b2Contact13ResetFrictionEv","_emscripten_bind_b2Contact__GetFriction_p0","_emscripten_bind_b2Contact__IsTouching_p0","_emscripten_bind_b2Contact__IsEnabled_p0","_emscripten_bind_b2Contact__GetFixtureB_p0","_emscripten_bind_b2Contact__SetFriction_p1","_emscripten_bind_b2Contact__GetFixtureA_p0","_emscripten_bind_b2Contact__GetChildIndexA_p0","_emscripten_bind_b2Contact__GetChildIndexB_p0","_emscripten_bind_b2Contact__Evaluate_p3","_emscripten_bind_b2Contact__SetRestitution_p1","_emscripten_bind_b2Contact__GetManifold_p0","_emscripten_bind_b2Contact__ResetRestitution_p0","__ZN9b2Contact16ResetRestitutionEv","_emscripten_bind_b2Shape__ComputeMass_p2","_emscripten_bind_b2Shape__Clone_p1","_emscripten_bind_b2Shape__GetType_p0","_emscripten_bind_b2Shape__RayCast_p4","_emscripten_bind_b2Shape__ComputeAABB_p3","_emscripten_bind_b2Shape__GetChildCount_p0","_emscripten_bind_b2Shape__TestPoint_p2","_emscripten_bind_b2Body__GetAngle_p0","_emscripten_bind_b2Body__GetUserData_p0","_emscripten_bind_b2Body__IsSleepingAllowed_p0","_emscripten_bind_b2Body__SetAngularDamping_p1","_emscripten_bind_b2Body__SetActive_p1","_emscripten_bind_b2Body__SetGravityScale_p1","_emscripten_bind_b2Body__SetUserData_p1","_emscripten_bind_b2Body__GetAngularVelocity_p0","_emscripten_bind_b2Body__GetFixtureList_p0","_emscripten_bind_b2Body__ApplyForce_p2","__ZN6b2Body10ApplyForceERK6b2Vec2S2_","_emscripten_bind_b2Body__GetLocalPoint_p1","_emscripten_bind_b2Body__SetLinearVelocity_p1","__ZN6b2Body17SetLinearVelocityERK6b2Vec2","_emscripten_bind_b2Body__GetJointList_p0","_emscripten_bind_b2Body__GetLinearVelocity_p0","__ZNK6b2Body17GetLinearVelocityEv","_emscripten_bind_b2Body__GetNext_p0","_emscripten_bind_b2Body__SetSleepingAllowed_p1","__ZN6b2Body18SetSleepingAllowedEb","_emscripten_bind_b2Body__SetTransform_p2","_emscripten_bind_b2Body__GetMass_p0","_emscripten_bind_b2Body__SetAngularVelocity_p1","__ZN6b2Body18SetAngularVelocityEf","_emscripten_bind_b2Body__GetMassData_p1","__ZNK6b2Body11GetMassDataEP10b2MassData","_emscripten_bind_b2Body__GetLinearVelocityFromWorldPoint_p1","__ZNK6b2Body31GetLinearVelocityFromWorldPointERK6b2Vec2","_emscripten_bind_b2Body__ResetMassData_p0","_emscripten_bind_b2Body__ApplyForceToCenter_p1","__ZN6b2Body18ApplyForceToCenterERK6b2Vec2","_emscripten_bind_b2Body__ApplyTorque_p1","__ZN6b2Body11ApplyTorqueEf","_emscripten_bind_b2Body__IsAwake_p0","_emscripten_bind_b2Body__SetType_p1","__ZNK6b2Body17GetAngularDampingEv","__ZNK6b2Body15IsFixedRotationEv","__ZNK6b2Body14GetLocalCenterEv","__ZNK6b2Body16GetLinearDampingEv","__ZN6b2Body16SetLinearDampingEf","__ZN6b2Body9SetBulletEb","__ZNK6b2Body15GetGravityScaleEv","__ZNK6b2Body11GetPositionEv","__ZNK15b2FrictionJoint15GetLocalAnchorAEv","__ZNK15b2FrictionJoint15GetLocalAnchorBEv","_emscripten_bind_b2Body__CreateFixture_p1","_emscripten_bind_b2Body__CreateFixture_p2","_emscripten_bind_b2Body__SetMassData_p1","_emscripten_bind_b2Body__GetTransform_p0","_emscripten_bind_b2Body__GetWorldCenter_p0","_emscripten_bind_b2Body__GetAngularDamping_p0","_emscripten_bind_b2Body__ApplyLinearImpulse_p2","__ZN6b2Body18ApplyLinearImpulseERK6b2Vec2S2_","_emscripten_bind_b2Body__IsFixedRotation_p0","_emscripten_bind_b2Body__GetLocalCenter_p0","_emscripten_bind_b2Body__GetWorldVector_p1","_emscripten_bind_b2Body__GetLinearVelocityFromLocalPoint_p1","__ZNK6b2Body31GetLinearVelocityFromLocalPointERK6b2Vec2","_emscripten_bind_b2Body__GetContactList_p0","_emscripten_bind_b2Body__GetWorldPoint_p1","_emscripten_bind_b2Body__SetAwake_p1","_emscripten_bind_b2Body__GetLinearDamping_p0","_emscripten_bind_b2Body__IsBullet_p0","_emscripten_bind_b2Body__GetWorld_p0","_emscripten_bind_b2Body__GetLocalVector_p1","_emscripten_bind_b2Body__SetLinearDamping_p1","_emscripten_bind_b2Body__Dump_p0","_emscripten_bind_b2Body__SetBullet_p1","_emscripten_bind_b2Body__GetType_p0","_emscripten_bind_b2Body__GetGravityScale_p0","_emscripten_bind_b2Body__DestroyFixture_p1","_emscripten_bind_b2Body__GetInertia_p0","__ZNK6b2Body10GetInertiaEv","_emscripten_bind_b2Body__IsActive_p0","_emscripten_bind_b2Body__SetFixedRotation_p1","__ZN6b2Body16SetFixedRotationEb","_emscripten_bind_b2Body__ApplyAngularImpulse_p1","__ZN6b2Body19ApplyAngularImpulseEf","_emscripten_bind_b2Body__GetPosition_p0","_emscripten_bind_b2FrictionJoint__SetMaxTorque_p1","_emscripten_bind_b2FrictionJoint__GetMaxForce_p0","_emscripten_bind_b2FrictionJoint__GetAnchorA_p0","_emscripten_bind_b2FrictionJoint__GetReactionTorque_p1","_emscripten_bind_b2FrictionJoint__Dump_p0","_emscripten_bind_b2FrictionJoint____destroy___p0","_emscripten_bind_b2FrictionJoint__GetCollideConnected_p0","_emscripten_bind_b2FrictionJoint__GetUserData_p0","_emscripten_bind_b2FrictionJoint__GetType_p0","_emscripten_bind_b2FrictionJoint__SetMaxForce_p1","_emscripten_bind_b2FrictionJoint__GetBodyB_p0","_emscripten_bind_b2FrictionJoint__GetLocalAnchorA_p0","_emscripten_bind_b2FrictionJoint__b2FrictionJoint_p1","_emscripten_bind_b2FrictionJoint__GetLocalAnchorB_p0","_emscripten_bind_b2FrictionJoint__SetUserData_p1","_emscripten_bind_b2FrictionJoint__GetAnchorB_p0","_emscripten_bind_b2FrictionJoint__GetReactionForce_p1","_emscripten_bind_b2FrictionJoint__GetBodyA_p0","_emscripten_bind_b2Filter__set_maskBits_p1","_emscripten_bind_b2Filter__set_categoryBits_p1","_emscripten_bind_b2Filter__get_groupIndex_p0","_emscripten_bind_b2Filter__set_groupIndex_p1","_emscripten_bind_b2Filter__get_maskBits_p0","_emscripten_bind_b2Filter__get_categoryBits_p0","__ZN18b2FrictionJointDef9get_bodyAEP6b2Body","__ZN18b2FrictionJointDef9get_bodyBEP6b2Body","__ZN18b2FrictionJointDef9set_bodyAEP6b2Body","__ZN18b2FrictionJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2FrictionJointDef__get_maxForce_p0","_emscripten_bind_b2FrictionJointDef__get_localAnchorA_p0","_emscripten_bind_b2FrictionJointDef__set_maxForce_p1","_emscripten_bind_b2FrictionJointDef__get_localAnchorB_p0","__ZN18b2FrictionJointDef20get_collideConnectedEb","_emscripten_bind_b2FrictionJointDef__set_maxTorque_p1","__ZN18b2FrictionJointDef20set_collideConnectedEb","_emscripten_bind_b2FrictionJointDef__get_maxTorque_p0","_emscripten_bind_b2BodyDef__get_linearDamping_p0","_emscripten_bind_b2BodyDef__get_awake_p0","_emscripten_bind_b2BodyDef__get_type_p0","_emscripten_bind_b2BodyDef__get_allowSleep_p0","_emscripten_bind_b2BodyDef__get_bullet_p0","_emscripten_bind_b2BodyDef__get_userData_p0","_emscripten_bind_b2BodyDef__set_angularDamping_p1","_emscripten_bind_b2BodyDef__set_fixedRotation_p1","_emscripten_bind_b2BodyDef__set_allowSleep_p1","_emscripten_bind_b2BodyDef__get_gravityScale_p0","_emscripten_bind_b2BodyDef__set_angularVelocity_p1","_emscripten_bind_b2BodyDef__set_userData_p1","_emscripten_bind_b2BodyDef__get_position_p0","_emscripten_bind_b2BodyDef__set_type_p1","_emscripten_bind_b2BodyDef__set_gravityScale_p1","_emscripten_bind_b2BodyDef__get_angularDamping_p0","_emscripten_bind_b2BodyDef__set_bullet_p1","_emscripten_bind_b2BodyDef__set_active_p1","_emscripten_bind_b2BodyDef__set_angle_p1","_emscripten_bind_b2BodyDef__get_angle_p0","_emscripten_bind_b2BodyDef__get_angularVelocity_p0","_emscripten_bind_b2BodyDef__get_linearVelocity_p0","_emscripten_bind_b2BodyDef__get_active_p0","_emscripten_bind_b2BodyDef__set_linearDamping_p1","_emscripten_bind_b2BodyDef__get_fixedRotation_p0","_emscripten_bind_b2BodyDef__set_awake_p1","_emscripten_bind_b2Vec2__set_x_p1","_emscripten_bind_b2FrictionJoint__GetNext_p0","_emscripten_bind_b2FrictionJoint__GetMaxTorque_p0","_emscripten_bind_b2FrictionJoint__IsActive_p0","_emscripten_bind_b2StackAllocator__GetMaxAllocation_p0","_emscripten_bind_b2StackAllocator____destroy___p0","_emscripten_bind_b2StackAllocator__b2StackAllocator_p0","_emscripten_bind_b2StackAllocator__Allocate_p1","_emscripten_bind_b2StackAllocator__Free_p1","_emscripten_bind_b2DestructionListener____destroy___p0","_emscripten_bind_b2DestructionListener__SayGoodbye_p1","_emscripten_bind_b2DestructionListener__b2DestructionListener_p0","__ZN21b2DestructionListenerC1Ev","_emscripten_bind_b2Filter____destroy___p0","_emscripten_bind_b2Filter__b2Filter_p0","_emscripten_bind_b2FrictionJointDef__set_localAnchorA_p1","_emscripten_bind_b2FrictionJointDef__get_bodyA_p1","_emscripten_bind_b2FrictionJointDef__get_bodyB_p1","_emscripten_bind_b2FrictionJointDef__set_localAnchorB_p1","_emscripten_bind_b2FrictionJointDef__set_bodyA_p1","_emscripten_bind_b2FrictionJointDef__set_bodyB_p1","_emscripten_bind_b2FrictionJointDef____destroy___p0","_emscripten_bind_b2FrictionJointDef__b2FrictionJointDef_p0","__ZN18b2FrictionJointDefC1Ev","_emscripten_bind_b2FrictionJointDef__get_collideConnected_p1","_emscripten_bind_b2FrictionJointDef__set_collideConnected_p1","_emscripten_bind_b2FrictionJointDef__Initialize_p3","_emscripten_bind_b2BodyDef__set_position_p1","_emscripten_bind_b2BodyDef__set_linearVelocity_p1","_emscripten_bind_b2BodyDef__b2BodyDef_p0","__ZN9b2BodyDefC1Ev","_emscripten_bind_b2BodyDef____destroy___p0","_emscripten_bind_b2Vec2__Normalize_p0","_emscripten_bind_b2Vec2__b2Vec2_p0","_emscripten_bind_b2Vec2__b2Vec2_p2","_emscripten_bind_b2Vec2__Set_p2","_emscripten_bind_b2Vec2__get_x_p0","_emscripten_bind_b2Vec2__get_y_p0","_emscripten_bind_b2Vec2__set_y_p1","_emscripten_bind_b2Vec3__set_z_p1","_emscripten_bind_b2Vec3__get_z_p0","_emscripten_bind_b2DistanceProxy__get_m_radius_p0","_emscripten_bind_b2DistanceProxy__set_m_radius_p1","_emscripten_bind_b2DistanceProxy__get_m_vertices_p0","_emscripten_bind_b2DistanceProxy__get_m_count_p0","__ZNK15b2DistanceProxy14GetVertexCountEv","_emscripten_bind_b2DistanceProxy__set_m_vertices_p1","_emscripten_bind_b2DistanceProxy__set_m_count_p1","_emscripten_bind_b2FixtureDef__get_isSensor_p0","_emscripten_bind_b2FixtureDef__set_userData_p1","_emscripten_bind_b2FixtureDef__set_shape_p1","_emscripten_bind_b2FixtureDef__get_density_p0","_emscripten_bind_b2FixtureDef__get_shape_p0","_emscripten_bind_b2FixtureDef__set_density_p1","_emscripten_bind_b2FixtureDef__set_restitution_p1","_emscripten_bind_b2FixtureDef__get_restitution_p0","_emscripten_bind_b2FixtureDef__set_isSensor_p1","_emscripten_bind_b2FixtureDef__get_filter_p0","_emscripten_bind_b2FixtureDef__get_friction_p0","_emscripten_bind_b2FixtureDef__set_friction_p1","_emscripten_bind_b2FixtureDef__get_userData_p0","_emscripten_bind_b2Manifold__get_localPoint_p0","_emscripten_bind_b2Manifold__set_type_p1","_emscripten_bind_b2Manifold__get_pointCount_p0","_emscripten_bind_b2Manifold__get_type_p0","_emscripten_bind_b2Manifold__set_pointCount_p1","_emscripten_bind_b2Manifold__get_localNormal_p0","_emscripten_bind_b2PrismaticJointDef__get_motorSpeed_p0","_emscripten_bind_b2PrismaticJointDef__get_enableMotor_p0","_emscripten_bind_b2PrismaticJointDef__get_referenceAngle_p0","_emscripten_bind_b2PrismaticJointDef__set_enableLimit_p1","_emscripten_bind_b2PrismaticJointDef__set_motorSpeed_p1","_emscripten_bind_b2PrismaticJointDef__get_localAxisA_p0","_emscripten_bind_b2Vec2__IsValid_p0","_emscripten_bind_b2Vec2__Skew_p0","_emscripten_bind_b2Vec2__LengthSquared_p0","_emscripten_bind_b2Vec2__op_add_p1","_emscripten_bind_b2Vec2__SetZero_p0","_emscripten_bind_b2Vec2__Length_p0","_emscripten_bind_b2Vec2____destroy___p0","_emscripten_bind_b2Vec2__op_mul_p1","_emscripten_bind_b2Vec2__op_sub_p0","_emscripten_bind_b2Vec3____destroy___p0","_emscripten_bind_b2Vec3__Set_p3","_emscripten_bind_b2Vec3__op_add_p1","_emscripten_bind_b2Vec3__SetZero_p0","_emscripten_bind_b2Vec3__b2Vec3_p0","_emscripten_bind_b2Vec3__b2Vec3_p3","_emscripten_bind_b2Vec3__op_mul_p1","_emscripten_bind_b2Vec3__op_sub_p0","_emscripten_bind_b2DistanceProxy__Set_p2","_emscripten_bind_b2DistanceProxy__b2DistanceProxy_p0","_emscripten_bind_b2DistanceProxy____destroy___p0","_emscripten_bind_b2DistanceProxy__GetSupportVertex_p1","__ZNK15b2DistanceProxy16GetSupportVertexERK6b2Vec2","_emscripten_bind_b2DistanceProxy__GetVertexCount_p0","_emscripten_bind_b2DistanceProxy__GetVertex_p1","_emscripten_bind_b2DistanceProxy__GetSupport_p1","_emscripten_bind_b2FixtureDef____destroy___p0","_emscripten_bind_b2FixtureDef__b2FixtureDef_p0","_emscripten_bind_b2FixtureDef__set_filter_p1","_emscripten_bind_b2Manifold____destroy___p0","_emscripten_bind_b2Manifold__b2Manifold_p0","_emscripten_bind_b2Manifold__set_localPoint_p1","_emscripten_bind_b2Manifold__set_localNormal_p1","_emscripten_bind_b2PrismaticJointDef__set_localAnchorA_p1","_emscripten_bind_b2PrismaticJointDef__set_localAnchorB_p1","_emscripten_bind_b2PrismaticJointDef__set_bodyA_p1","__ZN19b2PrismaticJointDef9set_bodyAEP6b2Body","__ZN19b2PrismaticJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2PrismaticJointDef__set_lowerTranslation_p1","_emscripten_bind_b2PrismaticJointDef__get_upperTranslation_p0","_emscripten_bind_b2PrismaticJointDef__get_enableLimit_p0","_emscripten_bind_b2PrismaticJointDef__set_referenceAngle_p1","_emscripten_bind_b2PrismaticJointDef__get_localAnchorA_p0","_emscripten_bind_b2PrismaticJointDef__get_localAnchorB_p0","__ZN19b2PrismaticJointDef20get_collideConnectedEb","__ZN19b2PrismaticJointDef9get_bodyAEP6b2Body","__ZN19b2PrismaticJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2PrismaticJointDef__set_upperTranslation_p1","_emscripten_bind_b2PrismaticJointDef__get_maxMotorForce_p0","_emscripten_bind_b2PrismaticJointDef__set_maxMotorForce_p1","_emscripten_bind_b2PrismaticJointDef__set_enableMotor_p1","__ZN19b2PrismaticJointDef20set_collideConnectedEb","_emscripten_bind_b2PrismaticJointDef__get_lowerTranslation_p0","_emscripten_bind_b2Rot__set_c_p1","__ZN5b2Rot11SetIdentityEv","_emscripten_bind_b2Rot__get_c_p0","_emscripten_bind_b2WheelJointDef__get_motorSpeed_p0","_emscripten_bind_b2WheelJointDef__set_maxMotorTorque_p1","_emscripten_bind_b2WheelJointDef__set_frequencyHz_p1","_emscripten_bind_b2WheelJointDef__set_motorSpeed_p1","_emscripten_bind_b2WheelJointDef__get_localAxisA_p0","__ZN15b2WheelJointDef9set_bodyAEP6b2Body","__ZN15b2WheelJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2WheelJointDef__get_frequencyHz_p0","_emscripten_bind_b2WheelJointDef__set_dampingRatio_p1","_emscripten_bind_b2WheelJointDef__get_localAnchorA_p0","_emscripten_bind_b2WheelJointDef__get_maxMotorTorque_p0","_emscripten_bind_b2WheelJointDef__get_localAnchorB_p0","__ZN15b2WheelJointDef20get_collideConnectedEb","_emscripten_bind_b2WheelJointDef__get_enableMotor_p0","_emscripten_bind_b2WheelJointDef__get_dampingRatio_p0","__ZN15b2WheelJointDef9get_bodyAEP6b2Body","__ZN15b2WheelJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2WheelJointDef__set_enableMotor_p1","__ZN15b2WheelJointDef20set_collideConnectedEb","_emscripten_bind_b2RevoluteJointDef__get_lowerAngle_p0","_emscripten_bind_b2RevoluteJointDef__set_lowerAngle_p1","_emscripten_bind_b2RevoluteJointDef__get_enableMotor_p0","_emscripten_bind_b2PrismaticJointDef__set_bodyB_p1","_emscripten_bind_b2PrismaticJointDef__b2PrismaticJointDef_p0","__ZN19b2PrismaticJointDefC1Ev","_emscripten_bind_b2PrismaticJointDef__Initialize_p4","_emscripten_bind_b2PrismaticJointDef____destroy___p0","_emscripten_bind_b2PrismaticJointDef__get_collideConnected_p1","_emscripten_bind_b2PrismaticJointDef__get_bodyA_p1","_emscripten_bind_b2PrismaticJointDef__get_bodyB_p1","_emscripten_bind_b2PrismaticJointDef__set_collideConnected_p1","_emscripten_bind_b2PrismaticJointDef__set_localAxisA_p1","_emscripten_bind_b2Rot____destroy___p0","_emscripten_bind_b2Rot__Set_p1","_emscripten_bind_b2Rot__GetAngle_p0","__ZNK5b2Rot8GetAngleEv","_emscripten_bind_b2Rot__GetYAxis_p0","__ZNK5b2Rot8GetYAxisEv","_emscripten_bind_b2Rot__GetXAxis_p0","__ZNK5b2Rot8GetXAxisEv","_emscripten_bind_b2Rot__SetIdentity_p0","_emscripten_bind_b2Rot__b2Rot_p0","_emscripten_bind_b2Rot__b2Rot_p1","_emscripten_bind_b2WheelJointDef__set_localAnchorA_p1","_emscripten_bind_b2WheelJointDef__set_localAnchorB_p1","_emscripten_bind_b2WheelJointDef__set_bodyA_p1","_emscripten_bind_b2WheelJointDef__set_bodyB_p1","_emscripten_bind_b2WheelJointDef__Initialize_p4","_emscripten_bind_b2WheelJointDef__b2WheelJointDef_p0","__ZN15b2WheelJointDefC1Ev","_emscripten_bind_b2WheelJointDef____destroy___p0","_emscripten_bind_b2WheelJointDef__get_collideConnected_p1","_emscripten_bind_b2WheelJointDef__get_bodyA_p1","_emscripten_bind_b2WheelJointDef__get_bodyB_p1","_emscripten_bind_b2WheelJointDef__set_collideConnected_p1","_emscripten_bind_b2WheelJointDef__set_localAxisA_p1","_emscripten_bind_b2RevoluteJointDef__set_localAnchorA_p1","_emscripten_bind_b2RevoluteJointDef__set_localAnchorB_p1","_emscripten_bind_b2RevoluteJointDef__set_upperAngle_p1","_emscripten_bind_b2RevoluteJointDef__get_referenceAngle_p0","_emscripten_bind_b2RevoluteJointDef__set_enableLimit_p1","_emscripten_bind_b2RevoluteJointDef__get_motorSpeed_p0","_emscripten_bind_b2RevoluteJointDef__set_motorSpeed_p1","_emscripten_bind_b2RevoluteJointDef__get_maxMotorTorque_p0","__ZN18b2RevoluteJointDef9set_bodyAEP6b2Body","__ZN18b2RevoluteJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2RevoluteJointDef__get_enableLimit_p0","_emscripten_bind_b2RevoluteJointDef__get_upperAngle_p0","_emscripten_bind_b2RevoluteJointDef__set_referenceAngle_p1","_emscripten_bind_b2RevoluteJointDef__get_localAnchorA_p0","_emscripten_bind_b2RevoluteJointDef__get_localAnchorB_p0","__ZN18b2RevoluteJointDef20get_collideConnectedEb","__ZN18b2RevoluteJointDef9get_bodyAEP6b2Body","__ZN18b2RevoluteJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2RevoluteJointDef__set_maxMotorTorque_p1","_emscripten_bind_b2RevoluteJointDef__set_enableMotor_p1","__ZN18b2RevoluteJointDef20set_collideConnectedEb","_emscripten_bind_b2PulleyJointDef__set_ratio_p1","_emscripten_bind_b2PulleyJointDef__get_groundAnchorB_p0","_emscripten_bind_b2PulleyJointDef__get_groundAnchorA_p0","__ZN16b2PulleyJointDef9set_bodyAEP6b2Body","__ZN16b2PulleyJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2PulleyJointDef__get_ratio_p0","_emscripten_bind_b2PulleyJointDef__get_localAnchorA_p0","_emscripten_bind_b2PulleyJointDef__get_localAnchorB_p0","__ZN16b2PulleyJointDef20get_collideConnectedEb","_emscripten_bind_b2PulleyJointDef__set_lengthB_p1","_emscripten_bind_b2PulleyJointDef__set_lengthA_p1","__ZN16b2PulleyJointDef9get_bodyAEP6b2Body","__ZN16b2PulleyJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2PulleyJointDef__get_lengthB_p0","_emscripten_bind_b2PulleyJointDef__get_lengthA_p0","__ZN16b2PulleyJointDef20set_collideConnectedEb","_emscripten_bind_b2JointDef__get_bodyA_p0","_emscripten_bind_b2JointDef__set_userData_p1","_emscripten_bind_b2JointDef__set_bodyA_p1","_emscripten_bind_b2JointDef__set_bodyB_p1","_emscripten_bind_b2JointDef__get_bodyB_p0","_emscripten_bind_b2JointDef__set_type_p1","_emscripten_bind_b2JointDef__get_collideConnected_p0","_emscripten_bind_b2JointDef__get_type_p0","_emscripten_bind_b2JointDef__set_collideConnected_p1","_emscripten_bind_b2JointDef__get_userData_p0","_emscripten_bind_b2Transform__get_p_p0","_emscripten_bind_b2Transform__get_q_p0","_emscripten_bind_b2RevoluteJointDef__set_bodyA_p1","_emscripten_bind_b2RevoluteJointDef__set_bodyB_p1","_emscripten_bind_b2RevoluteJointDef__b2RevoluteJointDef_p0","__ZN18b2RevoluteJointDefC1Ev","_emscripten_bind_b2RevoluteJointDef__Initialize_p3","_emscripten_bind_b2RevoluteJointDef____destroy___p0","_emscripten_bind_b2RevoluteJointDef__get_collideConnected_p1","_emscripten_bind_b2RevoluteJointDef__get_bodyA_p1","_emscripten_bind_b2RevoluteJointDef__get_bodyB_p1","_emscripten_bind_b2RevoluteJointDef__set_collideConnected_p1","_emscripten_bind_b2PulleyJointDef__set_localAnchorA_p1","_emscripten_bind_b2PulleyJointDef__set_localAnchorB_p1","_emscripten_bind_b2PulleyJointDef__set_groundAnchorB_p1","_emscripten_bind_b2PulleyJointDef__set_groundAnchorA_p1","_emscripten_bind_b2PulleyJointDef__set_bodyA_p1","_emscripten_bind_b2PulleyJointDef__set_bodyB_p1","_emscripten_bind_b2PulleyJointDef__Initialize_p7","_emscripten_bind_b2PulleyJointDef____destroy___p0","_emscripten_bind_b2PulleyJointDef__get_collideConnected_p1","_emscripten_bind_b2PulleyJointDef__get_bodyA_p1","_emscripten_bind_b2PulleyJointDef__get_bodyB_p1","_emscripten_bind_b2PulleyJointDef__set_collideConnected_p1","_emscripten_bind_b2PulleyJointDef__b2PulleyJointDef_p0","__ZN16b2PulleyJointDefC1Ev","_emscripten_bind_b2JointDef____destroy___p0","_emscripten_bind_b2JointDef__b2JointDef_p0","__ZN10b2JointDefC1Ev","_emscripten_bind_b2Transform____destroy___p0","_emscripten_bind_b2Transform__Set_p2","__ZN11b2Transform3SetERK6b2Vec2f","_emscripten_bind_b2Transform__set_p_p1","_emscripten_bind_b2Transform__set_q_p1","_emscripten_bind_b2Transform__b2Transform_p0","_emscripten_bind_b2Transform__b2Transform_p2","__ZN11b2TransformC1ERK6b2Vec2RK5b2Rot","__ZN7b2Color3SetEfff","_emscripten_bind_b2Color__set_r_p1","_emscripten_bind_b2Color__get_r_p0","_emscripten_bind_b2Color__set_b_p1","_emscripten_bind_b2Color__get_g_p0","_emscripten_bind_b2Color__get_b_p0","_emscripten_bind_b2Color__set_g_p1","_emscripten_bind_b2AABB__get_upperBound_p0","_emscripten_bind_b2AABB__get_lowerBound_p0","__ZN14b2WeldJointDef9get_bodyAEP6b2Body","__ZN14b2WeldJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2WeldJointDef__get_frequencyHz_p0","__ZN14b2WeldJointDef9set_bodyAEP6b2Body","__ZN14b2WeldJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2WeldJointDef__set_referenceAngle_p1","_emscripten_bind_b2WeldJointDef__get_localAnchorA_p0","_emscripten_bind_b2WeldJointDef__get_referenceAngle_p0","_emscripten_bind_b2WeldJointDef__get_localAnchorB_p0","__ZN14b2WeldJointDef20get_collideConnectedEb","_emscripten_bind_b2WeldJointDef__get_dampingRatio_p0","__ZN14b2WeldJointDef20set_collideConnectedEb","_emscripten_bind_b2WeldJointDef__set_frequencyHz_p1","_emscripten_bind_b2WeldJointDef__set_dampingRatio_p1","__ZN15b2MouseJointDef9get_bodyAEP6b2Body","__ZN15b2MouseJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2MouseJointDef__set_dampingRatio_p1","__ZN15b2MouseJointDef9set_bodyAEP6b2Body","__ZN15b2MouseJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2MouseJointDef__get_maxForce_p0","_emscripten_bind_b2MouseJointDef__set_maxForce_p1","_emscripten_bind_b2MouseJointDef__get_frequencyHz_p0","_emscripten_bind_b2MouseJointDef__get_target_p0","_emscripten_bind_b2Transform__SetIdentity_p0","__ZN11b2Transform11SetIdentityEv","_emscripten_bind_b2Color____destroy___p0","_emscripten_bind_b2Color__Set_p3","_emscripten_bind_b2Color__b2Color_p0","__ZN7b2ColorC1Ev","_emscripten_bind_b2Color__b2Color_p3","_emscripten_bind_b2AABB____destroy___p0","_emscripten_bind_b2AABB__b2AABB_p0","_emscripten_bind_b2AABB__set_upperBound_p1","_emscripten_bind_b2AABB__IsValid_p0","__ZNK6b2AABB7IsValidEv","_emscripten_bind_b2AABB__Contains_p1","_emscripten_bind_b2AABB__GetExtents_p0","_emscripten_bind_b2AABB__GetCenter_p0","_emscripten_bind_b2AABB__GetPerimeter_p0","_emscripten_bind_b2AABB__Combine_p1","__ZN6b2AABB7CombineERKS_","_emscripten_bind_b2AABB__Combine_p2","_emscripten_bind_b2AABB__RayCast_p2","_emscripten_bind_b2AABB__set_lowerBound_p1","_emscripten_bind_b2WeldJointDef__set_localAnchorA_p1","_emscripten_bind_b2WeldJointDef__get_bodyA_p1","_emscripten_bind_b2WeldJointDef__get_bodyB_p1","_emscripten_bind_b2WeldJointDef__set_localAnchorB_p1","_emscripten_bind_b2WeldJointDef__set_bodyA_p1","_emscripten_bind_b2WeldJointDef__set_bodyB_p1","_emscripten_bind_b2WeldJointDef____destroy___p0","_emscripten_bind_b2WeldJointDef__get_collideConnected_p1","_emscripten_bind_b2WeldJointDef__set_collideConnected_p1","_emscripten_bind_b2WeldJointDef__Initialize_p3","_emscripten_bind_b2WeldJointDef__b2WeldJointDef_p0","__ZN14b2WeldJointDefC1Ev","_emscripten_bind_b2MouseJointDef__get_bodyA_p1","_emscripten_bind_b2MouseJointDef__get_bodyB_p1","_emscripten_bind_b2MouseJointDef__set_bodyA_p1","_emscripten_bind_b2MouseJointDef__set_bodyB_p1","_emscripten_bind_b2MouseJointDef__b2MouseJointDef_p0","__ZN15b2MouseJointDefC1Ev","_emscripten_bind_b2MouseJointDef__set_target_p1","_emscripten_bind_b2MouseJointDef__get_collideConnected_p1","__ZN15b2MouseJointDef20get_collideConnectedEb","__ZN15b2MouseJointDef20set_collideConnectedEb","_emscripten_bind_b2MouseJointDef__set_frequencyHz_p1","_emscripten_bind_b2MouseJointDef__get_dampingRatio_p0","__ZN18b2DistanceJointDef9get_bodyAEP6b2Body","__ZN18b2DistanceJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2DistanceJointDef__set_dampingRatio_p1","__ZN18b2DistanceJointDef9set_bodyAEP6b2Body","__ZN18b2DistanceJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2DistanceJointDef__get_length_p0","_emscripten_bind_b2DistanceJointDef__get_localAnchorA_p0","_emscripten_bind_b2DistanceJointDef__get_frequencyHz_p0","_emscripten_bind_b2DistanceJointDef__get_localAnchorB_p0","__ZN18b2DistanceJointDef20get_collideConnectedEb","_emscripten_bind_b2DistanceJointDef__get_dampingRatio_p0","__ZN18b2DistanceJointDef20set_collideConnectedEb","_emscripten_bind_b2DistanceJointDef__set_length_p1","_emscripten_bind_b2DistanceJointDef__set_frequencyHz_p1","__ZN14b2GearJointDef9get_bodyAEP6b2Body","__ZN14b2GearJointDef9get_bodyBEP6b2Body","_emscripten_bind_b2GearJointDef__get_joint1_p0","__ZN14b2GearJointDef9set_bodyAEP6b2Body","__ZN14b2GearJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2GearJointDef__set_joint2_p1","_emscripten_bind_b2GearJointDef__set_ratio_p1","__ZN14b2GearJointDef20get_collideConnectedEb","_emscripten_bind_b2GearJointDef__get_joint2_p0","__ZN14b2GearJointDef20set_collideConnectedEb","_emscripten_bind_b2GearJointDef__get_ratio_p0","_emscripten_bind_b2GearJointDef__set_joint1_p1","_emscripten_bind_b2ContactEdge__set_contact_p1","_emscripten_bind_b2ContactEdge__get_prev_p0","_emscripten_bind_b2ContactEdge__get_other_p0","_emscripten_bind_b2ContactEdge__set_prev_p1","_emscripten_bind_b2ContactEdge__get_next_p0","_emscripten_bind_b2ContactEdge__set_other_p1","_emscripten_bind_b2ContactEdge__set_next_p1","_emscripten_bind_b2ContactEdge__get_contact_p0","__ZN14b2RopeJointDef9get_bodyAEP6b2Body","__ZN14b2RopeJointDef9get_bodyBEP6b2Body","__ZN14b2RopeJointDef9set_bodyAEP6b2Body","__ZN14b2RopeJointDef9set_bodyBEP6b2Body","_emscripten_bind_b2RopeJointDef__get_localAnchorA_p0","_emscripten_bind_b2RopeJointDef__get_maxLength_p0","_emscripten_bind_b2RopeJointDef__get_localAnchorB_p0","__ZN14b2RopeJointDef20get_collideConnectedEb","__ZN14b2RopeJointDef20set_collideConnectedEb","_emscripten_bind_b2RopeJointDef__set_maxLength_p1","_emscripten_bind_b2MouseJointDef____destroy___p0","_emscripten_bind_b2MouseJointDef__set_collideConnected_p1","_emscripten_bind_b2DistanceJointDef__set_localAnchorA_p1","_emscripten_bind_b2DistanceJointDef__get_bodyA_p1","_emscripten_bind_b2DistanceJointDef__get_bodyB_p1","_emscripten_bind_b2DistanceJointDef__set_localAnchorB_p1","_emscripten_bind_b2DistanceJointDef__set_bodyA_p1","_emscripten_bind_b2DistanceJointDef__set_bodyB_p1","_emscripten_bind_b2DistanceJointDef__get_collideConnected_p1","_emscripten_bind_b2DistanceJointDef__b2DistanceJointDef_p0","__ZN18b2DistanceJointDefC1Ev","_emscripten_bind_b2DistanceJointDef____destroy___p0","_emscripten_bind_b2DistanceJointDef__set_collideConnected_p1","_emscripten_bind_b2DistanceJointDef__Initialize_p4","_emscripten_bind_b2GearJointDef____destroy___p0","_emscripten_bind_b2GearJointDef__get_bodyA_p1","_emscripten_bind_b2GearJointDef__get_bodyB_p1","_emscripten_bind_b2GearJointDef__set_bodyA_p1","_emscripten_bind_b2GearJointDef__set_bodyB_p1","_emscripten_bind_b2GearJointDef__get_collideConnected_p1","_emscripten_bind_b2GearJointDef__set_collideConnected_p1","_emscripten_bind_b2GearJointDef__b2GearJointDef_p0","__ZN14b2GearJointDefC1Ev","_emscripten_bind_b2ContactEdge____destroy___p0","_emscripten_bind_b2ContactEdge__b2ContactEdge_p0","_emscripten_bind_b2RopeJointDef__set_localAnchorA_p1","_emscripten_bind_b2RopeJointDef__get_bodyA_p1","_emscripten_bind_b2RopeJointDef__get_bodyB_p1","_emscripten_bind_b2RopeJointDef__set_localAnchorB_p1","_emscripten_bind_b2RopeJointDef__set_bodyA_p1","_emscripten_bind_b2RopeJointDef__set_bodyB_p1","_emscripten_bind_b2RopeJointDef____destroy___p0","_emscripten_bind_b2RopeJointDef__get_collideConnected_p1","_emscripten_bind_b2RopeJointDef__set_collideConnected_p1","_emscripten_bind_b2RopeJointDef__b2RopeJointDef_p0","__ZN14b2RopeJointDefC1Ev","__ZN7b2ColorC2Ev","__ZN21b2DestructionListener10SayGoodbyeEP7b2Joint","__ZN21b2DestructionListener10SayGoodbyeEP9b2Fixture","__ZN21b2DestructionListenerD2Ev","__ZN15b2QueryCallback13ReportFixtureEP9b2Fixture","__ZN15b2QueryCallbackD2Ev","__ZN17b2RayCastCallback13ReportFixtureEP9b2FixtureRK6b2Vec2S4_f","__ZN17b2RayCastCallbackD2Ev","__ZNSt9type_infoD2Ev","__ZNK10__cxxabiv116__shim_type_info5noop1Ev","__ZNK10__cxxabiv116__shim_type_info5noop2Ev","__ZN10__cxxabiv18is_equalEPKSt9type_infoS2_b","__ZN21b2DestructionListenerC2Ev","__ZN15b2QueryCallbackC2Ev","__ZN17b2RayCastCallbackC2Ev","__ZN10b2JointDefC2Ev","__ZNK10__cxxabiv117__class_type_info24process_found_base_classEPNS_19__dynamic_cast_infoEPvi","__ZN14b2RopeJointDefC2Ev","__ZN14b2GearJointDefC2Ev","__ZN18b2DistanceJointDefC2Ev","__ZN15b2MouseJointDefC2Ev","__ZN14b2WeldJointDefC2Ev","__ZN11b2TransformC2ERK6b2Vec2RK5b2Rot","__ZN16b2PulleyJointDefC2Ev","__ZN18b2RevoluteJointDefC2Ev","__ZN15b2WheelJointDefC2Ev","__ZN19b2PrismaticJointDefC2Ev","__ZN9b2BodyDefC2Ev","__ZN18b2FrictionJointDefC2Ev","__ZN21b2DestructionListenerD1Ev","__ZN21b2DestructionListenerD0Ev","__ZN15b2QueryCallbackD1Ev","__ZN15b2QueryCallbackD0Ev","__ZN17b2RayCastCallbackD1Ev","__ZN17b2RayCastCallbackD0Ev","__ZN10__cxxabiv116__shim_type_infoD2Ev","__ZN10__cxxabiv117__class_type_infoD0Ev","__ZN10__cxxabiv120__si_class_type_infoD0Ev","__ZNK10__cxxabiv117__class_type_info9can_catchEPKNS_16__shim_type_infoERPv","__ZNK10__cxxabiv117__class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi","__ZNK10__cxxabiv120__si_class_type_info27has_unambiguous_public_baseEPNS_19__dynamic_cast_infoEPvi","__ZNK10__cxxabiv117__class_type_info29process_static_type_above_dstEPNS_19__dynamic_cast_infoEPKvS4_i","__ZNK10__cxxabiv117__class_type_info29process_static_type_below_dstEPNS_19__dynamic_cast_infoEPKvi","___dynamic_cast","__ZNK10__cxxabiv120__si_class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib","__ZNK10__cxxabiv117__class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib","__ZNK10__cxxabiv120__si_class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib","__ZNK10__cxxabiv117__class_type_info16search_above_dstEPNS_19__dynamic_cast_infoEPKvS4_ib","_malloc","_tmalloc_small","_tmalloc_large","_sys_alloc","_free","_sys_trim","_segment_holding","_release_unused_segments","_init_mparams","_init_top","_mmap_alloc","_init_bins","_prepend_alloc","__ZNKSt9bad_alloc4whatEv","__ZSt15get_new_handlerv","__ZNSt9bad_allocC2Ev","__ZdlPv","__ZNSt9bad_allocD0Ev","__ZNSt9bad_allocD2Ev","_add_segment","__Znwj"]
 
 
 // Bindings utilities
@@ -91282,6 +91464,50 @@ b2FixtureDef.prototype['get_userData'] = function() {
 
 b2FixtureDef.prototype['set_filter'] = function(arg0) {
     _emscripten_bind_b2FixtureDef__set_filter_p1(this.ptr, arg0.ptr);
+}
+
+b2Manifold.prototype['__destroy__'] = function() {
+    _emscripten_bind_b2Manifold____destroy___p0(this.ptr);
+}
+
+b2Manifold.prototype['get_localPoint'] = function() {
+    return wrapPointer(_emscripten_bind_b2Manifold__get_localPoint_p0(this.ptr), Module['b2Vec2']);
+}
+
+function b2Manifold() {
+    this.ptr = _emscripten_bind_b2Manifold__b2Manifold_p0();
+  b2Manifold.prototype.__cache__[this.ptr] = this;
+  this.__class__ = b2Manifold;
+}
+b2Manifold.prototype.__cache__ = {};
+Module['b2Manifold'] = b2Manifold;
+
+b2Manifold.prototype['set_localPoint'] = function(arg0) {
+    _emscripten_bind_b2Manifold__set_localPoint_p1(this.ptr, arg0.ptr);
+}
+
+b2Manifold.prototype['set_localNormal'] = function(arg0) {
+    _emscripten_bind_b2Manifold__set_localNormal_p1(this.ptr, arg0.ptr);
+}
+
+b2Manifold.prototype['set_type'] = function(arg0) {
+    _emscripten_bind_b2Manifold__set_type_p1(this.ptr, arg0);
+}
+
+b2Manifold.prototype['get_pointCount'] = function() {
+    return _emscripten_bind_b2Manifold__get_pointCount_p0(this.ptr);
+}
+
+b2Manifold.prototype['get_type'] = function() {
+    return _emscripten_bind_b2Manifold__get_type_p0(this.ptr);
+}
+
+b2Manifold.prototype['set_pointCount'] = function(arg0) {
+    _emscripten_bind_b2Manifold__set_pointCount_p1(this.ptr, arg0);
+}
+
+b2Manifold.prototype['get_localNormal'] = function() {
+    return wrapPointer(_emscripten_bind_b2Manifold__get_localNormal_p0(this.ptr), Module['b2Vec2']);
 }
 
 b2PrismaticJointDef.prototype['set_localAnchorA'] = function(arg0) {
