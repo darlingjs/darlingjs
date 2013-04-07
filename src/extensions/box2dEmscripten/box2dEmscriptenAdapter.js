@@ -401,38 +401,20 @@
 
                 this._canvas = canvas;
                 this._context = canvas.getContext("2d");
-
-                /*
-                this._debugDraw = new DebugDraw();
-                this._debugDraw.SetSprite(this._context);
-                this._debugDraw.SetDrawScale(this.ngBox2DSystem.scale);
-                this._debugDraw.SetFillAlpha(0.5);
-                this._debugDraw.SetLineThickness(1.0);
-
-                this._debugDraw.SetFlags(
-                    DebugDraw.e_shapeBit |
-                        DebugDraw.e_jointBit |
-                        //DebugDraw.e_aabbBit |
-//                        DebugDraw.e_pairBit |
-                        DebugDraw.e_centerOfMassBit |
-                        DebugDraw.e_controllerBit);
-                */
-
-
                 this._debugDraw = customDebugDraw.getCanvasDebugDraw(this._context);
                 var flags = 0;
                 flags |= e_shapeBit;
                 flags |= e_jointBit;
-//                flags |= e_aabbBit;
+                //flags |= e_aabbBit;
                 //flats |= e_pairBit;
                 flags |= e_centerOfMassBit;
                 this._debugDraw.SetFlags(flags);
                 this.ngBox2DSystem._world.SetDebugDraw(this._debugDraw);
             } else {
-                this.ngBox2DSystem._world.SetDebugDraw(null);
+                this.ngBox2DSystem._world.SetDebugDraw(new Box2D.b2Draw());
 
                 if (this._canvasHasCreated) {
-                    removeCanvasFromStack(this._canvas);
+                    darlingutil.removeCanvasFromStack(this._canvas);
 
                     this._canvasHasCreated = false;
                 }
@@ -743,7 +725,7 @@
      */
     function getNextEdge(edge) {
         var next = edge.get_next();
-        if (darlingutil.isUndefined(next.get_contact().GetFixtureA().GetBody().m_userData)) {
+        if (next === null || darlingutil.isUndefined(next.get_contact().GetFixtureA().GetBody().m_userData)) {
             return null;
         }
         return next;
