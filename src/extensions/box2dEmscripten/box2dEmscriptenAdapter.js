@@ -715,4 +715,20 @@
             $node.$add(value);
         }
     });
+
+
+    /**
+     * System for locking rotation of physics entities
+     */
+    m.$s('ngBox2DFixRotation', {
+        $require: ['ngFixedRotation', 'ngPhysic'],
+
+        $addNode: function($node) {
+            $node.ngPhysic._b2dBody.SetFixedRotation(true);
+        },
+
+        $removeNode: function($node) {
+            $node.ngPhysic._b2dBody.SetFixedRotation(false);
+        }
+    });
 })(darlingjs, darlingutil);
