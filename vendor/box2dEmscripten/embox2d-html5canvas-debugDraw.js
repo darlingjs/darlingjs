@@ -17,7 +17,7 @@
         ctx.stroke();
     }
 
-    function setColorFromDebugDrawCallback(color) {
+    function setColorFromDebugDrawCallback(context, scale, color) {
         var col = Box2D.wrapPointer(color, b2Color);
         var red = (col.get_r() * 255)|0;
         var green = (col.get_g() * 255)|0;
@@ -27,23 +27,24 @@
         context.strokeStyle = "rgb("+colStr+")";
     }
 
-    function drawSegment(vert1, vert2) {
+    function drawSegment(context, scale, vert1, vert2) {
         var vert1V = Box2D.wrapPointer(vert1, b2Vec2);
         var vert2V = Box2D.wrapPointer(vert2, b2Vec2);
         context.beginPath();
-        context.moveTo(vert1V.get_x(),vert1V.get_y());
-        context.lineTo(vert2V.get_x(),vert2V.get_y());
+        context.moveTo(vert1V.get_x() * scale, vert1V.get_y() * scale);
+        context.lineTo(vert2V.get_x() * scale, vert2V.get_y() * scale);
         context.stroke();
     }
 
-    function drawPolygon(vertices, vertexCount, fill) {
+    function drawPolygon(context, scale, vertices, vertexCount, fill) {
         context.beginPath();
+        context.lineWidth = 0;
         for(var tmpI=0;tmpI<vertexCount;tmpI++) {
             var vert = Box2D.wrapPointer(vertices+(tmpI*8), b2Vec2);
             if ( tmpI == 0 )
-                context.moveTo(vert.get_x(),vert.get_y());
+                context.moveTo(vert.get_x() * scale,vert.get_y() * scale);
             else
-                context.lineTo(vert.get_x(),vert.get_y());
+                context.lineTo(vert.get_x() * scale,vert.get_y() * scale);
         }
         context.closePath();
         if (fill)
@@ -51,12 +52,12 @@
         context.stroke();
     }
 
-    function drawCircle(center, radius, axis, fill) {
+    function drawCircle(context, scale, center, radius, axis, fill) {
         var centerV = Box2D.wrapPointer(center, b2Vec2);
         var axisV = Box2D.wrapPointer(axis, b2Vec2);
 
         context.beginPath();
-        context.arc(centerV.get_x(),centerV.get_y(), radius, 0, 2 * Math.PI, false);
+        context.arc(centerV.get_x() * scale, centerV.get_y() * scale, radius * scale, 0, 2 * Math.PI, false);
         if (fill)
             context.fill();
         context.stroke();
@@ -66,19 +67,19 @@
             var vert2V = copyVec2(centerV);
             vert2V.op_add( scaledVec2(axisV, radius) );
             context.beginPath();
-            context.moveTo(centerV.get_x(),centerV.get_y());
-            context.lineTo(vert2V.get_x(),vert2V.get_y());
+            context.moveTo(centerV.get_x() * scale, centerV.get_y() * scale);
+            context.lineTo(vert2V.get_x() * scale, vert2V.get_y());
             context.stroke();
         }
     }
 
-    function drawTransform(transform) {
+    function drawTransform(context, scale, transform) {
         var trans = Box2D.wrapPointer(transform,b2Transform);
         var pos = trans.get_p();
         var rot = trans.get_q();
 
         context.save();
-        context.translate(pos.get_x(), pos.get_y());
+        context.translate(pos.get_x() * scale, pos.get_y() * scale);
         context.scale(0.5,0.5);
         context.rotate(rot.GetAngle());
         context.lineWidth *= 2;
@@ -88,15 +89,15 @@
 
     api.getCanvasDebugDraw = getCanvasDebugDraw;
 
-    function getCanvasDebugDraw() {
+    function getCanvasDebugDraw(context, scale) {
         var debugDraw = new Box2D.b2Draw();
 
         Box2D.customizeVTable(debugDraw, [{
         original: Box2D.b2Draw.prototype.DrawSegment,
         replacement:
             function(ths, vert1, vert2, color) {
-                setColorFromDebugDrawCallback(color);
-                drawSegment(vert1, vert2);
+                setColorFromDebugDrawCallback(context, scale, color);
+                drawSegment(context, scale, vert1, vert2);
             }
         }]);
 
@@ -104,8 +105,8 @@
         original: Box2D.b2Draw.prototype.DrawPolygon,
         replacement:
             function(ths, vertices, vertexCount, color) {
-                setColorFromDebugDrawCallback(color);
-                drawPolygon(vertices, vertexCount, false);
+                setColorFromDebugDrawCallback(context, scale, color);
+                drawPolygon(context, scale, vertices, vertexCount, false);
             }
         }]);
 
@@ -113,8 +114,8 @@
         original: Box2D.b2Draw.prototype.DrawSolidPolygon,
         replacement:
             function(ths, vertices, vertexCount, color) {
-                setColorFromDebugDrawCallback(color);
-                drawPolygon(vertices, vertexCount, true);
+                setColorFromDebugDrawCallback(context, scale, color);
+                drawPolygon(context, scale, vertices, vertexCount, true);
             }
         }]);
 
@@ -122,9 +123,9 @@
         original: Box2D.b2Draw.prototype.DrawCircle,
         replacement:
             function(ths, center, radius, color) {
-                setColorFromDebugDrawCallback(color);
+                setColorFromDebugDrawCallback(context, scale, color);
                 var dummyAxis = b2Vec2(0,0);
-                drawCircle(center, radius, dummyAxis, false);
+                drawCircle(context, scale, center, radius, dummyAxis, false);
             }
         }]);
 
@@ -132,8 +133,8 @@
         original: Box2D.b2Draw.prototype.DrawSolidCircle,
         replacement:
             function(ths, center, radius, axis, color) {
-                setColorFromDebugDrawCallback(color);
-                drawCircle(center, radius, axis, true);
+                setColorFromDebugDrawCallback(context, scale, color);
+                drawCircle(context, scale, center, radius, axis, true);
             }
         }]);
 
@@ -141,7 +142,7 @@
         original: Box2D.b2Draw.prototype.DrawTransform,
         replacement:
             function(ths, transform) {
-                drawTransform(transform);
+                drawTransform(context, scale, transform);
             }
         }]);
 

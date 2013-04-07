@@ -346,7 +346,8 @@ function step(timestamp) {
 }
 
 function draw() {
-    
+    //stats.begin();
+    //console.time("box2d");
     //black background
     context.fillStyle = 'rgb(0,0,0)';
     context.fillRect( 0, 0, canvas.width, canvas.height );
@@ -374,6 +375,8 @@ function draw() {
         }
         
     context.restore();
+    //console.timeEnd("box2");
+    //stats.end();
 }
 
 function updateStats() {
