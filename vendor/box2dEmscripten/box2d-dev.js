@@ -1539,7 +1539,7 @@ function __Z25b2CollidePolygonAndCircleP10b2ManifoldPK14b2PolygonShapeRK11b2Tran
       var $separation;
       var $radius;
       var $vertexCount;
-      var $vertices;
+      var GetContactList;
       var $normals;
       var $i;
       var $s;

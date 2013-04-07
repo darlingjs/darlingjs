@@ -21,13 +21,15 @@
      *
      */
 
+    //using(Box2D, "b2.+");
+
     m.$s('ngBox2DSystem', {
         gravity: {x:0.0, y:0.0},
         PHYSICS_LOOP_HZ: 1.0 / 60.0,
         scale: 30.0,
         allowSleep: true,
-        velocityIterations: 10,
-        positionIterations: 10,
+        velocityIterations: 4,
+        positionIterations: 4,
 
         _invScale: 1.0,
 
@@ -36,10 +38,9 @@
         $require: ['ng2D', 'ngPhysic'],
 
         $added: function() {
-            using(Box2D, "b2.+");
             this._invScale = 1/this.scale;
-            this._world = new b2World(
-                new b2Vec2(this.gravity.x, this.gravity.y) // Gravity vector
+            this._world = new Box2D.b2World(
+                new Box2D.b2Vec2(this.gravity.x, this.gravity.y) // Gravity vector
                 //, !this.allowSleep // Don't allow sleep
             );
         },
@@ -57,28 +58,28 @@
             var ng2DCircle = $node.ng2DCircle;
             var ng2DPolygon = $node.ng2DPolygon;
 
-            var bodyDef = new b2BodyDef();
+            var bodyDef = new Box2D.b2BodyDef();
             switch(ngPhysic.type) {
                 case 'static':
-                    bodyDef.set_type(b2_staticBody);
+                    bodyDef.set_type(Box2D.b2_staticBody);
                     break;
                 case 'kinematic':
-                    bodyDef.set_type(b2_kinematicBody);
+                    bodyDef.set_type(Box2D.b2_kinematicBody);
                     break;
                 default:
-                    bodyDef.set_type(b2_dynamicBody);
+                    bodyDef.set_type(Box2D.b2_dynamicBody);
                     break;
             }
 
             var rotation = 0.0;
             var shape;
-            var fixDef = new b2FixtureDef();
+            var fixDef = new Box2D.b2FixtureDef();
 
             if (darlingutil.isDefined(ng2DSize)) {
-                shape = new b2PolygonShape();
+                shape = new Box2D.b2PolygonShape();
                 shape.SetAsBox(0.5 * ng2DSize.width * this._invScale, 0.5 * ng2DSize.height * this._invScale);
             } else if (darlingutil.isDefined(ng2DCircle)) {
-                shape = new b2CircleShape();
+                shape = new Box2D.b2CircleShape();
                 shape.set_m_radius(ng2DCircle.radius * this._invScale);
             } else if (darlingutil.isDefined(ng2DPolygon)) {
                 var vertexCount = ng2DPolygon.line.length;
@@ -91,7 +92,7 @@
                     offset += 8;
                 }
 
-                shape = new b2PolygonShape();
+                shape = new Box2D.b2PolygonShape();
                 var ptr_wrapped = Box2D.wrapPointer(buffer, Box2D.b2Vec2);
                 shape.Set(ptr_wrapped, ng2DPolygon.line.length);
             } else {
@@ -109,7 +110,7 @@
             fixDef.set_friction(ngPhysic.friction);
             fixDef.set_density(ngPhysic.density);
 
-            bodyDef.set_position(new b2Vec2(ng2D.x * this._invScale, ng2D.y * this._invScale));
+            bodyDef.set_position(new Box2D.b2Vec2(ng2D.x * this._invScale, ng2D.y * this._invScale));
             bodyDef.set_angle(rotation);
             bodyDef.set_fixedRotation(ngPhysic.fixedRotation);
 
@@ -177,15 +178,15 @@
          */
         getFixturesAt: function(x, y) {
             // Make a small box.
-            var aabb = new b2AABB();
+            var aabb = new Box2D.b2AABB();
             var d = 0.001;
-            aabb.set_lowerBound(new b2Vec2(x - d, y - d));
-            aabb.set_upperBound(new b2Vec2(x + d, y + d));
+            aabb.set_lowerBound(new Box2D.b2Vec2(x - d, y - d));
+            aabb.set_upperBound(new Box2D.b2Vec2(x + d, y + d));
 
             // Query the world for overlapping shapes.
             var myQueryCallback = this._getQueryCallbackForAllFixtures();
             myQueryCallback.m_fixtures = [];
-            myQueryCallback.m_point = new b2Vec2(x, y);
+            myQueryCallback.m_point = new Box2D.b2Vec2(x, y);
             this._world.QueryAABB(myQueryCallback, aabb);
 
             return myQueryCallback.m_fixtures;
@@ -207,15 +208,15 @@
          */
         getOneFixtureAt: function(x, y) {
             // Make a small box.
-            var aabb = new b2AABB();
+            var aabb = new Box2D.b2AABB();
             var d = 0.001;
-            aabb.set_lowerBound(new b2Vec2(x - d, y - d));
-            aabb.set_upperBound(new b2Vec2(x + d, y + d));
+            aabb.set_lowerBound(new Box2D.b2Vec2(x - d, y - d));
+            aabb.set_upperBound(new Box2D.b2Vec2(x + d, y + d));
 
             // Query the world for overlapping shapes.
             var myQueryCallback = this._getQueryCallbackForOneFixture();
             myQueryCallback.m_fixture = null;
-            myQueryCallback.m_point = new b2Vec2(x, y);
+            myQueryCallback.m_point = new Box2D.b2Vec2(x, y);
             this._world.QueryAABB(myQueryCallback, aabb);
 
             return myQueryCallback.m_fixture;
@@ -231,7 +232,7 @@
                 return this._myQueryCallback;
             }
 
-            var myQueryCallback = new b2QueryCallback();
+            var myQueryCallback = new Box2D.b2QueryCallback();
             this._myQueryCallback = myQueryCallback;
 
             Box2D.customizeVTable(myQueryCallback, [{
@@ -263,7 +264,7 @@
                 return this._myQueryCallback;
             }
 
-            var myQueryCallback = new b2QueryCallback();
+            var myQueryCallback = new Box2D.b2QueryCallback();
             this._myQueryCallback = myQueryCallback;
 
             Box2D.customizeVTable(myQueryCallback, [{
@@ -311,7 +312,7 @@
             if (this._groundBody) {
                 return this._groundBody;
             }
-            this._groundBody = this._world.CreateBody( new b2BodyDef() );
+            this._groundBody = this._world.CreateBody( new Box2D.b2BodyDef() );
             return this._groundBody;
         }
     });
@@ -493,20 +494,20 @@
                 world = ngBox2DSystem._world;
                 var body = ngBox2DSystem.getOneBoyAt(this._mouseX, this._mouseY);
                 if(body && body.m_userData && body.m_userData.ngDraggable) {
-                    var md = new b2MouseJointDef();
+                    var md = new Box2D.b2MouseJointDef();
                     md.set_bodyA(ngBox2DSystem.getGroundBody());
                     md.set_bodyB(body);
-                    md.set_target(new b2Vec2(this._mouseX, this._mouseY));
+                    md.set_target(new Box2D.b2Vec2(this._mouseX, this._mouseY));
                     md.set_collideConnected(true);
                     md.set_maxForce(300.0 * body.GetMass());
-                    this._mouseJoint = ngBox2DSystem.createJoint(md, b2MouseJoint);
+                    this._mouseJoint = ngBox2DSystem.createJoint(md, Box2D.b2MouseJoint);
                     body.SetAwake(true);
                 }
             }
 
             if(this._mouseJoint) {
                 if(this._isMouseDown) {
-                    this._mouseJoint.SetTarget(new b2Vec2(this._mouseX, this._mouseY));
+                    this._mouseJoint.SetTarget(new Box2D.b2Vec2(this._mouseX, this._mouseY));
                 } else {
                     world = ngBox2DSystem._world;
                     world.DestroyJoint(this._mouseJoint);
@@ -535,9 +536,9 @@
             this._actions[action] = false;
         },
         $added: function() {
-            this._runImpulse = new b2Vec2();
-            this._jumpImpulse = new b2Vec2();
-            this._flyImpulse = new b2Vec2();
+            this._runImpulse = new Box2D.b2Vec2();
+            this._jumpImpulse = new Box2D.b2Vec2();
+            this._flyImpulse = new Box2D.b2Vec2();
 
             this._keyBind(87, 'move-up');
             this._keyBind(65, 'move-left');
@@ -590,12 +591,13 @@
             if (this._stayOnGroundDefined) {
                 return this._stayOnGround;
             }
-            var contactItem = body.GetContactList();
-            while(contactItem) {
-                var contact = contactItem.get_contact();
+            var contactEdge = body.GetContactList();
+            var count = 0;
+            while(contactEdge) {
+                var contact = contactEdge.get_contact();
                 if (contact.IsTouching()) {
                     if (this._isCirclesCollision(contact)) {
-                        if (contactItem.get_other().GetPosition().get_y() > body.GetPosition().get_y()) {
+                        if (contactEdge.get_other().GetPosition().get_y() > body.GetPosition().get_y()) {
                             return true;
                         }
                     } else {
@@ -629,13 +631,8 @@
                         }
                     }
                 }
-                var next = contactItem.get_next();
-                if (next !== contactItem) {
-                    contactItem = next;
-                } else {
-                    contactItem = null;
-                }
-
+                console.log('count: ' + (++count));
+                contactEdge = getNextEdge(contactEdge);
             }
             this._stayOnGroundDefined = true;
             this._stayOnGround = false;
@@ -735,6 +732,20 @@
             $node.$add(value);
         }
     });
+
+    /**
+     * b2ContactEdge::get_next() never return null, except after last element, it's always return broken element.
+     *
+     * @param edge
+     * @return {*}
+     */
+    function getNextEdge(edge) {
+        var next = edge.get_next();
+        if (darlingutil.isUndefined(next.get_contact().GetFixtureA().GetBody().m_userData)) {
+            return null;
+        }
+        return next;
+    }
 
 
     /**
@@ -840,17 +851,15 @@
 
             var touched = false;
 
+            var count = 0;
             while(edge) {
                 if (edge.get_contact().IsTouching()) {
                     touched = true;
                     break;
                 }
-                var next = edge.get_next();
-                if (edge !== next) {
-                    edge = next;
-                } else {
-                    edge = null;
-                }
+
+                console.log('count: ' + (++count));
+                edge = getNextEdge(edge);
             }
 
             if (touched) {
@@ -897,7 +906,7 @@
                     break;
             }
 
-            var jointDef = new b2RevoluteJointDef();
+            var jointDef = new Box2D.b2RevoluteJointDef();
             jointDef.Initialize(bodyA, bodyB, new b2Vec2(x, y));
 
             jointDef.set_lowerAngle(jointState.lowerAngle);
@@ -908,7 +917,7 @@
             jointDef.set_motorSpeed(jointState.motorSpeed);
             jointDef.set_enableMotor(jointState.enableMotor);
 
-            jointState._joint = ngBox2DSystem.createJoint(jointDef, b2RevoluteJoint);
+            jointState._joint = ngBox2DSystem.createJoint(jointDef, Box2D.b2RevoluteJoint);
         }]
     });
 
@@ -925,8 +934,8 @@
 
         $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
             var jointState = $node.ngDistanceJoint;
-            var anchorA = new b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
-            var anchorB = new b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var anchorA = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
+            var anchorB = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
             var bodyA, bodyB;
 
             if (jointState.bodyA) {
@@ -947,12 +956,12 @@
                 }
             }
 
-            var jointDef = new b2DistanceJointDef();
+            var jointDef = new Box2D.b2DistanceJointDef();
             jointDef.Initialize(bodyA, bodyB, anchorA, anchorB);
             jointDef.set_collideConnected(jointState.collideConnected);
             jointDef.set_frequencyHz(jointState.frequencyHz);
             jointDef.set_dampingRatio(jointState.dampingRatio);
-            jointState._joint = box2DSystem.createJoint(jointDef, b2DistanceJoint);
+            jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2DistanceJoint);
         }]
     });
 
@@ -969,9 +978,9 @@
 
         $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
             var jointState = $node.ngPrismaticJoint;
-            var anchorA = new b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
-            var anchorB = new b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
-            var axis = new b2Vec2(
+            var anchorA = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
+            var anchorB = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var axis = new Box2D.b2Vec2(
                 anchorB.x - anchorA.get_x(),
                 anchorB.y - anchorA.get_y()
             );
@@ -995,7 +1004,7 @@
                 }
             }
 
-            var jointDef = new b2PrismaticJointDef();
+            var jointDef = new Box2D.b2PrismaticJointDef();
             jointDef.Initialize(bodyA, bodyB, anchorA, axis);
             jointDef.set_localAnchorA(bodyA.GetLocalPoint(anchorA));
             jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
@@ -1003,12 +1012,13 @@
             jointDef.set_collideConnected(false);
             jointDef.set_lowerTranslation(0.0);
             jointDef.set_upperTranslation(5.0);
-            jointDef.set_enableLimit(true);
+            jointDef.set_enableLimit(false);
             jointDef.set_maxMotorForce(50.0);
             jointDef.set_motorSpeed(5.0);
             jointDef.set_enableMotor(false);
+            //return;
 
-            jointState._joint = box2DSystem.createJoint(jointDef, b2PrismaticJoint);
+            //jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2PrismaticJoint);
         }]
     });
 })(darlingjs, darlingutil);
