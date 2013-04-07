@@ -592,7 +592,6 @@
                 return this._stayOnGround;
             }
             var contactEdge = body.GetContactList();
-            var count = 0;
             while(contactEdge) {
                 var contact = contactEdge.get_contact();
                 if (contact.IsTouching()) {
@@ -631,7 +630,6 @@
                         }
                     }
                 }
-                console.log('count: ' + (++count));
                 contactEdge = getNextEdge(contactEdge);
             }
             this._stayOnGroundDefined = true;
@@ -851,14 +849,12 @@
 
             var touched = false;
 
-            var count = 0;
             while(edge) {
                 if (edge.get_contact().IsTouching()) {
                     touched = true;
                     break;
                 }
 
-                console.log('count: ' + (++count));
                 edge = getNextEdge(edge);
             }
 
@@ -981,8 +977,8 @@
             var anchorA = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
             var anchorB = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
             var axis = new Box2D.b2Vec2(
-                anchorB.x - anchorA.get_x(),
-                anchorB.y - anchorA.get_y()
+                anchorB.get_x() - anchorA.get_x(),
+                anchorB.get_y() - anchorA.get_y()
             );
             var bodyA, bodyB;
 
@@ -1006,19 +1002,19 @@
 
             var jointDef = new Box2D.b2PrismaticJointDef();
             jointDef.Initialize(bodyA, bodyB, anchorA, axis);
-            jointDef.set_localAnchorA(bodyA.GetLocalPoint(anchorA));
-            jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
+//            jointDef.set_localAnchorA(bodyA.GetLocalPoint(anchorA));
+//            jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
 
             jointDef.set_collideConnected(false);
             jointDef.set_lowerTranslation(0.0);
             jointDef.set_upperTranslation(5.0);
-            jointDef.set_enableLimit(false);
+            jointDef.set_enableLimit(true);
             jointDef.set_maxMotorForce(50.0);
             jointDef.set_motorSpeed(5.0);
             jointDef.set_enableMotor(false);
             //return;
 
-            //jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2PrismaticJoint);
+            jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2PrismaticJoint);
         }]
     });
 })(darlingjs, darlingutil);
