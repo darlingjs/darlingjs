@@ -1,4 +1,5 @@
 /**
+/**
  * Project: darlingjs / GameEngine.
  *
  * Adapter for emscripten port of Box2D 2.2.1 to javascript
@@ -157,34 +158,30 @@
          * @param def
          * @return {*}
          */
-        createJoint: function(def) {
-            return this._world.CreateJoint(def);
+        createJoint: function(def, CustomType) {
+            return Box2D.castObject( this._world.CreateJoint(def), CustomType);
         },
 
         /**
-         * Get bodies array by position
+         * Get fixtures array by position
          *
          * @param x
          * @param y
          */
-        _getBodiesAtAABB: null,
-        getBodiesAt: function(x, y) {
-            if (this._getBodiesAtAABB === null) {
-                this._getBodiesAtAABB = new AABB();
-            }
-            var aabb = this._getBodiesAtAABB;
-            aabb.lowerBound.Set(x - 0.001, y - 0.001);
-            aabb.upperBound.Set(x + 0.001, y + 0.001);
+        getFixturesAt: function(x, y) {
+            // Make a small box.
+            var aabb = new b2AABB();
+            var d = 0.001;
+            aabb.set_lowerBound(new b2Vec2(x - d, y - d));
+            aabb.set_upperBound(new b2Vec2(x + d, y + d));
 
             // Query the world for overlapping shapes.
+            var myQueryCallback = this._getQueryCallbackForAllFixtures();
+            myQueryCallback.m_fixtures = [];
+            myQueryCallback.m_point = new b2Vec2(x, y);
+            this._world.QueryAABB(myQueryCallback, aabb);
 
-            var result = [];
-            this._world.QueryAABB(function(fixture) {
-                result.push(fixture.GetBody());
-                return true;
-            }, aabb);
-
-            return result;
+            return myQueryCallback.m_fixtures;
         },
 
         getOneBoyAt: function(x, y) {
@@ -243,6 +240,38 @@
                             return true;
                         ths.m_fixture = fixture;
                         return false;
+                    }
+            }]);
+
+            return this._myQueryCallback;
+        },
+
+        /**
+         * Lazy initialization of querycallback function for queryAABB
+         *
+         * @private
+         */
+        _getQueryCallbackForAllFixtures: function() {
+            if (this._myQueryCallback) {
+                return this._myQueryCallback;
+            }
+
+            var myQueryCallback = new b2QueryCallback();
+            this._myQueryCallback = myQueryCallback;
+
+            Box2D.customizeVTable(myQueryCallback, [{
+                original: Box2D.b2QueryCallback.prototype.ReportFixture,
+                replacement:
+                    function(thsPtr, fixturePtr) {
+                        var ths = Box2D.wrapPointer( thsPtr, Box2D.b2QueryCallback );
+                        var fixture = Box2D.wrapPointer( fixturePtr, Box2D.b2Fixture );
+
+                        //if ( fixture.GetBody().GetType() !== Box2D.b2_dynamicBody ) //mouse cannot drag static bodies around
+                        //    return true;
+                        if ( ! fixture.TestPoint( ths.m_point ) )
+                            return true;
+                        ths.m_fixtures.push(fixture);
+                        return true;
                     }
             }]);
 
@@ -463,7 +492,7 @@
                     md.set_target(new b2Vec2(this._mouseX, this._mouseY));
                     md.set_collideConnected(true);
                     md.set_maxForce(300.0 * body.GetMass());
-                    this._mouseJoint = Box2D.castObject( world.CreateJoint(md), b2MouseJoint);
+                    this._mouseJoint = world.CreateJoint(md, b2MouseJoint);
                     body.SetAwake(true);
                 }
             }
@@ -730,5 +759,259 @@
         $removeNode: function($node) {
             $node.ngPhysic._b2dBody.SetFixedRotation(false);
         }
+    });
+
+    //TODO : move to logic?
+    m.$c('ngBox2DEnableMotorOnSensor', {
+        targetId: null
+    });
+
+    m.$c('ngEnableMotor', {});
+
+    m.$s('ngBox2DEnableMotorOnSensor', {
+        $require: ['ngSensorAnyDetectOneEntity', 'ngBox2DEnableMotorOnSensor'],
+
+        $addNode: ['$node', '$world', function($node, $world) {
+            var entity = $world.$getByName($node.ngBox2DEnableMotorOnSensor.targetId);
+            $node.ngBox2DEnableMotorOnSensor.targetEntity = entity;
+            if (!entity.$has('ngEnableMotor')) {
+                entity.$add('ngEnableMotor');
+            }
+        }],
+
+        $removeNode: function($node) {
+            var entity = $node.ngBox2DEnableMotorOnSensor.targetEntity;
+            if (entity) {
+                entity.$remove('ngEnableMotor');
+            }
+        }
+    });
+
+    m.$s('ngBox2DEnableMotorSystem', {
+        $require: ['ngEnableMotor'],
+
+        $addNode: function($node) {
+            var joint;
+            if ($node.ngPrismaticJoint) {
+                joint = $node.ngPrismaticJoint._joint;
+            }
+
+            if (joint) {
+                joint.EnableMotor(true);
+            }
+        },
+
+        $removeNode: function($node) {
+            var joint;
+            if ($node.ngPrismaticJoint) {
+                joint = $node.ngPrismaticJoint._joint;
+            }
+
+            if (joint) {
+                joint.EnableMotor(false);
+            }
+        }
+    });
+
+    m.$s('ngBox2DSensorSystem', {
+        $require: ['ngSensorAny', 'ngPhysic'],
+
+        $addNode: function($node) {
+            var physic = $node.ngPhysic;
+            var body = physic._b2dBody;
+            var fixture = body.GetFixtureList();
+            while(fixture) {
+                fixture.SetSensor(true);
+                fixture = fixture.GetNext();
+            }
+        },
+
+        $removeNode: function($node) {
+            var physic = $node.ngPhysic;
+            var body = physic._b2dBody;
+            var fixture = body.GetFixtureList();
+            while(fixture) {
+                fixture.SetSensor(false);
+                fixture = fixture.GetNext();
+            }
+        },
+
+        $update: ['$node', function($node) {
+            var physic = $node.ngPhysic;
+            var body = physic._b2dBody;
+            var edge = body.GetContactList();
+
+            var touched = false;
+
+            while(edge) {
+                if (edge.get_contact().IsTouching()) {
+                    touched = true;
+                    break;
+                }
+                var next = edge.get_next();
+                if (edge !== next) {
+                    edge = next;
+                } else {
+                    edge = null;
+                }
+            }
+
+            if (touched) {
+                if (!$node.ngSensorDetectEntity) {
+                    $node.$add('ngSensorAnyDetectOneEntity');
+                }
+            } else {
+                $node.$remove('ngSensorAnyDetectOneEntity');
+            }
+        }]
+    });
+
+    /**
+     * ngBox2DRevoluteJoint
+     *
+     * Subsystem for emulate revolute joint
+     *
+     */
+    m.$s('ngBox2DRevoluteJoint', {
+        $require: ['ngRevoluteJoint', 'ng2D'],
+
+        $addNode: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
+            var jointState = $node.ngRevoluteJoint;
+            var ng2D = $node.ng2D;
+
+            var bodyA, bodyB;
+
+            var x = ngBox2DSystem._invScale * ng2D.x,
+                y = ngBox2DSystem._invScale * ng2D.y;
+
+            var fixtures = ngBox2DSystem.getFixturesAt(x, y);
+
+            switch (fixtures.length) {
+                case 0:
+                    throw new Error('Can\'t add revolute joint without jointed bodies');
+                    break;
+                case 1:
+                    bodyA = fixtures[0].GetBody();
+                    bodyB = ngBox2DSystem._world.getGroundBody();
+                    break;
+                default:
+                    bodyA = fixtures[0].GetBody();
+                    bodyB = fixtures[1].GetBody();
+                    break;
+            }
+
+            var jointDef = new b2RevoluteJointDef();
+            jointDef.Initialize(bodyA, bodyB, new b2Vec2(x, y));
+
+            jointDef.set_lowerAngle(jointState.lowerAngle);
+            jointDef.set_upperAngle(jointState.upperAngle);
+            jointDef.set_enableLimit(jointState.enableLimit);
+
+            jointDef.set_maxMotorTorque(jointState.maxMotorTorque);
+            jointDef.set_motorSpeed(jointState.motorSpeed);
+            jointDef.set_enableMotor(jointState.enableMotor);
+
+            jointState._joint = ngBox2DSystem.createJoint(jointDef, b2RevoluteJoint);
+        }]
+    });
+
+    /**
+     * ngBox2DDistanceJoint
+     *
+     * Distance Joint
+     *
+     * One of the simplest joint is a distance joint which says that the distance between two points on two bodies must be constant. When you specify a distance joint the two bodies should already be in place. Then you specify the two anchor points in world coordinates. The first anchor point is connected to body 1, and the second anchor point is connected to body 2. These points imply the length of the distance constraint.
+     *
+     */
+    m.$s('ngBox2DDistanceJoint', {
+        $require: ['ngDistanceJoint'],
+
+        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
+            var jointState = $node.ngDistanceJoint;
+            var anchorA = new b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
+            var anchorB = new b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var bodyA, bodyB;
+
+            if (jointState.bodyA) {
+                bodyA = jointState.bodyA;
+            } else {
+                bodyA = box2DSystem.getFixturesAt(anchorA.x, anchorA.y)[0].GetBody();
+                if (!bodyA) {
+                    bodyA = box2DSystem._world.getGroundBody();
+                }
+            }
+
+            if (jointState.bodyB) {
+                bodyB = jointState.bodyB;
+            } else {
+                bodyB = box2DSystem.getFixturesAt(anchorB.x, anchorB.y)[0].GetBody();
+                if (!bodyB) {
+                    bodyA = box2DSystem._world.getGroundBody();
+                }
+            }
+
+            var jointDef = new b2DistanceJointDef();
+            jointDef.Initialize(bodyA, bodyB, anchorA, anchorB);
+            jointDef.set_collideConnected(jointState.collideConnected);
+            jointDef.set_frequencyHz(jointState.frequencyHz);
+            jointDef.set_dampingRatio(jointState.dampingRatio);
+            jointState._joint = box2DSystem.createJoint(jointDef, b2DistanceJoint);
+        }]
+    });
+
+    /**
+     * ngBox2DDistanceJoint
+     *
+     * Prismatic Joint
+     *
+     * A prismatic joint allows for relative translation of two bodies along a specified axis. A prismatic joint prevents relative rotation. Therefore, a prismatic joint has a single degree of freedom.
+     *
+     */
+    m.$s('ngBox2DPrismaticJoint', {
+        $require: ['ngPrismaticJoint'],
+
+        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
+            var jointState = $node.ngPrismaticJoint;
+            var anchorA = new b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
+            var anchorB = new b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var axis = new b2Vec2(
+                anchorB.x - anchorA.x,
+                anchorB.y - anchorA.y
+            );
+            var bodyA, bodyB;
+
+            if (jointState.bodyA) {
+                bodyA = jointState.bodyA;
+            } else {
+                bodyA = box2DSystem.getFixturesAt(anchorA.x, anchorA.y)[0].GetBody();
+                if (!bodyA) {
+                    bodyA = box2DSystem._world.getGroundBody();
+                }
+            }
+
+            if (jointState.bodyB) {
+                bodyB = jointState.bodyB;
+            } else {
+                bodyB = box2DSystem.getFixturesAt(anchorB.x, anchorB.y)[0].GetBody();
+                if (!bodyB) {
+                    bodyB = box2DSystem._world.getGroundBody();
+                }
+            }
+
+            var jointDef = new b2PrismaticJointDef();
+            jointDef.Initialize(bodyA, bodyB, anchorA, axis);
+            jointDef.set_localAnchorA(bodyA.GetLocalPoint(anchorA));
+            jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
+
+            jointDef.set_collideConnected(false);
+            jointDef.set_lowerTranslation(0.0);
+            jointDef.set_upperTranslation(5.0);
+            jointDef.set_enableLimit(true);
+            jointDef.set_maxMotorForce(50.0);
+            jointDef.set_motorSpeed(5.0);
+            jointDef.set_enableMotor(false);
+
+            jointState._joint = box2DSystem.createJoint(jointDef, b2PrismaticJoint);
+        }]
     });
 })(darlingjs, darlingutil);
