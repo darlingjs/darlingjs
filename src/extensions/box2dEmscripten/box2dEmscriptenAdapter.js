@@ -1,107 +1,21 @@
 /**
  * Project: darlingjs / GameEngine.
+ *
+ * Adapter for emscripten port of Box2D 2.2.1 to javascript
+ *
  * Copyright (c) 2013, Eugene-Krevenets
+ *
  */
 
-(function(darlingjs) {
+(function(darlingjs, darlingutil) {
     'use strict';
     var m = darlingjs.module('ngBox2DEmscripten');
 
-    /**
-     * Box2D Debug Draw System
-     */
 
-    m.$s('ngBox2DDebugDraw', {
-        $require: ['ng2D', 'ngPhysic'],
-        _debugDrawVisible: false,
-
-        _canvasHasCreated: false,
-        _canvas: null,
-
-        useDebugDraw: true,
-        domID: 'game',
-
-        $added: ['ngBox2DSystem', function(ngBox2DSystem) {
-            this.ngBox2DSystem = ngBox2DSystem;
-            this.showDebugDrawVisible(this.useDebugDraw);
-        }],
-
-        $update: ['ng2DViewPort', function(ng2DViewPort) {
-            //TODO: shift debug visualization
-            var context = this._context;
-            context.save();
-                //context.scale(this.ngBox2DSystem.scale, this.ngBox2DSystem.scale);
-
-                //black background
-                context.fillStyle = 'rgb(0,0,0)';
-                context.fillRect( 0, 0, this.width, this.height );
-
-                customDebugDraw.drawAxes(context);
-
-                var centerX = 300;
-                var centerY = 300;
-                //context.translate(centerX -ng2DViewPort.lookAt.x, centerY -ng2DViewPort.lookAt.y);
-                this.ngBox2DSystem._world.DrawDebugData();
-
-            context.restore();
-        }],
-
-        showDebugDrawVisible: function(visible) {
-            if (this._debugDrawVisible === visible) {
-                return;
-            }
-
-            this._debugDrawVisible = visible;
-
-            if (this._debugDrawVisible) {
-                var canvas = getCanvas(this.domID);
-
-                if (canvas === null) {
-                    canvas = placeCanvasInStack(this.domID, this.width, this.height);
-                    this._canvasHasCreated = true;
-                }
-
-                this._canvas = canvas;
-                this._context = canvas.getContext("2d");
-
-                /*
-                this._debugDraw = new DebugDraw();
-                this._debugDraw.SetSprite(this._context);
-                this._debugDraw.SetDrawScale(this.ngBox2DSystem.scale);
-                this._debugDraw.SetFillAlpha(0.5);
-                this._debugDraw.SetLineThickness(1.0);
-
-                this._debugDraw.SetFlags(
-                    DebugDraw.e_shapeBit |
-                        DebugDraw.e_jointBit |
-                        //DebugDraw.e_aabbBit |
-//                        DebugDraw.e_pairBit |
-                        DebugDraw.e_centerOfMassBit |
-                        DebugDraw.e_controllerBit);
-                */
-
-
-                this._debugDraw = customDebugDraw.getCanvasDebugDraw(this._context, this.ngBox2DSystem.scale);
-                this._debugDraw.SetFlags(e_shapeBit);
-                this.ngBox2DSystem._world.SetDebugDraw(this._debugDraw);
-            } else {
-                this.ngBox2DSystem._world.SetDebugDraw(null);
-
-                if (this._canvasHasCreated) {
-                    removeCanvasFromStack(this._canvas);
-
-                    this._canvasHasCreated = false;
-                }
-
-                this._canvas = null;
-
-                this._debugDraw = null;
-            }
-        }
-    });
 
     /**
-     * ngBox2DSystem
+     * ngBox2DSystem.
+     *
      * description: add Box2D physics simulation to entities.
      *
      */
@@ -273,6 +187,68 @@
             return result;
         },
 
+        getOneBoyAt: function(x, y) {
+            var fixture = this.getOneFixtureAt(x, y);
+            if (fixture) {
+                return fixture.GetBody();
+            }
+            return null;
+        },
+
+        /**
+         * Get one fixture in point x, y
+         * @param x
+         * @param y
+         * @return {*}
+         */
+        getOneFixtureAt: function(x, y) {
+            // Make a small box.
+            var aabb = new b2AABB();
+            var d = 0.001;
+            aabb.set_lowerBound(new b2Vec2(x - d, y - d));
+            aabb.set_upperBound(new b2Vec2(x + d, y + d));
+
+            // Query the world for overlapping shapes.
+            var myQueryCallback = this._getQueryCallbackForOneFixture();
+            myQueryCallback.m_fixture = null;
+            myQueryCallback.m_point = new b2Vec2(x, y);
+            this._world.QueryAABB(myQueryCallback, aabb);
+
+            return myQueryCallback.m_fixture;
+        },
+
+        /**
+         * Lazy initialization of querycallback function for queryAABB
+         *
+         * @private
+         */
+        _getQueryCallbackForOneFixture: function() {
+            if (this._myQueryCallback) {
+                return this._myQueryCallback;
+            }
+
+            var myQueryCallback = new b2QueryCallback();
+            this._myQueryCallback = myQueryCallback;
+
+            Box2D.customizeVTable(myQueryCallback, [{
+                original: Box2D.b2QueryCallback.prototype.ReportFixture,
+                replacement:
+                    function(thsPtr, fixturePtr) {
+                        var ths = Box2D.wrapPointer( thsPtr, Box2D.b2QueryCallback );
+                        var fixture = Box2D.wrapPointer( fixturePtr, Box2D.b2Fixture );
+
+                        //if ( fixture.GetBody().GetType() !== Box2D.b2_dynamicBody ) //mouse cannot drag static bodies around
+                        //    return true;
+                        if ( ! fixture.TestPoint( ths.m_point ) )
+                            return true;
+                        ths.m_fixture = fixture;
+                        return false;
+                    }
+            }]);
+
+            return this._myQueryCallback;
+        },
+
         _addContactListener: function (callbacks) {
             var listener = new Box2D.Dynamics.b2ContactListener();
 
@@ -287,19 +263,200 @@
 
 
             this._world.SetContactListener(listener);
+        },
+
+        /**
+         * b2World::GetGroundBody() is gone. So we need simulate it now
+         * http://www.box2d.org/forum/viewtopic.php?f=3&t=5325
+         *
+         * @return {*}
+         */
+        getGroundBody: function() {
+            if (this._groundBody) {
+                return this._groundBody;
+            }
+            this._groundBody = this._world.CreateBody( new b2BodyDef() );
+            return this._groundBody;
         }
     });
 
-    function getCanvas(id) {
-        var domElement = document.getElementById(id);
-        if (domElement === null) {
-            throw new Error('Can\'t find DOM element with id: "' + id + '"');
-        }
+    /**
+     * Box2D Debug Draw System
+     *
+     */
 
-        if (darlingutil.isDefined(domElement.getContext)) {
-            return domElement;
-        } else {
-            return null;
+    m.$s('ngBox2DDebugDraw', {
+        $require: ['ng2D', 'ngPhysic'],
+        _debugDrawVisible: false,
+
+        _canvasHasCreated: false,
+        _canvas: null,
+
+        useDebugDraw: true,
+        domID: 'game',
+
+        $added: ['ngBox2DSystem', function(ngBox2DSystem) {
+            this.ngBox2DSystem = ngBox2DSystem;
+            this.showDebugDrawVisible(this.useDebugDraw);
+        }],
+
+        $update: ['ng2DViewPort', function(ng2DViewPort) {
+            //TODO: shift debug visualization
+            var context = this._context;
+            context.save();
+                //context.scale(this.ngBox2DSystem.scale, this.ngBox2DSystem.scale);
+
+                //black background
+                context.fillStyle = 'rgb(0,0,0)';
+                context.fillRect( 0, 0, this.width, this.height );
+                context.fillStyle = 'rgb(255,255,0)';
+                context.scale(this.ngBox2DSystem.scale, this.ngBox2DSystem.scale);
+                context.lineWidth /= this.ngBox2DSystem.scale;
+
+                customDebugDraw.drawAxes(context);
+
+                var centerX = 300;
+                var centerY = 300;
+                //context.translate(centerX -ng2DViewPort.lookAt.x, centerY -ng2DViewPort.lookAt.y);
+                this.ngBox2DSystem._world.DrawDebugData();
+
+            context.restore();
+        }],
+
+        showDebugDrawVisible: function(visible) {
+            if (this._debugDrawVisible === visible) {
+                return;
+            }
+
+            this._debugDrawVisible = visible;
+
+            if (this._debugDrawVisible) {
+                var canvas = darlingutil.getCanvas(this.domID);
+
+                if (canvas === null) {
+                    canvas = darlingutil.placeCanvasInStack(this.domID, this.width, this.height);
+                    this._canvasHasCreated = true;
+                }
+
+                this._canvas = canvas;
+                this._context = canvas.getContext("2d");
+
+                /*
+                this._debugDraw = new DebugDraw();
+                this._debugDraw.SetSprite(this._context);
+                this._debugDraw.SetDrawScale(this.ngBox2DSystem.scale);
+                this._debugDraw.SetFillAlpha(0.5);
+                this._debugDraw.SetLineThickness(1.0);
+
+                this._debugDraw.SetFlags(
+                    DebugDraw.e_shapeBit |
+                        DebugDraw.e_jointBit |
+                        //DebugDraw.e_aabbBit |
+//                        DebugDraw.e_pairBit |
+                        DebugDraw.e_centerOfMassBit |
+                        DebugDraw.e_controllerBit);
+                */
+
+
+                this._debugDraw = customDebugDraw.getCanvasDebugDraw(this._context);
+                var flags = 0;
+                flags |= e_shapeBit;
+                flags |= e_jointBit;
+//                flags |= e_aabbBit;
+                //flats |= e_pairBit;
+//                flags |= e_centerOfMassBit;
+                this._debugDraw.SetFlags(flags);
+                this.ngBox2DSystem._world.SetDebugDraw(this._debugDraw);
+            } else {
+                this.ngBox2DSystem._world.SetDebugDraw(null);
+
+                if (this._canvasHasCreated) {
+                    removeCanvasFromStack(this._canvas);
+
+                    this._canvasHasCreated = false;
+                }
+
+                this._canvas = null;
+
+                this._debugDraw = null;
+            }
         }
-    }
-})(darlingjs);
+    });
+
+
+    /**
+     * ngBox2DDraggable
+     *
+     * Draggable subsystem based on ngBox2DSystem. And use it Box2D properties
+     * to interact with dragged entity.
+     *
+     */
+    m.$s('ngBox2DDraggable', {
+        domId: 'game',
+
+        $require: ['ngPhysic', 'ngDraggable'],
+
+        $added: ['ngBox2DSystem', function(ngBox2DSystem) {
+            this.scale = ngBox2DSystem.scale;
+            this._invScale = ngBox2DSystem._invScale;
+
+            this._target = document.getElementById(this.domId) || document.body;
+
+            var pos = darlingutil.getElementAbsolutePos(this._target);
+
+            this._shiftX = pos.x;
+            this._shiftY = pos.y;
+
+            var self = this;
+            this._isMouseDown = false;
+            document.addEventListener("mousedown", function(e) {
+                self._isMouseDown = true;
+                self._handleMouseMove(e);
+                document.addEventListener("mousemove", function(e) {
+                    self._handleMouseMove(e);
+                }, true);
+            }, true);
+
+            document.addEventListener("mouseup", function() {
+                document.removeEventListener("mousemove", function(e) {
+                    self._handleMouseMove(e);
+                }, true);
+                self._isMouseDown = false;
+            }, true);
+        }],
+
+        _handleMouseMove: function (e) {
+            this._mouseX = (e.clientX - this._shiftX) * this._invScale;
+            this._mouseY = (e.clientY - this._shiftY) * this._invScale;
+        },
+
+        $update: ['$nodes', 'ngBox2DSystem', function($nodes, ngBox2DSystem) {
+            var world;
+
+            if (this._isMouseDown && !this._mouseJoint) {
+                world = ngBox2DSystem._world;
+                var body = ngBox2DSystem.getOneBoyAt(this._mouseX, this._mouseY);
+                if(body && body.m_userData && body.m_userData.ngDraggable) {
+                    var md = new b2MouseJointDef();
+                    md.set_bodyA(ngBox2DSystem.getGroundBody());
+                    md.set_bodyB(body);
+                    md.set_target(new b2Vec2(this._mouseX, this._mouseY));
+                    md.set_collideConnected(true);
+                    md.set_maxForce(300.0 * body.GetMass());
+                    this._mouseJoint = Box2D.castObject( world.CreateJoint(md), b2MouseJoint);
+                    body.SetAwake(true);
+                }
+            }
+
+            if(this._mouseJoint) {
+                if(this._isMouseDown) {
+                    this._mouseJoint.SetTarget(new b2Vec2(this._mouseX, this._mouseY));
+                } else {
+                    world = ngBox2DSystem._world;
+                    world.DestroyJoint(this._mouseJoint);
+                    this._mouseJoint = null;
+                }
+            }
+        }]
+    });
+})(darlingjs, darlingutil);

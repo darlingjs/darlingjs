@@ -13,6 +13,12 @@ files = [
     'src/**/*.js',
     'spec/lib/**/*.js',
     'spec/**/*Spec.js'
+    //TODO : need to fix Uncaught TypeError: 'caller', 'callee', and 'arguments' properties
+    // may not be accessed on strict mode functions or the arguments objects for calls to them
+    // in vendor/box2dEmscripten/box2d-dev.js
+//    'vendor/box2dEmscripten/box2d-dev.js',
+//    'vendor/box2dEmscripten/embox2d-helpers.js',
+//    'vendor/box2dEmscripten/embox2d-html5canvas-debugDraw.js'
 ];
 
 
