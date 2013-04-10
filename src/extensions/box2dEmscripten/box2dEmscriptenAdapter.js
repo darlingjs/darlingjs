@@ -1010,12 +1010,15 @@
     m.$c('ngWantsToCollide', {
         'with' : [
             {
+                'andGet': 'ngCollide'
+            },
+            {
                 'any': ['ngBonus'],
-                'get': 'ngGetBonus'
+                'andGet': 'ngGetBonus'
             },
             {
                 'any': ['ngSounding'],
-                'get': 'ngPlaySoundOf'
+                'andGet': 'ngPlaySoundOf'
             }
         ]
     });
@@ -1086,36 +1089,55 @@
     function beginContact(entityA, entityB, collision) {
         var wants = entityA.ngWantsToCollide;
         if (entityA && wants) {
-            var collide;
-            if (!entityA.$has('ngCollide')) {
-                collide = entityA.$add('ngCollide');
-            } else {
-                collide = entityA.ngCollide;
-            }
-
-            var byrray = wants.with;
-            if (darlingutil.isArray(byrray)) {
-                for (var i = 0, count = byrray.length; i < count; i++) {
-                    var rule = byrray[i];
-                    var anyComponent = rule.any;
-                    for (var j = 0, countJ = anyComponent.length; j < countJ; j++) {
-                        if (entityB.$has(anyComponent[j])) {
-                            entityA.$add(rule.get, {
-                                'entity': entityB
-                            });
-                            console.log(entityA.$name + ' get ' + rule.get + ' with ' + entityB);
-                        }
-                    }
+            var withObject = wants.with;
+            if (darlingutil.isArray(withObject)) {
+                for (var i = 0, count = withObject.length; i < count; i++) {
+                    ruleContact(withObject[i], entityA, entityB, addContactComponent);
                 }
+            } else {
+                ruleContact(withObject, entityA, entityB, addContactComponent);
             }
-            //console.log('beginContact:' + entityA.$name + ' with ' + entityB.$name);
         }
     }
 
+    function ruleContact(rule, entityA, entityB, handler) {
+        var anyArray = rule.any;
+        if (darlingutil.isArray(anyArray)) {
+            for (var j = 0, countJ = anyArray.length; j < countJ; j++) {
+                if (entityB.$has(anyArray[j])) {
+                    handler(rule, entityA, entityB);
+                }
+            }
+        } else {
+            handler(rule, entityA, entityB);
+        }
+    }
+
+    function addContactComponent(rule, entityA, entityB) {
+        entityA.$add(rule.andGet, {
+            'entity': entityB
+        });
+        console.log(entityA.$name + ' get ' + rule.andGet + ' with ' + entityB.$name);
+    }
+
+    function removeContactComponent(rule, entityA, entityB) {
+        entityA.$remove(rule.andGet, {
+            'entity': entityB
+        });
+        console.log(entityA.$name + ' lose ' + rule.andGet + ' with ' + entityB.$name);
+    }
+
     function endContact(entityA, entityB, collision) {
-        if (entityA && entityA.$has('ngWantsToCollide') && entityA.$has('ngCollide')) {
-            entityA.$remove('ngCollide');
-            console.log('endContact:' + entityA.$name + ' with ' + entityB.$name);
+        var wants = entityA.ngWantsToCollide;
+        if (entityA && wants) {
+            var withObject = wants.with;
+            if (darlingutil.isArray(withObject)) {
+                for (var i = 0, count = withObject.length; i < count; i++) {
+                    ruleContact(withObject[i], entityA, entityB, removeContactComponent);
+                }
+            } else {
+                ruleContact(withObject, entityA, entityB, removeContactComponent);
+            }
         }
     }
 
