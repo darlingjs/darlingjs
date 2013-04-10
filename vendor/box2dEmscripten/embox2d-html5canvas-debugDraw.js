@@ -41,7 +41,7 @@
         context.lineWidth = 0;
         for(var tmpI=0;tmpI<vertexCount;tmpI++) {
             var vert = Box2D.wrapPointer(vertices+(tmpI*8), Box2D.b2Vec2);
-            if ( tmpI == 0 )
+            if ( tmpI === 0 )
                 context.moveTo(vert.get_x(), vert.get_y());
             else
                 context.lineTo(vert.get_x(), vert.get_y());

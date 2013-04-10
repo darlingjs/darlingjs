@@ -192,7 +192,7 @@
             return myQueryCallback.m_fixtures;
         },
 
-        getOneBoyAt: function(x, y) {
+        getOneBodyAt: function(x, y) {
             var fixture = this.getOneFixtureAt(x, y);
             if (fixture) {
                 return fixture.GetBody();
@@ -478,7 +478,7 @@
 
             if (this._isMouseDown && !this._mouseJoint) {
                 world = ngBox2DSystem._world;
-                var body = ngBox2DSystem.getOneBoyAt(this._mouseX, this._mouseY);
+                var body = ngBox2DSystem.getOneBodyAt(this._mouseX, this._mouseY);
                 if(body && body.m_userData && body.m_userData.ngDraggable) {
                     var md = new Box2D.b2MouseJointDef();
                     md.set_bodyA(ngBox2DSystem.getGroundBody());
@@ -725,7 +725,8 @@
      */
     function getNextEdge(edge) {
         var next = edge.get_next();
-        if (next === null || darlingutil.isUndefined(next.get_contact().GetFixtureA().GetBody().m_userData)) {
+        var userData = next.get_contact().GetFixtureA().GetBody().m_userData;
+        if (next === null || darlingutil.isUndefined(userData)) {
             return null;
         }
         return next;
@@ -971,7 +972,8 @@
             if (jointState.bodyA) {
                 bodyA = jointState.bodyA;
             } else {
-                bodyA = box2DSystem.getFixturesAt(anchorA.get_x(), anchorA.get_y())[0].GetBody();
+                bodyA = box2DSystem.getOneBodyAt(anchorA.get_x(), anchorA.get_y());
+//                bodyA = box2DSystem.getFixturesAt(anchorA.get_x(), anchorA.get_y())[0].GetBody();
                 if (!bodyA) {
                     bodyA = box2DSystem.getGroundBody();
                 }
@@ -980,7 +982,8 @@
             if (jointState.bodyB) {
                 bodyB = jointState.bodyB;
             } else {
-                bodyB = box2DSystem.getFixturesAt(anchorB.get_x(), anchorB.get_y())[0].GetBody();
+                bodyB = box2DSystem.getOneBodyAt(anchorB.get_x(), anchorB.get_y());
+//                bodyB = box2DSystem.getFixturesAt(anchorB.get_x(), anchorB.get_y())[0].GetBody();
                 if (!bodyB) {
                     bodyB = box2DSystem.getGroundBody();
                 }
@@ -992,15 +995,148 @@
 //            jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
 
             jointDef.set_collideConnected(false);
-            jointDef.set_lowerTranslation(0.0);
-            jointDef.set_upperTranslation(5.0);
+            jointDef.set_lowerTranslation(jointState.lowerTranslation || 0.0);
+            jointDef.set_upperTranslation(jointState.upperTranslation || 5.0);
             jointDef.set_enableLimit(true);
-            jointDef.set_maxMotorForce(50.0);
-            jointDef.set_motorSpeed(5.0);
-            jointDef.set_enableMotor(false);
+            jointDef.set_maxMotorForce(jointState.maxMotorForce);
+            jointDef.set_motorSpeed(jointState.motorSpeed);
+            jointDef.set_enableMotor(jointState.enableMotor);
             //return;
 
             jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2PrismaticJoint);
         }]
     });
+
+    m.$c('ngWantsToCollide', {
+        'with' : [
+            {
+                'any': ['ngBonus'],
+                'get': 'ngGetBonus'
+            },
+            {
+                'any': ['ngSounding'],
+                'get': 'ngPlaySoundOf'
+            }
+        ]
+    });
+
+    m.$c('ngSounding');
+    m.$c('ngPlaySoundOf');
+
+    m.$c('ngBonus');
+    m.$c('ngCollide');
+    m.$c('ngGetBonus', {
+        'bonus': null
+    });
+
+    m.$s('ngBox2DCollision', {
+        $require: ['ngWantsToCollide', 'ngPhysic'],
+        $addNode: ['$node', 'ngBox2DSystem', function($node,ngBox2DSystem) {
+            var collisionCallback = new Box2D.b2ContactListener();
+
+            Box2D.customizeVTable(collisionCallback, [{
+                original: Box2D.b2ContactListener.prototype.BeginContact,
+                replacement:
+                    function(thsPtr, contactPtr) {
+                        var contact = Box2D.wrapPointer( contactPtr, Box2D.b2Contact);
+                        var entityA = getEntityA(contact);
+                        var entityB = getEntityB(contact);
+                        beginContact(entityA, entityB, contact);
+                        beginContact(entityB, entityA, contact);
+                    }
+            }]);
+
+            Box2D.customizeVTable(collisionCallback, [{
+                original: Box2D.b2ContactListener.prototype.EndContact,
+                replacement:
+                    function(thsPtr, contactPtr) {
+                        var contact = Box2D.wrapPointer( contactPtr, Box2D.b2Contact);
+                        var entityA = getEntityA(contact);
+                        var entityB = getEntityB(contact);
+                        endContact(entityA, entityB, contact);
+                        endContact(entityB, entityA, contact);
+                    }
+            }]);
+
+//            Box2D.customizeVTable(collisionCallback, [{
+//                original: Box2D.b2ContactListener.prototype.PreSolve,
+//                replacement:
+//                    function(contactPtr, oldManifold) {
+//                        var contact = Box2D.wrapPointer( contactPtr, Box2D.b2Contact);
+////                        console.log('PreSolve', contact, oldManifold);
+//                    }
+//            }]);
+
+//            Box2D.customizeVTable(collisionCallback, [{
+//                original: Box2D.b2ContactListener.prototype.PostSolve,
+//                replacement:
+//                    //impulse has type of b2ContactImpulse, so we need to update box2D for add this class
+//                    function(contactPtr, impulse) {
+//                        var contact = Box2D.wrapPointer( contactPtr, Box2D.b2Contact);
+//                        var entityA = getEntityA(contact);
+//                        var entityB = getEntityB(contact);
+//                        console.log('PostSolve: ' + entityA + entityB);
+//                    }
+//            }]);
+
+            ngBox2DSystem._world.SetContactListener(collisionCallback);
+        }]
+    });
+
+    function beginContact(entityA, entityB, collision) {
+        var wants = entityA.ngWantsToCollide;
+        if (entityA && wants) {
+            var collide;
+            if (!entityA.$has('ngCollide')) {
+                collide = entityA.$add('ngCollide');
+            } else {
+                collide = entityA.ngCollide;
+            }
+
+            var byrray = wants.with;
+            if (darlingutil.isArray(byrray)) {
+                for (var i = 0, count = byrray.length; i < count; i++) {
+                    var rule = byrray[i];
+                    var anyComponent = rule.any;
+                    for (var j = 0, countJ = anyComponent.length; j < countJ; j++) {
+                        if (entityB.$has(anyComponent[j])) {
+                            entityA.$add(rule.get, {
+                                'entity': entityB
+                            });
+                            console.log(entityA.$name + ' get ' + rule.get + ' with ' + entityB);
+                        }
+                    }
+                }
+            }
+            //console.log('beginContact:' + entityA.$name + ' with ' + entityB.$name);
+        }
+    }
+
+    function endContact(entityA, entityB, collision) {
+        if (entityA && entityA.$has('ngWantsToCollide') && entityA.$has('ngCollide')) {
+            entityA.$remove('ngCollide');
+            console.log('endContact:' + entityA.$name + ' with ' + entityB.$name);
+        }
+    }
+
+    function getEntityA(contact) {
+        return getEntity(contact.GetFixtureA());
+    }
+
+    function getEntityB(contact) {
+        return getEntity(contact.GetFixtureB());
+    }
+
+    function getEntity(fixture) {
+        if (!darlingutil.isDefined(fixture)) {
+            return null;
+        }
+
+        var body = fixture.GetBody();
+        if (body === null) {
+            return null;
+        }
+
+        return body.m_userData;
+    }
 })(darlingjs, darlingutil);

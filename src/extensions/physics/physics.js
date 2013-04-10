@@ -22,8 +22,8 @@
         lowerTransition: 0.0,
         upperTranslation: 0.0,
         enableLimit: false,
-        maxMotorForce: 1.0,
-        motorSpeed: 0.0,
+        maxMotorForce: 100.0,
+        motorSpeed: 5.0,
         enableMotor: false
     });
 
