@@ -247,6 +247,10 @@ m.$s('ngPixijsStage', {
         this._stage.addChild($node.ngPixijsSprite.sprite);
     },
 
+    $removeNode: function($node) {
+        this._stage.removeChild($node.ngPixijsSprite.sprite);
+    },
+
     $update: ['$node', 'ng2DViewPort', function($node, ng2DViewPort) {
         var sprite = $node.ngPixijsSprite;
 
