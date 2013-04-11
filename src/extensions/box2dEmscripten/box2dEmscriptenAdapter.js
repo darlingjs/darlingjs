@@ -210,7 +210,7 @@
         getOneFixtureAt: function(x, y) {
             // Make a small box.
             var aabb = new Box2D.b2AABB();
-            var d = 0.001;
+            var d = 0.1;
             aabb.set_lowerBound(new Box2D.b2Vec2(x - d, y - d));
             aabb.set_upperBound(new Box2D.b2Vec2(x + d, y + d));
 
@@ -245,8 +245,10 @@
 
                         //if ( fixture.GetBody().GetType() !== Box2D.b2_dynamicBody ) //mouse cannot drag static bodies around
                         //    return true;
-                        if ( ! fixture.TestPoint( ths.m_point ) )
+                        if ( ! fixture.TestPoint( ths.m_point ) ) {
                             return true;
+                        }
+
                         ths.m_fixture = fixture;
                         return false;
                     }
@@ -437,14 +439,17 @@
      */
     m.$s('ngBox2DDraggable', {
         domId: 'game',
+        width: 0,
+        height: 0,
 
         $require: ['ngPhysic', 'ngDraggable'],
 
-        $added: ['ngBox2DSystem', function(ngBox2DSystem) {
+        $added: ['ngBox2DSystem', 'ng2DViewPort', function(ngBox2DSystem, ng2DViewPort) {
             this.scale = ngBox2DSystem.scale;
             this._invScale = ngBox2DSystem._invScale;
 
             this._target = document.getElementById(this.domId) || document.body;
+            this._ng2DViewPort = ng2DViewPort;
 
             var pos = darlingutil.getElementAbsolutePos(this._target);
 
@@ -456,22 +461,22 @@
             document.addEventListener("mousedown", function(e) {
                 self._isMouseDown = true;
                 self._handleMouseMove(e);
-                document.addEventListener("mousemove", function(e) {
-                    self._handleMouseMove(e);
-                }, true);
+                document.addEventListener("mousemove", mouseMoveHandler, true);
             }, true);
 
             document.addEventListener("mouseup", function() {
-                document.removeEventListener("mousemove", function(e) {
-                    self._handleMouseMove(e);
-                }, true);
+                document.removeEventListener("mousemove", mouseMoveHandler, true);
                 self._isMouseDown = false;
             }, true);
+
+            function mouseMoveHandler(e) {
+                self._handleMouseMove(e);
+            }
         }],
 
         _handleMouseMove: function (e) {
-            this._mouseX = (e.clientX - this._shiftX) * this._invScale;
-            this._mouseY = (e.clientY - this._shiftY) * this._invScale;
+            this._mouseX = (e.clientX - this._shiftX - this._ng2DViewPort.lookAt.x + 0.5 * this.width) * this._invScale;
+            this._mouseY = (e.clientY - this._shiftY - this._ng2DViewPort.lookAt.y + 0.5 * this.height) * this._invScale;
         },
 
         $update: ['$nodes', 'ngBox2DSystem', function($nodes, ngBox2DSystem) {
@@ -480,6 +485,7 @@
             if (this._isMouseDown && !this._mouseJoint) {
                 world = ngBox2DSystem._world;
                 var body = ngBox2DSystem.getOneBodyAt(this._mouseX, this._mouseY);
+                console.log('mouse ' + this._mouseX + ', ' + this._mouseY);
                 if(body && body.m_userData && body.m_userData.ngDraggable) {
                     var md = new Box2D.b2MouseJointDef();
                     md.set_bodyA(ngBox2DSystem.getGroundBody());
