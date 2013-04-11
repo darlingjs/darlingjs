@@ -34,6 +34,7 @@
     });
 
     m.$c('ngPulleyJoint', {
+        //TODO:
     });
 
     m.$c('ngRevoluteJoint', {
@@ -49,9 +50,28 @@
 
     m.$c('ngSensor', {});
 
-    m.$c('ngSensorAny', {
+    m.$c('ngMotorSwitcher', {
+        targetId: null,
+        targetEntity: null
     });
 
-    m.$c('ngSensorAnyDetectOneEntity', {
+    m.$c('ngEnableMotor', {});
+
+    m.$c('ngWantsToCollide', {
+        'with' : [
+            {
+                'andGet': 'ngCollide'
+            },
+            {
+                'any': ['ngBonus'],
+                'andGet': 'ngGetBonus'
+            },
+            {
+                'any': ['ngSounding'],
+                'andGet': 'ngPlaySoundOf'
+            }
+        ]
     });
+
+    m.$c('ngCollide');
 })(darlingjs);

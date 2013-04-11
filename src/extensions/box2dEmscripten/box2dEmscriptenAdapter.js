@@ -805,26 +805,21 @@
         }
     });
 
-    //TODO : move to logic?
-    m.$c('ngBox2DEnableMotorOnSensor', {
-        targetId: null
-    });
-
-    m.$c('ngEnableMotor', {});
-
     m.$s('ngBox2DEnableMotorOnSensor', {
-        $require: ['ngSensorAnyDetectOneEntity', 'ngBox2DEnableMotorOnSensor'],
+        $require: ['ngCollide', 'ngMotorSwitcher'],
 
         $addNode: ['$node', '$world', function($node, $world) {
-            var entity = $world.$getByName($node.ngBox2DEnableMotorOnSensor.targetId);
-            $node.ngBox2DEnableMotorOnSensor.targetEntity = entity;
-            if (!entity.$has('ngEnableMotor')) {
-                entity.$add('ngEnableMotor');
+            var entity = $world.$getByName($node.ngMotorSwitcher.targetId);
+            if (entity) {
+                $node.ngMotorSwitcher.targetEntity = entity;
+                if (!entity.$has('ngEnableMotor')) {
+                    entity.$add('ngEnableMotor');
+                }
             }
         }],
 
         $removeNode: function($node) {
-            var entity = $node.ngBox2DEnableMotorOnSensor.targetEntity;
+            var entity = $node.ngMotorSwitcher.targetEntity;
             if (entity) {
                 entity.$remove('ngEnableMotor');
             }
@@ -886,7 +881,9 @@
                     fixture = fixture.GetNext();
                 }
             }
-        },
+        }
+        /*
+        ,
 
         $update: ['$node', function($node) {
             var physic = $node.ngPhysic;
@@ -912,6 +909,7 @@
                 $node.$remove('ngSensorAnyDetectOneEntity');
             }
         }]
+        */
     });
 
     /**
@@ -1089,27 +1087,20 @@
         }]
     });
 
-    m.$c('ngWantsToCollide', {
-        'with' : [
-            {
-                'andGet': 'ngCollide'
-            },
-            {
-                'any': ['ngBonus'],
-                'andGet': 'ngGetBonus'
-            },
-            {
-                'any': ['ngSounding'],
-                'andGet': 'ngPlaySoundOf'
-            }
-        ]
-    });
-
-    m.$c('ngCollide');
-
     m.$s('ngBox2DCollision', {
         $require: ['ngWantsToCollide', 'ngPhysic'],
-        $addNode: ['$node', 'ngBox2DSystem', function($node,ngBox2DSystem) {
+
+        $addNode: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
+            if (this._listening) {
+                return;
+            }
+            this._startListen(ngBox2DSystem);
+        }],
+
+        _listening: false,
+
+        _startListen: function(ngBox2DSystem) {
+            this._listening = true;
             var collisionCallback = new Box2D.b2ContactListener();
 
             Box2D.customizeVTable(collisionCallback, [{
@@ -1158,7 +1149,7 @@
 //            }]);
 
             ngBox2DSystem._world.SetContactListener(collisionCallback);
-        }]
+        }
     });
 
     function beginContact(entityA, entityB, collision) {
