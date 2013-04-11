@@ -171,6 +171,55 @@
             return Box2D.castObject( this._world.CreateJoint(def), CustomType);
         },
 
+        _getReyCastCallback: function () {
+            if (this._getReyCastCallbackValue) {
+                return this._getReyCastCallbackValue;
+            }
+
+            var callback = new Box2D.b2RayCastCallback();
+
+            Box2D.customizeVTable(callback, [{
+                original: Box2D.b2RayCastCallback.prototype.ReportFixture,
+                replacement:
+                    function(thsPtr, fixturePtr, pointPtr, normalPtr, fraction) {
+                        var ths = Box2D.wrapPointer( thsPtr, Box2D.b2RayCastCallback );
+                        var fixture = Box2D.wrapPointer( fixturePtr, Box2D.b2Fixture );
+                        var point = Box2D.wrapPointer( pointPtr, Box2D.b2Vec2 );
+                        var normal = Box2D.wrapPointer( normalPtr, Box2D.b2Vec2 );
+
+                        if (ths.fixture === null) {
+                            ths.fixture = fixture;
+                            return true;
+                        }
+
+                        if (darlingutil.isArray(ths.fixtures)) {
+                            ths.fixtures.push(fixture);
+                        }
+
+                        if (ths.handler) {
+                            return ths.handler(fixture, point, normal, fraction);
+                        }
+
+                        return false;
+                    }
+            }]);
+
+            this._getReyCastCallbackValue = callback;
+            return this._getReyCastCallbackValue;
+        },
+
+        getFixturesBetween: function(point1, point2) {
+            var raycastCallback = this._getReyCastCallback();
+            raycastCallback.fixtures = [];
+            this._world.RayCast(raycastCallback, point1, point2);
+        },
+
+        requestFixturesBetween: function(point1, point2, handler) {
+            var raycastCallback = this._getReyCastCallback();
+            raycastCallback.handler = handler;
+            this._world.RayCast(raycastCallback, point1, point2);
+        },
+
         /**
          * Get fixtures array by position
          *
@@ -229,14 +278,14 @@
          * @private
          */
         _getQueryCallbackForOneFixture: function() {
-            if (this._myQueryCallback) {
-                return this._myQueryCallback;
+            if (this._getQueryCallbackForOneFixtureValue) {
+                return this._getQueryCallbackForOneFixtureValue;
             }
 
-            var myQueryCallback = new Box2D.b2QueryCallback();
-            this._myQueryCallback = myQueryCallback;
+            var queryCallback = new Box2D.b2QueryCallback();
+            this._getQueryCallbackForOneFixtureValue = queryCallback;
 
-            Box2D.customizeVTable(myQueryCallback, [{
+            Box2D.customizeVTable(queryCallback, [{
                 original: Box2D.b2QueryCallback.prototype.ReportFixture,
                 replacement:
                     function(thsPtr, fixturePtr) {
@@ -254,7 +303,7 @@
                     }
             }]);
 
-            return this._myQueryCallback;
+            return this._getQueryCallbackForOneFixtureValue;
         },
 
         /**
@@ -263,14 +312,14 @@
          * @private
          */
         _getQueryCallbackForAllFixtures: function() {
-            if (this._myQueryCallback) {
-                return this._myQueryCallback;
+            if (this._getQueryCallbackForAllFixturesValue) {
+                return this._getQueryCallbackForAllFixturesValue;
             }
 
-            var myQueryCallback = new Box2D.b2QueryCallback();
-            this._myQueryCallback = myQueryCallback;
+            var queryCallback = new Box2D.b2QueryCallback();
+            this._getQueryCallbackForAllFixturesValue = queryCallback;
 
-            Box2D.customizeVTable(myQueryCallback, [{
+            Box2D.customizeVTable(queryCallback, [{
                 original: Box2D.b2QueryCallback.prototype.ReportFixture,
                 replacement:
                     function(thsPtr, fixturePtr) {
@@ -286,7 +335,7 @@
                     }
             }]);
 
-            return this._myQueryCallback;
+            return this._getQueryCallbackForAllFixturesValue;
         },
 
         _addContactListener: function (callbacks) {
@@ -485,7 +534,6 @@
             if (this._isMouseDown && !this._mouseJoint) {
                 world = ngBox2DSystem._world;
                 var body = ngBox2DSystem.getOneBodyAt(this._mouseX, this._mouseY);
-                console.log('mouse ' + this._mouseX + ', ' + this._mouseY);
                 if(body && body.m_userData && body.m_userData.ngDraggable) {
                     var md = new Box2D.b2MouseJointDef();
                     md.set_bodyA(ngBox2DSystem.getGroundBody());
@@ -617,7 +665,7 @@
                         }
 
                         if (!sensor && ny <= -sharpCos) {
-                            this._stayOnSDefined = true;
+                            this._stayOnGroundDefined = true;
                             this._stayOnGround = true;
                             return true;
                         }
@@ -810,7 +858,7 @@
     });
 
     m.$s('ngBox2DSensorSystem', {
-        $require: ['ngSensorAny', 'ngPhysic'],
+        $require: ['ngSensor', 'ngPhysic'],
 
         $addNode: function($node) {
             var physic = $node.ngPhysic;
@@ -831,10 +879,12 @@
         $removeNode: function($node) {
             var physic = $node.ngPhysic;
             var body = physic._b2dBody;
-            var fixture = body.GetFixtureList();
-            while(fixture) {
-                fixture.SetSensor(false);
-                fixture = fixture.GetNext();
+            if (body) {
+                var fixture = body.GetFixtureList();
+                while(fixture) {
+                    fixture.SetSensor(false);
+                    fixture = fixture.GetNext();
+                }
             }
         },
 
@@ -982,30 +1032,53 @@
                 bodyA = jointState.bodyA;
             } else {
                 bodyA = box2DSystem.getOneBodyAt(anchorA.get_x(), anchorA.get_y());
-//                bodyA = box2DSystem.getFixturesAt(anchorA.get_x(), anchorA.get_y())[0].GetBody();
-                if (!bodyA) {
-                    bodyA = box2DSystem.getGroundBody();
-                }
+    //                bodyA = box2DSystem.getFixturesAt(anchorA.get_x(), anchorA.get_y())[0].GetBody();
+    //                        if (!bodyA) {
+    //                            bodyA = box2DSystem.getGroundBody();
+    //                        }
             }
 
             if (jointState.bodyB) {
                 bodyB = jointState.bodyB;
             } else {
                 bodyB = box2DSystem.getOneBodyAt(anchorB.get_x(), anchorB.get_y());
-//                bodyB = box2DSystem.getFixturesAt(anchorB.get_x(), anchorB.get_y())[0].GetBody();
-                if (!bodyB) {
-                    bodyB = box2DSystem.getGroundBody();
-                }
+    //                bodyB = box2DSystem.getFixturesAt(anchorB.get_x(), anchorB.get_y())[0].GetBody();
+    //                        if (!bodyB) {
+    //                            bodyB = box2DSystem.getGroundBody();
+    //                        }
+            }
+
+            var lowerTranslation = 0.0,
+                upperTranslation = 5.0;
+
+            if (!bodyA || !bodyB) {
+                box2DSystem.requestFixturesBetween(anchorA, anchorB, function(fixture, point, normal, fraction) {
+                    anchorA.set_x(point.get_x());
+                    anchorA.set_y(point.get_y());
+                    if (!bodyA) {
+                        bodyA = fixture.GetBody();
+                        if (!bodyB) {
+                            bodyB = box2DSystem.getGroundBody();
+                            lowerTranslation = distance * (fraction - 1);
+                        }
+                    } else {
+                        bodyB = fixture.GetBody();
+                    }
+
+                    var distance = axis.Length();
+                    upperTranslation = distance * fraction;
+                    return false;
+                });
             }
 
             var jointDef = new Box2D.b2PrismaticJointDef();
             jointDef.Initialize(bodyA, bodyB, anchorA, axis);
-//            jointDef.set_localAnchorA(bodyA.GetLocalPoint(anchorA));
-//            jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
+    //            jointDef.set_localAnchorA(bodyA.GetLocalPoint(anchorA));
+    //            jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
 
             jointDef.set_collideConnected(false);
-            jointDef.set_lowerTranslation(jointState.lowerTranslation || 0.0);
-            jointDef.set_upperTranslation(jointState.upperTranslation || 5.0);
+            jointDef.set_lowerTranslation(jointState.lowerTranslation || lowerTranslation);
+            jointDef.set_upperTranslation(jointState.upperTranslation || upperTranslation);
             jointDef.set_enableLimit(true);
             jointDef.set_maxMotorForce(jointState.maxMotorForce);
             jointDef.set_motorSpeed(jointState.motorSpeed);

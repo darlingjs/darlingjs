@@ -47,6 +47,8 @@
         bodyBName: null
     });
 
+    m.$c('ngSensor', {});
+
     m.$c('ngSensorAny', {
     });
 
