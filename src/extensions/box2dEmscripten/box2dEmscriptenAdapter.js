@@ -129,6 +129,7 @@
             var body = $node.ngPhysic._b2dBody;
             if (darlingutil.isDefined(body)) {
                 this._world.DestroyBody(body);
+                $node.ngPhysic._b2dBody = null;
             }
         },
 
@@ -151,8 +152,8 @@
             var pos = body.GetPosition();
 
             var ng2D = $node.ng2D;
-            ng2D.x = pos.get_x() * 30; // FIXME : this.scale;
-            ng2D.y = pos.get_y() * 30; // FIXME : this.scale;
+            ng2D.x = pos.get_x() * 30;//this.scale;
+            ng2D.y = pos.get_y() * 30;//this.scale;
 
             var ng2DRotation = $node.ng2DRotation;
             if (ng2DRotation) {
@@ -744,7 +745,9 @@
         },
 
         $removeNode: function($node) {
-            $node.ngPhysic._b2dBody.SetFixedRotation(false);
+            if ($node.ngPhysic._b2dBody) {
+                $node.ngPhysic._b2dBody.SetFixedRotation(false);
+            }
         }
     });
 
@@ -1023,14 +1026,7 @@
         ]
     });
 
-    m.$c('ngSounding');
-    m.$c('ngPlaySoundOf');
-
-    m.$c('ngBonus');
     m.$c('ngCollide');
-    m.$c('ngGetBonus', {
-        'bonus': null
-    });
 
     m.$s('ngBox2DCollision', {
         $require: ['ngWantsToCollide', 'ngPhysic'],
