@@ -1179,17 +1179,32 @@
         }
     }
 
+    /**
+     * Need little optimization - use list instead of array
+     * @param rule
+     * @param entityA
+     * @param entityB
+     */
     function addContactComponent(rule, entityA, entityB) {
-        entityA.$add(rule.andGet, {
-            'entity': entityB
-        });
+        var component = entityA[rule.andGet];
+        if (!component) {
+            entityA.$add(rule.andGet, {
+                'entities': [entityB]
+            });
+        } else {
+            component.entities.push(entityB);
+        }
         console.log(entityA.$name + ' get ' + rule.andGet + ' with ' + entityB.$name);
     }
 
     function removeContactComponent(rule, entityA, entityB) {
-        entityA.$remove(rule.andGet, {
-            'entity': entityB
-        });
+        var component = entityA[rule.andGet];
+        var entities = component.entities;
+        var index = entities.indexOf(entityB);
+        entities.splice(index, 1);
+        if (entities.length <= 0) {
+            entityA.$remove(rule.andGet);
+        }
         console.log(entityA.$name + ' lose ' + rule.andGet + ' with ' + entityB.$name);
     }
 
