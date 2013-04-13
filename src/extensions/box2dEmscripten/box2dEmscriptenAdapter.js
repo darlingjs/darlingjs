@@ -1051,7 +1051,10 @@
                 anchorB.get_x() - anchorA.get_x(),
                 anchorB.get_y() - anchorA.get_y()
             );
-            var bodyA, bodyB;
+            var bodyA,
+                bodyB,
+                lowerTranslation = 0.0,
+                upperTranslation = axis.Length();
 
             if (jointState.bodyA) {
                 if (darlingutil.isString(jointState.bodyA)) {
@@ -1080,9 +1083,6 @@
     //                            bodyB = box2DSystem.getGroundBody();
     //                        }
             }
-
-            var lowerTranslation = 0.0,
-                upperTranslation = 5.0;
 
             if (!bodyA || !bodyB) {
                 box2DSystem.requestFixturesBetween(anchorA, anchorB, function(fixture, point, normal, fraction) {
