@@ -959,7 +959,7 @@
     m.$s('ngBox2DRevoluteJoint', {
         $require: ['ngRevoluteJoint', 'ng2D'],
 
-        $addNode: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
+        $addNode: ['$node', 'ngBox2DSystem', '$world', function($node, ngBox2DSystem, $world) {
             var jointState = $node.ngRevoluteJoint;
             var ng2D = $node.ng2D;
 
@@ -968,6 +968,14 @@
             var x = ngBox2DSystem._invScale * ng2D.x,
                 y = ngBox2DSystem._invScale * ng2D.y;
 
+            if (darlingutil.isString(jointState.bodyA)) {
+                bodyA = getBox2DBodyByEntityName($world, jointState.bodyA);
+            }
+
+            if (darlingutil.isString(jointState.bodyB)) {
+                bodyB = getBox2DBodyByEntityName($world, jointState.bodyB);
+            }
+
             var fixtures = ngBox2DSystem.getFixturesAt(x, y);
 
             switch (fixtures.length) {
@@ -975,12 +983,24 @@
                     throw new Error('Can\'t add revolute joint without jointed bodies');
                     break;
                 case 1:
-                    bodyA = fixtures[0].GetBody();
-                    bodyB = ngBox2DSystem.getGroundBody();
+                    if (darlingutil.isUndefined(bodyA)) {
+                        bodyA = fixtures[0].GetBody();
+                        if (darlingutil.isUndefined(bodyB)) {
+                            bodyB = ngBox2DSystem.getGroundBody();
+                        }
+                    } else if (darlingutil.isUndefined(bodyB)) {
+                        bodyB = fixtures[0].GetBody();
+                    }
                     break;
                 default:
-                    bodyA = fixtures[0].GetBody();
-                    bodyB = fixtures[1].GetBody();
+                    if (darlingutil.isUndefined(bodyA)) {
+                        bodyA = fixtures[0].GetBody();
+                        if (darlingutil.isUndefined(bodyB)) {
+                            bodyB = fixtures[1].GetBody();
+                        }
+                    } else if (darlingutil.isUndefined(bodyB)) {
+                        bodyB = fixtures[0].GetBody();
+                    }
                     break;
             }
 
