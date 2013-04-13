@@ -74,4 +74,14 @@
     });
 
     m.$c('ngCollide');
+
+    m.$c('ngCollisionGroup', {
+        'alwaysWith': null,
+        'neverWith': null
+    });
+
+    m.$c('ngCollisionCategory', {
+        'is': ['rock'],
+        'collideWith': ['vehicle']
+    });
 })(darlingjs);

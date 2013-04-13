@@ -119,10 +119,9 @@
 
             var body = this._world.CreateBody(bodyDef);
             //body.SetAngle(rotation);
-            body.CreateFixture(fixDef);
-            body.m_userData = $node;
-
+            ngPhysic._b2dFixture = body.CreateFixture(fixDef);
             ngPhysic._b2dBody = body;
+            body.m_userData = $node;
         },
 
         $removeNode: function($node) {
@@ -1242,4 +1241,74 @@
 
         return body.m_userData;
     }
+
+    m.$s('ngBox2DCollisionGroup', {
+        $require: ['ngCollisionGroup', 'ngPhysic'],
+
+        _groupsListFirst: null,
+
+        $addNode: function($node) {
+            var ngPhysic = $node.ngPhysic;
+            var fixture = ngPhysic._b2dFixture;
+
+            if (darlingutil.isUndefined(fixture) || fixture === null) {
+                return;
+            }
+
+            var ngCollisionGroup = $node.ngCollisionGroup,
+                groupName,
+                neverCollide,
+                groupIndex;
+
+            if (darlingutil.isDefined(ngCollisionGroup.neverWith) && ngCollisionGroup.neverWith !== null) {
+                groupName = ngCollisionGroup.neverWith;
+                neverCollide = true;
+            }
+            if (darlingutil.isDefined(ngCollisionGroup.alwaysWith) && ngCollisionGroup.alwaysWith !== null) {
+                groupName = ngCollisionGroup.alwaysWith;
+                neverCollide = false;
+            }
+            groupIndex = this._addGroupName(groupName);
+
+            if (neverCollide) {
+                groupIndex = -groupIndex;
+            }
+
+            fixture.GetFilterData().set_groupIndex(groupIndex);
+        },
+
+        _addGroupName: function(name) {
+            var last = null;
+            var node = this._groupsListFirst;
+            var index = 1;
+            while(node !== null) {
+                if (node.name === name) {
+                    return node.index;
+                }
+                index++;
+                last = node;
+                node = node.next;
+            }
+
+            node = {
+                next: null,
+                index: index,
+                name: name
+            };
+
+            if (last) {
+                last.next = node;
+            } else {
+                this._groupsListFirst = node;
+            }
+
+            return node.index;
+        },
+
+        $removeNode: function($node) {
+            var ngCollisionGroup = $node.ngCollisionGroup;
+            var ngPhysic = $node.ngPhysic;
+//            TODO: remove groupIndex from and clear groupNode
+        }
+    });
 })(darlingjs, darlingutil);
