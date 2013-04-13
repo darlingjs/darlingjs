@@ -67,7 +67,7 @@
         //array of key codes for enabling motor
         keyCode: null,
         //array of key codes for enabling reverse motor
-        keyCodeRevers: null
+        keyCodeReverse: null
     });
 
     m.$c('ngMotorWithAcceleration', {
@@ -86,19 +86,25 @@
 
         $addNode: function($node) {
             var keyCode = $node.ngEnableMotorOnKeyDown.keyCode;
-            var keyCodeRevers = $node.ngEnableMotorOnKeyDown.keyCodeRevers;
+            var keyCodeReverse = $node.ngEnableMotorOnKeyDown.keyCodeReverse;
 
             this._target = document.getElementById(this.domId) || document;
             this._target.addEventListener('keydown', function(e) {
                 var index;
                 index = keyCode.indexOf(e.keyCode);
                 if (index >= 0) {
-                    $node.$add('ngEnableMotor');
-                } else {
-                    index = keyCodeRevers.indexOf(e.keyCode);
-                    if (index >= 0) {
+                    if (!$node.$has('ngEnableMotor')) {
                         $node.$add('ngEnableMotor');
-                        $node.$add('ngEnableMotorReverse');
+                    }
+                } else {
+                    index = keyCodeReverse.indexOf(e.keyCode);
+                    if (index >= 0) {
+                        if (!$node.$has('ngEnableMotor')) {
+                            $node.$add('ngEnableMotor');
+                        }
+                        if (!$node.$has('ngEnableMotorReverse')) {
+                            $node.$add('ngEnableMotorReverse');
+                        }
                     }
                 }
             });
@@ -107,7 +113,7 @@
                 if (index >= 0) {
                     $node.$remove('ngEnableMotor');
                 } else {
-                    index = keyCodeRevers.indexOf(e.keyCode);
+                    index = keyCodeReverse.indexOf(e.keyCode);
                     if (index >= 0) {
                         $node.$remove('ngEnableMotor');
                         $node.$remove('ngEnableMotorReverse');

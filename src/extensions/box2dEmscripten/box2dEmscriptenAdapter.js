@@ -861,10 +861,14 @@
     m.$s('ngBox2DMotorWithAcceleration', {
         $require: ['ngMotorWithAcceleration', 'ngEnableMotor', 'ngAnyJoint'],
 
+        $addNode: function($node) {
+            $node.ngMotorWithAcceleration.speed = $node.ngAnyJoint.joint.GetJointSpeed();
+        },
+
         $update: ['$node', function($node) {
             var joint = $node.ngAnyJoint.joint,
                 ngMotorWithAcceleration = $node.ngMotorWithAcceleration,
-                speed = joint.GetJointSpeed();
+                speed = $node.ngMotorWithAcceleration.speed;
 
             var updateSpeed = false;
             if ($node.ngEnableMotorReverse) {
@@ -880,6 +884,7 @@
             }
 
             if (updateSpeed) {
+                $node.ngMotorWithAcceleration.speed = speed;
                 joint.SetMotorSpeed(speed);
             }
         }]
