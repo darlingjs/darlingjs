@@ -12,8 +12,6 @@
     'use strict';
     var m = darlingjs.module('ngBox2DEmscripten');
 
-
-
     /**
      * ngBox2DSystem.
      *
@@ -50,7 +48,7 @@
             }
             this._world = null;
         },
-        $addNode: function($node) {
+        $addNode: ['$node', '$world', function($node, $world) {
             var ngPhysic = $node.ngPhysic;
             var ng2D = $node.ng2D;
             var ng2DSize = $node.ng2DSize;
@@ -110,19 +108,34 @@
             fixDef.set_friction(ngPhysic.friction);
             fixDef.set_density(ngPhysic.density);
 
-            bodyDef.set_position(new Box2D.b2Vec2(ng2D.x * this._invScale, ng2D.y * this._invScale));
-            bodyDef.set_angle(rotation);
-            bodyDef.set_fixedRotation(ngPhysic.fixedRotation);
+            var body,
+                isCreatedNew;
+            if (ngPhysic.partOf) {
+                body = getBox2DBodyByEntityName($world, ngPhysic.partOf);
+                isCreatedNew = false;
+                var parentNg2D = body.m_userData.ng2D;
+                transformShape(shape,
+                    (ng2D.x - parentNg2D.x) * this._invScale,
+                    (ng2D.y - parentNg2D.y) * this._invScale,
+                    rotation);
+            } else {
+                bodyDef.set_position(new Box2D.b2Vec2(ng2D.x * this._invScale, ng2D.y * this._invScale));
+                bodyDef.set_angle(rotation);
+                bodyDef.set_fixedRotation(ngPhysic.fixedRotation);
+                body = this._world.CreateBody(bodyDef);
+                isCreatedNew = true;
+            }
 
-            //fixDef.filter.categoryBits   = 0x0002;
-            //fixDef.filter.maskBits       = 0x0001;
-
-            var body = this._world.CreateBody(bodyDef);
             //body.SetAngle(rotation);
-            ngPhysic._b2dFixture = body.CreateFixture(fixDef);
+            var fixture = ngPhysic._b2dFixture = body.CreateFixture(fixDef);
+            fixture.m_userData = $node;
+
             ngPhysic._b2dBody = body;
-            body.m_userData = $node;
-        },
+
+            if (isCreatedNew) {
+                body.m_userData = $node;
+            }
+        }],
 
         $removeNode: function($node) {
             var body = $node.ngPhysic._b2dBody;
@@ -1012,10 +1025,25 @@
      * A prismatic joint allows for relative translation of two bodies along a specified axis. A prismatic joint prevents relative rotation. Therefore, a prismatic joint has a single degree of freedom.
      *
      */
+
+    function getBox2DBodyByEntityName($world, name) {
+        var entity = $world.$getByName(name);
+        if (!entity) {
+            return null;
+        }
+
+        var physic = entity.ngPhysic;
+        if (!physic) {
+            return null;
+        }
+
+        return physic._b2dBody;
+    }
+
     m.$s('ngBox2DPrismaticJoint', {
         $require: ['ngPrismaticJoint'],
 
-        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
+        $addNode: ['$node', 'ngBox2DSystem', '$world', function($node, box2DSystem, $world) {
             var jointState = $node.ngPrismaticJoint;
             var anchorA = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
             var anchorB = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
@@ -1026,7 +1054,11 @@
             var bodyA, bodyB;
 
             if (jointState.bodyA) {
-                bodyA = jointState.bodyA;
+                if (darlingutil.isString(jointState.bodyA)) {
+                    bodyA = getBox2DBodyByEntityName($world, jointState.bodyA);
+                } else {
+                    bodyA = jointState.bodyA;
+                }
             } else {
                 bodyA = box2DSystem.getOneBodyAt(anchorA.get_x(), anchorA.get_y());
     //                bodyA = box2DSystem.getFixturesAt(anchorA.get_x(), anchorA.get_y())[0].GetBody();
@@ -1036,7 +1068,11 @@
             }
 
             if (jointState.bodyB) {
-                bodyB = jointState.bodyB;
+                if (darlingutil.isString(jointState.bodyB)) {
+                    bodyB = getBox2DBodyByEntityName($world, jointState.bodyB);
+                } else {
+                    bodyB = jointState.bodyB;
+                }
             } else {
                 bodyB = box2DSystem.getOneBodyAt(anchorB.get_x(), anchorB.get_y());
     //                bodyB = box2DSystem.getFixturesAt(anchorB.get_x(), anchorB.get_y())[0].GetBody();
@@ -1240,6 +1276,28 @@
         }
 
         return body.m_userData;
+    }
+
+    /**
+     * Linear transform of shape, use vertexes of Circle and Polygonal shape
+     *
+     * @param shape
+     * @param dx
+     * @param dy
+     * @param rotation
+     */
+    function transformShape(shape, dx, dy, rotation) {
+        var sin = Math.sin(rotation),
+            cos = Math.cos(rotation),
+            count = shape.GetVertexCount();
+
+        for(var index = 0; index < count; index++) {
+            var vec2 = shape.GetVertex(index);
+            var x = vec2.get_x();
+            var y = vec2.get_y();
+            vec2.set_x( cos * x - sin * y + dx);
+            vec2.set_y( sin * x + cos * y + dy);
+        }
     }
 
     m.$s('ngBox2DCollisionGroup', {
