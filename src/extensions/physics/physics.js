@@ -18,6 +18,10 @@
 
     m.$c('ngFixedRotation', {});
 
+    m.$c('ngAnyJoint', {
+        joint: null
+    });
+
     m.$c('ngPrismaticJoint', {
         lowerTransition: 0.0,
         upperTranslation: 0.0,
@@ -56,6 +60,62 @@
     });
 
     m.$c('ngEnableMotor', {});
+
+    m.$c('ngEnableMotorReverse', {});
+
+    m.$c('ngEnableMotorOnKeyDown', {
+        //array of key codes for enabling motor
+        keyCode: null,
+        //array of key codes for enabling reverse motor
+        keyCodeRevers: null
+    });
+
+    m.$c('ngMotorWithAcceleration', {
+        min: 0.0,
+        max: 10.0,
+        acceleration: 0.1,
+        degradation: 0.1
+    });
+
+    /**
+     * Just Enable Motor (add component ngEnableMotor/ngEnableMotorReverse) on key down, and stop motor on up.
+     *
+     */
+    m.$s('ngEnableMotorOnKeyDown', {
+        $require: ['ngEnableMotorOnKeyDown'],
+
+        $addNode: function($node) {
+            var keyCode = $node.ngEnableMotorOnKeyDown.keyCode;
+            var keyCodeRevers = $node.ngEnableMotorOnKeyDown.keyCodeRevers;
+
+            this._target = document.getElementById(this.domId) || document;
+            this._target.addEventListener('keydown', function(e) {
+                var index;
+                index = keyCode.indexOf(e.keyCode);
+                if (index >= 0) {
+                    $node.$add('ngEnableMotor');
+                } else {
+                    index = keyCodeRevers.indexOf(e.keyCode);
+                    if (index >= 0) {
+                        $node.$add('ngEnableMotor');
+                        $node.$add('ngEnableMotorReverse');
+                    }
+                }
+            });
+            this._target.addEventListener('keyup', function(e) {
+                var index = keyCode.indexOf(e.keyCode);
+                if (index >= 0) {
+                    $node.$remove('ngEnableMotor');
+                } else {
+                    index = keyCodeRevers.indexOf(e.keyCode);
+                    if (index >= 0) {
+                        $node.$remove('ngEnableMotor');
+                        $node.$remove('ngEnableMotorReverse');
+                    }
+                }
+            });
+        }
+    });
 
     m.$c('ngWantsToCollide', {
         'with' : [

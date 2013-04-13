@@ -839,13 +839,10 @@
     });
 
     m.$s('ngBox2DEnableMotorSystem', {
-        $require: ['ngEnableMotor'],
+        $require: ['ngEnableMotor', 'ngAnyJoint'],
 
         $addNode: function($node) {
-            var joint;
-            if ($node.ngPrismaticJoint) {
-                joint = $node.ngPrismaticJoint._joint;
-            }
+            var joint = $node.ngAnyJoint.joint;
 
             if (joint) {
                 joint.EnableMotor(true);
@@ -853,15 +850,39 @@
         },
 
         $removeNode: function($node) {
-            var joint;
-            if ($node.ngPrismaticJoint) {
-                joint = $node.ngPrismaticJoint._joint;
-            }
+            var joint = $node.ngAnyJoint.joint;
 
             if (joint) {
                 joint.EnableMotor(false);
             }
         }
+    });
+
+    m.$s('ngBox2DMotorWithAcceleration', {
+        $require: ['ngMotorWithAcceleration', 'ngEnableMotor', 'ngAnyJoint'],
+
+        $update: ['$node', function($node) {
+            var joint = $node.ngAnyJoint.joint,
+                ngMotorWithAcceleration = $node.ngMotorWithAcceleration,
+                speed = joint.GetJointSpeed();
+
+            var updateSpeed = false;
+            if ($node.ngEnableMotorReverse) {
+                speed -= ngMotorWithAcceleration.acceleration;
+                if (speed >= ngMotorWithAcceleration.min) {
+                    updateSpeed = true;
+                }
+            } else {
+                speed += ngMotorWithAcceleration.acceleration;
+                if (speed <= ngMotorWithAcceleration.max) {
+                    updateSpeed = true;
+                }
+            }
+
+            if (updateSpeed) {
+                joint.SetMotorSpeed(speed);
+            }
+        }]
     });
 
     m.$s('ngBox2DSensorSystem', {
@@ -970,6 +991,10 @@
             jointDef.set_enableMotor(jointState.enableMotor);
 
             jointState._joint = ngBox2DSystem.createJoint(jointDef, Box2D.b2RevoluteJoint);
+            if (!$node.$has('ngAnyJoint')) {
+                $node.$add('ngAnyJoint');
+            }
+            $node.ngAnyJoint.joint = jointState._joint;
         }]
     });
 
@@ -1014,6 +1039,10 @@
             jointDef.set_frequencyHz(jointState.frequencyHz);
             jointDef.set_dampingRatio(jointState.dampingRatio);
             jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2DistanceJoint);
+            if (!$node.$has('ngAnyJoint')) {
+                $node.$add('ngAnyJoint');
+            }
+            $node.ngAnyJoint.joint = jointState._joint;
         }]
     });
 
@@ -1119,6 +1148,10 @@
             //return;
 
             jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2PrismaticJoint);
+            if (!$node.$has('ngAnyJoint')) {
+                $node.$add('ngAnyJoint');
+            }
+            $node.ngAnyJoint.joint = jointState._joint;
         }]
     });
 
