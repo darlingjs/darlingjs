@@ -948,7 +948,7 @@
 
             var jointDef = new Box2D.b2RevoluteJointDef();
             jointDef.Initialize(bodyA, bodyB, new Box2D.b2Vec2(x, y));
-
+            jointDef.set_collideConnected(jointState.collideConnected || false);
             jointDef.set_lowerAngle(jointState.lowerAngle);
             jointDef.set_upperAngle(jointState.upperAngle);
             jointDef.set_enableLimit(jointState.enableLimit);
