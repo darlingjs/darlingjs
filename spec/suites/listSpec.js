@@ -106,5 +106,14 @@ describe('list', function() {
     it('should add node to the head and return node', function() {
         var list = new List();
         expect(list.addHead()).toBeDefined();
-    })
+    });
+
+    it('should remove node by instace of node', function() {
+        var list = new List();
+        var e1 = list.add();
+        var e2 = list.add();
+        var e3 = list.add();
+        list.remove(e2);
+        expect(list.length()).toBe(2);
+    });
 });
