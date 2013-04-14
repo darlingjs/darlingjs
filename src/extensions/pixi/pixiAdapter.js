@@ -9,36 +9,6 @@
 'use strict';
 var m = darlingjs.module('ngPixijsAdapter');
 
-m.$s('ngPixijsFollowSelected', {
-    _avgPosition: {x:0.0, y:0.0},
-
-    $require: ['ng2D', 'ngSelected'],
-
-    $beforeUpdate: function() {
-        this._avgPosition.x = 0.0;
-        this._avgPosition.y = 0.0;
-        this._avgPosition.count = 0;
-    },
-    $update: ['$node', 'ngPixijsStage', function($node, ngPixijsStage) {
-        this._avgPosition.x += $node.ng2D.x;
-        this._avgPosition.y += $node.ng2D.y;
-        this._avgPosition.count++;
-    }],
-
-    $afterUpdate: ['ngPixijsStage', 'ng2DViewPort', function(ngPixijsStage, ng2DViewPort) {
-        if (this._avgPosition.count > 1) {
-            var coef = 1 / this._avgPosition.count;
-            this._avgPosition.x *= coef;
-            this._avgPosition.y *= coef;
-        }
-
-        ngPixijsStage.lookAt(this._avgPosition.x, this._avgPosition.y);
-
-        ng2DViewPort.lookAt.x = this._avgPosition.x;
-        ng2DViewPort.lookAt.y = this._avgPosition.y;
-    }]
-});
-
 m.$s('ngPixijsMovieClip', {
     $require: ['ng2D', 'ngMovieClip'],
 
