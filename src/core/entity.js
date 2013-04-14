@@ -8,7 +8,6 @@
 var Entity = function() {
     this.$$components = {};
     this.$$world = null;
-    this.$$nextSibling = this.$$prevSibling = null;
     mixin(this, Events);
 };
 

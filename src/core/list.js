@@ -60,14 +60,20 @@ List.prototype.addHead = function(instance) {
 };
 
 List.prototype.remove = function(instance) {
-    if (!instance.hasOwnProperty(this.PROPERTY_LINK_TO_NODE)) {
-        return false;
+    var node;
+    if (instance instanceof ListNode) {
+        node = instance;
+    } else {
+        if (!instance.hasOwnProperty(this.PROPERTY_LINK_TO_NODE)) {
+            return false;
+        }
+
+        node = instance[this.PROPERTY_LINK_TO_NODE];
+        if (node === null) {
+            return false;
+        }
     }
 
-    var node = instance[this.PROPERTY_LINK_TO_NODE];
-    if (node === null) {
-        return false;
-    }
 
     if (this._tail === node) {
         this._tail = node.prev;
