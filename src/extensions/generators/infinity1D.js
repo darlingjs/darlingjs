@@ -27,7 +27,7 @@
     m.$s('ngInfinity1DWorld', {
         _list: null,
 
-        _lastLeftClampNode: null,
+        _lastLeftClampTile: null,
         _lastRightClampTile: null,
 
         seed: null,
@@ -53,30 +53,34 @@
             var rightClamp = center + half;
 
             var rightClampTile = this._lastRightClampTile || this._tail;
+            var leftClampTile = this._lastLeftClampTile || this._head;
 
-            //add new
+            //add new from right side
             while(!rightClampTile || rightClampTile.rightEdge < rightClamp) {
                 //* generate right tile
                 //* until we inside of clamp
-                var newTile = this._list.add();
-                this.generator(newTile, rightClampTile || this.seed, null);
-                newTile.prev = rightClampTile;
-                if (rightClampTile) {
-                    rightClampTile.next = newTile;
-                }
-                rightClampTile = newTile;
-                if (!this._tail) {
-                    this._head = this._tail = newTile;
-                }
+                var newRightTile = this._list.add();
+                this.generator(newRightTile, rightClampTile || this.seed, null);
+                rightClampTile = newRightTile;
             }
             this._lastRightClampTile = rightClampTile;
 
-            //remove useless
-//            if (this.removeUnseen) {
-//
+//            //add new from left side
+//            while(!leftClampTile || leftClampTile.leftEdge > leftClamp) {
+//                //* generate left tile
+//                //* until we inside of clamp
+//                var newLeftTile = this._list.addHead();
+//                this.generator(newLeftTile, null, leftClampTile || this.seed);
+//                leftClampTile = newLeftTile;
 //            }
+//            this._lastLeftClampTile = leftClampTile;
 //
-//
+//            //remove useless from left side
+//            if (this.removeUnseen) {
+//                leftClampTile
+//            }
+
+
 //            //add new
 //            var leftClampNode = this._lastLeftClampNode || this._tail;
 //            while(!leftClampNode) {

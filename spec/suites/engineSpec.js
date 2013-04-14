@@ -114,4 +114,20 @@ describe('darling', function() {
             darlingjs.world('theWorld');
         }).not.toThrow();
     });
+
+    it('should remove world by it name', function() {
+        var w = darlingjs.world('theWorld');
+        darlingjs.removeWorld('theWorld');
+        expect( function() {
+            darlingjs.world('theWorld');
+        }).not.toThrow();
+    });
+
+    it('should remove world by it instance', function() {
+        var w = darlingjs.world('theWorld');
+        darlingjs.removeWorld(w);
+        expect( function() {
+            darlingjs.world('theWorld');
+        }).not.toThrow();
+    });
 });

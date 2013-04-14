@@ -94,7 +94,16 @@ darlingjs.removeAllModules = function() {
 
 
 darlingjs.removeWorld = function(value) {
-    delete worlds[value];
+    if (darlingutil.isString(value)) {
+        delete worlds[value];
+    } else {
+        for(var worldName in worlds) {
+            if(worlds[worldName] === value) {
+                delete worlds[worldName];
+                break;
+            }
+        }
+    }
 }
 /**
  * Remove all worlds from engine
