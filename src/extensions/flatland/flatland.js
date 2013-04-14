@@ -40,6 +40,8 @@
 
     //Service
     module.$s('ng2DViewPort', {
-        lookAt: {x:0.0, y:0.0}
+        lookAt: {x:0.0, y:0.0},
+        width: 640,
+        height: 480
     });
 })(darlingjs);

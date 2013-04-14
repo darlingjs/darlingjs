@@ -11,6 +11,8 @@ var List = function() {
     mixin(this, Events);
 };
 
+darlingutil.List = List;
+
 List.prototype.add = function(instance) {
     var node = poolOfListNodes.get();
     node.init(instance, this.PROPERTY_LINK_TO_NODE);
