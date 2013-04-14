@@ -53,7 +53,6 @@
             var rightClamp = center + half;
 
             var rightClampTile = this._lastRightClampTile || this._tail;
-            var leftClampTile = this._lastLeftClampTile || this._head;
 
             //add new from right side
             while(!rightClampTile || rightClampTile.rightEdge < rightClamp) {
@@ -63,17 +62,24 @@
                 this.generator(newRightTile, rightClampTile || this.seed, null);
                 rightClampTile = newRightTile;
             }
+
             this._lastRightClampTile = rightClampTile;
 
-//            //add new from left side
-//            while(!leftClampTile || leftClampTile.leftEdge > leftClamp) {
-//                //* generate left tile
-//                //* until we inside of clamp
-//                var newLeftTile = this._list.addHead();
-//                this.generator(newLeftTile, null, leftClampTile || this.seed);
-//                leftClampTile = newLeftTile;
-//            }
-//            this._lastLeftClampTile = leftClampTile;
+            var leftClampTile = this._lastLeftClampTile || this._head;
+
+            //add new from left side
+            while(!leftClampTile || leftClampTile.leftEdge > leftClamp) {
+                //* generate left tile
+                //* until we inside of clamp
+                var newLeftTile = this._list.addHead();
+                this.generator(newLeftTile, null, leftClampTile || this.seed);
+                leftClampTile = newLeftTile;
+                console.log('leftClamp', leftClamp);
+                console.log('leftClampTile.leftEdge', leftClampTile.leftEdge);
+                console.log('leftClampTile.rightEdge', leftClampTile.rightEdge);
+            }
+
+            this._lastLeftClampTile = leftClampTile;
 //
 //            //remove useless from left side
 //            if (this.removeUnseen) {

@@ -37,6 +37,8 @@ describe('infinity1DWorldGenerator', function() {
             },
 
             generator: function(newTile, leftSeedTile, rightSeedTile) {
+                console.log('generator 1');
+
                 var width = 100,
                     leftEdge,
                     rightEdge,
@@ -45,7 +47,7 @@ describe('infinity1DWorldGenerator', function() {
                 if (leftSeedTile) {
                     leftEdge = leftSeedTile.rightEdge;
                 } else if (rightSeedTile) {
-                    leftEdge = rightSeedTile.leftEdge + width;
+                    leftEdge = rightSeedTile.leftEdge - width;
                 }
 
                 if (rightSeedTile) {
@@ -61,7 +63,7 @@ describe('infinity1DWorldGenerator', function() {
             }
         });
 
-        expect(generatorExecuteCount).toBe(3);
+        expect(generatorExecuteCount).toBe(6);
     });
 
     it('should remove unseen entities', function() {
@@ -80,10 +82,12 @@ describe('infinity1DWorldGenerator', function() {
                     rightEdge,
                     leftHeight;
 
+                console.log('generator 2');
+
                 if (leftSeedTile) {
                     leftEdge = leftSeedTile.rightEdge;
                 } else if (rightSeedTile) {
-                    leftEdge = rightSeedTile.leftEdge + width;
+                    leftEdge = rightSeedTile.leftEdge - width;
                 }
 
                 if (rightSeedTile) {
@@ -106,7 +110,7 @@ describe('infinity1DWorldGenerator', function() {
         viewPort.lookAt.x = viewPort.width;
         world.$update();
 
-//        expect(generatorExecuteCount).toBe(9);
-//        expect(world.$numEntities()).toBe(3);
+        expect(generatorExecuteCount).toBe(12);
+        expect(world.$numEntities()).toBe(6);
     });
 });
