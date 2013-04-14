@@ -1066,8 +1066,15 @@
 
         $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
             var jointState = $node.ngDistanceJoint;
-            var anchorA = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
-            var anchorB = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var ng2D = $node.ng2D;
+            var anchorA = new Box2D.b2Vec2(
+                box2DSystem._invScale * (jointState.anchorA.x + ng2D.x),
+                box2DSystem._invScale * (jointState.anchorA.y + ng2D.y)
+            );
+            var anchorB = new Box2D.b2Vec2(
+                box2DSystem._invScale * (jointState.anchorB.x + ng2D.x),
+                box2DSystem._invScale * (jointState.anchorB.y + ng2D.y)
+            );
             var bodyA, bodyB;
 
             if (jointState.bodyA) {
@@ -1129,8 +1136,16 @@
 
         $addNode: ['$node', 'ngBox2DSystem', '$world', function($node, box2DSystem, $world) {
             var jointState = $node.ngPrismaticJoint;
-            var anchorA = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
-            var anchorB = new Box2D.b2Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
+            var ng2D = $node.ng2D;
+            var anchorA = new Box2D.b2Vec2(
+                box2DSystem._invScale * (jointState.anchorA.x + ng2D.x),
+                box2DSystem._invScale * (jointState.anchorA.y + ng2D.y)
+            );
+            var anchorB = new Box2D.b2Vec2(
+                box2DSystem._invScale * (jointState.anchorB.x + ng2D.x),
+                box2DSystem._invScale * (jointState.anchorB.y + ng2D.y)
+            );
+
             var axis = new Box2D.b2Vec2(
                 anchorB.get_x() - anchorA.get_x(),
                 anchorB.get_y() - anchorA.get_y()
