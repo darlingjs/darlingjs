@@ -53,36 +53,37 @@
                 leftClamp = center - half,
                 rightClamp = center + half;
 
-            var rightClampTile = this._list._tail;
+            var tile = this._list._tail;
             //var rightClampTile = this._lastRightClampTile || this._tail;
 
             //add new from right side
-            while(!rightClampTile || rightClampTile.rightEdge < rightClamp) {
+            while(!tile || tile.rightEdge < rightClamp) {
                 var newRightTile = this._list.add();
-                this.generator(newRightTile, rightClampTile || this.seed, null);
-                rightClampTile = newRightTile;
+                this.generator(newRightTile, tile || this.seed, null);
+                tile = newRightTile;
             }
 
             //this._lastRightClampTile = rightClampTile;
 
-            var leftClampTile = this._list._head;
+            tile = this._list._head;
 //            var leftClampTile = this._lastLeftClampTile || this._head;
 
             //add new from left side
-            while(!leftClampTile || leftClampTile.leftEdge > leftClamp) {
+            while(!tile || tile.leftEdge > leftClamp) {
                 var newLeftTile = this._list.addHead();
-                this.generator(newLeftTile, null, leftClampTile || this.seed);
-                leftClampTile = newLeftTile;
+                this.generator(newLeftTile, null, tile || this.seed);
+                tile = newLeftTile;
             }
 
             //remove old from right side
-            leftClampTile = this._list._head;
-            while(leftClampTile && leftClampTile.rightEdge + width < leftClamp) {
-                this._list.remove(leftClampTile);
-                removeAllEntitesFrom($world, leftClampTile.entities);
-                leftClampTile.entities = null;
-
-                leftClampTile = leftClampTile.$next;
+            tile = this._list._head;
+            var edge = leftClamp - width;
+            while(tile && tile.rightEdge < edge) {
+                var next = tile.$next;
+                this._list.remove(tile);
+                removeAllEntitesFrom($world, tile.entities);
+                tile.entities = null;
+                tile = next;
             }
         }
     });

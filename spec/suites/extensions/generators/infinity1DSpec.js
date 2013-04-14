@@ -102,11 +102,15 @@ describe('infinity1DWorldGenerator', function() {
             }
         });
 
-        //look outside of known world
         viewPort.lookAt.x = 2 * viewPort.width;
         world.$update();
 
-        expect(generatorExecuteCount).toBe(12);
-        expect(world.$numEntities()).toBe(6);
+        //count of entities still the same
+        var entitiesCount = world.$numEntities();
+
+        viewPort.lookAt.x = 4 * viewPort.width;
+        world.$update();
+
+        expect(world.$numEntities()).toBe(entitiesCount);
     });
 });
