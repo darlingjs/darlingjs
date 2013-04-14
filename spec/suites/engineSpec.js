@@ -116,7 +116,7 @@ describe('darling', function() {
     });
 
     it('should remove world by it name', function() {
-        var w = darlingjs.world('theWorld');
+        darlingjs.world('theWorld');
         darlingjs.removeWorld('theWorld');
         expect( function() {
             darlingjs.world('theWorld');
