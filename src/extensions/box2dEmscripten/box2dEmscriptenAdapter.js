@@ -110,8 +110,12 @@
 
             var body,
                 isCreatedNew;
+
             if (ngPhysic.partOf) {
                 body = getBox2DBodyByEntityName($world, ngPhysic.partOf);
+            }
+
+            if (body) {
                 isCreatedNew = false;
                 var parentNg2D = body.m_userData.ng2D;
                 transformShape(shape,
