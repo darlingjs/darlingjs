@@ -28,6 +28,8 @@ List.prototype.add = function(instance) {
     this.trigger('add', instance);
 
     this._length++;
+
+    return node;
 };
 
 List.prototype.remove = function(instance) {
@@ -89,6 +91,11 @@ var ListNode = function(instance, linkBack) {
 
 ListNode.prototype.init = function(instance, linkBack) {
     this.prevSibling = this.nextSibling = null;
+
+    if (!instance) {
+        return;
+    }
+
     this.instance = instance;
     if (instance.hasOwnProperty(linkBack)) {
         throw new Error('Can\'t store "' + instance + '" because it containe ' + linkBack + ' property.');

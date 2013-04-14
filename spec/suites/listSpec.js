@@ -97,4 +97,9 @@ describe('list', function() {
         expect(removeHandler.callCount).toBe(1);
         expect(removeHandler.calledWith(e1)).toBeTruthy();
     });
+
+    it('should return new node after add empty instance', function() {
+        var list = new List();
+        expect(list.add()).toBeDefined();
+    });
 });
