@@ -158,7 +158,7 @@ World.prototype.$getByName = function(value) {
         if (entity.$name === value) {
             return entity;
         }
-        node = node.next;
+        node = node.$next;
     }
 
     return null;

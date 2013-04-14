@@ -1,10 +1,10 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
 describe('darling', function() {
+    'use strict';
     afterEach(function() {
         darlingjs.removeModule('theModule');
         darlingjs.removeModule('theModule1');

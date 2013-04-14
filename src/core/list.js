@@ -18,8 +18,8 @@ List.prototype.add = function(instance) {
     node.init(instance, this.PROPERTY_LINK_TO_NODE);
 
     if (this._head) {
-        this._tail.next = node;
-        node.prev = this._tail;
+        this._tail.$next = node;
+        node.$prev = this._tail;
         this._tail = node;
     } else {
         this._head = this._tail = node;
@@ -41,8 +41,8 @@ List.prototype.addHead = function(instance) {
     node.init(instance, this.PROPERTY_LINK_TO_NODE);
 
     if (this._head) {
-        this._head.prev = node;
-        node.next = this._head;
+        this._head.$prev = node;
+        node.$next = this._head;
         this._head = node;
     } else {
         this._head = this._tail = node;
@@ -74,21 +74,20 @@ List.prototype.remove = function(instance) {
         }
     }
 
-
     if (this._tail === node) {
-        this._tail = node.prev;
+        this._tail = node.$prev;
     }
 
     if (this._head === node) {
-        this._head = node.next;
+        this._head = node.$next;
     }
 
-    if (node.prev !== null) {
-        node.prev.next = node.next;
+    if (node.$prev !== null) {
+        node.$prev.$next = node.$next;
     }
 
-    if (node.next !== null) {
-        node.next.prev = node.prev;
+    if (node.$next !== null) {
+        node.$next.$prev = node.$prev;
     }
 
     node.dispose(instance, this.PROPERTY_LINK_TO_NODE);
@@ -112,7 +111,7 @@ List.prototype.forEach = function(callback, context, arg) {
     var node = this._head;
     while(node) {
         callback.call(context, node.instance, arg);
-        node = node.next;
+        node = node.$next;
     }
 };
 
@@ -122,11 +121,11 @@ var ListNode = function(instance, linkBack) {
     }
 };
 
-ListNode.prototype.next = null;
-ListNode.prototype.prev = null;
+ListNode.prototype.$next = null;
+ListNode.prototype.$prev = null;
 
 ListNode.prototype.init = function(instance, linkBack) {
-    this.prev = this.next = null;
+    this.$prev = this.$next = null;
 
     if (!instance) {
         return;
@@ -141,7 +140,7 @@ ListNode.prototype.init = function(instance, linkBack) {
 };
 
 ListNode.prototype.dispose = function(instance, linkBack) {
-    this.prev = this.next = null;
+    this.$prev = this.$next = null;
     this.instance = null;
     delete instance[linkBack];
 };

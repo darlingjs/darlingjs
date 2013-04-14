@@ -7,7 +7,7 @@
  *
  * need to implements generator
  * that generate new tile and put in 1st param (newTile) information about new tile:
- * width, rightHeight, array of entities.
+ * leftEdge, rightEdge, rightHeight, array of entities.
  *
  * also implements seed
  * that use for generate 1st tile
