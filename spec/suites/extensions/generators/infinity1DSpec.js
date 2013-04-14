@@ -37,8 +37,6 @@ describe('infinity1DWorldGenerator', function() {
             },
 
             generator: function(newTile, leftSeedTile, rightSeedTile) {
-                console.log('generator 1');
-
                 var width = 100,
                     leftEdge,
                     rightEdge,
@@ -82,8 +80,6 @@ describe('infinity1DWorldGenerator', function() {
                     rightEdge,
                     leftHeight;
 
-                console.log('generator 2');
-
                 if (leftSeedTile) {
                     leftEdge = leftSeedTile.rightEdge;
                 } else if (rightSeedTile) {
@@ -99,15 +95,15 @@ describe('infinity1DWorldGenerator', function() {
                 newTile.leftEdge = leftEdge;
                 newTile.rightEdge = rightEdge;
 
-                newTile.enties = [];
+                newTile.entities = [];
                 var e = world.$add(world.$e());
-                newTile.enties.push(e);
+                newTile.entities.push(e);
                 generatorExecuteCount++;
             }
         });
 
         //look outside of known world
-        viewPort.lookAt.x = viewPort.width;
+        viewPort.lookAt.x = 2 * viewPort.width;
         world.$update();
 
         expect(generatorExecuteCount).toBe(12);

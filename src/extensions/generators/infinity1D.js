@@ -34,25 +34,27 @@
         generator: null,
         removeUnseen: true,
 
-        $added: ['ng2DViewPort', function(ng2DViewPort) {
+        $added: ['ng2DViewPort', '$world', function(ng2DViewPort, $world) {
             if (this.generator === null) {
                 throw new Error('To use ngInfinity1DWorld you should define generator function. To create next node of infinity world');
             }
             this._list = new darlingutil.List();
-            this._generate(ng2DViewPort);
+            this._generate(ng2DViewPort, $world);
         }],
 
-        $update: ['ng2DViewPort', function(ng2DViewPort) {
-            this._generate(ng2DViewPort);
+        $update: ['ng2DViewPort', '$world', function(ng2DViewPort, $world) {
+            this._generate(ng2DViewPort, $world);
         }],
 
-        _generate: function(ng2DViewPort) {
-            var half = 0.5 * ng2DViewPort.width;
-            var center = ng2DViewPort.lookAt.x;
-            var leftClamp = center - half;
-            var rightClamp = center + half;
+        _generate: function(ng2DViewPort, $world) {
+            var width = ng2DViewPort.width,
+                half = 0.5 * ng2DViewPort.width,
+                center = ng2DViewPort.lookAt.x,
+                leftClamp = center - half,
+                rightClamp = center + half;
 
-            var rightClampTile = this._lastRightClampTile || this._tail;
+            var rightClampTile = this._list._tail;
+            //var rightClampTile = this._lastRightClampTile || this._tail;
 
             //add new from right side
             while(!rightClampTile || rightClampTile.rightEdge < rightClamp) {
@@ -61,9 +63,10 @@
                 rightClampTile = newRightTile;
             }
 
-            this._lastRightClampTile = rightClampTile;
+            //this._lastRightClampTile = rightClampTile;
 
-            var leftClampTile = this._lastLeftClampTile || this._head;
+            var leftClampTile = this._list._head;
+//            var leftClampTile = this._lastLeftClampTile || this._head;
 
             //add new from left side
             while(!leftClampTile || leftClampTile.leftEdge > leftClamp) {
@@ -72,27 +75,27 @@
                 leftClampTile = newLeftTile;
             }
 
-            this._lastLeftClampTile = leftClampTile;
-//
-//            //remove useless from left side
-//            if (this.removeUnseen) {
-//                leftClampTile
-//            }
+            //remove old from right side
+            leftClampTile = this._list._head;
+            while(leftClampTile && leftClampTile.rightEdge + width < leftClamp) {
+                this._list.remove(leftClampTile);
+                removeAllEntitesFrom($world, leftClampTile.entities);
+                leftClampTile.entities = null;
 
-
-//            //add new
-//            var leftClampNode = this._lastLeftClampNode || this._tail;
-//            while(!leftClampNode) {
-//
-//            }
-//
-//            //remove useless
-//            if (this.removeUnseen) {
-//
-//            }
-//
-//            this._lastLeftClampNode = leftClampNode;
+                leftClampTile = leftClampTile.$next;
+            }
         }
     });
+
+    function removeAllEntitesFrom($world, entities) {
+        console.log('removeAllEntitesFrom');
+        if (darlingutil.isUndefined(entities) || entities === null) {
+            return;
+        }
+        for (var i = 0, count = entities.length; i < count; i++) {
+            console.log('remove entity : ' + entities[i].$name);
+            $world.$remove(entities[i]);
+        }
+    }
 
 })(darlingjs);

@@ -1,5 +1,6 @@
 /**
 /**
+/**
  * Project: darlingjs / GameEngine.
  *
  * Adapter for emscripten port of Box2D 2.2.1 to javascript
@@ -143,10 +144,35 @@
 
         $removeNode: function($node) {
             var body = $node.ngPhysic._b2dBody;
-            if (darlingutil.isDefined(body)) {
-                this._world.DestroyBody(body);
-                $node.ngPhysic._b2dBody = null;
+            if (this._isEntityOwnBox2DBody($node)) {
+                if (darlingutil.isDefined(body)) {
+                    this._world.DestroyBody(body);
+                    $node.ngPhysic._b2dBody = null;
+                }
+            } else if (this._isEntityOwnBox2DFixture($node)) {
+                var fixture = $node.ngPhysic._b2dFixture;
+                if (darlingutil.isDefined(fixture) && darlingutil.isDefined(body)) {
+                    body.DestroyFixture(fixture);
+                }
             }
+        },
+
+        _isEntityOwnBox2DBody: function(entity) {
+            var body = entity.ngPhysic._b2dBody;
+            if (darlingutil.isDefined(body)) {
+                return body.m_userData === entity;
+            }
+
+            return false;
+        },
+
+        _isEntityOwnBox2DFixture: function(entity) {
+            var fixture = entity.ngPhysic._b2dFixture;
+            if (darlingutil.isDefined(fixture)) {
+                return fixture.m_userData === entity;
+            }
+
+            return false;
         },
 
         $update: ['$nodes', '$time', function($nodes, $time) {
