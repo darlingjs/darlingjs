@@ -56,8 +56,6 @@
 
             //add new from right side
             while(!rightClampTile || rightClampTile.rightEdge < rightClamp) {
-                //* generate right tile
-                //* until we inside of clamp
                 var newRightTile = this._list.add();
                 this.generator(newRightTile, rightClampTile || this.seed, null);
                 rightClampTile = newRightTile;
@@ -69,14 +67,9 @@
 
             //add new from left side
             while(!leftClampTile || leftClampTile.leftEdge > leftClamp) {
-                //* generate left tile
-                //* until we inside of clamp
                 var newLeftTile = this._list.addHead();
                 this.generator(newLeftTile, null, leftClampTile || this.seed);
                 leftClampTile = newLeftTile;
-                console.log('leftClamp', leftClamp);
-                console.log('leftClampTile.leftEdge', leftClampTile.leftEdge);
-                console.log('leftClampTile.rightEdge', leftClampTile.rightEdge);
             }
 
             this._lastLeftClampTile = leftClampTile;
