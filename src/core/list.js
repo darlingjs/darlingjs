@@ -25,7 +25,34 @@ List.prototype.add = function(instance) {
         this._head = this._tail = node;
     }
 
-    this.trigger('add', instance);
+    if (instance) {
+        this.trigger('add', instance);
+    } else {
+        this.trigger('add', node);
+    }
+
+    this._length++;
+
+    return node;
+};
+
+List.prototype.addHead = function(instance) {
+    var node = poolOfListNodes.get();
+    node.init(instance, this.PROPERTY_LINK_TO_NODE);
+
+    if (this._head) {
+        this._head.prevSibling = node;
+        node.nextSibling = this._head;
+        this._head = node;
+    } else {
+        this._head = this._tail = node;
+    }
+
+    if (instance) {
+        this.trigger('add', instance);
+    } else {
+        this.trigger('add', node);
+    }
 
     this._length++;
 

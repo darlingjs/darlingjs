@@ -102,4 +102,9 @@ describe('list', function() {
         var list = new List();
         expect(list.add()).toBeDefined();
     });
+
+    it('should add node to the head and return node', function() {
+        var list = new List();
+        expect(list.addHead()).toBeDefined();
+    })
 });
