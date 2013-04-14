@@ -25,8 +25,7 @@
      *
      */
     m.$s('ngInfinity1DWorld', {
-        _tail: null,
-        _head: null,
+        _list: null,
 
         _lastLeftClampNode: null,
         _lastRightClampTile: null,
@@ -35,25 +34,32 @@
         generator: null,
         removeUnseen: true,
 
-        $added: function() {
+        $added: ['ng2DViewPort', function(ng2DViewPort) {
             if (this.generator === null) {
                 throw new Error('To use ngInfinity1DWorld you should define generator function. To create next node of infinity world');
             }
-        },
+            this._list = new darlingutil.List();
+            this._generate(ng2DViewPort);
+        }],
 
         $update: ['ng2DViewPort', function(ng2DViewPort) {
+            this._generate(ng2DViewPort);
+        }],
+
+        _generate: function(ng2DViewPort) {
             var half = 0.5 * ng2DViewPort.width;
             var center = ng2DViewPort.lookAt.x;
-            var leftClamp = center + half;
-            var rightClamp = center - half;
+            var leftClamp = center - half;
+            var rightClamp = center + half;
 
             var rightClampTile = this._lastRightClampTile || this._tail;
 
             //add new
-            while(!rightClampTile || rightClampTile.right < rightClamp) {
+            while(!rightClampTile || rightClampTile.rightEdge < rightClamp) {
                 //* generate right tile
                 //* until we inside of clamp
-                var newTile = this.generator(new GeneratorTile(), rightClampTile || this.seed);
+                var newTile = this._list.add();
+                this.generator(newTile, rightClampTile || this.seed, null);
                 newTile.prev = rightClampTile;
                 if (rightClampTile) {
                     rightClampTile.next = newTile;
@@ -63,39 +69,27 @@
                     this._head = this._tail = newTile;
                 }
             }
-
-            //remove useless
-            if (this.removeUnseen) {
-
-            }
-
             this._lastRightClampTile = rightClampTile;
 
-            //add new
-            var leftClampNode = this._lastLeftClampNode || this._tail;
-            while(!leftClampNode) {
-
-            }
-
             //remove useless
-            if (this.removeUnseen) {
-
-            }
-
-            this._lastLeftClampNode = leftClampNode;
-        }]
+//            if (this.removeUnseen) {
+//
+//            }
+//
+//
+//            //add new
+//            var leftClampNode = this._lastLeftClampNode || this._tail;
+//            while(!leftClampNode) {
+//
+//            }
+//
+//            //remove useless
+//            if (this.removeUnseen) {
+//
+//            }
+//
+//            this._lastLeftClampNode = leftClampNode;
+        }
     });
 
-    function newTile() {
-
-    }
-
-    function disposeTile() {
-
-    }
-
-    var GeneratorTile = function() {};
-    GeneratorTile.prototype.next = null;
-    GeneratorTile.prototype.prev = null;
-    GeneratorTile.prototype.entities = [];
 })(darlingjs);
