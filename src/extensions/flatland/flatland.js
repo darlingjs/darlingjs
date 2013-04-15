@@ -49,4 +49,8 @@
      * Marker for elements that doesn't influenced by the viewPort
      */
     m.$c('ngLockViewPort');
+
+    m.$c('ngParallax', {
+        basis: 0.5
+    });
 })(darlingjs);

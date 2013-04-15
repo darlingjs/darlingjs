@@ -234,6 +234,12 @@ m.$s('ngPixijsStage', {
             sprite.sprite.position.y -= ng2DViewPort.lookAt.y;
         }
 
+        var ngParallax = $node.ngParallax;
+        if (ngParallax) {
+            sprite.sprite.position.x *= ngParallax.basis;
+            sprite.sprite.position.y *= ngParallax.basis;
+        }
+
         var ng2DRotation = $node.ng2DRotation;
         if (ng2DRotation) {
             sprite.sprite.rotation = ng2DRotation.rotation;
