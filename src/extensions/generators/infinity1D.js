@@ -89,12 +89,12 @@
     });
 
     function removeAllEntitesFrom($world, entities) {
-        console.log('removeAllEntitesFrom');
+        //console.log('removeAllEntitesFrom');
         if (darlingutil.isUndefined(entities) || entities === null) {
             return;
         }
         for (var i = 0, count = entities.length; i < count; i++) {
-            console.log('remove entity : ' + entities[i].$name);
+            //console.log('remove entity : ' + entities[i].$name);
             $world.$remove(entities[i]);
         }
     }

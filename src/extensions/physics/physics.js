@@ -82,7 +82,7 @@
      *
      */
     m.$s('ngEnableMotorOnKeyDown', {
-        $require: ['ngEnableMotorOnKeyDown'],
+        $require: ['ngEnableMotorOnKeyDown', 'ngSelected'],
 
         $addNode: function($node) {
             var keyCode = $node.ngEnableMotorOnKeyDown.keyCode;

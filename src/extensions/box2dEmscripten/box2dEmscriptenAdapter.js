@@ -1050,6 +1050,13 @@
                 $node.$add('ngAnyJoint');
             }
             $node.ngAnyJoint.joint = jointState._joint;
+        }],
+
+        $update: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
+            var vec2 = $node.ngAnyJoint.joint.GetAnchorA();
+            var ng2D = $node.ng2D;
+            ng2D.x = vec2.get_x() * ngBox2DSystem.scale;
+            ng2D.y = vec2.get_y() * ngBox2DSystem.scale;
         }]
     });
 
