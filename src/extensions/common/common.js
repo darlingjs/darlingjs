@@ -18,6 +18,11 @@
     m.$s('ngFollowSelected', {
         _avgPosition: {x:0.0, y:0.0},
 
+        shift: {
+            x: 0.0,
+            y: 0.0
+        },
+
         $require: ['ng2D', 'ngSelected'],
 
         $beforeUpdate: function() {
@@ -39,8 +44,8 @@
                 this._avgPosition.y *= coef;
             }
 
-            ng2DViewPort.lookAt.x = this._avgPosition.x;
-            ng2DViewPort.lookAt.y = this._avgPosition.y;
+            ng2DViewPort.lookAt.x = this._avgPosition.x + this.shift.x;
+            ng2DViewPort.lookAt.y = this._avgPosition.y + this.shift.y;
         }]
     });
 
