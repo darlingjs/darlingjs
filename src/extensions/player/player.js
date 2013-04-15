@@ -32,4 +32,32 @@
             $node.$remove('ngSelected');
         }]
     });
+
+    m.$c('ngBonus', {
+        score: 0
+    });
+
+    m.$c('ngScores', {
+        score: 0
+    });
+
+    m.$c('ngGetBonus');
+
+    m.$s('ngCollectBonuses', {
+        $require: ['ngGetBonus', 'ngScores'],
+
+        $addNode: ['$node', '$world', function($node, $world) {
+            var bonusState = $node.ngGetBonus;
+
+            //FIX ME: can only remove in timeout
+            setTimeout(function() {
+                var entities = bonusState.entities;
+                for (var i = 0, count = entities.length; i < count; i++) {
+                    var entity = entities[i];
+                    $world.$remove(entity);
+                    $node.ngScores.score += entity.ngBonus.score;
+                }
+            }, 0);
+        }]
+    });
 }) (darlingjs);
