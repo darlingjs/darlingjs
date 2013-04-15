@@ -226,8 +226,13 @@ m.$s('ngPixijsStage', {
 
         var ng2D = $node.ng2D;
 
-        sprite.sprite.position.x = ng2D.x - ng2DViewPort.lookAt.x + this._center.x;
-        sprite.sprite.position.y = ng2D.y - ng2DViewPort.lookAt.y + this._center.y;
+        sprite.sprite.position.x = ng2D.x + this._center.x;
+        sprite.sprite.position.y = ng2D.y + this._center.y;
+
+        if (!$node.ngLockViewPort) {
+            sprite.sprite.position.x -= ng2DViewPort.lookAt.x;
+            sprite.sprite.position.y -= ng2DViewPort.lookAt.y;
+        }
 
         var ng2DRotation = $node.ng2DRotation;
         if (ng2DRotation) {
