@@ -314,3 +314,7 @@ ngModule.$system('ngDOMSystem', {
 });
 
 ```
+
+## Copyrights
+
+Logo by Alena Krevenets (Burenka) <http://burenkaz.daportfolio.com/>
