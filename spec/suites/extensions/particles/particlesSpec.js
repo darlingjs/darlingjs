@@ -1,10 +1,11 @@
-'use strict';
 /**
  * Project: darlingjs / GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
 describe('Particle System', function() {
+    'use strict';
+
     var world;
     beforeEach(function() {
         world = darlingjs.world('theWorld', ['ngParticleSystem', 'ngFlatland']);
