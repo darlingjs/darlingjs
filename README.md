@@ -1,4 +1,4 @@
-darlingjs [![Build Status](https://travis-ci.org/Hyzhak/darlingjs.png?branch=master)](https://travis-ci.org/Hyzhak/darlingjs)
+darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=master)](https://travis-ci.org/darlingjs/darlingjs)
 =========
 
 ![Logo](http://darlingjs.github.io/images/logo-oldschool.png)
