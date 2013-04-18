@@ -12,6 +12,9 @@
 
     var m = darlingjs.module('ngFlatland');
 
+    /**
+     * Component describe position in 2D environment
+     */
     m.$c('ng2D', {
         x: 0.0,
         y: 0.0
@@ -50,25 +53,28 @@
      */
     m.$c('ngLockViewPort');
 
+    /**
+     *
+     */
     m.$c('ngParallax', {
         basis: 0.5
     });
 
     /**
-     * Component of moving entity. Can be used in any dimension
+     * Component of moving entity. Can be used in any dimension.
      */
-    m.$c('ngMove', {
+    m.$c('ngShiftMove', {
     });
 
     m.$s('ng2DMovingSystem', {
-        $require: ['ng2D', 'ngMove'],
+        $require: ['ng2D', 'ngShiftMove'],
 
         $update: ['$node', '$time', function($node, $time) {
-            $node.ngMove.dx = $node.ngMove.dx || 0.0;
-            $node.ngMove.dy = $node.ngMove.dy || 0.0;
+            $node.ngShiftMove.dx = $node.ngShiftMove.dx || 0.0;
+            $node.ngShiftMove.dy = $node.ngShiftMove.dy || 0.0;
 
-            $node.ng2D.x += 0.001 * $node.ngMove.dx * $time;
-            $node.ng2D.y += 0.001 * $node.ngMove.dy * $time;
+            $node.ng2D.x += 0.001 * $node.ngShiftMove.dx * $time;
+            $node.ng2D.y += 0.001 * $node.ngShiftMove.dy * $time;
         }]
     });
 })(darlingjs);

@@ -27,7 +27,7 @@ describe('flatland', function() {
                         x: 0.0,
                         y: 0.0
                     },
-                    'ngMove': {
+                    'ngShiftMove': {
                         dx: 0.1,
                         dy: 0.2
                     }
