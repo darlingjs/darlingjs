@@ -1,7 +1,27 @@
 darlingjs [![Build Status](https://travis-ci.org/Hyzhak/darlingjs.png?branch=master)](https://travis-ci.org/Hyzhak/darlingjs)
 =========
 
-Quick and Dirty Entity Game Engine.
+Lightweight component and entity based Game Engine. With flexible architecture. Decupled from any dependecy. So any interaction with (Box2D, Render system and so on) put in pluggable modules. And fluent API (Crafty.js like).
+
+Inspired by
+===========
+
+* [AngularJs](http://angularjs.org) - dependecy injections;
+* [Ash](http://ashframework.org) - component, entity, system architecture;
+* [CraftyJS](http://craftyjs.com) - fluent api;
+
+Pluggable Modules
+=================
+* 2D Renderering [uses pixi.js](http://www.goodboydigital.com/pixi-js-is-out/);
+* Physics [uses emscripted box2d 2.2.1](https://github.com/kripken/box2d.js/) or [box2dweb 2.1a](https://code.google.com/p/box2dweb/);
+* Performance (FPS/Mem) metter [uses Stats.js](https://github.com/mrdoob/stats.js);
+* *Comming soon* Particle System;
+* *Comming soon* Sound;
+* and so on.
+
+Examples
+========
+* [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/Hyzhak/darlingjs-examples/tree/master/04-box2d-simulation-of-vehicle);
 
 Usage
 =====
