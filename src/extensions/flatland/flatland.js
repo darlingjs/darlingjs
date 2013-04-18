@@ -53,4 +53,18 @@
     m.$c('ngParallax', {
         basis: 0.5
     });
+
+    m.$c('ngMove', {
+        dx: 0.0,
+        dy: 0.0
+    });
+
+    m.$s('ngMovingSystem', {
+        $require: ['ng2D', 'ngMove'],
+
+        $update: ['$node', '$time', function($node, $time) {
+            $node.ng2D.x += 0.001 * $node.ngMove.dx * $time;
+            $node.ng2D.y += 0.001 * $node.ngMove.dy * $time;
+        }]
+    });
 })(darlingjs);
