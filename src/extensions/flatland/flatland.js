@@ -66,13 +66,15 @@
     m.$c('ngShiftMove', {
     });
 
-    m.$s('ng2DMovingSystem', {
+    m.$s('ng2DShiftMovingSystem', {
         $require: ['ng2D', 'ngShiftMove'],
 
-        $update: ['$node', '$time', function($node, $time) {
+        $addNode : function($node) {
             $node.ngShiftMove.dx = $node.ngShiftMove.dx || 0.0;
             $node.ngShiftMove.dy = $node.ngShiftMove.dy || 0.0;
+        },
 
+        $update: ['$node', '$time', function($node, $time) {
             $node.ng2D.x += 0.001 * $node.ngShiftMove.dx * $time;
             $node.ng2D.y += 0.001 * $node.ngShiftMove.dy * $time;
         }]
