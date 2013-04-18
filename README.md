@@ -1,6 +1,8 @@
 darlingjs [![Build Status](https://travis-ci.org/Hyzhak/darlingjs.png?branch=master)](https://travis-ci.org/Hyzhak/darlingjs)
 =========
 
+![Logo](http://darlingjs.github.io/images/logo-oldschool.png)
+
 Lightweight component and entity based Game Engine. With flexible architecture. Decupled from any dependecy. So any interaction with (Box2D, Render system and so on) put in pluggable modules. And fluent API (Crafty.js like).
 
 ## Inspired by
