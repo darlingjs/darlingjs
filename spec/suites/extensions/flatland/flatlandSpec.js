@@ -15,9 +15,9 @@ describe('flatland', function() {
         darlingjs.removeWorld(world);
     });
 
-    describe('ngMovingSystem', function() {
+    describe('ng2DMovingSystem', function() {
         beforeEach(function() {
-            world.$add('ngMovingSystem');
+            world.$add('ng2DMovingSystem');
         });
 
         it('should move ng2D on update', function() {
