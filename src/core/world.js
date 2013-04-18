@@ -224,9 +224,13 @@ World.prototype.$e = World.prototype.$entity = function() {
     } else if (isObject(arguments[componentsIndex])) {
         var components = arguments[componentsIndex];
         for (var key in components) {
-            if (components.hasOwnProperty(key)) {
+            if (components.hasOwnProperty(key) && key.charAt(0) !== '$') {
                 entity.$add(key, components[key]);
             }
+        }
+
+        if (isDefined(components.$name)) {
+            entity.$name = components.$name;
         }
     }
 

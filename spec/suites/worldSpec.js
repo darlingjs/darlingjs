@@ -351,4 +351,11 @@ describe('World', function() {
         expect(world.$getByName('theEntity2')).toBe(e2);
         expect(world.$getByName('theEntity3')).toBeNull();
     });
+
+    it('should get name from component description if it does\'t set as 1st argument', function() {
+        var e = world.$e({
+            $name: 'theEntity'
+        });
+        expect(e.$name).toBe('theEntity');
+    });
 });
