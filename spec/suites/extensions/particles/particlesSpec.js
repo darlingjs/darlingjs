@@ -142,5 +142,25 @@ describe('Particle System', function() {
 
             expect(factory).calledWith(emitter);
         });
+
+        it('should throw exception if factory does\'t return object with components', function() {
+            var emitter = world.$add(world.$e('emitter', {
+                'ng2D': {
+                    x: 0.0, y: 0.0
+                },
+
+                'ng2DSize': {
+                    width: 2.0, height: 2.0
+                },
+
+                'ngEmitter' : {
+                    generate: function() {}
+                }
+            }));
+
+            expect(function() {
+                emitter.$add('ngEmit');
+            }).toThrow();
+        });
     });
 });

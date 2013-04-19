@@ -41,6 +41,10 @@
                 generate = generate($node);
             }
 
+            if (generate === null || darlingutil.isUndefined(generate)) {
+                throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
+            }
+
             generate.ng2D = generate.ng2D || {};
             generate.ng2D.x = ng2D.x + ng2DSize.width * Math.random();
             generate.ng2D.y = ng2D.y + ng2DSize.height * Math.random();
