@@ -95,7 +95,7 @@ describe('Particle System', function() {
                     generate: function() {
                         return {
                             $name: 'particle'
-                        }
+                        };
                     }
                 }
             }));
