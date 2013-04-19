@@ -37,6 +37,10 @@
         }],
 
         _emit: function($node, ng2D, ng2DSize, generate, $world) {
+            if (darlingutil.isFunction(generate)) {
+                generate = generate();
+            }
+
             generate.ng2D = generate.ng2D || {};
             generate.ng2D.x = ng2D.x + ng2DSize.width * Math.random();
             generate.ng2D.y = ng2D.y + ng2DSize.height * Math.random();
@@ -65,7 +69,6 @@
         $require: ['ngEmitterRandomCounter'],
 
         $update: ['$node', '$time', function($node, $time) {
-            console.log('ngRandomEmitterSystem, ' + $time);
             var counter = $node.ngEmitterRandomCounter;
             if (!counter._timeout) {
                 counter._timeout = this._timeInterval(counter);

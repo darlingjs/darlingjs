@@ -50,32 +50,63 @@ describe('Particle System', function() {
         expect(emitter.ngEmit.count).toBeLessThan(3);
     });
 
-    it('Should emit particle on added ngEmit component', function(){
-        world.$add('ngSquareEmitterSystem');
+    describe('ngSquareEmitterSystem', function() {
 
-        var emitter = world.$add(world.$e('emitter', {
-            'ng2D': {
-                x: 0.0, y: 0.0
-            },
-            'ng2DSize': {
-                width: 2.0, height: 2.0
-            },
-            'ngEmitter' : {
-                generate: {
-                    $name: 'particle'
+        beforeEach(function() {
+            world.$add('ngSquareEmitterSystem');
+        });
+
+        it('Should emit particle on added ngEmit component', function(){
+            var emitter = world.$add(world.$e('emitter', {
+                'ng2D': {
+                    x: 0.0, y: 0.0
+                },
+                'ng2DSize': {
+                    width: 2.0, height: 2.0
+                },
+                'ngEmitter' : {
+                    generate: {
+                        $name: 'particle'
+                    }
                 }
-            }
-        }));
+            }));
 
-        emitter.$add('ngEmit');
+            emitter.$add('ngEmit');
 
-        expect(world.$numEntities()).toBe(2);
-        var particle = world.$getByName('particle');
-        expect(particle).toBeDefined();
-        expect(particle).not.toBe(null);
-        expect(particle.ng2D.x).toBeGreaterThan(-0.1);
-        expect(particle.ng2D.x).toBeLessThan(2.1);
-        expect(particle.ng2D.y).toBeGreaterThan(-0.1);
-        expect(particle.ng2D.y).toBeLessThan(2.1);
+            expect(world.$numEntities()).toBe(2);
+            var particle = world.$getByName('particle');
+            expect(particle).toBeDefined();
+            expect(particle).not.toBe(null);
+            expect(particle.ng2D.x).toBeGreaterThan(-0.1);
+            expect(particle.ng2D.x).toBeLessThan(2.1);
+            expect(particle.ng2D.y).toBeGreaterThan(-0.1);
+            expect(particle.ng2D.y).toBeLessThan(2.1);
+        });
+
+        it('Should execute generate factory function on emit', function() {
+            var emitter = world.$add(world.$e('emitter', {
+                'ng2D': {
+                    x: 0.0, y: 0.0
+                },
+                'ng2DSize': {
+                    width: 2.0, height: 2.0
+                },
+                'ngEmitter' : {
+                    generate: function() {
+                        return {
+                            $name: 'particle'
+                        }
+                    }
+                }
+            }));
+
+            expect(function() {
+                emitter.$add('ngEmit');
+            }).not.toThrow();
+
+            var particle = world.$getByName('particle');
+            expect(particle).toBeDefined();
+            expect(particle).not.toBe(null);
+        });
     });
 });
