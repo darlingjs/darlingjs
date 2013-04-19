@@ -38,7 +38,7 @@
 
         _emit: function($node, ng2D, ng2DSize, generate, $world) {
             if (darlingutil.isFunction(generate)) {
-                generate = generate();
+                generate = generate($node);
             }
 
             generate.ng2D = generate.ng2D || {};

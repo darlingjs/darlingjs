@@ -20,7 +20,17 @@ describe('Particle System', function() {
                     return 'Expected entity "' + actual.$name + '" ' + notText + ' has component "' + expected + '"';
                 };
 
-                return this.actual.$has(expected);
+                return actual.$has(expected);
+            },
+
+            calledWith: function() {
+                var notText = this.isNot ? ' not' : '';
+
+                this.message = function() {
+                    return 'Expected that function ' + notText + ' has called with ' + Array.prototype.join.call(arguments, ', ');
+                };
+
+                return this.actual.calledWith.apply(this.actual, arguments);
             }
         });
     });
@@ -83,7 +93,7 @@ describe('Particle System', function() {
             expect(particle.ng2D.y).toBeLessThan(2.1);
         });
 
-        it('Should execute generate factory function on emit', function() {
+        it('should execute generate factory function on emit', function() {
             var emitter = world.$add(world.$e('emitter', {
                 'ng2D': {
                     x: 0.0, y: 0.0
@@ -107,6 +117,30 @@ describe('Particle System', function() {
             var particle = world.$getByName('particle');
             expect(particle).toBeDefined();
             expect(particle).not.toBe(null);
+        });
+
+        it('should pass emitter to particle factory', function() {
+            var factory = sinon.spy();
+
+            var emitter = world.$add(world.$e('emitter', {
+                'ng2D': {
+                    x: 0.0, y: 0.0
+                },
+
+                'ng2DSize': {
+                    width: 2.0, height: 2.0
+                },
+
+                'ngEmitter' : {
+                    generate: factory
+                }
+            }));
+
+            expect(function() {
+                emitter.$add('ngEmit');
+            }).toThrow();
+
+            expect(factory).calledWith(emitter);
         });
     });
 });
