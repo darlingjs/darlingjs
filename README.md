@@ -25,7 +25,8 @@ Lightweight component and entity based Game Engine. With flexible architecture. 
 
 ## Examples
 
-* [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/Hyzhak/darlingjs-examples/tree/master/04-box2d-simulation-of-vehicle);
+* [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/darlingjs/darlingjs-examples/tree/master/04-box2d-simulation-of-vehicle);
+* [Repo with other sources](https://github.com/darlingjs/darlingjs-examples/);
 
 ## Usage
 
