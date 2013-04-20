@@ -224,7 +224,7 @@
         $$updateNodePosition: function($node) {
             var body = $node.ngPhysic._b2dBody;
             //TODO : need to create separate component - ngBindPhysicsToPosition
-            if (!body || $node.ngPhysic.type === 'static' || $node.ngBindPositionToPhysics) {
+            if (!body || $node.ngPhysic.type === 'static' || darlingutil.isDefined($node.ngBindPositionToPhysics)) {
                 return;
             }
             var pos = body.GetPosition();

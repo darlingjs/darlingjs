@@ -567,7 +567,12 @@ World.prototype.$start = function() {
     var self = this;
     var previousTime = 0;
     (function step(time) {
-        self.$update(time - previousTime);
+        var deltaTime = 0;
+        if (previousTime) {
+            deltaTime = time - previousTime;
+        }
+
+        self.$update(deltaTime);
         previousTime = time;
         if (self.$playing) {
             self.$requestAnimationFrameId = window.requestAnimationFrame(step);

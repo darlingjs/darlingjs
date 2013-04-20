@@ -7,13 +7,13 @@
     var m = darlingjs.module('ngStats');
     var stats;
     m.$s('ngStatsBegin', {
-        domId: '',
+        domId: null,
         target: null,
 
         $added : function() {
             stats = new Stats();
             stats.setMode( 0 );
-            this.target = this.target || document.getElementById(this.domId) || document.body;
+            this.target = this.target || this.domId && document.getElementById(this.domId) || document.body;
             this.target.appendChild( stats.domElement );
         },
 
