@@ -142,6 +142,10 @@
         life: 1.0
     });
 
+    m.$c('ngDamage', {
+        value: 0.1
+    });
+
     m.$c('ngLifeIsGrooving', {
         delta: 0.1,
         max: 1.0

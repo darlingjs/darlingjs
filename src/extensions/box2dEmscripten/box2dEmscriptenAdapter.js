@@ -142,17 +142,41 @@
             }
         }],
 
+        _arrayOfBodyToRemoveAfterUnlock: [],
+        _arrayOfFixtureToRemoveAfterUnlock: [],
+
+        _removeAllBody: function(array) {
+            for(var i = 0, count = array.length; i < count; i++) {
+                this._world.DestroyBody(array[i]);
+            }
+        },
+
+        _removeAllFixtures: function(array) {
+            for(var i = 0, count = array.length; i < count; i++) {
+                var fixture = array[i];
+                fixture.GetBody().DestroyFixture(fixture);
+            }
+        },
+
         $removeNode: function($node) {
             var body = $node.ngPhysic._b2dBody;
             if (this._isEntityOwnBox2DBody($node)) {
                 if (darlingutil.isDefined(body)) {
-                    this._world.DestroyBody(body);
-                    $node.ngPhysic._b2dBody = null;
+                    if (this._world.IsLocked()) {
+                        this._arrayOfBodyToRemoveAfterUnlock.push(body);
+                    } else {
+                        this._world.DestroyBody(body);
+                        $node.ngPhysic._b2dBody = null;
+                    }
                 }
             } else if (this._isEntityOwnBox2DFixture($node)) {
                 var fixture = $node.ngPhysic._b2dFixture;
                 if (darlingutil.isDefined(fixture) && darlingutil.isDefined(body)) {
-                    body.DestroyFixture(fixture);
+                    if (this._world.IsLocked()) {
+                        this._arrayOfFixtureToRemoveAfterUnlock.push(fixture);
+                    } else {
+                        body.DestroyFixture(fixture);
+                    }
                 }
             }
         },
@@ -181,6 +205,12 @@
                 this.velocityIterations, //velocity iterations
                 this.positionIterations  //position iterations
             );
+
+            this._removeAllBody(this._arrayOfBodyToRemoveAfterUnlock);
+            this._arrayOfBodyToRemoveAfterUnlock.length = 0;
+
+            this._removeAllFixtures(this._arrayOfFixtureToRemoveAfterUnlock);
+            this._arrayOfFixtureToRemoveAfterUnlock.length = 0;
 
             $nodes.forEach(this.$$updateNodePosition);
             this._world.ClearForces();
@@ -1331,26 +1361,53 @@
      * @param entityB
      */
     function addContactComponent(rule, entityA, entityB) {
-        var component = entityA[rule.andGet];
+        if (darlingutil.isString(rule.andGet)) {
+            addOneByOneContactComponent(rule.andGet, null, entityA, entityB);
+        } else if(darlingutil.isObject(rule.andGet)) {
+            var components = rule.andGet;
+            for(var key in components) {
+                if (components.hasOwnProperty(key)) {
+                    addOneByOneContactComponent(key, components[key], entityA, entityB);
+                }
+            }
+        }
+        //console.log(entityA.$name + ' get ' + rule.andGet + ' with ' + entityB.$name);
+    }
+
+    function addOneByOneContactComponent(componentName, config, entityA, entityB) {
+        var component = entityA[componentName];
+
         if (!component) {
-            entityA.$add(rule.andGet, {
-                'entities': [entityB]
-            });
+            config = config || {};
+            config.entities = [entityB];
+            entityA.$add(componentName, config);
         } else {
             component.entities.push(entityB);
         }
-        console.log(entityA.$name + ' get ' + rule.andGet + ' with ' + entityB.$name);
     }
 
     function removeContactComponent(rule, entityA, entityB) {
-        var component = entityA[rule.andGet];
+        if (darlingutil.isString(rule.andGet)) {
+            removeOneByOneContactComponent(rule.andGet, entityA, entityB);
+        } else if (darlingutil.isObject(rule.andGet)) {
+            var components = rule.andGet;
+            for(var key in components) {
+                if (components.hasOwnProperty(key)) {
+                    removeOneByOneContactComponent(key, entityA, entityB);
+                }
+            }
+        }
+        //console.log(entityA.$name + ' lose ' + rule.andGet + ' with ' + entityB.$name);
+    }
+
+    function removeOneByOneContactComponent(componentName, entityA, entityB) {
+        var component = entityA[componentName];
         var entities = component.entities;
         var index = entities.indexOf(entityB);
         entities.splice(index, 1);
         if (entities.length <= 0) {
-            entityA.$remove(rule.andGet);
+            entityA.$remove(componentName);
         }
-        console.log(entityA.$name + ' lose ' + rule.andGet + ' with ' + entityB.$name);
     }
 
     function endContact(entityA, entityB, collision) {
