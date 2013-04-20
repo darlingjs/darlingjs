@@ -152,7 +152,7 @@
     });
 
     m.$s('ngDecreaseLifeOnDamage', {
-        $require: ['ngLife', 'ngDamage'],
+        $require: ['ngLife', 'ngDamage', 'ngLive'],
 
         $addNode: function($node) {
             $node.ngLife.life -= $node.ngDamage.damage;
@@ -185,14 +185,14 @@
      * Handle life changing
      */
     m.$s('ngLifeHandler', {
-        $require: ['ngLife', 'onLifeChange'],
+        $require: ['ngLife', 'ngOnLifeChange'],
 
         $update: ['$node', function($node) {
-            var onLifeChange = $node.onLifeChange;
+            var ngOnLifeChange = $node.ngOnLifeChange;
             var ngLife = $node.ngLife;
-            if (ngLife.life !== onLifeChange.previousLife) {
-                onLifeChange.handler($node, ngLife.life);
-                onLifeChange.previousLife = ngLife.life;
+            if (ngLife.life !== ngOnLifeChange.previousLife) {
+                ngOnLifeChange.handler($node, ngLife.life);
+                ngOnLifeChange.previousLife = ngLife.life;
             }
         }]
     });
