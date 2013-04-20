@@ -173,6 +173,30 @@
         }]
     });
 
+    /**
+     * FIXME: Better use event-based approach
+     */
+
+    m.$c('ngOnLifeChange', {
+        handler: null
+    });
+
+    /**
+     * Handle life changing
+     */
+    m.$s('ngLifeHandler', {
+        $require: ['ngLife', 'onLifeChange'],
+
+        $update: ['$node', function($node) {
+            var onLifeChange = $node.onLifeChange;
+            var ngLife = $node.ngLife;
+            if (ngLife.life !== onLifeChange.previousLife) {
+                onLifeChange.handler($node, ngLife.life);
+                onLifeChange.previousLife = ngLife.life;
+            }
+        }]
+    });
+
     m.$c('ngLive', {});
 
     m.$c('ngDead', {});
