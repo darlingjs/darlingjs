@@ -51,7 +51,10 @@
     /**
      * Marker for elements that doesn't influenced by the viewPort
      */
-    m.$c('ngLockViewPort');
+    m.$c('ngLockViewPort', {
+        lockX: true,
+        lockY: true
+    });
 
     /**
      *
