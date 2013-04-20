@@ -163,4 +163,10 @@ describe('Particle System', function() {
             }).toThrow();
         });
     });
+
+    describe('ngDeathIfOutOfLifeZone', function() {
+        it('should add ngDead to entity if it out of zone', function() {
+
+        });
+    });
 });

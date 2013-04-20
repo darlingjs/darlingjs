@@ -98,6 +98,98 @@
         }
     });
 
-    m.$c('ngDeathZone', {
+    m.$c('ngRectangleZone', {
+        right: 0.0,
+        left: 0.0,
+        top: 0.0,
+        bottom: 0.0
+    });
+
+    m.$s('ngRectangleZone', {
+        $require: ['ngRectangleZone', 'ng2D'],
+
+        $update: ['$node', function($node) {
+            if(this._isInside($node.ngRectangleZone, $node.ng2D)) {
+                $node.$remove('ngOutOfZone');
+                if (!$node.ngInsideZone) {
+                    $node.$add('ngInsideZone');
+                }
+            } else {
+                $node.$remove('ngInsideZone');
+                if (!$node.ngOutOfZone) {
+                    $node.$add('ngOutOfZone');
+                }
+            }
+        }],
+
+        _isInside: function(zone, ng2D) {
+            return zone.left < ng2D.x && ng2D.x < zone.right &&
+                zone.top < ng2D.y && ng2D.y < zone.bottom;
+        }
+    });
+
+    m.$c('ngOutOfZone', {});
+
+    m.$c('ngInsideZone', {});
+
+    m.$c('ngLifeZone', {
+        lifeReduce: 0.1
+    });
+
+    m.$c('ngDeathZone', {});
+
+    m.$c('ngLife', {
+        life: 1.0
+    });
+
+    m.$c('ngLive', {});
+
+    m.$c('ngDead', {});
+
+    m.$c('ngRemoveIfDead', {
+    });
+
+    m.$s('ngRemoveIfDead', {
+        $require: ['ngRemoveIfDead', 'ngDead'],
+
+        $addNode: ['$world', '$node', function($world, $node) {
+            $world.$remove($node);
+        }]
+    });
+
+    m.$s('ngReduceLifeIfOutOfLifeZone', {
+        $require: ['ngLifeZone', 'ngOutOfZone', 'ngLife', 'ngLive'],
+
+        $update: ['$node', function($node) {
+            $node.ngLife.life -= $node.ngLifeZone.lifeReduce;
+        }]
+    });
+
+    m.$s('ngDeadIfOutOfLife', {
+        $require: ['ngLife', 'ngLive'],
+
+        $update: ['$node', function($node) {
+            if ($node.ngLife.life <= 0) {
+                $node.$add('ngDead');
+                $node.$remove('ngLive');
+            }
+        }]
+    });
+
+    m.$s('ngDeathIfOutOfLifeZone', {
+        $require: ['ngLifeZone', 'ngOutOfZone', 'ngLive'],
+
+        $addNode: function($node) {
+            $node.$add('ngDead');
+            $node.$remove('ngLive');
+        }
+    });
+
+    m.$s('ngDeathIfInsideZone', {
+        $require: ['ngDeathZone', 'ngInsideZone'],
+
+        $addNode: function($node) {
+            $node.$add('ngDead');
+        }
     });
 })(darlingjs);
