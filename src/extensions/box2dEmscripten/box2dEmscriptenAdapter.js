@@ -59,10 +59,6 @@
 
             var bodyDef = new Box2D.b2BodyDef();
 
-            if ($node.ngBindPositionToPhysics) {
-                ngPhysic.type = 'kinematic';
-            }
-
             switch(ngPhysic.type) {
                 case 'static':
                     bodyDef.set_type(Box2D.b2_staticBody);
@@ -227,6 +223,7 @@
 
         $$updateNodePosition: function($node) {
             var body = $node.ngPhysic._b2dBody;
+            //TODO : need to create separate component - ngBindPhysicsToPosition
             if (!body || $node.ngPhysic.type === 'static' || $node.ngBindPositionToPhysics) {
                 return;
             }
@@ -1554,7 +1551,18 @@
     m.$s('ngBindPositionToPhysics', {
         $require: ['ngBindPositionToPhysics', 'ngPhysic', 'ng2D'],
 
+        $addNode: function($node) {
+            $node.ngPhysic.type = 'kinematic';
+            var body = $node.ngPhysic._b2dBody;
+            if (body) {
+                body.SetType(Box2D.b2_kinematicBody);
+            }
+        },
+
         $update: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
+            if (!ngBox2DSystem) {
+                return;
+            }
             var body = $node.ngPhysic._b2dBody;
             var currentPosition = body.GetPosition();
             var dx = ngBox2DSystem._invScale * $node.ng2D.x - currentPosition.get_x();
