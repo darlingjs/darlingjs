@@ -142,6 +142,23 @@
         life: 1.0
     });
 
+    m.$c('ngLifeIsGrooving', {
+        delta: 0.1,
+        max: 1.0
+    });
+
+    m.$s('ngLifeIsGrooving', {
+        $require: ['ngLifeIsGrooving', 'ngLife'],
+
+        $update: ['$node', '$time', function($node, $time) {
+            $node.ngLife.life += 0.001 * $time * $node.ngLifeIsGrooving.delta;
+            if ($node.ngLife.life >= $node.ngLifeIsGrooving.max) {
+                $node.ngLife.life = $node.ngLifeIsGrooving.max;
+                $node.$remove('ngLifeIsGrooving');
+            }
+        }]
+    });
+
     m.$c('ngLive', {});
 
     m.$c('ngDead', {});
