@@ -206,12 +206,14 @@
                 this.positionIterations  //position iterations
             );
 
-            if (this._world.IsLocked()) {
+            if (!this._world.IsLocked()) {
                 this._removeAllBody(this._arrayOfBodyToRemoveAfterUnlock);
                 this._arrayOfBodyToRemoveAfterUnlock.length = 0;
 
                 this._removeAllFixtures(this._arrayOfFixtureToRemoveAfterUnlock);
                 this._arrayOfFixtureToRemoveAfterUnlock.length = 0;
+            } else {
+                throw new Error('unexpected behaviour');
             }
 
             $nodes.forEach(this.$$updateNodePosition);
