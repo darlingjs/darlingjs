@@ -58,6 +58,11 @@
             var ng2DPolygon = $node.ng2DPolygon;
 
             var bodyDef = new Box2D.b2BodyDef();
+
+            if ($node.ngBindPositionToPhysics) {
+                ngPhysic.type = 'kinematic';
+            }
+
             switch(ngPhysic.type) {
                 case 'static':
                     bodyDef.set_type(Box2D.b2_staticBody);
@@ -222,7 +227,7 @@
 
         $$updateNodePosition: function($node) {
             var body = $node.ngPhysic._b2dBody;
-            if (!body || $node.ngPhysic.type === 'static') {
+            if (!body || $node.ngPhysic.type === 'static' || $node.ngBindPositionToPhysics) {
                 return;
             }
             var pos = body.GetPosition();
@@ -1542,5 +1547,19 @@
             var ngPhysic = $node.ngPhysic;
 //            TODO: remove groupIndex from and clear groupNode
         }
+    });
+
+    m.$c('ngBindPositionToPhysics');
+
+    m.$s('ngBindPositionToPhysics', {
+        $require: ['ngBindPositionToPhysics', 'ngPhysic', 'ng2D'],
+
+        $update: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
+            var body = $node.ngPhysic._b2dBody;
+            var currentPosition = body.GetPosition();
+            var dx = ngBox2DSystem._invScale * $node.ng2D.x - currentPosition.get_x();
+            var dy = ngBox2DSystem._invScale * $node.ng2D.y - currentPosition.get_y();
+            body.SetLinearVelocity(new Box2D.b2Vec2(dx, dy));
+        }]
     });
 })(darlingjs, darlingutil);
