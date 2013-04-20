@@ -160,8 +160,8 @@
     m.$s('ngReduceLifeIfOutOfLifeZone', {
         $require: ['ngLifeZone', 'ngOutOfZone', 'ngLife', 'ngLive'],
 
-        $update: ['$node', function($node) {
-            $node.ngLife.life -= $node.ngLifeZone.lifeReduce;
+        $update: ['$node', '$time', function($node, $time) {
+            $node.ngLife.life -= 0.001 * $node.ngLifeZone.lifeReduce * $time;
         }]
     });
 

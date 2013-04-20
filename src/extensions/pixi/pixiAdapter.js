@@ -163,6 +163,20 @@ m.$c('ngPixijsSprite', {
     sprite: null
 });
 
+m.$c('ngBindLifeToAlpha', {
+    min: 0.0,
+    max: 1.0
+});
+
+m.$s('ngBindLifeToAlpha', {
+    $require: ['ngBindLifeToAlpha', 'ngLife', 'ngPixijsSprite'],
+
+    $update: ['$node', function($node) {
+        var sprite = $node.ngPixijsSprite.sprite;
+        sprite.alpha = $node.ngBindLifeToAlpha.min + $node.ngLife.life * ($node.ngBindLifeToAlpha.max - $node.ngBindLifeToAlpha.min);
+    }]
+});
+
 m.$s('ngPixijsStage', {
     width: 640,
     height: 480,
