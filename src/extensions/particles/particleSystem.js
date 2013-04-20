@@ -143,7 +143,7 @@
     });
 
     m.$c('ngDamage', {
-        value: 0.1
+        damage: 0.1
     });
 
     m.$c('ngLifeIsGrooving', {
@@ -151,8 +151,18 @@
         max: 1.0
     });
 
+    m.$s('ngDecreaseLifeOnDamage', {
+        $require: ['ngLife', 'ngDamage'],
+
+        $addNode: function($node) {
+            $node.ngLife.life -= $node.ngDamage.damage;
+            $node.$remove('ngDamage');
+            $node.$remove('ngLifeIsGrooving');
+        }
+    });
+
     m.$s('ngLifeIsGrooving', {
-        $require: ['ngLifeIsGrooving', 'ngLife'],
+        $require: ['ngLifeIsGrooving', 'ngLife', 'ngLive'],
 
         $update: ['$node', '$time', function($node, $time) {
             $node.ngLife.life += 0.001 * $time * $node.ngLifeIsGrooving.delta;

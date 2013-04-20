@@ -206,11 +206,13 @@
                 this.positionIterations  //position iterations
             );
 
-            this._removeAllBody(this._arrayOfBodyToRemoveAfterUnlock);
-            this._arrayOfBodyToRemoveAfterUnlock.length = 0;
+            if (this._world.IsLocked()) {
+                this._removeAllBody(this._arrayOfBodyToRemoveAfterUnlock);
+                this._arrayOfBodyToRemoveAfterUnlock.length = 0;
 
-            this._removeAllFixtures(this._arrayOfFixtureToRemoveAfterUnlock);
-            this._arrayOfFixtureToRemoveAfterUnlock.length = 0;
+                this._removeAllFixtures(this._arrayOfFixtureToRemoveAfterUnlock);
+                this._arrayOfFixtureToRemoveAfterUnlock.length = 0;
+            }
 
             $nodes.forEach(this.$$updateNodePosition);
             this._world.ClearForces();
@@ -1402,6 +1404,9 @@
 
     function removeOneByOneContactComponent(componentName, entityA, entityB) {
         var component = entityA[componentName];
+        if (darlingutil.isUndefined(component)) {
+            return;
+        }
         var entities = component.entities;
         var index = entities.indexOf(entityB);
         entities.splice(index, 1);
