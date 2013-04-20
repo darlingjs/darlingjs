@@ -222,7 +222,7 @@
 
         $$updateNodePosition: function($node) {
             var body = $node.ngPhysic._b2dBody;
-            if (!body) {
+            if (!body || $node.ngPhysic.type === 'static') {
                 return;
             }
             var pos = body.GetPosition();
