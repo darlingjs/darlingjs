@@ -5,16 +5,14 @@
 (function(darlingjs){
     'use strict';
     var m = darlingjs.module('ngStats');
+
     var stats;
+
     m.$s('ngStatsBegin', {
-        domId: null,
-        target: null,
 
         $added : function() {
             stats = new Stats();
             stats.setMode( 0 );
-            this.target = this.target || this.domId && document.getElementById(this.domId) || document.body;
-            this.target.appendChild( stats.domElement );
         },
 
         $update: function update() {
@@ -23,6 +21,13 @@
     });
 
     m.$s('ngStatsEnd', {
+        domId: null,
+        target: null,
+
+        $added: function() {
+            this.target = this.target || this.domId && document.getElementById(this.domId) || document.body;
+            this.target.appendChild( stats.domElement );
+        },
         $update: function update() {
             stats.end();
         }
