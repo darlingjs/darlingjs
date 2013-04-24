@@ -1,10 +1,10 @@
 {
   "name": "darlingjs",
-  "shortName": "darling",
-  "title": "DarlingJS Entity System",
+  "shortName": "darlingjs",
+  "title": "DarlingJS Game Engine",
   "version": "0.0.1",
-  "homepage": "https://github.com/Hyzhak/darlingjs/",
-  "description": "Component based game engine (entity system). Decoupled from any visualization, physics, and so on. With injections and modules based on AngularJS.",
+  "homepage": "http://darlingjs.github.io/",
+  "description": "Component & Entity based javascript game engine. Decoupled from any visualization, physics, and so on. With injections and modules based on AngularJS.",
   "author": {
       "name": "Eugene Krenevenets",
       "email": "hyzhak@ya.ru",
@@ -12,15 +12,15 @@
   },
   "repository": {
       "type": "git",
-      "url": "https://github.com/Hyzhak/darlingjs.git"
+      "url": "https://github.com/darlingjs/darlingjs.git"
   },
   "bugs": {
-      "url": "https://github.com/Hyzhak/darlingjs/issues"
+      "url": "https://github.com/darlingjs/darlingjs/issues"
   },
   "licenses": [
       {
           "type": "Simplified BSD License",
-          "url": "https://github.com/Hyzhak/darlingjs/blob/master/LICENSE.md"
+          "url": "https://github.com/darlingjs/darlingjs/blob/master/LICENSE.md"
       }
   ],
   "keywords": [
