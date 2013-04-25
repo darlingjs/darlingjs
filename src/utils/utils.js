@@ -295,7 +295,17 @@ function isDate(value){
  * @returns {boolean} True if `value` is a `Function`.
  */
 darlingutil.isFunction = isFunction;
-function isFunction(value){return typeof value === 'function';}
+function isFunction(value) {
+    return typeof value === 'function';
+}
+
+function isTypeOf(o, t) {
+    if (isString(t)) {
+        return Object.prototype.toString.call(o) === '[object ' + t + ' ]';
+    } else {
+        throw new Error('t is require and must be a string');
+    }
+}
 
 /**
  * @ngdoc function
