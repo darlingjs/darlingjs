@@ -870,3 +870,11 @@ function factoryOfFastFunctionWithMatcher(fn, context, args, argsMatcher) {
         };
     }
 }
+
+// remove all own properties on obj, effectively reverting it to a new object
+darlingutil.wipe = function (obj) {
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p))
+            delete obj[p];
+    }
+};
