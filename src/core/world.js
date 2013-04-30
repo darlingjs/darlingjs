@@ -265,23 +265,25 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
  * Return function with injected dependency.
  *
  * @param context
- * @param annotation
+ * @param annotationPropertyName
  * @param customMatcher - custom annotation matcher. get array of arguments, return function(argsTarget, argsSource) {} to match arguments
  * @return {*}
  */
-World.prototype.annotatedFunctionFactory = function(context, annotation, customMatcher) {
+World.prototype.annotatedFunctionFactory = function annotatedFunctionFactory(context, annotationPropertyName, customMatcher) {
+    var annotation = context[annotationPropertyName];
     if (isUndefined(annotation)) {
         return noop;
     } else if (isArray(annotation)) {
         customMatcher = customMatcher || noop;
         var fn = annotation[annotation.length - 1];
+        context[annotationPropertyName] = fn;
         var fnAnnotate = annotate(annotation);
         var args = this.$$getDependencyByAnnotation(fnAnnotate);
         var argumentsMatcher = customMatcher(fnAnnotate);
         if (isDefined(argumentsMatcher)) {
             return factoryOfFastFunctionWithMatcher(fn, context, args, argumentsMatcher);
         } else {
-            return factoryOfFastFunction(fn, context, args);
+            return factoryOfFastFunction(fn, context, args, annotationPropertyName);
         }
     } else {
         return annotation;
@@ -323,14 +325,16 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
         copy(config, systemInstance, false);
     }
 
-    systemInstance.$$beforeUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$beforeUpdate, beforeAfterUpdateCustomMatcher);
-    systemInstance.$$afterUpdateHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$afterUpdate, beforeAfterUpdateCustomMatcher);
+    systemInstance.$$beforeUpdateHandler = this.annotatedFunctionFactory(systemInstance, '$beforeUpdate', beforeAfterUpdateCustomMatcher);
+    systemInstance.$$afterUpdateHandler = this.annotatedFunctionFactory(systemInstance, '$afterUpdate', beforeAfterUpdateCustomMatcher);
 
     if (isDefined(systemInstance.$update)) {
         if (isArray(systemInstance.$update)) {
             var updateArray = systemInstance.$update;
             var updateHandler = updateArray[updateArray.length - 1];
             var updateAnnotate = annotate(updateArray);
+
+            systemInstance.$$update = updateHandler;
 
             var args = this.$$getDependencyByAnnotation(updateAnnotate);
 
@@ -341,7 +345,7 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
             var worldInstance = this;
 
-            var updateFunction = factoryOfFastFunction(updateHandler, systemInstance, args);
+            var updateFunction = factoryOfFastFunction(updateHandler, systemInstance, args, '$$update');
 
             var updateForEveryNode = updateAnnotate.indexOf('$node') >= 0;
             if (updateForEveryNode) {
@@ -368,27 +372,27 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     }
 
     if (isDefined(systemInstance.$added)) {
-        systemInstance.$$addedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$added, noop);
+        systemInstance.$$addedHandler = this.annotatedFunctionFactory(systemInstance, '$added', noop);
     } else {
         systemInstance.$$addedHandler = noop;
     }
 
     if (isDefined(systemInstance.$removed)) {
-        systemInstance.$$removedHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$removed, noop);
+        systemInstance.$$removedHandler = this.annotatedFunctionFactory(systemInstance, '$removed', noop);
     } else {
         systemInstance.$$removedHandler = noop;
     }
 
     if (isDefined(systemInstance.$addNode)) {
         //TODO : inject all dependency
-        systemInstance.$$addNodeHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$addNode, addRemoveNodeCustomMatcher);
+        systemInstance.$$addNodeHandler = this.annotatedFunctionFactory(systemInstance, '$addNode', addRemoveNodeCustomMatcher);
     } else {
         systemInstance.$$addNodeHandler = noop;
     }
 
     if (isDefined(systemInstance.$removeNode)) {
         //TODO : inject all dependency
-        systemInstance.$$removeNodeHandler = this.annotatedFunctionFactory(systemInstance, systemInstance.$removeNode, addRemoveNodeCustomMatcher);
+        systemInstance.$$removeNodeHandler = this.annotatedFunctionFactory(systemInstance, '$removeNode', addRemoveNodeCustomMatcher);
     } else {
         systemInstance.$$removeNodeHandler = noop;
     }

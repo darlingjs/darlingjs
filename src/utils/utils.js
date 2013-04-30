@@ -825,9 +825,34 @@ function mixin(original, extended) {
     return original;
 }
 
+/**
+ * Optimization based on
+ * http://jsperf.com/function-calls-direct-vs-apply-vs-call-vs-bind/5
+ *
+ * Priority of function calls:
+ * 1. direct: that.f();
+ * 2. by string: that['f']();
+ * 3. by call: f.call(that);
+ * 4. by apply: f.apply(that);
+ *
+ * So where it's possbile we use call by string
+ *
+ * @param fn
+ * @param context
+ * @param args
+ * @param methodName
+ * @return {*}
+ */
 
+function factoryOfFastFunction(fn, context, args, methodName) {
+    if (context.hasOwnProperty(methodName)) {
+        return factoryOfFastFunctionAsAMember(fn, context, args, methodName);
+    } else {
+        return factoryOfFastFunctionAsCallOrApply(fn, context, args);
+    }
+}
 
-function factoryOfFastFunction(fn, context, args) {
+function factoryOfFastFunctionAsCallOrApply(fn, context, args) {
     switch(args.length) {
         case 0: return function() {
             return fn.call(context);
@@ -847,7 +872,45 @@ function factoryOfFastFunction(fn, context, args) {
     }
 }
 
-function factoryOfFastFunctionWithMatcher(fn, context, args, argsMatcher) {
+function factoryOfFastFunctionAsAMember(fn, context, args, methodName) {
+    switch(args.length) {
+        case 0: return function() {
+            return context[methodName]();
+        };
+        case 1: return function() {
+            return context[methodName](args[0]);
+        };
+        case 2: return function() {
+            return context[methodName](args[0], args[1]);
+        };
+        case 3: return function() {
+            return context[methodName](args[0], args[1], args[2]);
+        };
+        default: return function() {
+            return fn.apply(context, args);
+        };
+    }
+}
+
+/**
+ * Create function with custom matcher
+ *
+ * @param fn
+ * @param context
+ * @param args
+ * @param argsMatcher
+ * @param methodName
+ * @return {Function}
+ */
+function factoryOfFastFunctionWithMatcher(fn, context, args, argsMatcher, methodName) {
+    if (context.hasOwnProperty(methodName)) {
+        return factoryOfFastFunctionWithMatcherAsAMember(fn, context, args, argsMatcher, methodName);
+    } else {
+        return factoryOfFastFunctionWithMatcherAsCallOrApply(fn, context, args, argsMatcher);
+    }
+}
+
+function factoryOfFastFunctionWithMatcherAsCallOrApply(fn, context, args, argsMatcher) {
     switch(args.length) {
         case 0: return function() {
             return fn.call(context);
@@ -863,6 +926,30 @@ function factoryOfFastFunctionWithMatcher(fn, context, args, argsMatcher) {
         case 3: return function() {
             argsMatcher(args, arguments);
             return fn.call(context, args[0], args[1], args[2]);
+        };
+        default: return function() {
+            argsMatcher(args, arguments);
+            return fn.apply(context, args);
+        };
+    }
+}
+
+function factoryOfFastFunctionWithMatcherAsAMember(fn, context, args, argsMatcher, methodName) {
+    switch(args.length) {
+        case 0: return function() {
+            return context[methodName]();
+        };
+        case 1: return function() {
+            argsMatcher(args, arguments);
+            return context[methodName](args[0]);
+        };
+        case 2: return function() {
+            argsMatcher(args, arguments);
+            return context[methodName](args[0], args[1]);
+        };
+        case 3: return function() {
+            argsMatcher(args, arguments);
+            return context[methodName](args[0], args[1], args[2]);
         };
         default: return function() {
             argsMatcher(args, arguments);

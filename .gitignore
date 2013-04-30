@@ -6,4 +6,5 @@ docs
 /.idea
 /*.iml
 /*.log
+/**/*.iml
 atlassian-ide-plugin.xml
