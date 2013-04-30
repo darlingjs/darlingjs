@@ -104,14 +104,21 @@ List.prototype.length = function() {
 };
 
 List.prototype.forEach = function(callback, context, arg) {
-    context = context || this;
     if (!isFunction(callback)) {
         return;
     }
+
     var node = this._head;
-    while(node) {
-        callback.call(context, node.instance, arg);
-        node = node.$next;
+    if (context) {
+        while(node) {
+            callback.call(context, node.instance, arg);
+            node = node.$next;
+        }
+    } else {
+        while(node) {
+            callback(node.instance, arg);
+            node = node.$next;
+        }
     }
 };
 
@@ -132,7 +139,10 @@ ListNode.prototype.init = function(instance, linkBack) {
     }
 
     this.instance = instance;
-    if (instance.hasOwnProperty(linkBack)) {
+
+    //optimization
+    //if (instance.hasOwnProperty(linkBack)) {
+    if (instance.linkBack) {
         throw new Error('Can\'t store "' + instance + '" because it containe ' + linkBack + ' property.');
     }
 
@@ -142,7 +152,10 @@ ListNode.prototype.init = function(instance, linkBack) {
 ListNode.prototype.dispose = function(instance, linkBack) {
     this.$prev = this.$next = null;
     this.instance = null;
-    delete instance[linkBack];
+
+    //optimization:
+    //delete instance[linkBack];
+    instance[linkBack] = null;
 };
 
 var PoolOfObjects = function(objectType) {

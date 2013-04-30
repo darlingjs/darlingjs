@@ -281,7 +281,7 @@ World.prototype.annotatedFunctionFactory = function annotatedFunctionFactory(con
         var args = this.$$getDependencyByAnnotation(fnAnnotate);
         var argumentsMatcher = customMatcher(fnAnnotate);
         if (isDefined(argumentsMatcher)) {
-            return factoryOfFastFunctionWithMatcher(fn, context, args, argumentsMatcher);
+            return factoryOfFastFunctionWithMatcher(fn, context, args, argumentsMatcher, annotationPropertyName);
         } else {
             return factoryOfFastFunction(fn, context, args, annotationPropertyName);
         }

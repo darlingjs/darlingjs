@@ -52,7 +52,7 @@ describe('entity', function() {
         e.$add('theComponent', {});
         e.$remove('theComponent');
         expect(e.$has('theComponent')).toBe(false);
-        expect(e.theComponent).not.toBeDefined();
+        expect(!!e.theComponent).toBeFalsy();
     });
 
     it('should trigger event after add component', function() {

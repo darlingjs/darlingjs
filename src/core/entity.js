@@ -6,7 +6,6 @@
  */
 
 var Entity = function() {
-    this.$$components = {};
     this.$$world = null;
     mixin(this, Events);
 };
@@ -35,8 +34,6 @@ Entity.prototype.$add = function(value, config) {
         this.$remove(name);
     }
 
-    this.$$components[name] = instance;
-
     this[name] = instance;
 
     this.trigger('add', this, instance);
@@ -51,7 +48,7 @@ Entity.prototype.$remove = function(value) {
         instance = value;
     } else if (isString(value)) {
         name = value;
-        instance = this.$$components[value];
+        instance = this[value];
     } else {
         throw new Error('Can\'t remove from component ' + value);
     }
@@ -60,8 +57,9 @@ Entity.prototype.$remove = function(value) {
         return;
     }
 
-    delete this.$$components[name];
-    delete this[name];
+    //nullity optimization
+    //delete this[name];
+    this[name] = null;
 
     this.trigger('remove', this, instance);
 
@@ -70,9 +68,9 @@ Entity.prototype.$remove = function(value) {
 
 Entity.prototype.$has = function(value) {
     if (isComponent(value)) {
-        return isDefined(this.$$components[value.$name]);
+        return !!this[value.$name];
     } else {
-        return isDefined(this.$$components[value]);
+        return !!this[value];
     }
 };
 
