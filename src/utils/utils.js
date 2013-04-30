@@ -8,8 +8,28 @@
  * Get From AngularJS Project with little changes based on JSHint.
  */
 
-var darlingutil = window.darlingutil = window.darlingutil||{};
+var _darlingutil = window.darlingutil,
+    darlingutil = window.darlingutil = window.darlingutil||{};
+
 darlingutil.version = '0.0.0';
+
+/**
+ * @ngdoc function
+ * @name darlingutil.noConflict
+ * @function
+ *
+ * @description
+ * Restores the previous global value of darlingutil and returns the current instance. Other libraries may already use the
+ * darlingutil namespace. Or a previous version of darlingutil is already loaded on the page. In these cases you may want to
+ * restore the previous namespace and keep a reference to darlingutil.
+ *
+ * @return {Object} The current darlingutil namespace
+ */
+darlingutil.noConflict = function() {
+    var a = window.darlingutil;
+    window.darlingutil = _darlingutil;
+    return a;
+};
 
 (function() {
     'use strict';
