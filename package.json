@@ -2,33 +2,32 @@
   "name": "darlingjs",
   "shortName": "darling",
   "title": "DarlingJS Game Engine",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "homepage": "http://darlingjs.github.io/",
   "description": "Component & Entity based javascript game engine. Decoupled from any visualization, physics, and so on. With injections and modules based on AngularJS.",
   "author": {
-      "name": "Eugene Krenevenets",
-      "email": "hyzhak@ya.ru",
-      "url": "http://hyzhak.github.com"
+    "name": "Eugene Krenevenets",
+    "email": "hyzhak@ya.ru",
+    "url": "http://hyzhak.github.com"
   },
   "repository": {
-      "type": "git",
-      "url": "https://github.com/darlingjs/darlingjs.git"
+    "type": "git",
+    "url": "https://github.com/darlingjs/darlingjs.git"
   },
   "bugs": {
-      "url": "https://github.com/darlingjs/darlingjs/issues"
+    "url": "https://github.com/darlingjs/darlingjs/issues"
   },
   "licenses": [
-      {
-          "type": "Simplified BSD License",
-          "url": "https://github.com/darlingjs/darlingjs/blob/master/LICENSE.md"
-      }
+    {
+      "type": "Simplified BSD License",
+      "url": "https://github.com/darlingjs/darlingjs/blob/master/LICENSE.md"
+    }
   ],
   "keywords": [
-      "entity",
-      "gamedev",
-      "engine"
+    "entity",
+    "gamedev",
+    "engine"
   ],
-
   "scripts": {
     "prepublish": "npm prune",
     "test": "grunt test --verbose"
@@ -42,6 +41,7 @@
     "grunt-contrib-concat": "~0.1.3",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-jasmine": "~0.4.1",
-    "grunt-contrib-yuidoc": "~0.4.0"
+    "grunt-contrib-yuidoc": "~0.4.0",
+    "grunt-version": "~0.2.1"
   }
 }

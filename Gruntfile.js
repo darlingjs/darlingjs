@@ -53,11 +53,17 @@ module.exports = function(grunt) {
                     outdir: 'docs/'
                 }
             }
+        },
+        version: {
+            defaults: {
+                //src: ['src/core/core.js', 'src/util/util.js']
+                src: ['build/<%= pkg.shortName %>.js']
+            }
         }
     });
 
     // Default task(s).
-    grunt.registerTask('default', ['jasmine', 'concat', 'uglify']);
+    grunt.registerTask('default', ['jasmine', 'concat', 'uglify', 'version']);
     grunt.registerTask('test', ['concat', 'jasmine']);
     grunt.registerTask('docs', ['clean', 'yuidoc']);
 
@@ -67,4 +73,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-version');
 };

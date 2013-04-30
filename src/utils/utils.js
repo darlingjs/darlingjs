@@ -9,6 +9,7 @@
  */
 
 var darlingutil = window.darlingutil = window.darlingutil||{};
+darlingutil.version = '0.0.0';
 
 (function() {
     'use strict';

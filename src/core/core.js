@@ -6,6 +6,7 @@
  */
 
 var darlingjs = window.darlingjs || (window.darlingjs = {});
+darlingjs.version = '0.0.0';
 
 var worlds = {};
 var modules = {};
@@ -88,13 +89,12 @@ darlingjs.removeModule = function(value) {
  * Remove all modules from engine
  */
 darlingjs.removeAllModules = function() {
-    console.log('removeAllModules');
     modules = {};
 };
 
 
 darlingjs.removeWorld = function(value) {
-    if (darlingutil.isString(value)) {
+    if (isString(value)) {
         delete worlds[value];
     } else {
         for(var worldName in worlds) {
