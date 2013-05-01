@@ -31,11 +31,4 @@ System.prototype.$$updateEveryNode = function(handler, context) {
     return function(time) {
         this.$nodes.forEach(handler, context, time);
     };
-//    return function(time) {
-//        var node = this.$nodes._head;
-//        while(node) {
-//            handler(node.instance, time);
-//            node = node.$next;
-//        }
-//    };
 };

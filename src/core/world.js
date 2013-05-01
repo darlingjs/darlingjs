@@ -205,7 +205,7 @@ World.prototype.$e = World.prototype.$entity = function() {
             if (isString(componentsArray[index])) {
                 var componentName = componentsArray[index];
                 var component = this.$$injectedComponents[componentName];
-                var componentConfig = {};
+                var componentConfig;
 
                 if (isUndefined(component)) {
                     throw new Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this.$$injectedComponents);
