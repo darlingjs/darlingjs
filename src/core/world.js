@@ -18,6 +18,10 @@ var World = function(){
     this.$$injectedSystems = {};
 
     this.$$systems = [];
+    this.$$beforeUpdateHandledSystems = [];
+    this.$$afterUpdateHandledSystem = [];
+    this.$$updateHandledSystem = [];
+
     this.$$families = {};
     this.$$interval = 1.0;
     this.$$updating = false;
@@ -272,7 +276,7 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
 World.prototype.annotatedFunctionFactory = function annotatedFunctionFactory(context, annotationPropertyName, customMatcher) {
     var annotation = context[annotationPropertyName];
     if (isUndefined(annotation)) {
-        return noop;
+        return null;
     } else if (isArray(annotation)) {
         customMatcher = customMatcher || noop;
         var fn = annotation[annotation.length - 1];
@@ -326,7 +330,13 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     }
 
     systemInstance.$$beforeUpdateHandler = this.annotatedFunctionFactory(systemInstance, '$beforeUpdate', beforeAfterUpdateCustomMatcher);
+    if (systemInstance.$$beforeUpdateHandler) {
+        this.$$beforeUpdateHandledSystems.push(systemInstance);
+    }
     systemInstance.$$afterUpdateHandler = this.annotatedFunctionFactory(systemInstance, '$afterUpdate', beforeAfterUpdateCustomMatcher);
+    if (systemInstance.$$afterUpdateHandler) {
+        this.$$afterUpdateHandledSystem.push(systemInstance);
+    }
 
     if (isDefined(systemInstance.$update)) {
         if (isArray(systemInstance.$update)) {
@@ -369,6 +379,8 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
         } else {
             systemInstance.$$updateHandler = systemInstance.$update;
         }
+
+        this.$$updateHandledSystem.push(systemInstance);
     }
 
     if (isDefined(systemInstance.$added)) {
@@ -552,12 +564,23 @@ World.prototype.$queryByComponents = function(request) {
 World.prototype.$update = function(time) {
     this.$$updating = true;
     time = time || this.$$interval;
-    for (var index = 0, count = this.$$systems.length; index < count; index++) {
-        var system = this.$$systems[index];
+
+    var index, count, system;
+    for(index = 0, count = this.$$beforeUpdateHandledSystems.length; index < count; index++ ) {
+        system = this.$$beforeUpdateHandledSystems[index];
         system.$$beforeUpdateHandler(time, system.$nodes);
+    }
+
+    for (index = 0, count = this.$$updateHandledSystem.length; index < count; index++) {
+        system = this.$$updateHandledSystem[index];
         system.$$updateHandler(time);
+    }
+
+    for(index = 0, count = this.$$afterUpdateHandledSystem.length; index < count; index++ ) {
+        system = this.$$afterUpdateHandledSystem[index];
         system.$$afterUpdateHandler(time, system.$nodes);
     }
+
     this.$$updating = false;
 };
 
