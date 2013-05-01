@@ -91,7 +91,6 @@ List.prototype.remove = function(instance) {
     }
 
     node.dispose(instance, this.PROPERTY_LINK_TO_NODE);
-    poolOfListNodes.dispose(node);
 
     this.trigger('remove', instance);
 
@@ -108,16 +107,19 @@ List.prototype.forEach = function(callback, context, arg) {
         return;
     }
 
-    var node = this._head;
+    var node = this._head,
+        next;
     if (context) {
         while(node) {
+            next = node.$next;
             callback.call(context, node.instance, arg);
-            node = node.$next;
+            node = next;
         }
     } else {
         while(node) {
+            next = node.$next;
             callback(node.instance, arg);
-            node = node.$next;
+            node = next;
         }
     }
 };
@@ -157,22 +159,49 @@ ListNode.prototype.dispose = function(instance, linkBack) {
     //optimization:
     //delete instance[linkBack];
     instance[linkBack] = null;
+    this.onDispose();
 };
 
-var PoolOfObjects = function(objectType) {
-    var _pool = [];
+function disposePoolInstance() {
+    this.pool.dispose(this);
+}
+
+var PoolOfObjects = function(TypeOfObject) {
+    var _pool = [],
+        maxInstanceCount = 0,
+        self = this;
+
+    function createNewInstance() {
+        var instance = new TypeOfObject();
+        instance.onDispose = disposePoolInstance;
+        instance.pool = self;
+        return instance;
+    }
 
     this.get = function() {
         if (_pool.length === 0) {
-            return new objectType();
+            var instance = createNewInstance();
+            //it's seems that it give any performance benefits
+            //this.warmup(maxInstanceCount + 4);
+            return instance;
         } else {
+            //maxInstanceCount--;
             return _pool.pop();
         }
     };
 
     this.dispose = function(instance) {
+        //maxInstanceCount++;
         _pool.push(instance);
+    };
+
+    this.warmup = function(count) {
+        for (var i = 0; i < count; i++) {
+            createNewInstance().onDispose();
+        }
+        return this;
     };
 };
 
-var poolOfListNodes = new PoolOfObjects(ListNode);
+darlingutil.PoolOfObjects = PoolOfObjects;
+var poolOfListNodes = new PoolOfObjects(ListNode).warmup(1024);

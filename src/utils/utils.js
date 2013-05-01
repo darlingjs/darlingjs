@@ -390,7 +390,6 @@ function copy(source, destination, deleteAllDestinationProperties){
     return destination;
 }
 
-
 /**
  * @ngdoc function
  * @name angular.forEach
