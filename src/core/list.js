@@ -128,6 +128,7 @@ var ListNode = function(instance, linkBack) {
     }
 };
 
+ListNode.prototype.instance = null;
 ListNode.prototype.$next = null;
 ListNode.prototype.$prev = null;
 

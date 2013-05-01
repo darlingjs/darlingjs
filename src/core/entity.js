@@ -6,9 +6,12 @@
  */
 
 var Entity = function() {
-    this.$$world = null;
     mixin(this, Events);
 };
+
+Entity.prototype.$name = '';
+
+Entity.prototype.$$world = null;
 
 Entity.prototype.$add = function(value, config) {
     var instance;

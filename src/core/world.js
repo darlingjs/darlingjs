@@ -19,7 +19,7 @@ var World = function(){
 
     this.$$systems = [];
     this.$$families = {};
-    this.$$interval = 1;
+    this.$$interval = 1.0;
     this.$$updating = false;
     this.$playing = false;
 
@@ -196,7 +196,7 @@ World.prototype.$e = World.prototype.$entity = function() {
     }
 
     var entity = new Entity();
-    entity.$name =  name;
+    entity.$name = name;
     entity.$$world = this;
 
     if (isArray(arguments[componentsIndex])) {
@@ -299,7 +299,7 @@ function matchFactory(annotation, name) {
     } else {
         return noop;
     }
-};
+}
 
 function beforeAfterUpdateCustomMatcher(annotation) {
     var match$time = matchFactory(annotation, '$time');
