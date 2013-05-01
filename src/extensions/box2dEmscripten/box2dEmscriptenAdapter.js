@@ -1408,7 +1408,7 @@
 
     function removeOneByOneContactComponent(componentName, entityA, entityB) {
         var component = entityA[componentName];
-        if (darlingutil.isUndefined(component)) {
+        if (!component) {
             return;
         }
         var entities = component.entities;
