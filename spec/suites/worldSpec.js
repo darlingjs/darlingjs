@@ -199,6 +199,20 @@ describe('World', function() {
         }).toThrow();
     });
 
+    it('should use custom component on creating entity', function() {
+        world.$component('customComponent', {
+            x: 1,
+            y: 2
+        });
+
+        var e = world.$entity('theEntity', ['customComponent']);
+
+        expect(e).toBeDefined();
+        expect(e.customComponent).toBeDefined();
+        expect(e.customComponent.x).toBe(1);
+        expect(e.customComponent.y).toBe(2);
+    });
+
     it('should execute update handler on update.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('theModule')
