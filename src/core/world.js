@@ -158,6 +158,7 @@ World.prototype.$numEntities = function() {
     return this.$entities.length();
 };
 
+
 /**
  * @ngdoc function
  * @name GameEngine.e
@@ -175,6 +176,11 @@ World.prototype.$numEntities = function() {
  * </pre>
  *
  * @type {Function}
+ *
+ * @param name (optional) entity name
+ * @param config (optional) config object of entity
+ * @param doesntAddToWorld (optional) doen't add entity to World
+ *
  */
 World.prototype.$e = World.prototype.$entity = function() {
     var name = '';
@@ -191,6 +197,7 @@ World.prototype.$e = World.prototype.$entity = function() {
 
     if (isArray(arguments[componentsIndex])) {
         var componentsArray = arguments[componentsIndex];
+        componentsIndex++;
         for (var index = 0, count = componentsArray.length; index < count; index++) {
             if (isString(componentsArray[index])) {
                 var componentName = componentsArray[index];
@@ -213,6 +220,7 @@ World.prototype.$e = World.prototype.$entity = function() {
         }
     } else if (isObject(arguments[componentsIndex])) {
         var components = arguments[componentsIndex];
+        componentsIndex++;
         for (var key in components) {
             if (components.hasOwnProperty(key) && key.charAt(0) !== '$') {
                 entity.$add(key, components[key]);
@@ -224,7 +232,9 @@ World.prototype.$e = World.prototype.$entity = function() {
         }
     }
 
-    this.$$addEntity(entity);
+    if(!arguments[componentsIndex]) {
+        this.$$addEntity(entity);
+    }
 
     return entity;
 };

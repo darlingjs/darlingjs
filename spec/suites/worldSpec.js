@@ -104,6 +104,14 @@ describe('World', function() {
         expect(elements.length).toBe(3);
     });
 
+    it('should manually adding entity on $e(name, config, true)', function() {
+        var e1 = world.$entity('entity1', ['testComponent1'], true);
+
+        expect(world.$numEntities()).toBe(0);
+        world.$add(e1);
+        expect(world.$numEntities()).toBe(1);
+    });
+
     it('after added and removed entity should return proper count', function() {
         var e1 = world.$entity('entity1', ['testComponent1']);
         var e2 = world.$entity('entity2', ['testComponent2']);
