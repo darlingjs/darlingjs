@@ -93,9 +93,6 @@ describe('World', function() {
         var e1 = world.$entity('entity1', ['testComponent1']);
         var e2 = world.$entity('entity2', ['testComponent2']);
         var e3 = world.$entity('entity3', ['testComponent2']);
-        world.$add(e1);
-        world.$add(e2);
-        world.$add(e3);
         expect(world.$numEntities()).toBe(3);
         var elements = [];
         world.$entities.forEach(function(e) {
@@ -111,9 +108,6 @@ describe('World', function() {
         var e1 = world.$entity('entity1', ['testComponent1']);
         var e2 = world.$entity('entity2', ['testComponent2']);
         var e3 = world.$entity('entity3', ['testComponent2']);
-        world.$add(e1);
-        world.$add(e2);
-        world.$add(e3);
 
         world.$remove(e3);
         world.$remove(e2);
@@ -125,9 +119,6 @@ describe('World', function() {
         var e1 = world.$entity('entity1', ['testComponent1']);
         var e2 = world.$entity('entity2', ['testComponent2']);
         var e3 = world.$entity('entity3', ['testComponent3']);
-        world.$add(e1);
-        world.$add(e2);
-        world.$add(e3);
 
         var e1List = world.$queryByComponents('testComponent1');
         expect(e1List.length()).toBe(1);
@@ -150,9 +141,6 @@ describe('World', function() {
         var e1 = world.$entity('entity1', ['testComponent1']);
         var e2 = world.$entity('entity2', ['testComponent1', 'testComponent2']);
         var e3 = world.$entity('entity3', ['testComponent1', 'testComponent2', 'testComponent3']);
-        world.$add(e1);
-        world.$add(e2);
-        world.$add(e3);
 
         var e1List = world.$queryByComponents(['testComponent1', 'testComponent2']);
         expect(e1List.length()).toBe(2);
@@ -316,7 +304,7 @@ describe('World', function() {
         var world = darlingjs.world('testWorld', ['theModule']);
 
         world.$add('testSystem');
-        world.$add(world.$e('theEntity', ['theComponent']));
+        world.$e('theEntity', ['theComponent']);
 
         world.$update(11);
 
@@ -347,8 +335,6 @@ describe('World', function() {
     it('should return entity by name with $getByName', function() {
         var e1 = world.$entity('theEntity1');
         var e2 = world.$entity('theEntity2');
-        world.$add(e1);
-        world.$add(e2);
         expect(world.$getByName('theEntity1')).toBe(e1);
         expect(world.$getByName('theEntity2')).toBe(e2);
         expect(world.$getByName('theEntity3')).toBeNull();

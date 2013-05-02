@@ -21,18 +21,16 @@ describe('flatland', function() {
         });
 
         it('should move ng2D on update', function() {
-            var e = world.$add(
-                world.$e({
-                    'ng2D': {
-                        x: 0.0,
-                        y: 0.0
-                    },
-                    'ngShiftMove': {
-                        dx: 0.1,
-                        dy: 0.2
-                    }
-                })
-            );
+            var e = world.$e({
+                'ng2D': {
+                    x: 0.0,
+                    y: 0.0
+                },
+                'ngShiftMove': {
+                    dx: 0.1,
+                    dy: 0.2
+                }
+            });
 
             world.$update(2000);
 
@@ -41,16 +39,14 @@ describe('flatland', function() {
         });
 
         it('shouldn\'t move ng2D on update without node shift', function() {
-            var e = world.$add(
-                world.$e({
-                    'ng2D': {
-                        x: 0.0,
-                        y: 0.0
-                    },
-                    'ngShiftMove': {
-                    }
-                })
-            );
+            var e = world.$e({
+                'ng2D': {
+                    x: 0.0,
+                    y: 0.0
+                },
+                'ngShiftMove': {
+                }
+            });
 
             world.$update(2000);
 

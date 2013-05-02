@@ -67,7 +67,7 @@ describe('Particle System', function() {
         });
 
         it('Should emit particle on added ngEmit component', function(){
-            var emitter = world.$add(world.$e('emitter', {
+            var emitter = world.$e('emitter', {
                 'ng2D': {
                     x: 0.0, y: 0.0
                 },
@@ -79,7 +79,7 @@ describe('Particle System', function() {
                         $name: 'particle'
                     }
                 }
-            }));
+            });
 
             emitter.$add('ngEmit');
 

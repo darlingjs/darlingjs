@@ -224,6 +224,8 @@ World.prototype.$e = World.prototype.$entity = function() {
         }
     }
 
+    this.$$addEntity(entity);
+
     return entity;
 };
 

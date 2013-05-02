@@ -50,7 +50,7 @@ describe('system', function() {
 
         var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
-        world.$add(entity);
+
         var system = world.$add('testSystem');
         expect(system.$nodes.length()).toBe(1);
         system.$nodes.forEach(function(e) {
@@ -68,7 +68,7 @@ describe('system', function() {
         var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
         var system = world.$add('testSystem');
-        world.$add(entity);
+
         expect(system.$nodes.length()).toBe(1);
         system.$nodes.forEach(function(e) {
             expect(e).toBe(entity);
@@ -85,7 +85,7 @@ describe('system', function() {
         var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
         var system = world.$add('testSystem');
-        world.$add(entity);
+
         world.$remove(entity);
         expect(system.$nodes.length()).toBe(0);
     });
@@ -100,7 +100,7 @@ describe('system', function() {
         var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity');
         var system = world.$add('testSystem');
-        world.$add(entity);
+
         entity.$add('theComponent');
 
         expect(system.$nodes.length()).toBe(1);
@@ -119,7 +119,7 @@ describe('system', function() {
         var world = darlingjs.world('testWorld', ['theModule']);
         var entity = world.$e('theEntity', ['theComponent']);
         var system = world.$add('testSystem');
-        world.$add(entity);
+
         entity.$remove('theComponent');
         expect(system.$nodes.length()).toBe(0);
     });
@@ -148,7 +148,7 @@ describe('system', function() {
 
         var world = darlingjs.world('testWorld', ['theModule']);
         var system = world.$add('testSystem');
-        world.$add(world.$e('theEntity', ['theComponent']));
+        world.$e('theEntity', ['theComponent']);
         world.$remove(system);
 
         expect(removedHandler.callCount).toBe(1);
@@ -203,8 +203,7 @@ describe('system', function() {
 
         var entities = [];
         for(var i = 0, l = 3; i < l; i++) {
-            var e = world.$e('theEntity_' + i, ['theComponent']);
-            entities.push(world.$add(e));
+            entities.push(world.$e('theEntity_' + i, ['theComponent']));
         }
 
         world.$update(11);
@@ -229,8 +228,7 @@ describe('system', function() {
         world.$add('testSystem');
         var entities = [];
         for(var i = 0, l = 3; i < l; i++) {
-            var e = world.$e('theEntity_' + i, ['theComponent']);
-            entities.push(world.$add(e));
+            entities.push(world.$e('theEntity_' + i, ['theComponent']));
         }
 
         expect(addHandler.callCount).toBe(3);
@@ -257,8 +255,7 @@ describe('system', function() {
         var entities = [];
         var i, l;
         for(i = 0, l = 3; i < l; i++) {
-            var e = world.$e('theEntity_' + i, ['theComponent']);
-            entities.push(world.$add(e));
+            entities.push(world.$e('theEntity_' + i, ['theComponent']));
         }
 
         for(i = 0, l = entities.length; i < l; i++) {
@@ -327,7 +324,6 @@ describe('system', function() {
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         var e = world.$e('theEntity', ['theComponent']);
-        world.$add(e);
 
         expect(handler.callCount).toBe(1);
         expect(handler.calledWith(s1, e)).toBeTruthy();
@@ -349,7 +345,6 @@ describe('system', function() {
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         var e = world.$e('theEntity', ['theComponent']);
-        world.$add(e);
         world.$remove(e);
 
         expect(handler.callCount).toBe(1);
@@ -372,7 +367,6 @@ describe('system', function() {
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         var e = world.$e('theEntity', ['theComponent']);
-        world.$add(e);
         world.$update(1);
 
         expect(handler.callCount).toBe(1);
@@ -402,8 +396,8 @@ describe('system', function() {
         var s1 = world.$add('testSystem1');
         var s2 = world.$add('testSystem2');
         var s3 = world.$add('testSystem3');
-        var e = world.$e('theEntity', ['theComponent1', 'theComponent2', 'theComponent3']);
-        world.$add(e);
+
+        world.$e('theEntity', ['theComponent1', 'theComponent2', 'theComponent3']);
 
         expect(s1.$nodes.length()).toBe(0);
         expect(s2.$nodes.length()).toBe(0);

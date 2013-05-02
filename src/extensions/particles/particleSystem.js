@@ -50,9 +50,7 @@
             generate.ng2D.y = ng2D.y + ng2DSize.height * Math.random();
             var count = $node.ngEmit.count;
             while(--count>=0) {
-                $world.$add(
-                    $world.$e(generate)
-                );
+                $world.$e(generate);
             }
             $node.$remove('ngEmit');
         }

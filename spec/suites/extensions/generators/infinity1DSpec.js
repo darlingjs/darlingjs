@@ -96,7 +96,7 @@ describe('infinity1DWorldGenerator', function() {
                 newTile.rightEdge = rightEdge;
 
                 newTile.entities = [];
-                var e = world.$add(world.$e());
+                var e = world.$e();
                 newTile.entities.push(e);
                 generatorExecuteCount++;
             }
