@@ -361,7 +361,7 @@ describe('World', function() {
         expect(e.$name).toBe('theEntity');
     });
 
-    it('should build custom system and add it to the world, if config define and name doen\'t fit any defined systems', function() {
+    it('should build custom system and add it to self, if config is define and name doesn\'t fit any defined systems', function() {
         var system = world.$system('theBrandNewSystem', {
             $require: ['theComponent'],
             sum: 0.0,

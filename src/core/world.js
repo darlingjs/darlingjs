@@ -317,6 +317,8 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
     if (isDefined(defaultConfig)) {
         copy(defaultConfig, systemInstance, false);
+    } else {
+        systemInstance.$name = systemInstance.$name || name;
     }
 
     if (isDefined(config)) {
