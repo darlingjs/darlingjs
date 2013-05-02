@@ -3,7 +3,91 @@ darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=
 
 ![Logo](http://darlingjs.github.io/images/logo-oldschool.png)
 
-Lightweight component and entity based Game Engine. With flexible architecture. Decupled from any dependecy. So any interaction with (Box2D, Render system and so on) put in pluggable modules. And fluent API (Crafty.js like).
+Lightweight component and entity based Game Engine. With flexible architecture. Decupled from any dependecy. So any interaction with (Box2D, Render system and so on) put in pluggable modules. Use fluent API (Crafty.js/jQUery like).
+
+## Examples
+
+* [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/darlingjs/darlingjs-examples/tree/master/04-box2d-simulation-of-vehicle);
+* [Repo with other sources](https://github.com/darlingjs/darlingjs-examples/);
+
+## Quick Start
+
+### Creating the World
+
+Create the World for Box2D experiments
+
+``` javascript
+
+var world = darlingjs.world('myGame', [
+    //inject some modules
+
+    //get 2D components
+    'ngFlatland',
+
+    //get Common Physics components
+    'ngPhysics',
+
+    //get Box2D implementation of Physics components
+    'ngBox2DEmscripten'
+], {
+    fps: 60
+});
+
+```
+
+*DarlingJS is lightweight framework so it's decoupled from any rendering, physics, sound, assets and so on libraries. And it possible to develop on pure javascript with your own simulation systems.*
+
+*Every darlingjs modules start with prefix 'ng', for example: 'ngPhysics'.*
+
+### Create Entity
+
+Create entity of draggable box and add it to the world
+
+``` javascript
+
+darlingjs.$e('box', {
+//define position
+    ng2D: {
+        x: 0.0,
+        y: 0.0
+    },
+
+//define size of
+    ng2DSize: {
+        width: 10.0,
+        height: 10.0
+    },
+
+//mark entity as physics object
+    ngPhysics: {},
+
+//mark entity as draggable object
+    ngDraggable: {}
+});
+
+```
+
+*Here is alternative notation: When you have a lot of components in default state, it useful to count of components by array*
+
+``` javascript
+
+darlingjs.$e('box', ['ng2D', 'ng2DSize', 'ngPhysics', 'ngDraggable']}
+
+```
+
+### Start The Game
+
+To run update of game the world 60 times in second just use:
+
+``` javascript
+world.$start();
+```
+
+One frame emulation:
+
+``` javascript
+world.$update(1/60);
+```
 
 ## Inspired by
 
@@ -11,30 +95,31 @@ Lightweight component and entity based Game Engine. With flexible architecture. 
 * [Ash](http://ashframework.org) - component, entity, system architecture;
 * [CraftyJS](http://craftyjs.com) - fluent api;
 
-## Pluggable Modules
+## Pluggable darlingjs Modules
 
 * 2D Renderering [uses pixi.js](http://www.goodboydigital.com/pixi-js-is-out/);
 * Physics [uses emscripted box2d 2.2.1](https://github.com/kripken/box2d.js/) or [box2dweb 2.1a](https://code.google.com/p/box2dweb/);
 * Performance (FPS/Mem) metter [uses Stats.js](https://github.com/mrdoob/stats.js);
+* Flatland (2D components);
+* Generators (systems of procedural generation of infinity world);
+* Particles (systems and components for emitting particles);
+* Player (components for store player state: score, life);
 
-### Comming soon
+### Comming soon Modules
 
-* Particle System;
+* Advanced Particle System;
+* AI
+* FlashJS, EaselJS Rendering;
 * Sound;
 * and so on.
 
-## Examples
-
-* [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/darlingjs/darlingjs-examples/tree/master/04-box2d-simulation-of-vehicle);
-* [Repo with other sources](https://github.com/darlingjs/darlingjs-examples/);
-
-## Usage
+## Example of Usage
 
 Game Engine now in active developing and here is just proof of concept.
 
 ``` javascript
 
-var world = GameEngine.world('myGame', ['ngModule', 'flatWorld'], {
+var world = darlingjs.world('myGame', ['ngModule', 'flatWorld'], {
     fps: 60
 });
 
@@ -87,7 +172,7 @@ world.$start();
 
 ``` javascript
 
-var ngModule = GameEngine.module('ngModule');
+var ngModule = darlingjs.module('ngModule');
 
 ngModule.$c('ngCollision', {
     fixed: false
