@@ -39,6 +39,64 @@ var world = darlingjs.world('myGame', [
 
 *Every darlingjs modules start with prefix 'ng', for example: 'ngPhysics'.*
 
+### Add systems
+
+add physics simulation system
+
+``` javascript
+world.$add('ngBox2DSystem', {
+    //define gravity of box2d world
+    gravity: {
+        x: 0,
+        y: 9.8
+    },
+
+    //define properties of physics simulation
+    velocityIterations: 3,    
+    positionIterations: 3
+});
+
+```
+
+add view port system for definition 2D camera position
+
+``` javascript
+world.$add('ng2DViewPort', {
+    //centor of the camera
+    lookAt: {
+        x: width / 2, y: height / 2
+    },
+
+    //size of the camera view
+    width: width,
+    height: height
+});
+```
+
+add box2d debug draw visualization
+
+``` javascript
+world.$add('ngBox2DDebugDraw', {
+    //target div/convas element. For div element automaticaly create canvas element and place into the div
+    domID: 'gameView', 
+
+    //size of canvas
+    width: width, height: height
+});
+```
+
+add drugging support system. 
+
+```
+world.$add('ngBox2DDraggable', { 
+    //target div/convas element
+    domId: 'gameView', 
+
+    //width, height of it
+    width: width, height: height 
+});
+```
+
 ### Create Entity
 
 Create entity of draggable box and add it to the world
@@ -87,6 +145,54 @@ One frame emulation:
 
 ``` javascript
 world.$update(1/60);
+```
+
+### Create custom system with custom component
+
+Create system that automaticaly increase life of any entities with 'ngLife' and 'lifeHealer' components. So you if you want to heal some entity you can just add 'lifeHealer' component to it.
+
+#### Usage
+
+```javascript
+//start healing entity
+
+entity.$add('healer');
+
+//stop healing entity
+
+entity.$remove('healer');
+```
+
+#### Defining
+
+```javascript
+
+//define healer component
+
+world.$c('healer', { 
+    power: 0.1,
+    maxLife: 100.0
+});
+
+//define and add healer system to the game world
+
+world.$s('healerSystem', {
+
+    //apply to components:
+    $require: ['ngLife', 'healer'],
+
+    //iterate each frame for each entity
+    $update: ['$node', function($node) {
+        if ($node.ngLife.life <= this.healer.maxLife) {
+            //heals entity
+            $node.ngLife.life += this.healer.power;
+        } else {
+            //stop healing when life reach of maxLife
+            $node.$remove('healer');
+        }
+    }]
+});
+
 ```
 
 ## Inspired by
