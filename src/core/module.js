@@ -9,6 +9,8 @@ var Module = function(){
     this.$$systems = {};
 };
 
+Module.prototype.$name = '';
+
 Module.prototype.$has = function(name) {
     return isDefined(this.$$components[name]) ||
            isDefined(this.$$systems[name]);
@@ -22,7 +24,7 @@ Module.prototype.$has = function(name) {
 Module.prototype.$c = Module.prototype.$component = function(name, defaultState) {
     defaultState = defaultState || {};
     var component = {
-        name: name,
+        $name: name,
         defaultState: defaultState
     };
     this.$$components[name] = component;
@@ -39,10 +41,10 @@ Module.prototype.$s = Module.prototype.$system = function(name, config) {
         throw new Error('System name must to be defined.');
     }
     config = config || {};
-    config.name = name;
+    config.$name = name;
 
     if (isDefined(this.$$systems[name])) {
-        throw new Error('Module "' + this.name + '" already has system with name "' + name + '".');
+        throw new Error('Module "' + this.$name + '" already has system with name "' + name + '".');
     }
     this.$$systems[name] = config;
     return this;

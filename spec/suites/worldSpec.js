@@ -17,7 +17,7 @@ describe('World', function() {
                 y: 34
             })
             .$c('testComponent2', {
-                name: 'hello'
+                text: 'hello'
             })
             .$c('testComponent3', {
                 world: 'new brave'
@@ -86,7 +86,7 @@ describe('World', function() {
         expect(e.testComponent1).toBeDefined();
         expect(e.testComponent1.x).toEqual(10);
         expect(e.testComponent1.y).toEqual(34);
-        expect(e.testComponent2.name).toEqual('hello');
+        expect(e.testComponent2.text).toEqual('hello');
     });
 
     it('after added entity should return proper count', function() {
@@ -359,5 +359,20 @@ describe('World', function() {
             $name: 'theEntity'
         });
         expect(e.$name).toBe('theEntity');
+    });
+
+    it('should build custom system and add it to the world, if config define and name doen\'t fit any defined systems', function() {
+        var system = world.$system('theBrandNewSystem', {
+            $require: ['theComponent'],
+            sum: 0.0,
+
+            $update: ['$node', function($node) {
+                sum += $node.theComponent.value;
+            }]
+        });
+
+        expect(system).not.toBeNull();
+        expect(world.$isUse(system)).toBeTruthy();
+        expect(world.$isUse('theBrandNewSystem')).toBeTruthy();
     });
 });

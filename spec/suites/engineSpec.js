@@ -31,13 +31,13 @@ describe('darling', function() {
             .$system('theSystem2');
 
         expect(m1).not.toBe(m2);
-        expect(m1.name).not.toBe(m2.name);
+        expect(m1.$name).not.toBe(m2.$name);
         expect(m1.$$systems).not.toBe(m2.$$systems);
     });
 
     it('should set module name', function() {
         var m = darlingjs.module('module1', []);
-        expect(m.name).toEqual('module1');
+        expect(m.$name).toEqual('module1');
     });
 
     it('should create world', function() {
@@ -54,7 +54,7 @@ describe('darling', function() {
 
     it('should set module name', function() {
         var w = darlingjs.world('world');
-        expect(w.name).toEqual('world');
+        expect(w.$name).toEqual('world');
     });
 
     it('should inject module to created world', function() {

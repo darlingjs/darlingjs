@@ -43,11 +43,7 @@ World.prototype.$isUse = function(value) {
     if (value instanceof System) {
         return this.$$systems.indexOf(value) >= 0;
     } else {
-        for (var index = 0, count = this.$$systems.length; index < count; index++) {
-            if (this.$$systems[index].name === value) {
-                return true;
-            }
-        }
+        return this.$$getSystemByName(value) !== null;
     }
 
     return false;
@@ -108,13 +104,13 @@ World.prototype.$remove = function(instance) {
     } else if(instance instanceof System) {
         this.$$removeSystem(instance);
     } else {
-        throw new Error('can\'t remove "' + instance + '" from world "' + this.name + '"' );
+        throw new Error('can\'t remove "' + instance + '" from world "' + this.$name + '"' );
     }
 };
 
 World.prototype.$$getSystemByName = function(name) {
     for (var i = 0, l = this.$$systems.length; i < l; i++) {
-        if (this.$$systems[i].name === name) {
+        if (this.$$systems[i].$name === name) {
             return this.$$systems[i];
         }
     }
@@ -202,7 +198,7 @@ World.prototype.$e = World.prototype.$entity = function() {
                 var componentConfig;
 
                 if (isUndefined(component)) {
-                    throw new Error('World ' + this.name + ' doesn\'t has component ' + componentName + '. Only ' + this.$$injectedComponents);
+                    throw new Error('World ' + this.$name + ' doesn\'t has component ' + componentName + '. Only ' + this.$$injectedComponents);
                 }
 
                 if (isObject(componentsArray[index + 1])) {
@@ -263,7 +259,7 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
  * @param customMatcher - custom annotation matcher. get array of arguments, return function(argsTarget, argsSource) {} to match arguments
  * @return {*}
  */
-World.prototype.annotatedFunctionFactory = function annotatedFunctionFactory(context, annotationPropertyName, customMatcher) {
+World.prototype.$$annotatedFunctionFactory = function (context, annotationPropertyName, customMatcher) {
     var annotation = context[annotationPropertyName];
     if (isUndefined(annotation)) {
         return null;
@@ -313,22 +309,25 @@ function beforeAfterUpdateCustomMatcher(annotation) {
 World.prototype.$s = World.prototype.$system = function(name, config) {
     var defaultConfig = this.$$injectedSystems[name];
 
-    if (isUndefined(defaultConfig)) {
-        throw new Error('Instance of system "' + name + '" doesn\'t injected in the world "' + this.name + '".');
+    if (isUndefined(defaultConfig) && isUndefined(config)) {
+        throw new Error('Instance of system "' + name + '" doesn\'t injected in the world "' + this.$name + '".');
     }
 
     var systemInstance = new System();
-    copy(defaultConfig, systemInstance, false);
+
+    if (isDefined(defaultConfig)) {
+        copy(defaultConfig, systemInstance, false);
+    }
 
     if (isDefined(config)) {
         copy(config, systemInstance, false);
     }
 
-    systemInstance.$$beforeUpdateHandler = this.annotatedFunctionFactory(systemInstance, '$beforeUpdate', beforeAfterUpdateCustomMatcher);
+    systemInstance.$$beforeUpdateHandler = this.$$annotatedFunctionFactory(systemInstance, '$beforeUpdate', beforeAfterUpdateCustomMatcher);
     if (systemInstance.$$beforeUpdateHandler) {
         this.$$beforeUpdateHandledSystems.push(systemInstance);
     }
-    systemInstance.$$afterUpdateHandler = this.annotatedFunctionFactory(systemInstance, '$afterUpdate', beforeAfterUpdateCustomMatcher);
+    systemInstance.$$afterUpdateHandler = this.$$annotatedFunctionFactory(systemInstance, '$afterUpdate', beforeAfterUpdateCustomMatcher);
     if (systemInstance.$$afterUpdateHandler) {
         this.$$afterUpdateHandledSystem.push(systemInstance);
     }
@@ -379,27 +378,27 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     }
 
     if (isDefined(systemInstance.$added)) {
-        systemInstance.$$addedHandler = this.annotatedFunctionFactory(systemInstance, '$added', noop);
+        systemInstance.$$addedHandler = this.$$annotatedFunctionFactory(systemInstance, '$added', noop);
     } else {
         systemInstance.$$addedHandler = noop;
     }
 
     if (isDefined(systemInstance.$removed)) {
-        systemInstance.$$removedHandler = this.annotatedFunctionFactory(systemInstance, '$removed', noop);
+        systemInstance.$$removedHandler = this.$$annotatedFunctionFactory(systemInstance, '$removed', noop);
     } else {
         systemInstance.$$removedHandler = noop;
     }
 
     if (isDefined(systemInstance.$addNode)) {
         //TODO : inject all dependency
-        systemInstance.$$addNodeHandler = this.annotatedFunctionFactory(systemInstance, '$addNode', addRemoveNodeCustomMatcher);
+        systemInstance.$$addNodeHandler = this.$$annotatedFunctionFactory(systemInstance, '$addNode', addRemoveNodeCustomMatcher);
     } else {
         systemInstance.$$addNodeHandler = noop;
     }
 
     if (isDefined(systemInstance.$removeNode)) {
         //TODO : inject all dependency
-        systemInstance.$$removeNodeHandler = this.annotatedFunctionFactory(systemInstance, '$removeNode', addRemoveNodeCustomMatcher);
+        systemInstance.$$removeNodeHandler = this.$$annotatedFunctionFactory(systemInstance, '$removeNode', addRemoveNodeCustomMatcher);
     } else {
         systemInstance.$$removeNodeHandler = noop;
     }

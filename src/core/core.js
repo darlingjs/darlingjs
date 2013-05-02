@@ -35,7 +35,7 @@ darlingjs.m = darlingjs.module = function(name, requires) {
         throw new Error('Module "' + name + '" has already been defined.');
     }
     var moduleInstance = new Module();
-    moduleInstance.name = name;
+    moduleInstance.$name = name;
     moduleInstance.requires = requires;
 
     modules[name] = moduleInstance;
@@ -54,40 +54,40 @@ darlingjs.w = darlingjs.world = function(name, requires) {
     }
 
     var worldInstance = new World();
-    worldInstance.name = name;
+    worldInstance.$name = name;
     worlds[name] = worldInstance;
 
     if (isArray(requires)) {
         for (var index = 0, count = requires.length; index < count; index++) {
             var moduleName = requires[index];
-            var module = modules[moduleName];
-            if (isUndefined(module)) {
+            var moduleInstance = modules[moduleName];
+            if (isUndefined(moduleInstance)) {
                 throw new Error('Can\'t find module: "' + moduleName + '"');
             }
 
-            worldInstance.$$injectedModules[moduleName] = module;
+            worldInstance.$$injectedModules[moduleName] = moduleInstance;
 
-            var components = module.$$components;
+            var components = moduleInstance.$$components;
             for (var componentName in components) {
                 if (components.hasOwnProperty(componentName)) {
-                    var component = module.$$components[componentName];
+                    var component = moduleInstance.$$components[componentName];
                     if (isUndefined(component)) {
-                        throw new Error('Module: "' + this.name + '" has null component with name "' + componentName + '".');
+                        throw new Error('Module: "' + moduleName + '" has null component with name "' + componentName + '".');
                     }
 
-                    worldInstance.$$injectedComponents[component.name] = component;
+                    worldInstance.$$injectedComponents[component.$name] = component;
                 }
             }
 
-            var systems = module.$$systems;
+            var systems = moduleInstance.$$systems;
             for (var systemName in systems) {
                 if (systems.hasOwnProperty(systemName)) {
                     var system = systems[systemName];
                     if (isUndefined(system)) {
-                        throw new Error('Module: "' + this.name + '" has null system with name "' + systemName + '".');
+                        throw new Error('Module: "' + moduleName + '" has null system with name "' + systemName + '".');
                     }
 
-                    worldInstance.$$injectedSystems[system.name] = system;
+                    worldInstance.$$injectedSystems[system.$name] = system;
                 }
             }
         }

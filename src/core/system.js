@@ -8,6 +8,8 @@ var System = function () {
     this.init();
 };
 
+System.prototype.$name = '';
+
 System.prototype.$$updateHandler = noop;
 
 System.prototype.init = function() {
