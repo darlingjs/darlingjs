@@ -223,7 +223,12 @@ World.prototype.$e = World.prototype.$entity = function() {
         componentsIndex++;
         for (var key in components) {
             if (components.hasOwnProperty(key) && key.charAt(0) !== '$') {
-                entity.$add(key, components[key]);
+                var value = components[key];
+                if (isEmptyObject(value)) {
+                    entity.$add(key, null);
+                } else {
+                    entity.$add(key, value);
+                }
             }
         }
 
@@ -239,6 +244,32 @@ World.prototype.$e = World.prototype.$entity = function() {
     return entity;
 };
 
+/**
+ * Check to see if an object is empty (contains no enumerable properties).
+ * get from jquery
+ *
+ * @param obj
+ * @return {boolean}
+ */
+function isEmptyObject( obj ) {
+    var name;
+    for ( name in obj ) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Define component
+ * @param name name of component
+ * @config state of component
+ *
+ * if component already defined under @name function return component with config customization.
+ * if component doesn't define function defines it the world under @name with @config state.
+ * But if config doesn't defined it's rise exception
+ *
+ * @type {Function}
+ */
 World.prototype.$c = World.prototype.$component = function(name, config) {
     var defaultConfig;
     var instance;
@@ -249,12 +280,18 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
 
     defaultConfig = this.$$injectedComponents[name];
     if (isUndefined(defaultConfig)) {
-        throw new Error('Can\'t find component "' + name + '" definition. You need to add appropriate module to world.');
-    }
-
-    instance = copy(defaultConfig.defaultState);
-    if (isDefined(config)) {
-        swallowCopy(instance, config);
+        //define new custom component
+        if (isDefined(config) && config !== null) {
+            this.$$injectedComponents[name] = config;
+        } else {
+            throw new Error('Can\'t find component "' + name + '" definition. You need to add appropriate module to world.');
+        }
+        instance = config;
+    } else {
+        instance = copy(defaultConfig);
+        if (isDefined(config) && config !== null) {
+            swallowCopy(instance, config);
+        }
     }
 
     instance.$name = name;

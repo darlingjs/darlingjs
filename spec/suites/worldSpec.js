@@ -183,6 +183,22 @@ describe('World', function() {
         expect(c.position).toBe(position);
     });
 
+    it('should build custom component by config', function() {
+        var c = world.$component('customComponent', {
+            x: 1,
+            y: 2
+        });
+        expect(c).toBeDefined();
+        expect(c.x).toBe(1);
+        expect(c.y).toBe(2);
+    });
+
+    it('shouldn\'t build custom component without configuration', function() {
+        expect(function() {
+            world.$component('wrongComponent');
+        }).toThrow();
+    });
+
     it('should execute update handler on update.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('theModule')

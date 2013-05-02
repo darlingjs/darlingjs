@@ -21,12 +21,9 @@ Module.prototype.$has = function(name) {
  *
  * @type {Function}
  */
-Module.prototype.$c = Module.prototype.$component = function(name, defaultState) {
-    defaultState = defaultState || {};
-    var component = {
-        $name: name,
-        defaultState: defaultState
-    };
+Module.prototype.$c = Module.prototype.$component = function(name, component) {
+    component = component || {};
+    component.$name = component.$name || name;
     this.$$components[name] = component;
     return this;
 };
