@@ -163,7 +163,7 @@ entity.$add('healer');
 entity.$remove('healer');
 ```
 
-#### Defining
+#### Define component and system
 
 ```javascript
 
@@ -175,6 +175,7 @@ world.$c('healer', {
 });
 
 //define and add healer system to the game world
+//!ATTENTION! in next verstion $node and $nodes will be changed to the $entity and $entities
 
 world.$s('healerSystem', {
 
