@@ -15,7 +15,7 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-(function(darlingjs) {
+(function(darlingjs, darlingutil) {
     'use strict';
 
     var m = darlingjs.module('ngInfinity1DWorld');
@@ -81,14 +81,14 @@
             while(tile && tile.rightEdge < edge) {
                 var next = tile.$next;
                 this._list.remove(tile);
-                removeAllEntitesFrom($world, tile.entities);
+                removeAllEntitiesFrom($world, tile.entities);
                 tile.entities = null;
                 tile = next;
             }
         }
     });
 
-    function removeAllEntitesFrom($world, entities) {
+    function removeAllEntitiesFrom($world, entities) {
         //console.log('removeAllEntitesFrom');
         if (darlingutil.isUndefined(entities) || entities === null) {
             return;
@@ -99,4 +99,4 @@
         }
     }
 
-})(darlingjs);
+})(darlingjs, darlingutil);

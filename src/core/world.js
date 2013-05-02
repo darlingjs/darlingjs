@@ -56,22 +56,12 @@ World.prototype.$isUse = function(value) {
 World.prototype.$add = function(value, config) {
     var instance;
 
-    if (isString(value)){
-        instance = this.$$injectedSystems[value];
-        if (isUndefined(instance)) {
-            throw new Error('Instance of "' + value + '" doesn\'t injected in the world "' + this.name + '".');
-        }
+    if (value instanceof Entity) {
+        instance = this.$$addEntity(value);
+    } else if (value instanceof System) {
+        this.$$addSystem(value);
     } else {
-        instance = value;
-    }
-
-    if (instance instanceof Entity) {
-        instance = this.$$addEntity(instance);
-    } else if (instance instanceof System) {
-        this.$$addSystem(instance);
-    } else if (instance !== null) {
         instance = this.$system(value, config);
-        this.$$addSystem(instance);
     }
 
     return instance;
@@ -322,6 +312,11 @@ function beforeAfterUpdateCustomMatcher(annotation) {
  */
 World.prototype.$s = World.prototype.$system = function(name, config) {
     var defaultConfig = this.$$injectedSystems[name];
+
+    if (isUndefined(defaultConfig)) {
+        throw new Error('Instance of system "' + name + '" doesn\'t injected in the world "' + this.name + '".');
+    }
+
     var systemInstance = new System();
     copy(defaultConfig, systemInstance, false);
 
@@ -408,6 +403,8 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     } else {
         systemInstance.$$removeNodeHandler = noop;
     }
+
+    this.$$addSystem(systemInstance);
 
     return systemInstance;
 };

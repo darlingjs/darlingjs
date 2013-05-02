@@ -203,7 +203,7 @@ describe('World', function() {
         expect(updateHandler.calledWith(11)).toBeTruthy();
     });
 
-    it('should instantiate by name without add it', function() {
+    it('should instantiate system by name and add it', function() {
         darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
@@ -220,7 +220,7 @@ describe('World', function() {
         expect(system.x).toBe(10);
         expect(system.y).toBe(20);
         expect(system.z).toBe(30);
-        expect(world.$isUse(system)).toBeFalsy();
+        expect(world.$isUse(system)).toBeTruthy();
     });
 
     it('should added my instance', function() {
@@ -228,11 +228,13 @@ describe('World', function() {
             .$c('theComponent')
             .$system('testSystem');
 
-        var world = darlingjs.world('testWorld', ['theModule']);
-        var systemInstance = world.$system('testSystem');
-        world.$add(systemInstance);
+        var world1 = darlingjs.world('testWorld1', ['theModule']);
+        var world2 = darlingjs.world('testWorld2', ['theModule']);
 
-        expect(world.$isUse(systemInstance)).toBeTruthy();
+        var systemInstance = world1.$system('testSystem');
+        world2.$add(systemInstance);
+
+        expect(world2.$isUse(systemInstance)).toBeTruthy();
     });
 
     it('should update every requestAnimationFrame on $start and stop after $stop', function() {
