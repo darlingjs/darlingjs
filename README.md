@@ -42,23 +42,23 @@ world.$add('ngDOMSystem', { targetId: 'gameID' });
 world.$add('ngFlatControlSystem');
 world.$add('ng2DCollisionSystem');
 
-world.$add(world.$e('player', [
+world.$e('player', [
     'ngDOM', { color: 'rgb(255,0,0)' },
     'ng2D', {x : 0, y: 50},
     'ngControl',
     'ngCollision'
-]));
+]);
 
 for (var i = 0, l = 10; i < l; i++) {
     var fixed = Math.random() > 0.5;
-    world.$add(world.$e('obstacle_' + i, [
+    world.$e('obstacle_' + i, [
         'ngDOM', { color: fixed?'rgb(0, 255, 0)':'rgb(200, 200, 0)'},
         'ng2D', {x : 10 + 80 * Math.random(), y: 10 + 80 * Math.random()},
         'ngCollision', {fixed: fixed}
-    ]));
+    ]);
 }
 
-world.$add(world.$e('goblin', [
+world.$e('goblin', [
     'ngDOM', { color: 'rgb(255,0,0)' },
     'ng2D', {x : 99, y: 50},
     'ngRamble', {frame: {
@@ -76,7 +76,7 @@ world.$add(world.$e('goblin', [
         }
     },
     'ngCollision'
-]));
+]);
 
 world.$start();
 
@@ -124,7 +124,9 @@ ngModule.$c('ngControl', {
 });
 
 ngModule.$system('ng2DRamble', {
+    
     $require: ['ngRamble', 'ng2D'],
+
     _updateTarget: function($node) {
         $node._target = {
             x: 4 * Math.random() - 2,
@@ -133,6 +135,7 @@ ngModule.$system('ng2DRamble', {
 
         $node._target = this._normalizePosition($node._target, $node.frame);
     },
+
     _normalizePosition: function(p, frame) {
         if (p.x < frame.left) {
             p.x = frame.left;
@@ -150,12 +153,14 @@ ngModule.$system('ng2DRamble', {
             p.y = frame.bottom;
         }
     },
+    
     _distanceSqr: function(p1, p2) {
         var dx = p1.x - p2.x;
         var dy = p1.y - p2.y;
         return dx * dx + dy * dy;
     },
-    update: ['$node', function($node) {
+
+    $update: ['$node', function($node) {
         if (!$node._target) {
             this._updateTarget($node);
         } else if (this._distanceSqr($node.ng2D, $node._target) < 1) {
@@ -173,19 +178,25 @@ ngModule.$system('ng2DRamble', {
 })
 
 ngModule.$system('ng2DCollisionSystem', {
+    
     $require: ['ngCollision', 'ng2D'],
+    
     _isLeftCollision: function(p1, p2) {
         return false;
     },
+    
     _isRightCollision: function(p1, p2) {
         return false;
     },
+    
     _isTopCollision: function(p1, p2) {
         return false;
     },
+    
     _isBottomCollision: function(p1, p2) {
         return false;
     },
+    
     $update: ['$nodes', function($nodes) {
         //TODO brute-force. just push away after collision
         for (var j = 0, lj = $nodes.length; j < lj; j++) {
@@ -215,6 +226,7 @@ ngModule.$system('ng2DCollisionSystem', {
 
 ngModule.$system('ng2DScan', {
     $require: ['ng2D', 'ngScan'],
+    
     $update : ['$nodes', function($nodes) {
         //TODO brute-force. just push away after collision
         for (var j = 0, lj = $nodes.length; j < lj; j++) {
@@ -227,14 +239,20 @@ ngModule.$system('ng2DScan', {
 
 ngModule.$system('ngControlSystem', {
     $require: ['ng2D', 'ngControl'],
+    
     _targetElementID: 'game',
+    
     _target:null,
+    
     _actions: {},
+    
     _keyBinding: [],
+    
     _keyBind: function(keyId, action) {
         this._keyBinding[keyId] = action;
         this._actions[action] = false;
     },
+    
     $added: function() {
         this._keyBind(87, 'move-up');
         this._keyBind(65, 'move-left');
@@ -260,6 +278,7 @@ ngModule.$system('ngControlSystem', {
     _normalize: function(speed) {
         //TODO : ...
     },
+    
     $update: ['$node', '$time', '$world', function($node, $time, $world) {
         var speed = this._speed;
         if (this._actions['move-up']) {
@@ -284,15 +303,21 @@ ngModule.$system('ngControlSystem', {
 
 ngModule.$system('ngDOMSystem', {
     _targetElementID: 'game',
+    
     _target: null,
+    
     _element: null,
+    
     _style: null,
+    
     $require: ['ngDOM', 'ng2D'],
+    
     $added: function() {
         if (this.target === null && this.targetId !== null) {
             this.target = document.getElementById(this.targetId);
         }
     },
+    
     $addNode: function($node) {
         var element = document.createElement("div");
         var style = element.style;
@@ -303,10 +328,12 @@ ngModule.$system('ngDOMSystem', {
         $node._element = element;
         this._target.appendChild(element);
     },
+    
     $removeNode: function($node) {
         //TODO:
         this._target.removeChild($node._element);
     },
+    
     $update: ['$node', function($node) {
         var style = $node._style;
         style.left = $node.ng2D.x + 'px';
