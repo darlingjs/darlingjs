@@ -342,11 +342,11 @@ function matchFactory(annotation, name) {
 
 function beforeAfterUpdateCustomMatcher(annotation) {
     var match$time = matchFactory(annotation, '$time');
-    var match$nodes = matchFactory(annotation, '$nodes');
+    var match$entities = matchFactory(annotation, '$entities');
 
     return function(argsTarget, argsSource) {
         match$time(argsTarget, argsSource[0]);
-        match$nodes(argsTarget, argsSource[1]);
+        match$entities(argsTarget, argsSource[1]);
     };
 }
 
@@ -393,8 +393,8 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
             var args = this.$$getDependencyByAnnotation(updateAnnotate);
 
-            var match$node = matchFactory(updateAnnotate, '$node');
-            var match$nodes = matchFactory(updateAnnotate, '$nodes');
+            var match$entity = matchFactory(updateAnnotate, '$entity');
+            var match$entities = matchFactory(updateAnnotate, '$entities');
             var match$time = matchFactory(updateAnnotate, '$time');
             var match$world = matchFactory(updateAnnotate, '$world');
 
@@ -402,12 +402,12 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
             var updateFunction = factoryOfFastFunction(updateHandler, systemInstance, args, '$$update');
 
-            var updateForEveryNode = updateAnnotate.indexOf('$node') >= 0;
+            var updateForEveryNode = updateAnnotate.indexOf('$entity') >= 0;
             if (updateForEveryNode) {
-                systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(node, time) {
+                systemInstance.$$updateHandler = systemInstance.$$updateEveryNode(function(entity, time) {
                     match$time(args, time);
-                    match$node(args, node);
-                    match$nodes(args, systemInstance.$nodes);
+                    match$entity(args, entity);
+                    match$entities(args, systemInstance.$nodes);
                     match$world(args, worldInstance);
 
                     updateFunction();
@@ -415,7 +415,7 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
             } else {
                 systemInstance.$$updateHandler = function(time) {
                     match$time(args, time);
-                    match$nodes(args, systemInstance.$nodes);
+                    match$entities(args, systemInstance.$nodes);
                     match$world(args, worldInstance);
 
                     updateFunction();
@@ -440,18 +440,18 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
         systemInstance.$$removedHandler = noop;
     }
 
-    if (isDefined(systemInstance.$addNode)) {
+    if (isDefined(systemInstance.$addEntity)) {
         //TODO : inject all dependency
-        systemInstance.$$addNodeHandler = this.$$annotatedFunctionFactory(systemInstance, '$addNode', addRemoveNodeCustomMatcher);
+        systemInstance.$$addEntityHandler = this.$$annotatedFunctionFactory(systemInstance, '$addEntity', addRemoveNodeCustomMatcher);
     } else {
-        systemInstance.$$addNodeHandler = noop;
+        systemInstance.$$addEntityHandler = noop;
     }
 
-    if (isDefined(systemInstance.$removeNode)) {
+    if (isDefined(systemInstance.$removeEntity)) {
         //TODO : inject all dependency
-        systemInstance.$$removeNodeHandler = this.$$annotatedFunctionFactory(systemInstance, '$removeNode', addRemoveNodeCustomMatcher);
+        systemInstance.$$removeEntityHandler = this.$$annotatedFunctionFactory(systemInstance, '$removeEntity', addRemoveNodeCustomMatcher);
     } else {
-        systemInstance.$$removeNodeHandler = noop;
+        systemInstance.$$removeEntityHandler = noop;
     }
 
     this.$$addSystem(systemInstance);
@@ -461,7 +461,7 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
 
 function addRemoveNodeCustomMatcher(annotation) {
     for (var i = 0, l = annotation.length; i < l; i++) {
-        if (annotation[i] === '$node') {
+        if (annotation[i] === '$entity') {
             return function(argsTarget, argsSource) {
                 argsTarget[i] = argsSource[0];
             };

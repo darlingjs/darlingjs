@@ -21,11 +21,11 @@ System.prototype.$setNodes = function($nodes) {
 
     var self = this;
     this.$nodes.on('add', function(node) {
-        self.$$addNodeHandler(node);
+        self.$$addEntityHandler(node);
     });
 
     this.$nodes.on('remove', function(node) {
-        self.$$removeNodeHandler(node);
+        self.$$removeEntityHandler(node);
     });
 };
 

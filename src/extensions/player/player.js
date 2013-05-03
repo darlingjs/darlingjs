@@ -28,8 +28,8 @@
     m.$s('ngRemoveSelectionFromWinner', {
         $require: ['ngWinner', 'ngSelected'],
 
-        $addNode: ['$node', function($node) {
-            $node.$remove('ngSelected');
+        $addEntity: ['$entity', function($entity) {
+            $entity.$remove('ngSelected');
         }]
     });
 
@@ -46,8 +46,8 @@
     m.$s('ngCollectBonuses', {
         $require: ['ngGetBonus', 'ngScores'],
 
-        $addNode: ['$node', '$world', function($node, $world) {
-            var bonusState = $node.ngGetBonus;
+        $addEntity: ['$entity', '$world', function($entity, $world) {
+            var bonusState = $entity.ngGetBonus;
 
             //FIX ME: can only remove in timeout
             setTimeout(function() {
@@ -55,7 +55,7 @@
                 for (var i = 0, count = entities.length; i < count; i++) {
                     var entity = entities[i];
                     $world.$remove(entity);
-                    $node.ngScores.score += entity.ngBonus.score;
+                    $entity.ngScores.score += entity.ngBonus.score;
                 }
             }, 0);
         }]

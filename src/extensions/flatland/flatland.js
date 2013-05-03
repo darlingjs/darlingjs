@@ -72,14 +72,14 @@
     m.$s('ng2DShiftMovingSystem', {
         $require: ['ng2D', 'ngShiftMove'],
 
-        $addNode : function($node) {
-            $node.ngShiftMove.dx = $node.ngShiftMove.dx || 0.0;
-            $node.ngShiftMove.dy = $node.ngShiftMove.dy || 0.0;
+        $addEntity : function($entity) {
+            $entity.ngShiftMove.dx = $entity.ngShiftMove.dx || 0.0;
+            $entity.ngShiftMove.dy = $entity.ngShiftMove.dy || 0.0;
         },
 
-        $update: ['$node', '$time', function($node, $time) {
-            $node.ng2D.x += 0.001 * $node.ngShiftMove.dx * $time;
-            $node.ng2D.y += 0.001 * $node.ngShiftMove.dy * $time;
+        $update: ['$entity', '$time', function($entity, $time) {
+            $entity.ng2D.x += 0.001 * $entity.ngShiftMove.dx * $time;
+            $entity.ng2D.y += 0.001 * $entity.ngShiftMove.dy * $time;
         }]
     });
 })(darlingjs);

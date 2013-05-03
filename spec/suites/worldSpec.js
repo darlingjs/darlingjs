@@ -349,7 +349,7 @@ describe('World', function() {
         sinon.assert.callOrder(beforeUpdateHandler, updateHandler, afterUpdateHandler);
     });
 
-    it('should inject $nodes in $beforeUpdate and $afterUpdate', function() {
+    it('should inject $entities in $beforeUpdate and $afterUpdate', function() {
         var beforeUpdateHandler = sinon.spy();
         var updateHandler = sinon.spy();
         var afterUpdateHandler = sinon.spy();
@@ -358,9 +358,9 @@ describe('World', function() {
             .$c('theComponent')
             .$system('testSystem', {
                 require: ['theComponent'],
-                $beforeUpdate: ['$nodes', beforeUpdateHandler],
+                $beforeUpdate: ['$entities', beforeUpdateHandler],
                 $update: updateHandler,
-                $afterUpdate: ['$nodes', afterUpdateHandler]
+                $afterUpdate: ['$entities', afterUpdateHandler]
             });
 
         var world = darlingjs.world('testWorld', ['theModule']);

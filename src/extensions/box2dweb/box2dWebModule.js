@@ -35,9 +35,9 @@
     m.$s('ngBox2DRevoluteJoint', {
         $require: ['ngRevoluteJoint', 'ng2D'],
 
-        $addNode: ['$node', 'ngBox2DSystem', function($node, ngBox2DSystem) {
-            var jointState = $node.ngRevoluteJoint;
-            var ng2D = $node.ng2D;
+        $addEntity: ['$entity', 'ngBox2DSystem', function($entity, ngBox2DSystem) {
+            var jointState = $entity.ngRevoluteJoint;
+            var ng2D = $entity.ng2D;
 
             var bodyA, bodyB;
 
@@ -86,8 +86,8 @@
     m.$s('ngBox2DDistanceJoint', {
         $require: ['ngDistanceJoint'],
 
-        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
-            var jointState = $node.ngDistanceJoint;
+        $addEntity: ['$entity', 'ngBox2DSystem', function($entity, box2DSystem) {
+            var jointState = $entity.ngDistanceJoint;
             var anchorA = new Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
             var anchorB = new Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
             var bodyA, bodyB;
@@ -130,8 +130,8 @@
     m.$s('ngBox2DPrismaticJoint', {
         $require: ['ngPrismaticJoint'],
 
-        $addNode: ['$node', 'ngBox2DSystem', function($node, box2DSystem) {
-            var jointState = $node.ngPrismaticJoint;
+        $addEntity: ['$entity', 'ngBox2DSystem', function($entity, box2DSystem) {
+            var jointState = $entity.ngPrismaticJoint;
             var anchorA = new Vec2(box2DSystem._invScale * jointState.anchorA.x, box2DSystem._invScale * jointState.anchorA.y);
             var anchorB = new Vec2(box2DSystem._invScale * jointState.anchorB.x, box2DSystem._invScale * jointState.anchorB.y);
             var axis = new Vec2(
@@ -178,10 +178,10 @@
     m.$s('ngBox2DEnableMotorSystem', {
         $require: ['ngEnableMotor'],
 
-        $addNode: function($node) {
+        $addEntity: function($entity) {
             var joint;
-            if ($node.ngPrismaticJoint) {
-                joint = $node.ngPrismaticJoint._joint;
+            if ($entity.ngPrismaticJoint) {
+                joint = $entity.ngPrismaticJoint._joint;
             }
 
             if (joint) {
@@ -189,10 +189,10 @@
             }
         },
 
-        $removeNode: function($node) {
+        $removeEntity: function($entity) {
             var joint;
-            if ($node.ngPrismaticJoint) {
-                joint = $node.ngPrismaticJoint._joint;
+            if ($entity.ngPrismaticJoint) {
+                joint = $entity.ngPrismaticJoint._joint;
             }
 
             if (joint) {
@@ -208,8 +208,8 @@
     m.$s('ngBox2DSensorSystem', {
         $require: ['ngSensorAny', 'ngPhysic'],
 
-        $addNode: function($node) {
-            var physic = $node.ngPhysic;
+        $addEntity: function($entity) {
+            var physic = $entity.ngPhysic;
             var body = physic._b2dBody;
             var fixture = body.GetFixtureList();
             while(fixture) {
@@ -218,8 +218,8 @@
             }
         },
 
-        $removeNode: function($node) {
-            var physic = $node.ngPhysic;
+        $removeEntity: function($entity) {
+            var physic = $entity.ngPhysic;
             var body = physic._b2dBody;
             var fixture = body.GetFixtureList();
             while(fixture) {
@@ -228,8 +228,8 @@
             }
         },
 
-        $update: ['$node', function($node) {
-            var physic = $node.ngPhysic;
+        $update: ['$entity', function($entity) {
+            var physic = $entity.ngPhysic;
             var body = physic._b2dBody;
             var edge = body.GetContactList();
 
@@ -244,11 +244,11 @@
             }
 
             if (touched) {
-                if (!$node.ngSensorDetectEntity) {
-                    $node.$add('ngSensorAnyDetectOneEntity');
+                if (!$entity.ngSensorDetectEntity) {
+                    $entity.$add('ngSensorAnyDetectOneEntity');
                 }
             } else {
-                $node.$remove('ngSensorAnyDetectOneEntity');
+                $entity.$remove('ngSensorAnyDetectOneEntity');
             }
         }]
     });
@@ -262,16 +262,16 @@
     m.$s('ngBox2DEnableMotorOnSensor', {
         $require: ['ngSensorAnyDetectOneEntity', 'ngBox2DEnableMotorOnSensor'],
 
-        $addNode: ['$node', '$world', function($node, $world) {
-            var entity = $world.$getByName($node.ngBox2DEnableMotorOnSensor.targetId);
-            $node.ngBox2DEnableMotorOnSensor.targetEntity = entity;
+        $addEntity: ['$entity', '$world', function($entity, $world) {
+            var entity = $world.$getByName($entity.ngBox2DEnableMotorOnSensor.targetId);
+            $entity.ngBox2DEnableMotorOnSensor.targetEntity = entity;
             if (!entity.$has('ngEnableMotor')) {
                 entity.$add('ngEnableMotor');
             }
         }],
 
-        $removeNode: function($node) {
-            var entity = $node.ngBox2DEnableMotorOnSensor.targetEntity;
+        $removeEntity: function($entity) {
+            var entity = $entity.ngBox2DEnableMotorOnSensor.targetEntity;
             if (entity) {
                 entity.$remove('ngEnableMotor');
             }
@@ -324,7 +324,7 @@
             this._mouseY = (e.clientY - this._shiftY) * this._invScale;
         },
 
-        $update: ['$nodes', 'ngBox2DSystem', function($nodes, ngBox2DSystem) {
+        $update: ['$entities', 'ngBox2DSystem', function($entities, ngBox2DSystem) {
             var world;
 
             if (this._isMouseDown && !this._mouseJoint) {
@@ -388,12 +388,12 @@
     m.$s('ngBox2DFixRotation', {
         $require: ['ngFixedRotation', 'ngPhysic'],
 
-        $addNode: function($node) {
-            $node.ngPhysic._b2dBody.SetFixedRotation(true);
+        $addEntity: function($entity) {
+            $entity.ngPhysic._b2dBody.SetFixedRotation(true);
         },
 
-        $removeNode: function($node) {
-            $node.ngPhysic._b2dBody.SetFixedRotation(false);
+        $removeEntity: function($entity) {
+            $entity.ngPhysic._b2dBody.SetFixedRotation(false);
         }
     });
 
@@ -523,7 +523,7 @@
             this._justFly = false;
             control._jumpCount = 1;
         },
-        _doubleJump: function($node, body, control) {
+        _doubleJump: function($entity, body, control) {
             if (++control._jumpCount > control.doubleJump || !control._hasJumped) {
                 return;
             }
@@ -546,15 +546,15 @@
 //                    body.ApplyImpulse(this._jumpImpulse, body.GetWorldCenter());
         },
 
-        $removeNode: function($node) {
-            var body = $node.ngPhysic._b2dBody;
+        $removeEntity: function($entity) {
+            var body = $entity.ngPhysic._b2dBody;
             body.SetAngularVelocity(0);
         },
 
-        $update: ['$node', function($node) {
+        $update: ['$entity', function($entity) {
             this._stayOnGroundDefined = false;
-            var body = $node.ngPhysic._b2dBody;
-            var control = $node.ngControlPlatformStyle;
+            var body = $entity.ngPhysic._b2dBody;
+            var control = $entity.ngControlPlatformStyle;
 
             var fixRotation = false;
 
@@ -563,13 +563,13 @@
                     this._resetDoubleJump(control);
                     this._jump(body, control);
                 } else if (this._justFly) {
-                    this._doubleJump($node, body, control);
+                    this._doubleJump($entity, body, control);
                     this._justFly = false;
                 }
             } else {
                 this._justFly = !this._isStayOnGround(body, control.slope);
                 if (this._actions['move-left']) {
-                    this._setMovingState($node, control, 'ngGoingLeft');
+                    this._setMovingState($entity, control, 'ngGoingLeft');
                     this._stayOnGroundDefined = false;
                     if (this._isStayOnGround(body, control.slope)) {
                         this._move(body, -control.runSpeed);
@@ -578,7 +578,7 @@
                         body.ApplyImpulse(this._flyImpulse, body.GetWorldCenter());
                     }
                 } else if (this._actions['move-right']) {
-                    this._setMovingState($node, control, 'ngGoingRight');
+                    this._setMovingState($entity, control, 'ngGoingRight');
                     if (this._isStayOnGround(body, control.slope)) {
                         this._move(body, control.runSpeed);
                     } else {
@@ -598,14 +598,14 @@
             }
         }],
 
-        _setMovingState: function($node, control, value) {
+        _setMovingState: function($entity, control, value) {
             if (control._movingState === value) {
                 return;
             }
 
             control._movingState = value;
-            $node.$remove(control._movingState);
-            $node.$add(value);
+            $entity.$remove(control._movingState);
+            $entity.$add(value);
         }
     });
 
@@ -694,12 +694,12 @@
     m.$s('ngBox2DLeftHanded', {
         $require: ['ng2D', 'ngPhysic', 'ngGoingLeft'],
 
-        $addNode: function($node) {
-            var axis = $node.ng2D.x;
+        $addEntity: function($entity) {
+            var axis = $entity.ng2D.x;
             //TODO : mirror physics by axis
         },
 
-        $removeNode: function($node) {
+        $removeEntity: function($entity) {
 
         }
     });
@@ -707,11 +707,11 @@
     m.$s('ngBox2DRightHanded', {
         $require: ['ng2D', 'ngPhysic', 'ngGoingRight'],
 
-        $addNode: function($node) {
+        $addEntity: function($entity) {
 
         },
 
-        $removeNode: function($node) {
+        $removeEntity: function($entity) {
 
         }
     });
@@ -746,13 +746,13 @@
         $removed: function() {
             this._world = null;
         },
-        $addNode: function($node) {
-            var ngPhysic = $node.ngPhysic;
-            var ng2D = $node.ng2D;
-            var ng2DSize = $node.ng2DSize;
-            var ng2DRotation = $node.ng2DRotation;
-            var ng2DCircle = $node.ng2DCircle;
-            var ng2DPolygon = $node.ng2DPolygon;
+        $addEntity: function($entity) {
+            var ngPhysic = $entity.ngPhysic;
+            var ng2D = $entity.ng2D;
+            var ng2DSize = $entity.ng2DSize;
+            var ng2DRotation = $entity.ng2DRotation;
+            var ng2DCircle = $entity.ng2DCircle;
+            var ng2DPolygon = $entity.ng2DPolygon;
 
             var bodyDef = new BodyDef();
             if (ngPhysic.type === 'static') {
@@ -800,36 +800,36 @@
             ngPhysic._b2dBody = this._world.CreateBody(bodyDef);
             ngPhysic._b2dBody.SetAngle(rotation);
             ngPhysic._b2dBody.CreateFixture(fixDef);
-            ngPhysic._b2dBody.m_userData = $node;
+            ngPhysic._b2dBody.m_userData = $entity;
         },
 
-        $removeNode: function($node) {
-            var body = $node.ngPhysic._b2dBody;
+        $removeEntity: function($entity) {
+            var body = $entity.ngPhysic._b2dBody;
             if (darlingutil.isDefined(body)) {
                 this._world.DestroyBody(body);
             }
         },
 
-        $update: ['$nodes', '$time', function($nodes, $time) {
+        $update: ['$entities', '$time', function($entities, $time) {
             this._world.Step(
                 this.PHYSICS_LOOP_HZ,    //frame-rate
                 this.velocityIterations, //velocity iterations
                 this.positionIterations  //position iterations
             );
 
-            $nodes.forEach(this.$$updateNodePosition);
+            $entities.forEach(this.$$updateNodePosition);
             this._world.ClearForces();
         }],
 
-        $$updateNodePosition: function($node) {
-            var body = $node.ngPhysic._b2dBody;
+        $$updateNodePosition: function($entity) {
+            var body = $entity.ngPhysic._b2dBody;
             var pos = body.GetPosition();
 
-            var ng2D = $node.ng2D;
+            var ng2D = $entity.ng2D;
             ng2D.x = pos.x * 30; // FIXME : this.scale;
             ng2D.y = pos.y * 30; // FIXME : this.scale;
 
-            var ng2DRotation = $node.ng2DRotation;
+            var ng2DRotation = $entity.ng2DRotation;
             if (ng2DRotation) {
                 ng2DRotation.rotation = body.GetAngle();
             }

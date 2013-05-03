@@ -84,26 +84,26 @@
     m.$s('ngEnableMotorOnKeyDown', {
         $require: ['ngEnableMotorOnKeyDown', 'ngSelected'],
 
-        $addNode: function($node) {
-            var keyCode = $node.ngEnableMotorOnKeyDown.keyCode;
-            var keyCodeReverse = $node.ngEnableMotorOnKeyDown.keyCodeReverse;
+        $addEntity: function($entity) {
+            var keyCode = $entity.ngEnableMotorOnKeyDown.keyCode;
+            var keyCodeReverse = $entity.ngEnableMotorOnKeyDown.keyCodeReverse;
 
             this._target = document.getElementById(this.domId) || document;
             this._target.addEventListener('keydown', function(e) {
                 var index;
                 index = keyCode.indexOf(e.keyCode);
                 if (index >= 0) {
-                    if (!$node.$has('ngEnableMotor')) {
-                        $node.$add('ngEnableMotor');
+                    if (!$entity.$has('ngEnableMotor')) {
+                        $entity.$add('ngEnableMotor');
                     }
                 } else {
                     index = keyCodeReverse.indexOf(e.keyCode);
                     if (index >= 0) {
-                        if (!$node.$has('ngEnableMotor')) {
-                            $node.$add('ngEnableMotor');
+                        if (!$entity.$has('ngEnableMotor')) {
+                            $entity.$add('ngEnableMotor');
                         }
-                        if (!$node.$has('ngEnableMotorReverse')) {
-                            $node.$add('ngEnableMotorReverse');
+                        if (!$entity.$has('ngEnableMotorReverse')) {
+                            $entity.$add('ngEnableMotorReverse');
                         }
                     }
                 }
@@ -111,12 +111,12 @@
             this._target.addEventListener('keyup', function(e) {
                 var index = keyCode.indexOf(e.keyCode);
                 if (index >= 0) {
-                    $node.$remove('ngEnableMotor');
+                    $entity.$remove('ngEnableMotor');
                 } else {
                     index = keyCodeReverse.indexOf(e.keyCode);
                     if (index >= 0) {
-                        $node.$remove('ngEnableMotor');
-                        $node.$remove('ngEnableMotorReverse');
+                        $entity.$remove('ngEnableMotor');
+                        $entity.$remove('ngEnableMotorReverse');
                     }
                 }
             });

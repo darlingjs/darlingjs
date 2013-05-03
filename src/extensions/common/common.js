@@ -31,9 +31,9 @@
             this._avgPosition.count = 0;
         },
 
-        $update: ['$node', function($node) {
-            this._avgPosition.x += $node.ng2D.x;
-            this._avgPosition.y += $node.ng2D.y;
+        $update: ['$entity', function($entity) {
+            this._avgPosition.x += $entity.ng2D.x;
+            this._avgPosition.y += $entity.ng2D.y;
             this._avgPosition.count++;
         }],
 

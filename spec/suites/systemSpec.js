@@ -12,6 +12,18 @@ describe('system', function() {
         defaultModule = darlingjs.module('defaultModule', {})
             .$system('defaultSystem');
         defaultWorld = darlingjs.world('defaultWorld', ['defaultModule']);
+
+        this.addMatchers({
+            calledWith: function() {
+                var notText = this.isNot ? ' not' : '';
+
+                this.message = function() {
+                    return 'Expected that function ' + notText + ' has called with ' + Array.prototype.join.call(arguments, ', ') +  ' but was ';
+                };
+
+                return this.actual.calledWith.apply(this.actual, arguments);
+            }
+        });
     });
 
     afterEach(function() {
@@ -155,13 +167,13 @@ describe('system', function() {
         expect(system.$nodes.length()).toBe(0);
     });
 
-    it('should run update once for $nodes request.', function() {
+    it('should run update once for $entities request.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
-                $update: ['$nodes', '$time', updateHandler]
+                $update: ['$entities', '$time', updateHandler]
             });
 
         var world = darlingjs.world('testWorld', ['theModule']);
@@ -188,13 +200,13 @@ describe('system', function() {
         expect(updateHandler.calledWith(world)).toBeTruthy();
     });
 
-    it('should run update for each request $node.', function() {
+    it('should run update for each request $entity.', function() {
         var updateHandler = sinon.spy();
         darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
-                $update: ['$node', '$time', updateHandler]
+                $update: ['$entity', '$time', updateHandler]
             });
 
         var world = darlingjs.world('testWorld', ['theModule']);
@@ -214,15 +226,15 @@ describe('system', function() {
         expect(updateHandler.calledWith(entities[2], 11)).toBeTruthy();
     });
 
-    it('should execute $addNode handler on node is adding', function() {
+    it('should execute $addEntity handler on node is adding', function() {
         var addHandler = sinon.spy();
         var removeHandler = sinon.spy();
         darlingjs.module('theModule')
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
-                $addNode: addHandler,
-                $removeNode: removeHandler
+                $addEntity: addHandler,
+                $removeEntity: removeHandler
             });
         var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
@@ -246,8 +258,8 @@ describe('system', function() {
             .$c('theComponent')
             .$system('testSystem', {
                 $require: ['theComponent'],
-                $addNode: addHandler,
-                $removeNode: removeHandler
+                $addEntity: addHandler,
+                $removeEntity: removeHandler
             });
         var world = darlingjs.world('testWorld', ['theModule']);
         world.$add('testSystem');
@@ -309,7 +321,7 @@ describe('system', function() {
         expect(handler.calledWith(s1)).toBeTruthy();
     });
 
-    it('should inject other systems in $addNode', function() {
+    it('should inject other systems in $addEntity', function() {
         var handler = sinon.spy();
         darlingjs.module('theModule')
             .$c('theComponent')
@@ -318,7 +330,7 @@ describe('system', function() {
             })
             .$system('testSystem2', {
                 $require: ['theComponent'],
-                $addNode: ['testSystem1', '$node', handler]
+                $addEntity: ['testSystem1', '$entity', handler]
             });
         var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
@@ -330,7 +342,7 @@ describe('system', function() {
     });
 
 
-    it('should inject other systems in $removeNode', function() {
+    it('should inject other systems in $removeEntity', function() {
         var handler = sinon.spy();
         darlingjs.module('theModule')
             .$c('theComponent')
@@ -339,7 +351,7 @@ describe('system', function() {
             })
             .$system('testSystem2', {
                 $require: ['theComponent'],
-                $removeNode: ['testSystem1', '$node', handler]
+                $removeEntity: ['testSystem1', '$entity', handler]
             });
         var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
@@ -352,7 +364,7 @@ describe('system', function() {
     });
 
 
-    it('should inject other systems in $removeNode', function() {
+    it('should inject other systems in $removeEntity', function() {
         var handler = sinon.spy();
         darlingjs.module('theModule')
             .$c('theComponent')
@@ -361,7 +373,7 @@ describe('system', function() {
             })
             .$system('testSystem2', {
                 $require: ['theComponent'],
-                $update: ['testSystem1', '$nodes', handler]
+                $update: ['testSystem1', '$entities', handler]
             });
         var world = darlingjs.world('testWorld', ['theModule']);
         var s1 = world.$add('testSystem1');
@@ -370,10 +382,10 @@ describe('system', function() {
         world.$update(1);
 
         expect(handler.callCount).toBe(1);
-        expect(handler.calledWith(s1, s2.$nodes)).toBeTruthy();
+        expect(handler).calledWith(s1, s2.$nodes);
     });
 
-    it('should operate removing component inside of $addNode handler', function() {
+    it('should operate removing component inside of $addEntity handler', function() {
         darlingjs.module('theModule')
             .$c('theComponent1')
             .$c('theComponent2')
@@ -386,9 +398,9 @@ describe('system', function() {
             })
             .$system('testSystem3', {
                 $require: ['theComponent3'],
-                $addNode: function($node) {
-                    $node.$remove('theComponent1');
-                    $node.$remove('theComponent2');
+                $addEntity: function($entity) {
+                    $entity.$remove('theComponent1');
+                    $entity.$remove('theComponent2');
                 }
             });
 

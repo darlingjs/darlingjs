@@ -32,13 +32,13 @@
     m.$s('ngSquareEmitterSystem', {
         $require: ['ngEmit', 'ngEmitter', 'ng2D', 'ng2DSize'],
 
-        $addNode: ['$node', '$world', function($node, $world) {
-            this._emit($node, $node.ng2D, $node.ng2DSize, $node.ngEmitter.generate, $world);
+        $addEntity: ['$entity', '$world', function($entity, $world) {
+            this._emit($entity, $entity.ng2D, $entity.ng2DSize, $entity.ngEmitter.generate, $world);
         }],
 
-        _emit: function($node, ng2D, ng2DSize, generate, $world) {
+        _emit: function($entity, ng2D, ng2DSize, generate, $world) {
             if (darlingutil.isFunction(generate)) {
-                generate = generate($node);
+                generate = generate($entity);
             }
 
             if (generate === null || darlingutil.isUndefined(generate)) {
@@ -48,11 +48,11 @@
             generate.ng2D = generate.ng2D || {};
             generate.ng2D.x = ng2D.x + ng2DSize.width * Math.random();
             generate.ng2D.y = ng2D.y + ng2DSize.height * Math.random();
-            var count = $node.ngEmit.count;
+            var count = $entity.ngEmit.count;
             while(--count>=0) {
                 $world.$e(generate);
             }
-            $node.$remove('ngEmit');
+            $entity.$remove('ngEmit');
         }
     });
 
@@ -70,18 +70,18 @@
     m.$s('ngRandomEmitterSystem', {
         $require: ['ngEmitterRandomCounter'],
 
-        $update: ['$node', '$time', function($node, $time) {
-            var counter = $node.ngEmitterRandomCounter;
+        $update: ['$entity', '$time', function($entity, $time) {
+            var counter = $entity.ngEmitterRandomCounter;
             if (!counter._timeout) {
                 counter._timeout = this._timeInterval(counter);
             }
 
             counter._timeout -= $time;
             while (counter._timeout <= 0) {
-                if ($node.ngEmit) {
-                    $node.ngEmit.count++;
+                if ($entity.ngEmit) {
+                    $entity.ngEmit.count++;
                 } else {
-                    $node.$add('ngEmit', {
+                    $entity.$add('ngEmit', {
                         count: 1
                     });
                 }
@@ -106,16 +106,16 @@
     m.$s('ngRectangleZone', {
         $require: ['ngRectangleZone', 'ng2D'],
 
-        $update: ['$node', function($node) {
-            if(this._isInside($node.ngRectangleZone, $node.ng2D)) {
-                $node.$remove('ngOutOfZone');
-                if (!$node.ngInsideZone) {
-                    $node.$add('ngInsideZone');
+        $update: ['$entity', function($entity) {
+            if(this._isInside($entity.ngRectangleZone, $entity.ng2D)) {
+                $entity.$remove('ngOutOfZone');
+                if (!$entity.ngInsideZone) {
+                    $entity.$add('ngInsideZone');
                 }
             } else {
-                $node.$remove('ngInsideZone');
-                if (!$node.ngOutOfZone) {
-                    $node.$add('ngOutOfZone');
+                $entity.$remove('ngInsideZone');
+                if (!$entity.ngOutOfZone) {
+                    $entity.$add('ngOutOfZone');
                 }
             }
         }],
@@ -156,28 +156,28 @@
     m.$s('ngDecreaseLifeOnDamage', {
         $require: ['ngLife', 'ngDamage', 'ngLive'],
 
-        $addNode: function($node) {
-            $node.ngLife.life -= $node.ngDamage.damage;
-            $node.$remove('ngDamage');
+        $addEntity: function($entity) {
+            $entity.ngLife.life -= $entity.ngDamage.damage;
+            $entity.$remove('ngDamage');
         }
     });
 
     m.$s('ngDecreaseLifeOnContinuousDamage', {
         $require: ['ngLife', 'ngContinuousDamage', 'ngLive'],
 
-        $update: ['$node', '$time', function($node, $time) {
-            $node.ngLife.life -= 0.001 * $time * $node.ngContinuousDamage.damage;
+        $update: ['$entity', '$time', function($entity, $time) {
+            $entity.ngLife.life -= 0.001 * $time * $entity.ngContinuousDamage.damage;
         }]
     });
 
     m.$s('ngLifeIsGrooving', {
         $require: ['ngLifeIsGrooving', 'ngLife', 'ngLive'],
 
-        $update: ['$node', '$time', function($node, $time) {
-            $node.ngLife.life += 0.001 * $time * $node.ngLifeIsGrooving.delta;
-            if ($node.ngLife.life >= $node.ngLifeIsGrooving.max) {
-                $node.ngLife.life = $node.ngLifeIsGrooving.max;
-                $node.$remove('ngLifeIsGrooving');
+        $update: ['$entity', '$time', function($entity, $time) {
+            $entity.ngLife.life += 0.001 * $time * $entity.ngLifeIsGrooving.delta;
+            if ($entity.ngLife.life >= $entity.ngLifeIsGrooving.max) {
+                $entity.ngLife.life = $entity.ngLifeIsGrooving.max;
+                $entity.$remove('ngLifeIsGrooving');
             }
         }]
     });
@@ -196,11 +196,11 @@
     m.$s('ngLifeHandler', {
         $require: ['ngLife', 'ngOnLifeChange'],
 
-        $update: ['$node', function($node) {
-            var ngOnLifeChange = $node.ngOnLifeChange;
-            var ngLife = $node.ngLife;
+        $update: ['$entity', function($entity) {
+            var ngOnLifeChange = $entity.ngOnLifeChange;
+            var ngLife = $entity.ngLife;
             if (ngLife.life !== ngOnLifeChange.previousLife) {
-                ngOnLifeChange.handler($node, ngLife.life);
+                ngOnLifeChange.handler($entity, ngLife.life);
                 ngOnLifeChange.previousLife = ngLife.life;
             }
         }]
@@ -216,26 +216,26 @@
     m.$s('ngRemoveIfDead', {
         $require: ['ngRemoveIfDead', 'ngDead'],
 
-        $addNode: ['$world', '$node', function($world, $node) {
-            $world.$remove($node);
+        $addEntity: ['$world', '$entity', function($world, $entity) {
+            $world.$remove($entity);
         }]
     });
 
     m.$s('ngReduceLifeIfOutOfLifeZone', {
         $require: ['ngLifeZone', 'ngOutOfZone', 'ngLife', 'ngLive'],
 
-        $update: ['$node', '$time', function($node, $time) {
-            $node.ngLife.life -= 0.001 * $node.ngLifeZone.lifeReduce * $time;
+        $update: ['$entity', '$time', function($entity, $time) {
+            $entity.ngLife.life -= 0.001 * $entity.ngLifeZone.lifeReduce * $time;
         }]
     });
 
     m.$s('ngDeadIfOutOfLife', {
         $require: ['ngLife', 'ngLive'],
 
-        $update: ['$node', function($node) {
-            if ($node.ngLife.life <= 0) {
-                $node.$add('ngDead');
-                $node.$remove('ngLive');
+        $update: ['$entity', function($entity) {
+            if ($entity.ngLife.life <= 0) {
+                $entity.$add('ngDead');
+                $entity.$remove('ngLive');
             }
         }]
     });
@@ -243,17 +243,17 @@
     m.$s('ngDeathIfOutOfLifeZone', {
         $require: ['ngLifeZone', 'ngOutOfZone', 'ngLive'],
 
-        $addNode: function($node) {
-            $node.$add('ngDead');
-            $node.$remove('ngLive');
+        $addEntity: function($entity) {
+            $entity.$add('ngDead');
+            $entity.$remove('ngLive');
         }
     });
 
     m.$s('ngDeathIfInsideZone', {
         $require: ['ngDeathZone', 'ngInsideZone'],
 
-        $addNode: function($node) {
-            $node.$add('ngDead');
+        $addEntity: function($entity) {
+            $entity.$add('ngDead');
         }
     });
 })(darlingjs);
