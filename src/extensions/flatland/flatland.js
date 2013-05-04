@@ -57,13 +57,6 @@
     });
 
     /**
-     * Component of description parallax effect
-     */
-    m.$c('ngParallax', {
-        basis: 0.5
-    });
-
-    /**
      * Component of moving entity. Can be used in any dimension.
      */
     m.$c('ngShiftMove', {
