@@ -5,6 +5,11 @@ darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=
 
 Lightweight component and entity based Game Engine. With flexible architecture. Decupled from any dependecy. So any interaction with (Box2D, Render system and so on) put in pluggable modules. Use fluent API (Crafty.js/jQUery like).
 
+## Support
+
+* [documentation](http://darlingjs.github.io/docs/)
+* [forum](https://plus.google.com/communities/100075954096144611101)
+
 ## Examples
 
 * [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/darlingjs/darlingjs-examples/tree/master/04-box2d-simulation-of-vehicle);
