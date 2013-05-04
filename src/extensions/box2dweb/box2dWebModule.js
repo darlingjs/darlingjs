@@ -202,7 +202,7 @@
     });
 
     /**
-     *
+     * TODO: description ngBox2DSensorSystem
      */
 
     m.$s('ngBox2DSensorSystem', {

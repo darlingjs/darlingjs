@@ -1,0 +1,12 @@
+{
+  "plugins": [ "plugins/markdown" ],
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true,
+    "githubRepoName": "darlingjs",
+    "githubRepoOwner": "hyzhak"
+  },
+  "opts": {
+    "template": "./doc-template"
+  }
+}

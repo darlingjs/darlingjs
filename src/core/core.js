@@ -1,25 +1,37 @@
-'use strict';
-
 /**
- * Module
- * @module core
+ * Project: GameEngine.
+ * @copyright (c) 2013, Eugene-Krevenets
  */
 
+/**
+ * Previous instance of facade of darlingjs engine
+ *
+ * @ignore
+ * @type {darlingjs}
+ * @private
+ */
 var _darlingjs = window.darlingjs;
+
+/**
+ * @class darlingjs
+ * @classdesc
+ *
+ * The static facade of darlinjg engine.
+ * Uses for creating modules and game world.
+ */
 var darlingjs = window.darlingjs || (window.darlingjs = {});
 darlingjs.version = '0.0.0';
 
+var worlds = {};
+
+var modules = {};
+
 /**
- * @ngdoc function
- * @name darlingjs.noConflict
- * @function
- *
- * @description
  * Restores the previous global value of darlingjs and returns the current instance. Other libraries may already use the
  * darlingjs namespace. Or a previous version of darlingjs is already loaded on the page. In these cases you may want to
  * restore the previous namespace and keep a reference to darlingjs.
  *
- * @return {Object} The current darlingjs namespace
+ * @return {darlingjs} The current darlingjs namespace
  */
 darlingjs.noConflict = function() {
     var a = window.darlingjs;
@@ -27,9 +39,17 @@ darlingjs.noConflict = function() {
     return a;
 };
 
-var worlds = {};
-var modules = {};
-
+/**
+ * Create new Module
+ * m is short form of function module
+ * @example
+ *<pre>
+ var m = darlingjs.module('theModule');
+ *</pre>
+ * @param {String} name The name of new module
+ * @param {Array} [requires] The array of modules that new module it depends on
+ * @return {Module}
+ */
 darlingjs.m = darlingjs.module = function(name, requires) {
     if (isDefined(modules[name])) {
         throw new Error('Module "' + name + '" has already been defined.');
@@ -44,9 +64,20 @@ darlingjs.m = darlingjs.module = function(name, requires) {
 };
 
 /**
- * Build World. Like a Module in AngularJS
+ * Build World. Like a Module in AngularJS.
+ * w is short form of function world
+ * @example
+ *<pre>
+ var world = darlingjs.world('theWorld', [
+   'ngPhysics',
+   'ngBox2DEmscripten',
+   'ngFlatland',
+   'ngPixijsAdapter']);
+ *</pre>
+ * @param {String} name The name of new World
+ * @param {Array} requires The array of requires modules
  *
- * @type {Function}
+ * @return {World} The new World;
  */
 darlingjs.w = darlingjs.world = function(name, requires) {
     if (isDefined(worlds[name])) {
@@ -98,10 +129,11 @@ darlingjs.w = darlingjs.world = function(name, requires) {
 
 /**
  * Remove module from engine by name
- * @param value
+ *
+ * @param {String} name The name of module
  */
-darlingjs.removeModule = function(value) {
-    delete modules[value];
+darlingjs.removeModule = function(name) {
+    delete modules[name];
 };
 
 /**
@@ -112,6 +144,11 @@ darlingjs.removeAllModules = function() {
 };
 
 
+/**
+ * Remove world
+ *
+ * @param {String/World} value The name or instance of world to remove
+ */
 darlingjs.removeWorld = function(value) {
     if (isString(value)) {
         delete worlds[value];
@@ -124,6 +161,7 @@ darlingjs.removeWorld = function(value) {
         }
     }
 }
+
 /**
  * Remove all worlds from engine
  */

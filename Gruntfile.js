@@ -42,6 +42,13 @@ module.exports = function(grunt) {
         clean: {
             docs: ['docs/']
         },
+        jsdoc: {
+            src: ['src/core/**/*.js', 'src/utils/**/*.js', 'README.md'],
+            options: {
+                configure: '.jsdocrc',
+                destination: 'docs'
+            }
+        },
         yuidoc: {
             compile: {
                 name: '<%= pkg.name %>',
@@ -65,13 +72,15 @@ module.exports = function(grunt) {
     // Default task(s).
     grunt.registerTask('default', ['jasmine', 'concat', 'uglify', 'version']);
     grunt.registerTask('test', ['concat', 'jasmine']);
-    grunt.registerTask('docs', ['clean', 'yuidoc']);
+    //grunt.registerTask('docs', ['clean', 'yuidoc']);
+    grunt.registerTask('docs', ['clean', 'jsdoc']);
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-yuidoc');
+    grunt.loadNpmTasks('grunt-jsdoc');
+    //grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-version');
 };

@@ -1,18 +1,48 @@
-'use strict';
-
 /**
  * Project: GameEngine.
- * Copyright (c) 2013, Eugene-Krevenets
+ * @copyright (c) 2013, Eugene-Krevenets
  */
 
+/**
+ * @class Entity
+ * @classdesc
+ *
+ * Entity is bag of game property in one instance.
+ * For example instance of bonus with component position in (ng2D).
+ *
+ * @constructor
+ */
 var Entity = function() {
     mixin(this, Events);
 };
 
+/**
+ * Name of entity
+ * @type {string}
+ */
 Entity.prototype.$name = '';
 
+/**
+ * World of entity
+ * @private
+ * @type {World}
+ */
 Entity.prototype.$$world = null;
 
+/**
+ * Add new Component to entity
+ *
+ * @example
+ * <pre>
+ entity.$add('ng2D', {
+   x: 1.0,
+   y: 3.0
+ });
+ * </pre>
+ * @param {string|Component} value The name of the Component or
+ * @param {object} [config] The config of adding Component
+ * @return {Component}
+ */
 Entity.prototype.$add = function(value, config) {
     var instance;
     var name;
@@ -43,6 +73,16 @@ Entity.prototype.$add = function(value, config) {
     return instance;
 };
 
+/**
+ * Remove component from entity
+ *
+ * @example
+ * <pre>
+ entity.$remove('ngVisible');
+ * </pre>
+ * @param {string|Component} value The name or instance of component
+ * @return {Component}
+ */
 Entity.prototype.$remove = function(value) {
     var instance;
     var name;
@@ -69,6 +109,11 @@ Entity.prototype.$remove = function(value) {
     return instance;
 };
 
+/**
+ * Is entity has component
+ * @param {string|Component} value The name or instance of component test
+ * @return {boolean}
+ */
 Entity.prototype.$has = function(value) {
     if (isComponent(value)) {
         return !!this[value.$name];

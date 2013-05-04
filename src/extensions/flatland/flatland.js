@@ -57,7 +57,7 @@
     });
 
     /**
-     *
+     * Component of description parallax effect
      */
     m.$c('ngParallax', {
         basis: 0.5

@@ -9,6 +9,14 @@
  * We can calculate it in real-time as in addIfMatch, but it's not good for performance.
  */
 
+/**
+ * @private
+ * @inner
+ *
+ * Filter for component to apply entity to system by requested components
+ *
+ * @constructor
+ */
 function Family() {
     this.components = [];
     this.componentsString = '';

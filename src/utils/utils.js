@@ -8,8 +8,20 @@
  * Get From AngularJS Project with little changes based on JSHint.
  */
 
-var _darlingutil = window.darlingutil,
-    darlingutil = window.darlingutil = window.darlingutil||{};
+/**
+ * @ignore
+ * @type {*}
+ * @private
+ */
+var _darlingutil = window.darlingutil;
+
+/**
+ * The static facade of darlingjs utils
+ *
+ * @class darlingutil
+ * @global
+ */
+var darlingutil = window.darlingutil = window.darlingutil||{};
 
 darlingutil.version = '0.0.0';
 
@@ -250,7 +262,11 @@ darlingutil.noConflict = function() {
 
 var toString = Object.prototype.toString;
 
-
+/**
+ * Is instance is defined
+ * @param {*} value
+ * @return {boolean}
+ */
 darlingutil.isDefined = isDefined;
 function isDefined(value) {
     return typeof value !== 'undefined';
@@ -279,7 +295,6 @@ function isString(value) {
 /**
  * Checks if `obj` is a window object.
  *
- * @private
  * @param {*} obj Object to check
  * @returns {boolean} True if `obj` is a window obj.
  */
@@ -420,6 +435,7 @@ function copy(source, destination, deleteAllDestinationProperties){
 
 /**
  * @private
+ * @ignore
  * @param {*} obj
  * @return {boolean} Returns true if `obj` is an array or array-like object (NodeList, Arguments, ...)
  */
@@ -592,6 +608,7 @@ function assertArgFn(arg, name, acceptArrayAnnotation) {
 
 /**
  * throw error of the argument is falsy.
+ * @ignore
  */
 function assertArg(arg, name, reason) {
     if (!arg) {
@@ -601,13 +618,13 @@ function assertArg(arg, name, reason) {
 }
 
 /**
- * @ngdoc function
- * @name angular.noop
- * @function
- *
- * @description
  * A function that performs no operations. This function can be useful when writing code in the
  * functional style.
+ *
+ * Get from AngularJS.
+ *
+ * @ignore
+ * @example
  <pre>
  function foo(callback) {
        var result = calculateResult();
@@ -619,6 +636,7 @@ function noop(){}
 
 /**
  * Get Observer from Backbone
+ * @ignore
  */
 
 // Create local references to array methods we'll want to use later.
@@ -823,6 +841,7 @@ function swallowCopy(original, extended) {
 
 /**
  *
+ * @ignore
  * @param original
  * @param extended
  * @return {*}
@@ -857,6 +876,7 @@ function mixin(original, extended) {
  *
  * So where it's possbile we use call by string
  *
+ * @ignore
  * @param fn
  * @param context
  * @param args
@@ -915,6 +935,7 @@ function factoryOfFastFunctionAsAMember(fn, context, args, methodName) {
 /**
  * Create function with custom matcher
  *
+ * @ignore
  * @param fn
  * @param context
  * @param args
@@ -930,6 +951,14 @@ function factoryOfFastFunctionWithMatcher(fn, context, args, argsMatcher, method
     }
 }
 
+/**
+ * @ignore
+ * @param fn
+ * @param context
+ * @param args
+ * @param argsMatcher
+ * @return {Function}
+ */
 function factoryOfFastFunctionWithMatcherAsCallOrApply(fn, context, args, argsMatcher) {
     switch(args.length) {
         case 0: return function() {

@@ -4,6 +4,11 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+/**
+ *
+ * @inner
+ * @constructor
+ */
 var List = function() {
     this._head = this._tail = null;
     this._length = 0;
@@ -13,6 +18,12 @@ var List = function() {
 
 darlingutil.List = List;
 
+/**
+ * Add instance to list
+ *
+ * @param {*} instance
+ * @return {ListNode}
+ */
 List.prototype.add = function(instance) {
     var node = poolOfListNodes.get();
     node.init(instance, this.PROPERTY_LINK_TO_NODE);
@@ -36,6 +47,12 @@ List.prototype.add = function(instance) {
     return node;
 };
 
+/**
+ * Add instance to head
+ *
+ * @param {*} instance
+ * @return {ListNode}
+ */
 List.prototype.addHead = function(instance) {
     var node = poolOfListNodes.get();
     node.init(instance, this.PROPERTY_LINK_TO_NODE);
@@ -59,6 +76,11 @@ List.prototype.addHead = function(instance) {
     return node;
 };
 
+/**
+ * Remove {ListNode} by instance
+ * @param {*} instance
+ * @return {boolean}
+ */
 List.prototype.remove = function(instance) {
     var node;
     if (instance instanceof ListNode) {
@@ -98,10 +120,21 @@ List.prototype.remove = function(instance) {
     return true;
 };
 
+/**
+ * Length of the list
+ * @return {number}
+ */
 List.prototype.length = function() {
     return this._length;
 };
 
+/**
+ * Execute callback for each node of the List
+ *
+ * @param {function} callback
+ * @param context
+ * @param arg
+ */
 List.prototype.forEach = function(callback, context, arg) {
     if (!isFunction(callback)) {
         return;
@@ -121,6 +154,13 @@ List.prototype.forEach = function(callback, context, arg) {
     }
 };
 
+/**
+ * Node of {List}
+ *
+ * @param {*} instance
+ * @param {String} linkBack
+ * @constructor
+ */
 var ListNode = function(instance, linkBack) {
     if (instance) {
         this.init(instance, linkBack);
@@ -149,6 +189,12 @@ ListNode.prototype.init = function(instance, linkBack) {
     instance[linkBack] = this;
 };
 
+/**
+ * Dispose of node
+ *
+ * @param instance
+ * @param linkBack
+ */
 ListNode.prototype.dispose = function(instance, linkBack) {
     this.$prev = this.$next = null;
     this.instance = null;
@@ -157,15 +203,21 @@ ListNode.prototype.dispose = function(instance, linkBack) {
     //delete instance[linkBack];
     instance[linkBack] = null;
     this.onDispose();
-};
+}
 
 function disposePoolInstance() {
     this.pool.dispose(this);
 }
 
+/**
+ * Pool of Object. For recycling of ListNode instances
+ *
+ * @param TypeOfObject
+ * @constructor
+ */
 var PoolOfObjects = function(TypeOfObject) {
     var _pool = [],
-        maxInstanceCount = 0,
+        //maxInstanceCount = 0,
         self = this;
 
     function createNewInstance() {
@@ -175,6 +227,10 @@ var PoolOfObjects = function(TypeOfObject) {
         return instance;
     }
 
+    /**
+     * Request new instance
+     * @return {*}
+     */
     this.get = function() {
         if (_pool.length === 0) {
             var instance = createNewInstance();
@@ -187,11 +243,20 @@ var PoolOfObjects = function(TypeOfObject) {
         }
     };
 
+    /**
+     * Dispose of instance
+     * @param instance
+     */
     this.dispose = function(instance) {
         //maxInstanceCount++;
         _pool.push(instance);
     };
 
+    /**
+     * Put some instances to pool
+     * @param {number} count
+     * @return {PoolOfObjects}
+     */
     this.warmup = function(count) {
         for (var i = 0; i < count; i++) {
             createNewInstance().onDispose();

@@ -7,11 +7,19 @@
  * DESIGN NOTES
  * ============
  *
- * Because entity can fraquantly be added and removed,
+ * Because entity can frequently will be added and removed,
  * them implemented by list.
  *
  */
 
+/**
+ * @class World
+ * @classdesc
+ *
+ * Game World. Contain Modules, System and Entities.
+ *
+ * @constructor
+ */
 var World = function(){
     this.$$injectedComponents = {};
     this.$$injectedModules = {};
@@ -33,12 +41,22 @@ var World = function(){
     //this.$$entitiesCount = 0;
 };
 
+/**
+ * Is contain definition of Component, Module or System
+ * @param {string} name The name of Component, Module or System
+ * @return {boolean}
+ */
 World.prototype.$has = function(name) {
     return isDefined(this.$$injectedComponents[name]) ||
            isDefined(this.$$injectedModules[name]) ||
            isDefined(this.$$injectedSystems[name]);
 };
 
+/**
+ * Is System used (added) in the World
+ * @param {string|System} value The name or instance of System
+ * @return {boolean}
+ */
 World.prototype.$isUse = function(value) {
     if (value instanceof System) {
         return this.$$systems.indexOf(value) >= 0;
@@ -49,6 +67,12 @@ World.prototype.$isUse = function(value) {
     return false;
 };
 
+/**
+ * Add Entity or System to the World
+ * @param {Entity|System|String} value The Entity or the System
+ * @param {Object} [config] The config of the added instance
+ * @return {Entity|System}
+ */
 World.prototype.$add = function(value, config) {
     var instance;
 
@@ -63,7 +87,12 @@ World.prototype.$add = function(value, config) {
     return instance;
 };
 
-
+/**
+ * Add Entity to the World
+ * @private
+ * @param {Entity} instance The instance of Entity
+ * @return {Entity}
+ */
 World.prototype.$$addEntity = function(instance) {
     this.$entities.add(instance);
     instance.on('add', this.$$onComponentAdd, this);
@@ -72,6 +101,12 @@ World.prototype.$$addEntity = function(instance) {
     return instance;
 };
 
+/**
+ * Remove Entity from the World
+ * @private
+ * @param {Entity} instance
+ * @return {Entity}
+ */
 World.prototype.$$removeEntity = function(instance) {
     this.$entities.remove(instance);
     this.$$matchRemoveEntityToFamilies(instance);
@@ -80,6 +115,14 @@ World.prototype.$$removeEntity = function(instance) {
     return instance;
 };
 
+/**
+ * Get array of instance by it names
+ * @ignore
+ * @private
+ * @param {array} annotation The annotation array with names.
+ * @param {array} target
+ * @return {array}
+ */
 World.prototype.$$getDependencyByAnnotation = function(annotation, target) {
     target = target || [];
     for (var i = 0, l = annotation.length; i < l; i++) {
@@ -89,6 +132,14 @@ World.prototype.$$getDependencyByAnnotation = function(annotation, target) {
     return target;
 };
 
+/**
+ * Get dependency by names. For example $world - return current game world.
+ * Implementation of service locator
+ * @ignore
+ * @private
+ * @param {string} name
+ * @return {World|System|*}
+ */
 World.prototype.$$getDependencyByName = function(name) {
     //TODO: Get from AngularJS
     switch(name) {
@@ -98,16 +149,12 @@ World.prototype.$$getDependencyByName = function(name) {
     return this.$$getSystemByName(name);
 };
 
-World.prototype.$remove = function(instance) {
-    if (instance instanceof Entity) {
-        this.$$removeEntity(instance);
-    } else if(instance instanceof System) {
-        this.$$removeSystem(instance);
-    } else {
-        throw new Error('can\'t remove "' + instance + '" from world "' + this.$name + '"' );
-    }
-};
-
+/**
+ * Get add System by name
+ * @private
+ * @param {string} name
+ * @return {System}
+ */
 World.prototype.$$getSystemByName = function(name) {
     for (var i = 0, l = this.$$systems.length; i < l; i++) {
         if (this.$$systems[i].$name === name) {
@@ -118,29 +165,60 @@ World.prototype.$$getSystemByName = function(name) {
     return null;
 };
 
+/**
+ * Remove Entity or System for the World
+ * @param {Entity|System} instance
+ */
+World.prototype.$remove = function(instance) {
+    if (instance instanceof Entity) {
+        this.$$removeEntity(instance);
+    } else if(instance instanceof System) {
+        this.$$removeSystem(instance);
+    } else {
+        throw new Error('can\'t remove "' + instance + '" from world "' + this.$name + '"' );
+    }
+};
+
+/**
+ * Add system by instance
+ * @private
+ * @param {System} instance
+ * @return {System}
+ */
 World.prototype.$$addSystem = function(instance) {
     this.$$systems.push(instance);
 
     instance.$$addedHandler();
 
     if (isDefined(instance.$require)) {
-        instance.$setNodes(this.$queryByComponents(instance.$require));
+        instance.$$setNodes(this.$queryByComponents(instance.$require));
     }
 
     return instance;
 };
 
+/**
+ * Remove System by instance
+ * @private
+ * @param {System} instance
+ * @return {System}
+ */
 World.prototype.$$removeSystem = function(instance) {
     var index = this.$$systems.indexOf(instance);
     this.$$systems.splice(index);
 
-    instance.init();
+    instance.$$init();
 
     instance.$$removedHandler();
 
     return instance;
 };
 
+/**
+ * Get entity by name
+ * @param {string} value
+ * @return {Entity}
+ */
 World.prototype.$getByName = function(value) {
     var node = this.$entities._head;
     while(node) {
@@ -154,33 +232,45 @@ World.prototype.$getByName = function(value) {
     return null;
 };
 
+/**
+ * Get number of entities
+ * @return {number}
+ */
 World.prototype.$numEntities = function() {
     return this.$entities.length();
 };
 
 
 /**
- * @ngdoc function
- * @name GameEngine.e
- * @function
- * @description Build Entity
+ * @description Build and add Entity
+ * @see Entity
  *
+ * @example
  * <pre>
- GameEngine.e('player',
- [
- 'ngDOM', { color: 'rgb(255,0,0)' },
- 'ng2D', {x : 0, y: 50},
- 'ngControl',
- 'ngCollision'
+ //config as array
+ GameEngine.e('player', [
+   'ngDOM', { color: 'rgb(255,0,0)' },
+   'ng2D', { x: 0, y: 50 },
+   'ngControl',
+   'ngCollision'
  ]));
+
+ //or config as object
+ GameEngine.e('player', {
+   ngDOM: { color: 'rgb(255,0,0)' },
+   ng2D: {x : 0, y: 50},
+   ngControl: {},
+   ngCollision: {}
+ }));
+
  * </pre>
  *
  * @type {Function}
  *
- * @param name (optional) entity name
- * @param config (optional) config object of entity
- * @param doesntAddToWorld (optional) doen't add entity to World
- *
+ * @param {string} name (optional) entity name
+ * @param {object} config (optional) config object of entity
+ * @param {boolean} doesntAddToWorld (optional) doen't add entity to World
+ * @return {Entity}
  */
 World.prototype.$e = World.prototype.$entity = function() {
     var name = '';
@@ -248,6 +338,7 @@ World.prototype.$e = World.prototype.$entity = function() {
  * Check to see if an object is empty (contains no enumerable properties).
  * get from jquery
  *
+ * @ignore
  * @param obj
  * @return {boolean}
  */
@@ -260,15 +351,14 @@ function isEmptyObject( obj ) {
 }
 
 /**
- * Define component
- * @param name name of component
- * @config state of component
- *
+ * Define component.
  * if component already defined under @name function return component with config customization.
  * if component doesn't define function defines it the world under @name with @config state.
  * But if config doesn't defined it's rise exception
  *
- * @type {Function}
+ * @param {string} name name of component
+ * @param {object} [config] state of component
+ * @return {Component}
  */
 World.prototype.$c = World.prototype.$component = function(name, config) {
     var defaultConfig;
@@ -303,6 +393,7 @@ World.prototype.$c = World.prototype.$component = function(name, config) {
  * Prepare handle function by annotation [], or strait function.
  * Return function with injected dependency.
  *
+ * @ignore
  * @param context
  * @param annotationPropertyName
  * @param customMatcher - custom annotation matcher. get array of arguments, return function(argsTarget, argsSource) {} to match arguments
@@ -329,6 +420,12 @@ World.prototype.$$annotatedFunctionFactory = function (context, annotationProper
     }
 };
 
+/**
+ * @ignore
+ * @param annotation
+ * @param name
+ * @return {*}
+ */
 function matchFactory(annotation, name) {
     var index = annotation.indexOf(name);
     if (index >= 0) {
@@ -340,6 +437,11 @@ function matchFactory(annotation, name) {
     }
 }
 
+/**
+ * @ignore
+ * @param annotation
+ * @return {Function}
+ */
 function beforeAfterUpdateCustomMatcher(annotation) {
     var match$time = matchFactory(annotation, '$time');
     var match$entities = matchFactory(annotation, '$entities');
@@ -351,9 +453,31 @@ function beforeAfterUpdateCustomMatcher(annotation) {
 }
 
 /**
- * Build instance of System
+ * Build instance of System. Instantiate injected system or define custom system.
+ * @see System
+ * @example
+ <pre>
+     world.$s('healerSystem', {
+
+        //apply to components:
+        $require: ['ngLife', 'healer'],
+
+        //iterate each frame for each entity
+        $update: ['$node', function($node) {
+            if ($node.ngLife.life <= this.healer.maxLife) {
+                //heals entity
+                $node.ngLife.life += this.healer.power;
+            } else {
+                //stop healing when life reach of maxLife
+                $node.$remove('healer');
+            }
+        }]
+    });
+ </pre>
  *
- * @type {Function}
+ * @param {string} name
+ * @param {object} [config]
+ * @return {System}
  */
 World.prototype.$s = World.prototype.$system = function(name, config) {
     var defaultConfig = this.$$injectedSystems[name];
@@ -459,6 +583,11 @@ World.prototype.$s = World.prototype.$system = function(name, config) {
     return systemInstance;
 };
 
+/**
+ * @ignore
+ * @param annotation
+ * @return {*}
+ */
 function addRemoveNodeCustomMatcher(annotation) {
     for (var i = 0, l = annotation.length; i < l; i++) {
         if (annotation[i] === '$entity') {
@@ -481,6 +610,7 @@ function addRemoveNodeCustomMatcher(annotation) {
  * BeforeMatch we are verify that we are not in match phase. Is so, just store operation.
  * in AfterMatch we are execute each stored operations
  *
+ * @ignore
  * @param entity
  */
 World.prototype.$$matchNewEntityToFamilies = function (entity) {
@@ -496,6 +626,10 @@ World.prototype.$$matchNewEntityToFamilies = function (entity) {
     afterMatch(entity, 'matchNewEntityToFamilies');
 };
 
+/**
+ * @ignore
+ * @param entity
+ */
 World.prototype.$$matchRemoveEntityToFamilies = function (entity) {
     if (!beforeMatch(entity, 'matchRemoveEntityToFamilies', this, this.$$matchRemoveEntityToFamilies, arguments)) {
         return;
@@ -509,6 +643,11 @@ World.prototype.$$matchRemoveEntityToFamilies = function (entity) {
     afterMatch(entity, 'matchRemoveEntityToFamilies');
 };
 
+/**
+ * @ignore
+ * @param entity
+ * @param component
+ */
 World.prototype.$$onComponentAdd = function(entity, component) {
     if (!beforeMatch(entity, 'onComponentAdd', this, this.$$onComponentAdd, arguments)) {
         return;
@@ -522,6 +661,11 @@ World.prototype.$$onComponentAdd = function(entity, component) {
     afterMatch(entity, 'onComponentAdd');
 };
 
+/**
+ * @ignore
+ * @param entity
+ * @param component
+ */
 World.prototype.$$onComponentRemove = function(entity, component) {
     if (!beforeMatch(entity, 'onComponentRemove', this, this.$$onComponentRemove, arguments)) {
         return;
@@ -535,6 +679,15 @@ World.prototype.$$onComponentRemove = function(entity, component) {
     afterMatch(entity, 'onComponentRemove');
 };
 
+/**
+ * @ignore
+ * @param entity
+ * @param phase
+ * @param context
+ * @param phaseFunction
+ * @param args
+ * @return {boolean}
+ */
 function beforeMatch(entity, phase, context, phaseFunction, args) {
     if (isUndefined(entity._matchingToFamily)) {
         entity._matchingToFamily = {
@@ -562,6 +715,11 @@ function beforeMatch(entity, phase, context, phaseFunction, args) {
     return true;
 }
 
+/**
+ * @ignore
+ * @param entity
+ * @param phase
+ */
 function afterMatch(entity, phase) {
     entity._matchingToFamily.processing = false;
     var phases = entity._matchingToFamily.phases;
@@ -577,6 +735,12 @@ function afterMatch(entity, phase) {
     }
 }
 
+/**
+ * Query nodes by them components.
+ * @param {array|string} request The request filter
+ * @return {*}
+ * @see Entity
+ */
 World.prototype.$queryByComponents = function(request) {
     var componentsArray;
     var componentsString;
@@ -587,6 +751,8 @@ World.prototype.$queryByComponents = function(request) {
     } else if (isString(request)) {
         componentsString = request;
         componentsArray = request.split(',');
+    } else {
+        throw new Error('Can\'t query entities by ' + request);
     }
 
     if (this.$$families[componentsString]) {
@@ -608,6 +774,10 @@ World.prototype.$queryByComponents = function(request) {
     return family.nodes;
 };
 
+/**
+ * Update the World by interval
+ * @param {number} time The time interval
+ */
 World.prototype.$update = function(time) {
     this.$$updating = true;
     time = time || this.$$interval;
@@ -631,6 +801,9 @@ World.prototype.$update = function(time) {
     this.$$updating = false;
 };
 
+/**
+ * Start update the World every 1/60 of second
+ */
 World.prototype.$start = function() {
     if (this.$playing) {
         return;
@@ -654,6 +827,9 @@ World.prototype.$start = function() {
     })(0);
 };
 
+/**
+ * Stop update the World every 1/60 of second
+ */
 World.prototype.$stop = function() {
     if (!this.$playing) {
         return;
