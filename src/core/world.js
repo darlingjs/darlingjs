@@ -109,6 +109,7 @@ World.prototype.$$addEntity = function(instance) {
  * @return {Entity}
  */
 World.prototype.$$removeEntity = function(instance) {
+    instance.$$world = null;
     this.$entities.remove(instance);
     this.$$matchRemoveEntityToFamilies(instance);
     instance.off('add', this.$$onComponentAdd);

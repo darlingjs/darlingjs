@@ -233,6 +233,7 @@ m.$s('ngPixijsStage', {
 
     $removeEntity: function($entity) {
         this._stage.removeChild($entity.ngPixijsSprite.sprite);
+        $entity.ngPixijsSprite.sprite = null;
     },
 
     $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
@@ -249,12 +250,6 @@ m.$s('ngPixijsStage', {
 
         if (!($entity.ngLockViewPort && $entity.ngLockViewPort.lockY)) {
             sprite.sprite.position.y -= ng2DViewPort.lookAt.y;
-        }
-
-        var ngParallax = $entity.ngParallax;
-        if (ngParallax) {
-            sprite.sprite.position.x *= ngParallax.basis;
-            sprite.sprite.position.y *= ngParallax.basis;
         }
 
         var ng2DRotation = $entity.ng2DRotation;

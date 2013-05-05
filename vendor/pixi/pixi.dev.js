@@ -1,4 +1,15 @@
 /**
+ * @license
+ * Pixi.JS - v1.0.0
+ * Copyright (c) 2012, Mat Groves
+ * http://goodboydigital.com/
+ *
+ * Compiled: 2013-05-01
+ *
+ * Pixi.JS is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+/**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
 
@@ -6,6 +17,7 @@
 @module PIXI
  */
 var PIXI = PIXI || {};
+
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
@@ -45,6 +57,7 @@ PIXI.Point.clone = function()
 
 // constructor
 PIXI.Point.constructor = PIXI.Point;
+
 
 /**
  * @author Mat Groves http://matgroves.com/
@@ -101,6 +114,7 @@ PIXI.Rectangle.clone = function()
 
 // constructor
 PIXI.Rectangle.constructor = PIXI.Rectangle;
+
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
@@ -163,11 +177,19 @@ PIXI.DisplayObject = function()
 	 */	
 	this.stage = null;
 	
+	/**
+	 * This is the defined area that will pick up mouse / touch events. It is null by default.
+	 * Setting it is a neat way of optimising the hitTest function that the interactionManager will use (as it will not need to hit test all the children)
+	 * @property hitArea
+	 * @type Rectangle
+	 */	
+	this.hitArea = null;
+	
 	this.worldAlpha = 1;
 	this.color = [];
 	
-	this.worldTransform = mat3.identity();
-	this.localTransform = mat3.identity();
+	this.worldTransform = PIXI.mat3.create()//mat3.identity();
+	this.localTransform = PIXI.mat3.create()//mat3.identity();
 	
 	this.dynamic = true;
 	// chach that puppy!
@@ -176,12 +198,106 @@ PIXI.DisplayObject = function()
 	
 	this.renderable = false;
 	
-	// NOT YET :/ This only applies to children within the container..
-	this.interactive = true;
+	// [readonly] best not to toggle directly! use setInteractive()
+	this.interactive = false;
+	
+	/**
+	 * This is used to indicate if the displayObject should display a mouse hand cursor on rollover
+	 * @property buttonMode
+	 * @type Boolean
+	 */
+	this.buttonMode = false;
+	
+	/*
+	 * MOUSE Callbacks
+	 */
+	
+	/**
+	 * A callback that is used when the users clicks on the displayObject with their mouse
+	 * @method click
+	 * @param interactionData {InteractionData}
+	 */
+	
+	/**
+	 * A callback that is used when the user clicks the mouse down over the sprite
+	 * @method mousedown
+	 * @param interactionData {InteractionData}
+	 */
+	 
+	/**
+	 * A callback that is used when the user releases the mouse that was over the displayObject
+	 * for this callback to be fired the mouse must have been pressed down over the displayObject
+	 * @method mouseup
+	 * @param interactionData {InteractionData}
+	 */
+	
+	/**
+	 * A callback that is used when the user releases the mouse that was over the displayObject but is no longer over the displayObject
+	 * for this callback to be fired, The touch must have started over the displayObject
+	 * @method mouseupoutside
+	 * @param interactionData {InteractionData}
+	 */
+	
+	/**
+	 * A callback that is used when the users mouse rolls over the displayObject
+	 * @method mouseover
+	 * @param interactionData {InteractionData}
+	 */
+	
+	/**
+	 * A callback that is used when the users mouse leaves the displayObject
+	 * @method mouseout
+	 * @param interactionData {InteractionData}
+	 */
+	
+	
+	/*
+	 * TOUCH Callbacks
+	 */
+	
+	/**
+	 * A callback that is used when the users taps on the sprite with their finger
+	 * basically a touch version of click
+	 * @method tap
+	 * @param interactionData {InteractionData}
+	 */
+	
+	/**
+	 * A callback that is used when the user touch's over the displayObject
+	 * @method touchstart
+	 * @param interactionData {InteractionData}
+	 */
+	 
+	/**
+	 * A callback that is used when the user releases a touch over the displayObject
+	 * @method touchend
+	 * @param interactionData {InteractionData}
+	 */
+	
+	/**
+	 * A callback that is used when the user releases the touch that was over the displayObject
+	 * for this callback to be fired, The touch must have started over the sprite
+	 * @method touchendoutside
+	 * @param interactionData {InteractionData}
+	 */
 }
 
 // constructor
 PIXI.DisplayObject.constructor = PIXI.DisplayObject;
+
+/**
+ * Indicates if the sprite will have touch and mouse interactivity. It is false by default
+ * @method setInteractive
+ * @param interactive {Boolean}
+ */
+PIXI.DisplayObject.prototype.setInteractive = function(interactive)
+{
+	this.interactive = interactive;
+	// TODO more to be done here..
+	// need to sort out a re-crawl!
+	if(this.stage)this.stage.dirty = true;
+}
+
 
 /**
  * @private
@@ -195,22 +311,40 @@ PIXI.DisplayObject.prototype.updateTransform = function()
 		this._sr =  Math.sin(this.rotation);
 		this._cr =  Math.cos(this.rotation);
 	}	
-		
-	this.localTransform[0] = this._cr * this.scale.x;
-	this.localTransform[1] = -this._sr * this.scale.y
-	this.localTransform[3] = this._sr * this.scale.x;
-	this.localTransform[4] = this._cr * this.scale.y;
 	
-		///AAARR GETTER SETTTER!
+	var localTransform = this.localTransform;
+	var parentTransform = this.parent.worldTransform;
+	var worldTransform = this.worldTransform;
+	//console.log(localTransform)
+	localTransform[0] = this._cr * this.scale.x;
+	localTransform[1] = -this._sr * this.scale.y
+	localTransform[3] = this._sr * this.scale.x;
+	localTransform[4] = this._cr * this.scale.y;
 	
-	this.localTransform[2] = this.position.x;
-	this.localTransform[5] = this.position.y;
+	///AAARR GETTER SETTTER!
+	localTransform[2] = this.position.x;
+	localTransform[5] = this.position.y;
 	
+    // Cache the matrix values (makes for huge speed increases!)
+    var a00 = localTransform[0], a01 = localTransform[1], a02 = localTransform[2],
+        a10 = localTransform[3], a11 = localTransform[4], a12 = localTransform[5],
 
-	// TODO optimize?
-	mat3.multiply(this.localTransform, this.parent.worldTransform, this.worldTransform);
+        b00 = parentTransform[0], b01 = parentTransform[1], b02 = parentTransform[2],
+        b10 = parentTransform[3], b11 = parentTransform[4], b12 = parentTransform[5];
+
+    worldTransform[0] = b00 * a00 + b01 * a10;
+    worldTransform[1] = b00 * a01 + b01 * a11;
+    worldTransform[2] = b00 * a02 + b01 * a12 + b02;
+
+    worldTransform[3] = b10 * a00 + b11 * a10;
+    worldTransform[4] = b10 * a01 + b11 * a11;
+    worldTransform[5] = b10 * a02 + b11 * a12 + b12;
+
+	// because we are using affine transformation, we can optimise the matrix concatenation process.. wooo!
+	// mat3.multiply(this.localTransform, this.parent.worldTransform, this.worldTransform);
 	this.worldAlpha = this.alpha * this.parent.worldAlpha;		
 }
+
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
@@ -308,6 +442,64 @@ PIXI.DisplayObjectContainer.prototype.addChildAt = function(child, index)
 }
 
 /**
+ * Swaps the depth of 2 displayObjects
+ * @method swapChildren
+ * @param  DisplayObject {DisplayObject}
+ * @param  DisplayObject2 {DisplayObject}
+ */
+PIXI.DisplayObjectContainer.prototype.swapChildren = function(child, child2)
+{
+	// TODO I already know this??
+	var index = this.children.indexOf( child );
+	var index2 = this.children.indexOf( child2 );
+	
+	if ( index !== -1 && index2 !== -1 ) 
+	{
+		// cool
+		if(this.stage)
+		{
+			// this is to satisfy the webGL batching..
+			// TODO sure there is a nicer way to achieve this!
+			this.stage.__removeChild(child);
+			this.stage.__removeChild(child2);
+			
+			this.stage.__addChild(child);
+			this.stage.__addChild(child2);
+		}
+		
+		// swap the indexes..
+		child.childIndex = index2;
+		child2.childIndex = index;
+		// swap the positions..
+		this.children[index] = child2;
+		this.children[index2] = child;
+		
+	}
+	else
+	{
+		throw new Error(child + " Both the supplied DisplayObjects must be a child of the caller " + this);
+	}
+}
+
+/**
+ * Returns the Child at the specified index
+ * @method getChildAt
+ * @param  index {Number}
+ */
+PIXI.DisplayObjectContainer.prototype.getChildAt = function(index)
+{
+	if(index >= 0 && index < this.children.length)
+	{
+		return this.children[index];
+	}
+	else
+	{
+		throw new Error(child + " Both the supplied DisplayObjects must be a child of the caller " + this);
+	
+	}
+}
+
+/**
  * Removes a child from the container.
  * @method removeChild
  * @param  DisplayObject {DisplayObject}
@@ -350,6 +542,7 @@ PIXI.DisplayObjectContainer.prototype.updateTransform = function()
 		this.children[i].updateTransform();	
 	}
 }
+
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
@@ -400,19 +593,17 @@ PIXI.Sprite = function(texture)
 	 * @property width
 	 * @type #Number
 	 */
-	this.width = 1;
+	this._width = 0;
 	
 	/**
 	 * The height of the sprite (this is initially set by the texture)
 	 * @property height
 	 * @type #Number
 	 */
-	this.height = 1;
+	this._height = 0;
 	
 	if(texture.baseTexture.hasLoaded)
 	{
-		this.width   = this.texture.frame.width;
-		this.height  = this.texture.frame.height;
 		this.updateFrame = true;
 	}
 	else
@@ -423,78 +614,37 @@ PIXI.Sprite = function(texture)
 	
 	this.renderable = true;
 	
-	
-	
-	// [readonly] best not to toggle directly! use setInteractive()
-	this.interactive = false;
-	
-	
 	// thi next bit is here for the docs...
 	
-	/*
-	 * MOUSE Callbacks
-	 */
 	
-	/**
-	 * A callback that is used when the users clicks on the sprite with thier mouse
-	 * @method click
-	 * @param interactionData {InteractionData}
-	 */
-	
-	/**
-	 * A callback that is used when the user clicks the mouse down over the sprite
-	 * @method mousedown
-	 * @param interactionData {InteractionData}
-	 */
-	 
-	/**
-	 * A callback that is used when the user releases the mouse that was over the sprite
-	 * for this callback to be fired the mouse must have been pressed down over the sprite
-	 * @method mouseup
-	 * @param interactionData {InteractionData}
-	 */
-	
-	/**
-	 * A callback that is used when the users mouse rolls over the sprite
-	 * @method mouseover
-	 * @param interactionData {InteractionData}
-	 */
-	
-	/**
-	 * A callback that is used when the users mouse leaves the sprite
-	 * @method mouseout
-	 * @param interactionData {InteractionData}
-	 */
-	
-	/*
-	 * TOUCH Callbacks
-	 */
-	
-	/**
-	 * A callback that is used when the users taps on the sprite with thier finger
-	 * basically a touch version of click
-	 * @method tap
-	 * @param interactionData {InteractionData}
-	 */
-	
-	/**
-	 * A callback that is used when the user touch's over the sprite
-	 * @method touchstart
-	 * @param interactionData {InteractionData}
-	 */
-	 
-	/**
-	 * A callback that is used when the user releases the touch that was over the sprite
-	 * for this callback to be fired. The touch must have started over the sprite
-	 * @method touchend
-	 * @param interactionData {InteractionData}
-	 */
 }
 
 // constructor
 PIXI.Sprite.constructor = PIXI.Sprite;
 PIXI.Sprite.prototype = Object.create( PIXI.DisplayObjectContainer.prototype );
 
+// OOH! shiney new getters and setters for width and height
+// The width and height now modify the scale (this is what flash does, nice and tidy!)
+Object.defineProperty(PIXI.Sprite.prototype, 'width', {
+    get: function() {
+        return this.scale.x * this.texture.frame.width;
+    },
+    set: function(value) {
+    	this.scale.x = value / this.texture.frame.width
+        this._width = value;
+    }
+});
+
+Object.defineProperty(PIXI.Sprite.prototype, 'height', {
+    get: function() {
+        return  this.scale.y * this.texture.frame.height;
+    },
+    set: function(value) {
+    	this.scale.y = value / this.texture.frame.height
+        this._height = value;
+    }
+});
+ 
 /**
 @method setTexture
 @param texture {Texture} The PIXI texture that is displayed by the sprite
@@ -508,22 +658,7 @@ PIXI.Sprite.prototype.setTexture = function(texture)
 	}
 	
 	this.texture = texture;
-	this.width   = texture.frame.width;
-	this.height  = texture.frame.height;
 	this.updateFrame = true;
-}
-
-/**
- * Indicates if the sprite will have touch and mouse interactivity. It is false by default
- * @method setInteractive
- * @param interactive {Boolean}
- */
-PIXI.Sprite.prototype.setInteractive = function(interactive)
-{
-	this.interactive = interactive;
-	// TODO more to be done here..
-	// need to sort out a re-crawl!
-	if(this.stage)this.stage.dirty = true;
 }
 
 /**
@@ -531,8 +666,12 @@ PIXI.Sprite.prototype.setInteractive = function(interactive)
  */
 PIXI.Sprite.prototype.onTextureUpdate = function(event)
 {
-	this.width   = this.texture.frame.width;
-	this.height  = this.texture.frame.height;
+	//this.texture.removeEventListener( 'update', this.onTextureUpdateBind );
+	
+	// so if _width is 0 then width was not set..
+	if(this._width)this.scale.x = this._width / this.texture.frame.width;
+	if(this._height)this.scale.y = this._height / this.texture.frame.height;
+	
 	this.updateFrame = true;
 }
 
@@ -569,6 +708,7 @@ PIXI.Sprite.fromImage = function(imageId)
 	return new PIXI.Sprite(texture);
 }
 
+
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
@@ -604,6 +744,20 @@ PIXI.MovieClip = function(textures)
 	 * @type Number
 	 */
 	this.animationSpeed = 1;
+
+	/**
+	 * Whether or not the movie clip repeats after playing.
+	 * @property loop
+	 * @type Boolean
+	 */
+	this.loop = true;
+
+	/**
+	 * Function to call when a MovieClip finishes playing
+	 * @property onComplete
+	 * @type Function
+	 */
+	this.onComplete = null;
 	
 	/**
 	 * [read only] indicates if the MovieClip is currently playing
@@ -667,8 +821,169 @@ PIXI.MovieClip.prototype.updateTransform = function()
 	
 	this.currentFrame += this.animationSpeed;
 	var round = (this.currentFrame + 0.5) | 0;
-	this.setTexture(this.textures[round % this.textures.length]);
-}/**
+	if(this.loop || round < this.textures.length)
+	{
+		this.setTexture(this.textures[round % this.textures.length]);
+	}
+	else if(round >= this.textures.length)
+	{
+		this.gotoAndStop(this.textures.length - 1);
+		if(this.onComplete)
+		{
+			this.onComplete();
+		}
+	}
+}
+/**
+ * @author Mat Groves http://matgroves.com/ @Doormat23
+ */
+
+/**
+ * A Text Object will create a line of text
+ * @class Text
+ * @extends Sprite
+ * @constructor
+ * @param text {String} The copy that you would like the text to display
+ * @param fontStyle {String} the style and size of the font eg "bold 20px Arial"
+ * @param fillStyle {Object} a canvas fillstyle that will be used on the text eg "red", "#00FF00" can also be null
+ * @param strokeStyle {String} a canvas fillstyle that will be used on the text stroke eg "blue", "#FCFF00" can also be null
+ * @param strokeThickness {Number} A number that represents the thicknes of the stroke. default is 0 (no stroke)
+ */
+PIXI.Text = function(text, fontStyle, fillStyle, strokeStyle, strokeThickness)
+{
+	this.canvas = document.createElement("canvas");
+	
+	this.context = this.canvas.getContext("2d");
+	//document.body.appendChild(this.canvas);
+	this.setText(text);
+	this.setStyle(fontStyle, fillStyle, strokeStyle, strokeThickness);
+	
+	this.updateText();
+	
+	PIXI.Sprite.call( this, PIXI.Texture.fromCanvas(this.canvas));
+	
+	// need to store a canvas that can
+}
+
+// constructor
+PIXI.Text.constructor = PIXI.Text;
+PIXI.Text.prototype = Object.create( PIXI.Sprite.prototype );
+
+/**
+ * Set the copy for the text object
+ * @methos setText
+ * @param text {String} The copy that you would like the text to display
+ */
+PIXI.Text.prototype.setText = function(text)
+{
+	this.text = text || " ";
+	this.dirty = true;
+}
+
+/**
+ * Set the style of the text
+ * @method setStyle
+ * @constructor
+ * @param fontStyle {String} the style and size of the font eg "bold 20px Arial"
+ * @param fillStyle {Object} a canvas fillstyle that will be used on the text eg "red", "#00FF00" can also be null
+ * @param strokeStyle {String} a canvas fillstyle that will be used on the text stroke eg "blue", "#FCFF00" can also be null
+ * @param strokeThickness {Number} A number that represents the thicknes of the stroke. default is 0 (no stroke)
+ */
+PIXI.Text.prototype.setStyle = function(fontStyle, fillStyle, strokeStyle, strokeThickness)
+{
+	this.fontStyle = fontStyle || "bold 20pt Arial";
+	this.fillStyle = fillStyle;
+	this.strokeStyle = strokeStyle;
+	this.strokeThickness = strokeThickness || 0;
+	
+	this.dirty = true;
+}
+
+/**
+ * @private
+ */
+PIXI.Text.prototype.updateText = function()
+{
+//	console.log(this.text);
+	this.context.font = this.fontStyle;
+		
+	this.canvas.width = this.context.measureText(this.text).width + this.strokeThickness//textDimensions.width;
+	this.canvas.height = this.determineFontHeight("font: " + this.fontStyle  + ";")+ this.strokeThickness;// textDimensions.height;
+
+	this.context.fillStyle = this.fillStyle;
+	this.context.font = this.fontStyle;
+	
+    this.context.strokeStyle = this.strokeStyle;
+	this.context.lineWidth = this.strokeThickness;
+
+	this.context.textBaseline="top"; 
+
+    if(this.strokeStyle && this.strokeThickness)this.context.strokeText(this.text,  this.strokeThickness/2, this.strokeThickness/2);
+	if(this.fillStyle)this.context.fillText(this.text,  this.strokeThickness/2, this.strokeThickness/2);
+	
+	
+//	console.log("//")
+}
+
+PIXI.Text.prototype.updateTransform = function()
+{
+	if(this.dirty)
+	{
+		this.updateText();	
+		
+		// update the texture..
+		this.texture.baseTexture.width = this.canvas.width;
+		this.texture.baseTexture.height = this.canvas.height;
+		this.texture.frame.width = this.canvas.width;
+		this.texture.frame.height = this.canvas.height;
+		
+		PIXI.texturesToUpdate.push(this.texture.baseTexture);
+		this.dirty = false;
+	}
+	
+	PIXI.Sprite.prototype.updateTransform.call( this );
+}
+
+/*
+ * http://stackoverflow.com/users/34441/ellisbben
+ * great solution to the problem!
+ */
+PIXI.Text.prototype.determineFontHeight = function(fontStyle) 
+{
+	// build a little refference dictionary so if the font style has been used return a
+	// cached version...
+	var result = PIXI.Text.heightCache[fontStyle]
+	
+	if(!result)
+	{
+		var body = document.getElementsByTagName("body")[0];
+		var dummy = document.createElement("div");
+		var dummyText = document.createTextNode("M");
+		dummy.appendChild(dummyText);
+		dummy.setAttribute("style", fontStyle);
+		body.appendChild(dummy);
+		
+		result = dummy.offsetHeight;
+		PIXI.Text.heightCache[fontStyle] = result
+		
+		body.removeChild(dummy);
+	}
+	
+	return result;
+};
+
+PIXI.Text.prototype.destroy = function(destroyTexture)
+{
+	if(destroyTexture)
+	{
+		this.texture.destroy();
+	}
+		
+}
+
+PIXI.Text.heightCache = {};
+
+/**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
 
@@ -693,7 +1008,7 @@ PIXI.InteractionManager = function(stage)
 
 	// helpers
 	this.tempPoint = new PIXI.Point();
-	this.tempMatrix =  mat3.create();
+	//this.tempMatrix =  mat3.create();
 	
 	this.mouseoverEnabled = true;
 	
@@ -715,135 +1030,153 @@ PIXI.InteractionManager = function(stage)
 	this.pool = [];
 	
 	this.interactiveItems = [];
+
+	this.last = 0;
 }
 
 // constructor
 PIXI.InteractionManager.constructor = PIXI.InteractionManager;
 
-/**
- * This method will disable rollover/rollout for ALL interactive items
- * You may wish to use this an optimization if your app does not require rollover/rollout funcitonality
- * @method disableMouseOver
- */
-PIXI.InteractionManager.prototype.disableMouseOver = function()
-{
-	if(!this.mouseoverEnabled)return;
-	
-	this.mouseoverEnabled = false;
-	if(this.target)this.target.view.removeEventListener('mousemove',  this.onMouseMove.bind(this));
-}
-
-/**
- * This method will enable rollover/rollout for ALL interactive items
- * It is enabled by default
- * @method enableMouseOver
- */
-PIXI.InteractionManager.prototype.enableMouseOver = function()
-{
-	if(this.mouseoverEnabled)return;
-	
-	this.mouseoverEnabled = false;
-	if(this.target)this.target.view.addEventListener('mousemove',  this.onMouseMove.bind(this));
-}
-
-PIXI.InteractionManager.prototype.collectInteractiveSprite = function(displayObject)
+PIXI.InteractionManager.prototype.collectInteractiveSprite = function(displayObject, iParent)
 {
 	var children = displayObject.children;
 	var length = children.length;
 	
-	for (var i = length - 1; i >= 0; i--)
+	//this.interactiveItems = [];
+	/// make an interaction tree... {item.__interactiveParent}
+	for (var i = length-1; i >= 0; i--)
 	{
 		var child = children[i];
 		
-		// only sprite's right now...
-		if(child instanceof PIXI.Sprite)
+		// push all interactive bits
+		if(child.interactive)
 		{
-			if(child.interactive)this.interactiveItems.push(child);
+			iParent.interactiveChildren = true;
+			//child.__iParent = iParent;
+			this.interactiveItems.push(child);
+			
+			if(child.children.length > 0)
+			{
+				this.collectInteractiveSprite(child, child);
+			}
 		}
 		else
 		{
-			// use this to optimize..
-			if(!child.interactive)continue;
-		}
-		
-		if(child.children.length > 0)
-		{
-			this.collectInteractiveSprite(child);
+			child.__iParent = null;
+			
+			if(child.children.length > 0)
+			{
+				this.collectInteractiveSprite(child, iParent);
+			}
 		}
 	}
 }
 
 PIXI.InteractionManager.prototype.setTarget = function(target)
 {
-	this.target = target;
-	if(this.mouseoverEnabled)target.view.addEventListener('mousemove',  this.onMouseMove.bind(this), true);
-	target.view.addEventListener('mousedown',  this.onMouseDown.bind(this), true);
- 	target.view.addEventListener('mouseup', 	this.onMouseUp.bind(this), true);
- 	target.view.addEventListener('mouseout', 	this.onMouseUp.bind(this), true);
+	if (window.navigator.msPointerEnabled) 
+	{
+		// time to remove some of that zoom in ja..
+		target.view.style["-ms-content-zooming"] = "none";
+    	target.view.style["-ms-touch-action"] = "none"
+    
+		// DO some window specific touch!
+	}
 	
-	// aint no multi touch just yet!
-	target.view.addEventListener("touchstart", this.onTouchStart.bind(this), true);
-	target.view.addEventListener("touchend", this.onTouchEnd.bind(this), true);
-	target.view.addEventListener("touchmove", this.onTouchMove.bind(this), true);
+	
+	{
+		
+		this.target = target;
+		target.view.addEventListener('mousemove',  this.onMouseMove.bind(this), true);
+		target.view.addEventListener('mousedown',  this.onMouseDown.bind(this), true);
+	 	document.body.addEventListener('mouseup',  this.onMouseUp.bind(this), true);
+	 	target.view.addEventListener('mouseout',   this.onMouseUp.bind(this), true);
+		
+		// aint no multi touch just yet!
+		target.view.addEventListener("touchstart", this.onTouchStart.bind(this), true);
+		target.view.addEventListener("touchend", this.onTouchEnd.bind(this), true);
+		target.view.addEventListener("touchmove", this.onTouchMove.bind(this), true);
+	}
+	
+	
+	
 }
 
-PIXI.InteractionManager.prototype.hitTest = function(interactionData)
+PIXI.InteractionManager.prototype.update = function()
 {
+	// frequency of 30fps??
+	var now = Date.now();
+	var diff = now - this.last;
+	diff = (diff * 30) / 1000;
+	if(diff < 1)return;
+	this.last = now;
+	//
+	
+	// ok.. so mouse events??
+	// yes for now :)
+	// OPTIMSE - how often to check??
 	if(this.dirty)
 	{
 		this.dirty = false;
+		
+		var len = this.interactiveItems.length;
+		
+		for (var i=0; i < this.interactiveItems.length; i++) {
+		  this.interactiveItems[i].interactiveChildren = false;
+		}
+		
 		this.interactiveItems = [];
+		
+		if(this.stage.interactive)this.interactiveItems.push(this.stage);
 		// go through and collect all the objects that are interactive..
-		this.collectInteractiveSprite(this.stage);
+		this.collectInteractiveSprite(this.stage, this.stage);
 	}
 	
-	var tempPoint = this.tempPoint;
-	var tempMatrix = this.tempMatrix;
-	var global = interactionData.global;
-	
+	// loop through interactive objects!
 	var length = this.interactiveItems.length;
 	
+	if(this.target)this.target.view.style.cursor = "default";	
+				
 	for (var i = 0; i < length; i++)
 	{
 		var item = this.interactiveItems[i];
 		if(!item.visible)continue;
 		
-		// TODO this could do with some optimizing!
-		// maybe store the inverse?
-		// or do a lazy check first?
-		//mat3.inverse(item.worldTransform, tempMatrix);
-		//tempPoint.x = tempMatrix[0] * global.x + tempMatrix[1] * global.y + tempMatrix[2]; 
-		//tempPoint.y = tempMatrix[4] * global.y + tempMatrix[3] * global.x + tempMatrix[5];
-	
-		// OPTIMIZED! assuming the matrix transform is affine.. which it totally shold be!
+		// OPTIMISATION - only calculate every time if the mousemove function exists..
+		// OK so.. does the object have any other interactive functions?
+		// hit-test the clip!
 		
-		var worldTransform = item.worldTransform;
 		
-		var a00 = worldTransform[0], a01 = worldTransform[1], a02 = worldTransform[2],
-            a10 = worldTransform[3], a11 = worldTransform[4], a12 = worldTransform[5],
-            id = 1 / (a00 * a11 + a01 * -a10);
-		
-		tempPoint.x = a11 * id * global.x + -a01 * id * global.y + (a12 * a01 - a02 * a11) * id; 
-		tempPoint.y = a00 * id * global.y + -a10 * id * global.x + (-a12 * a00 + a02 * a10) * id;
-		
-			
-		var x1 = -item.width * item.anchor.x
-		
-		if(tempPoint.x > x1 && tempPoint.x < x1 + item.width)
+		if(item.mouseover || item.mouseout || item.buttonMode)
 		{
-			var y1 = -item.height * item.anchor.y;
-			
-			if(tempPoint.y > y1 && tempPoint.y < y1 + item.height)
+			// ok so there are some functions so lets hit test it..
+			item.__hit = this.hitTest(item, this.mouse);
+			// ok so deal with interactions..
+			// loks like there was a hit!
+			if(item.__hit)
 			{
-				interactionData.local.x = tempPoint.x;
-				interactionData.local.y = tempPoint.y;
+				if(item.buttonMode)this.target.view.style.cursor = "pointer";	
 				
-				return item;
+				if(!item.__isOver)
+				{
+					
+					if(item.mouseover)item.mouseover(this.mouse);
+					item.__isOver = true;	
+				}
+			}
+			else
+			{
+				if(item.__isOver)
+				{
+					// roll out!
+					if(item.mouseout)item.mouseout(this.mouse);
+					item.__isOver = false;	
+				}
 			}
 		}
-	}
 		
-	return null;	
+		// --->
+	}
 }
 
 PIXI.InteractionManager.prototype.onMouseMove = function(event)
@@ -856,65 +1189,176 @@ PIXI.InteractionManager.prototype.onMouseMove = function(event)
 	this.mouse.global.x = (event.clientX - rect.left) * (this.target.width / rect.width);
 	this.mouse.global.y = (event.clientY - rect.top) * ( this.target.height / rect.height);
 	
-	var item = this.hitTest(this.mouse);
+	var length = this.interactiveItems.length;
+	var global = this.mouse.global;
 	
-	if(this.currentOver != item)
+	
+	for (var i = 0; i < length; i++)
 	{
-		if(this.currentOver)
+		var item = this.interactiveItems[i];
+		
+		if(item.mousemove)
 		{
-			this.mouse.target = this.currentOver;
-			if(this.currentOver.mouseout)this.currentOver.mouseout(this.mouse);
-			this.currentOver = null;
+			//call the function!
+			item.mousemove(this.mouse);
 		}
-		
-		this.target.view.style.cursor = "default";
-	}
-		
-	if(item)
-	{
-		
-		if(this.currentOver == item)return;
-		
-		this.currentOver = item;
-		this.target.view.style.cursor = "pointer";
-		this.mouse.target = item;
-		if(item.mouseover)item.mouseover(this.mouse);
 	}
 }
 
 PIXI.InteractionManager.prototype.onMouseDown = function(event)
 {
-	var rect = this.target.view.getBoundingClientRect();
-	this.mouse.global.x = (event.clientX - rect.left) * (this.target.width / rect.width);
-	this.mouse.global.y = (event.clientY - rect.top) * (this.target.height / rect.height);
+	event.preventDefault();
 	
-	var item = this.hitTest(this.mouse);
-	if(item)
+	// loop through inteaction tree...
+	// hit test each item! -> 
+	// --->--->--->--->
+	// get interactive items under point??
+	// --->--->--->--->
+	//stage.__i
+	var length = this.interactiveItems.length;
+	var global = this.mouse.global;
+	
+	var index = 0;
+	var parent = this.stage;
+	
+	// while 
+	// hit test 
+	for (var i = 0; i < length; i++)
 	{
-		this.currentDown = item;
-		this.mouse.target = item;
-		if(item.mousedown)item.mousedown(this.mouse);
+		var item = this.interactiveItems[i];
+		
+		if(item.mousedown || item.click)
+		{
+			item.__mouseIsDown = true;
+			item.__hit = this.hitTest(item, this.mouse);
+			
+			if(item.__hit)
+			{
+				//call the function!
+				if(item.mousedown)item.mousedown(this.mouse);
+				item.__isDown = true;
+				
+				// just the one!
+				if(!item.interactiveChildren)break;
+			}
+		}
 	}
 }
 
 PIXI.InteractionManager.prototype.onMouseUp = function(event)
 {
-	if(this.currentOver)
-	{
-		this.mouse.target = this.currentOver;
-		if(this.currentOver.mouseup)this.currentOver.mouseup(this.mouse);	
-	}
+	event.preventDefault();
+	var global = this.mouse.global;
 	
-	if(this.currentDown)
+	
+	var length = this.interactiveItems.length;
+	var up = false;
+	
+	for (var i = 0; i < length; i++)
 	{
-		this.mouse.target = this.currentDown;
-		// click!
-		if(this.currentOver == this.currentDown)if(this.currentDown.click)this.currentDown.click(this.mouse);
+		var item = this.interactiveItems[i];
 		
-	
-		this.currentDown = null;
+		if(item.mouseup || item.mouseupoutside || item.click)
+		{
+			item.__hit = this.hitTest(item, this.mouse);
+			
+			if(item.__hit && !up)
+			{
+				//call the function!
+				if(item.mouseup)
+				{
+					item.mouseup(this.mouse);
+				}
+				if(item.__isDown)
+				{
+					if(item.click)item.click(this.mouse);
+				}
+				
+				if(!item.interactiveChildren)up = true;
+			}
+			else
+			{
+				if(item.__isDown)
+				{
+					if(item.mouseupoutside)item.mouseupoutside(this.mouse);
+				}
+			}
+		
+			item.__isDown = false;	
+		}
 	}
 }
+
+PIXI.InteractionManager.prototype.hitTest = function(item, interactionData)
+{
+	var global = interactionData.global;
+	
+	if(!item.visible)return false;
+	
+	if(item instanceof PIXI.Sprite)
+	{
+		var worldTransform = item.worldTransform;
+		
+		var a00 = worldTransform[0], a01 = worldTransform[1], a02 = worldTransform[2],
+            a10 = worldTransform[3], a11 = worldTransform[4], a12 = worldTransform[5],
+            id = 1 / (a00 * a11 + a01 * -a10);
+		
+		var x = a11 * id * global.x + -a01 * id * global.y + (a12 * a01 - a02 * a11) * id; 
+		var y = a00 * id * global.y + -a10 * id * global.x + (-a12 * a00 + a02 * a10) * id;
+		
+		var width = item.texture.frame.width;
+		var height = item.texture.frame.height;
+		
+		var x1 = -width * item.anchor.x;
+		
+		if(x > x1 && x < x1 + width)
+		{
+			var y1 = -height * item.anchor.y;
+			
+			if(y > y1 && y < y1 + height)
+			{
+				// set the target property if a hit is true!
+				interactionData.target = item
+				return true;
+			}
+		}
+	}
+	else if(item.hitArea)
+	{
+		var worldTransform = item.worldTransform;
+		var hitArea = item.hitArea;
+		
+		var a00 = worldTransform[0], a01 = worldTransform[1], a02 = worldTransform[2],
+            a10 = worldTransform[3], a11 = worldTransform[4], a12 = worldTransform[5],
+            id = 1 / (a00 * a11 + a01 * -a10);
+		
+		var x = a11 * id * global.x + -a01 * id * global.y + (a12 * a01 - a02 * a11) * id; 
+		var y = a00 * id * global.y + -a10 * id * global.x + (-a12 * a00 + a02 * a10) * id;
+		
+		var x1 = hitArea.x;
+		if(x > x1 && x < x1 + hitArea.width)
+		{
+			var y1 = hitArea.y;
+			
+			if(y > y1 && y < y1 + hitArea.height)
+			{
+				return true;
+			}
+		}
+	}
+	
+	var length = item.children.length;
+	
+	for (var i = 0; i < length; i++)
+	{
+		var tempItem = item.children[i];
+		var hit = this.hitTest(tempItem, interactionData);
+		if(hit)return true;
+	}
+		
+	return false;	
+}
+
 
 
 PIXI.InteractionManager.prototype.onTouchMove = function(event)
@@ -927,12 +1371,18 @@ PIXI.InteractionManager.prototype.onTouchMove = function(event)
 	for (var i=0; i < changedTouches.length; i++) 
 	{
 		var touchEvent = changedTouches[i];
-		
 		var touchData = this.touchs[touchEvent.identifier];
 		
 		// update the touch position
 		touchData.global.x = (touchEvent.clientX - rect.left) * (this.target.width / rect.width);
 		touchData.global.y = (touchEvent.clientY - rect.top)  * (this.target.height / rect.height);
+	}
+	
+	var length = this.interactiveItems.length;
+	for (var i = 0; i < length; i++)
+	{
+		var item = this.interactiveItems[i];
+		if(item.touchmove)item.touchmove(touchData);
 	}
 }
 
@@ -940,8 +1390,8 @@ PIXI.InteractionManager.prototype.onTouchStart = function(event)
 {
 	event.preventDefault();
 	var rect = this.target.view.getBoundingClientRect();
-	var changedTouches = event.changedTouches;
 	
+	var changedTouches = event.changedTouches;
 	for (var i=0; i < changedTouches.length; i++) 
 	{
 		var touchEvent = changedTouches[i];
@@ -950,47 +1400,95 @@ PIXI.InteractionManager.prototype.onTouchStart = function(event)
 		if(!touchData)touchData = new PIXI.InteractionData();
 		
 		this.touchs[touchEvent.identifier] = touchData;
-		
 		touchData.global.x = (touchEvent.clientX - rect.left) * (this.target.width / rect.width);
 		touchData.global.y = (touchEvent.clientY - rect.top)  * (this.target.height / rect.height);
 		
-		var item = this.hitTest(touchData);
-		if(item)
+		var length = this.interactiveItems.length;
+		
+		for (var j = 0; j < length; j++)
 		{
-			touchData.currentDown = item;
-			touchData.target = item;
-			if(item.touchstart)item.touchstart(touchData);
+			var item = this.interactiveItems[j];
+			
+			if(item.touchstart || item.tap)
+			{
+				item.__hit = this.hitTest(item, touchData);
+				
+				if(item.__hit)
+				{
+					//call the function!
+					if(item.touchstart)item.touchstart(touchData);
+					item.__isDown = true;
+					item.__touchData = touchData;
+					
+					if(!item.interactiveChildren)break;
+				}
+			}
 		}
 	}
+	
 }
 
 PIXI.InteractionManager.prototype.onTouchEnd = function(event)
 {
 	event.preventDefault();
 	
+	
 	var rect = this.target.view.getBoundingClientRect();
 	var changedTouches = event.changedTouches;
 	
 	for (var i=0; i < changedTouches.length; i++) 
 	{
+		 
 		var touchEvent = changedTouches[i];
 		var touchData = this.touchs[touchEvent.identifier];
-		
+		var up = false;
 		touchData.global.x = (touchEvent.clientX - rect.left) * (this.target.width / rect.width);
 		touchData.global.y = (touchEvent.clientY - rect.top)  * (this.target.height / rect.height);
 		
-		if(touchData.currentDown)
+		var length = this.interactiveItems.length;
+		for (var j = 0; j < length; j++)
 		{
-			if(touchData.currentDown.touchend)touchData.currentDown.touchend(touchData);
-			
-			var item = this.hitTest(touchData);
-			if(item == touchData.currentDown)
-			{
-				if(touchData.currentDown.tap)touchData.currentDown.tap(touchData);	
-			}
-			touchData.currentDown = null;
-		}
+			var item = this.interactiveItems[j];
+			var itemTouchData = item.__touchData; // <-- Here!
+			item.__hit = this.hitTest(item, touchData);
 		
+			if(itemTouchData == touchData)
+			{
+				// so this one WAS down...
+				
+				// hitTest??
+				
+				if(item.touchend || item.tap)
+				{
+					if(item.__hit && !up)
+					{
+						if(item.touchend)item.touchend(touchData);
+						if(item.__isDown)
+						{
+							if(item.tap)item.tap(touchData);
+						}
+						
+						if(!item.interactiveChildren)up = true;
+					}
+					else
+					{
+						if(item.__isDown)
+						{
+							if(item.touchendoutside)item.touchendoutside(touchData);
+						}
+					}
+					
+					item.__isDown = false;
+				}
+				
+				item.__touchData = null;
+					
+			}
+			else
+			{
+				
+			}
+		}
 		// remove the touch..
 		this.pool.push(touchData);
 		this.touchs[touchEvent.identifier] = null;
@@ -1010,11 +1508,7 @@ PIXI.InteractionData = function()
 	 */
 	this.global = new PIXI.Point();
 	
-	/**
-	 * This point stores the local coords of where the touch/mouse event happened
-	 * @property local 
-	 * @type Point
-	 */
+	// this is here for legacy... but will remove
 	this.local = new PIXI.Point();
 
 	/**
@@ -1025,8 +1519,29 @@ PIXI.InteractionData = function()
 	this.target;
 }
 
+/**
+ * This will return the local coords of the specified displayObject for this InteractionData
+ * @method getLocalPosition
+ * @param displayObject {DisplayObject} The DisplayObject that you would like the local coords off
+ * @return {Point} A point containing the coords of the InteractionData position relative to the DisplayObject
+ */
+PIXI.InteractionData.prototype.getLocalPosition = function(displayObject)
+{
+	var worldTransform = displayObject.worldTransform;
+	var global = this.global;
+	
+	// do a cheeky transform to get the mouse coords;
+	var a00 = worldTransform[0], a01 = worldTransform[1], a02 = worldTransform[2],
+        a10 = worldTransform[3], a11 = worldTransform[4], a12 = worldTransform[5],
+        id = 1 / (a00 * a11 + a01 * -a10);
+	// set the mouse coords...
+	return new PIXI.Point(a11 * id * global.x + -a01 * id * global.y + (a12 * a01 - a02 * a11) * id,
+							   a00 * id * global.y + -a10 * id * global.x + (-a12 * a00 + a02 * a10) * id)
+}
+
 // constructor
 PIXI.InteractionData.constructor = PIXI.InteractionData;
+
 
 
 /**
@@ -1045,11 +1560,13 @@ PIXI.Stage = function(backgroundColor, interactive)
 {
 	
 	PIXI.DisplayObjectContainer.call( this );
-	this.worldTransform = mat3.identity();
+	this.worldTransform = PIXI.mat3.create()//.//identity();
 	this.__childrenAdded = [];
 	this.__childrenRemoved = [];
 	this.childIndex = 0;
-	this.stage=  this;
+	this.stage= this;
+	
+	this.stage.hitArea = new PIXI.Rectangle(0,0,100000, 100000);
 	
 	// interaction!
 	this.interactive = !!interactive;
@@ -1079,12 +1596,11 @@ PIXI.Stage.prototype.updateTransform = function()
 	if(this.dirty)
 	{
 		this.dirty = false;
-		
 		// update interactive!
 		this.interactionManager.dirty = true;
-		
-		
 	}
+
+	if(this.interactive)this.interactionManager.update();
 }
 
 /**
@@ -1096,6 +1612,16 @@ PIXI.Stage.prototype.setBackgroundColor = function(backgroundColor)
 	this.backgroundColor = backgroundColor || 0x000000;
 	this.backgroundColorSplit = HEXtoRGB(this.backgroundColor);
 	this.backgroundColorString =  "#" + this.backgroundColor.toString(16);
+}
+
+/**
+ * This will return the point containing global coords of the mouse.
+ * @method getMousePosition
+ * @return {Point} The point containing the coords of the global InteractionData position.
+ */
+PIXI.Stage.prototype.getMousePosition = function()
+{
+	return this.interactionManager.mouse.global;
 }
 
 PIXI.Stage.prototype.__addChild = function(child)
@@ -1131,6 +1657,7 @@ PIXI.Stage.prototype.__removeChild = function(child)
 		}
 	}
 }
+
 /**
  * Provides requestAnimationFrame in a cross browser way.
  */
@@ -1207,6 +1734,7 @@ var AjaxRequest = function()
 
 
 
+
 /**
  * https://github.com/mrdoob/eventtarget.js/
  * THankS mr DOob!
@@ -1216,7 +1744,7 @@ PIXI.EventTarget = function () {
 
 	var listeners = {};
 	
-	this.addEventListener = function ( type, listener ) {
+	this.addEventListener = this.on = function ( type, listener ) {
 		
 		
 		if ( listeners[ type ] === undefined ) {
@@ -1232,7 +1760,7 @@ PIXI.EventTarget = function () {
 
 	};
 
-	this.dispatchEvent = function ( event ) {
+	this.dispatchEvent = this.emit = function ( event ) {
 		
 		for ( var listener in listeners[ event.type ] ) {
 
@@ -1242,7 +1770,7 @@ PIXI.EventTarget = function () {
 
 	};
 
-	this.removeEventListener = function ( type, listener ) {
+	this.removeEventListener = this.off = function ( type, listener ) {
 
 		var index = listeners[ type ].indexOf( listener );
 
@@ -1255,53 +1783,241 @@ PIXI.EventTarget = function () {
 	};
 
 };
-// gl-matrix 1.3.7 - https://github.com/toji/gl-matrix/blob/master/LICENSE.md
-(function(w,D){"object"===typeof exports?module.exports=D(global):"function"===typeof define&&define.amd?define([],function(){return D(w)}):D(w)})(this,function(w){function D(a){return o=a}function G(){return o="undefined"!==typeof Float32Array?Float32Array:Array}var E={};(function(){if("undefined"!=typeof Float32Array){var a=new Float32Array(1),b=new Int32Array(a.buffer);E.invsqrt=function(c){a[0]=c;b[0]=1597463007-(b[0]>>1);var d=a[0];return d*(1.5-0.5*c*d*d)}}else E.invsqrt=function(a){return 1/
-Math.sqrt(a)}})();var o=null;G();var r={create:function(a){var b=new o(3);a?(b[0]=a[0],b[1]=a[1],b[2]=a[2]):b[0]=b[1]=b[2]=0;return b},createFrom:function(a,b,c){var d=new o(3);d[0]=a;d[1]=b;d[2]=c;return d},set:function(a,b){b[0]=a[0];b[1]=a[1];b[2]=a[2];return b},equal:function(a,b){return a===b||1.0E-6>Math.abs(a[0]-b[0])&&1.0E-6>Math.abs(a[1]-b[1])&&1.0E-6>Math.abs(a[2]-b[2])},add:function(a,b,c){if(!c||a===c)return a[0]+=b[0],a[1]+=b[1],a[2]+=b[2],a;c[0]=a[0]+b[0];c[1]=a[1]+b[1];c[2]=a[2]+b[2];
-return c},subtract:function(a,b,c){if(!c||a===c)return a[0]-=b[0],a[1]-=b[1],a[2]-=b[2],a;c[0]=a[0]-b[0];c[1]=a[1]-b[1];c[2]=a[2]-b[2];return c},multiply:function(a,b,c){if(!c||a===c)return a[0]*=b[0],a[1]*=b[1],a[2]*=b[2],a;c[0]=a[0]*b[0];c[1]=a[1]*b[1];c[2]=a[2]*b[2];return c},negate:function(a,b){b||(b=a);b[0]=-a[0];b[1]=-a[1];b[2]=-a[2];return b},scale:function(a,b,c){if(!c||a===c)return a[0]*=b,a[1]*=b,a[2]*=b,a;c[0]=a[0]*b;c[1]=a[1]*b;c[2]=a[2]*b;return c},normalize:function(a,b){b||(b=a);var c=
-a[0],d=a[1],e=a[2],g=Math.sqrt(c*c+d*d+e*e);if(!g)return b[0]=0,b[1]=0,b[2]=0,b;if(1===g)return b[0]=c,b[1]=d,b[2]=e,b;g=1/g;b[0]=c*g;b[1]=d*g;b[2]=e*g;return b},cross:function(a,b,c){c||(c=a);var d=a[0],e=a[1],a=a[2],g=b[0],f=b[1],b=b[2];c[0]=e*b-a*f;c[1]=a*g-d*b;c[2]=d*f-e*g;return c},length:function(a){var b=a[0],c=a[1],a=a[2];return Math.sqrt(b*b+c*c+a*a)},squaredLength:function(a){var b=a[0],c=a[1],a=a[2];return b*b+c*c+a*a},dot:function(a,b){return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]},direction:function(a,
-b,c){c||(c=a);var d=a[0]-b[0],e=a[1]-b[1],a=a[2]-b[2],b=Math.sqrt(d*d+e*e+a*a);if(!b)return c[0]=0,c[1]=0,c[2]=0,c;b=1/b;c[0]=d*b;c[1]=e*b;c[2]=a*b;return c},lerp:function(a,b,c,d){d||(d=a);d[0]=a[0]+c*(b[0]-a[0]);d[1]=a[1]+c*(b[1]-a[1]);d[2]=a[2]+c*(b[2]-a[2]);return d},dist:function(a,b){var c=b[0]-a[0],d=b[1]-a[1],e=b[2]-a[2];return Math.sqrt(c*c+d*d+e*e)}},H=null,y=new o(4);r.unproject=function(a,b,c,d,e){e||(e=a);H||(H=x.create());var g=H;y[0]=2*(a[0]-d[0])/d[2]-1;y[1]=2*(a[1]-d[1])/d[3]-1;y[2]=
-2*a[2]-1;y[3]=1;x.multiply(c,b,g);if(!x.inverse(g))return null;x.multiplyVec4(g,y);if(0===y[3])return null;e[0]=y[0]/y[3];e[1]=y[1]/y[3];e[2]=y[2]/y[3];return e};var L=r.createFrom(1,0,0),M=r.createFrom(0,1,0),N=r.createFrom(0,0,1),z=r.create();r.rotationTo=function(a,b,c){c||(c=k.create());var d=r.dot(a,b);if(1<=d)k.set(O,c);else if(-0.999999>d)r.cross(L,a,z),1.0E-6>r.length(z)&&r.cross(M,a,z),1.0E-6>r.length(z)&&r.cross(N,a,z),r.normalize(z),k.fromAngleAxis(Math.PI,z,c);else{var d=Math.sqrt(2*(1+
-d)),e=1/d;r.cross(a,b,z);c[0]=z[0]*e;c[1]=z[1]*e;c[2]=z[2]*e;c[3]=0.5*d;k.normalize(c)}1<c[3]?c[3]=1:-1>c[3]&&(c[3]=-1);return c};r.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+"]"};var A={create:function(a){var b=new o(9);a?(b[0]=a[0],b[1]=a[1],b[2]=a[2],b[3]=a[3],b[4]=a[4],b[5]=a[5],b[6]=a[6],b[7]=a[7],b[8]=a[8]):b[0]=b[1]=b[2]=b[3]=b[4]=b[5]=b[6]=b[7]=b[8]=0;return b},createFrom:function(a,b,c,d,e,g,f,h,j){var i=new o(9);i[0]=a;i[1]=b;i[2]=c;i[3]=d;i[4]=e;i[5]=g;i[6]=f;i[7]=h;i[8]=j;return i},
-determinant:function(a){var b=a[3],c=a[4],d=a[5],e=a[6],g=a[7],f=a[8];return a[0]*(f*c-d*g)+a[1]*(-f*b+d*e)+a[2]*(g*b-c*e)},inverse:function(a,b){var c=a[0],d=a[1],e=a[2],g=a[3],f=a[4],h=a[5],j=a[6],i=a[7],m=a[8],l=m*f-h*i,C=-m*g+h*j,q=i*g-f*j,n=c*l+d*C+e*q;if(!n)return null;n=1/n;b||(b=A.create());b[0]=l*n;b[1]=(-m*d+e*i)*n;b[2]=(h*d-e*f)*n;b[3]=C*n;b[4]=(m*c-e*j)*n;b[5]=(-h*c+e*g)*n;b[6]=q*n;b[7]=(-i*c+d*j)*n;b[8]=(f*c-d*g)*n;return b},multiply:function(a,b,c){c||(c=a);var d=a[0],e=a[1],g=a[2],
-f=a[3],h=a[4],j=a[5],i=a[6],m=a[7],a=a[8],l=b[0],C=b[1],q=b[2],n=b[3],k=b[4],p=b[5],o=b[6],s=b[7],b=b[8];c[0]=l*d+C*f+q*i;c[1]=l*e+C*h+q*m;c[2]=l*g+C*j+q*a;c[3]=n*d+k*f+p*i;c[4]=n*e+k*h+p*m;c[5]=n*g+k*j+p*a;c[6]=o*d+s*f+b*i;c[7]=o*e+s*h+b*m;c[8]=o*g+s*j+b*a;return c},multiplyVec2:function(a,b,c){c||(c=b);var d=b[0],b=b[1];c[0]=d*a[0]+b*a[3]+a[6];c[1]=d*a[1]+b*a[4]+a[7];return c},multiplyVec3:function(a,b,c){c||(c=b);var d=b[0],e=b[1],b=b[2];c[0]=d*a[0]+e*a[3]+b*a[6];c[1]=d*a[1]+e*a[4]+b*a[7];c[2]=
-d*a[2]+e*a[5]+b*a[8];return c},set:function(a,b){b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=a[3];b[4]=a[4];b[5]=a[5];b[6]=a[6];b[7]=a[7];b[8]=a[8];return b},equal:function(a,b){return a===b||1.0E-6>Math.abs(a[0]-b[0])&&1.0E-6>Math.abs(a[1]-b[1])&&1.0E-6>Math.abs(a[2]-b[2])&&1.0E-6>Math.abs(a[3]-b[3])&&1.0E-6>Math.abs(a[4]-b[4])&&1.0E-6>Math.abs(a[5]-b[5])&&1.0E-6>Math.abs(a[6]-b[6])&&1.0E-6>Math.abs(a[7]-b[7])&&1.0E-6>Math.abs(a[8]-b[8])},identity:function(a){a||(a=A.create());a[0]=1;a[1]=0;a[2]=0;a[3]=0;
-a[4]=1;a[5]=0;a[6]=0;a[7]=0;a[8]=1;return a},transpose:function(a,b){if(!b||a===b){var c=a[1],d=a[2],e=a[5];a[1]=a[3];a[2]=a[6];a[3]=c;a[5]=a[7];a[6]=d;a[7]=e;return a}b[0]=a[0];b[1]=a[3];b[2]=a[6];b[3]=a[1];b[4]=a[4];b[5]=a[7];b[6]=a[2];b[7]=a[5];b[8]=a[8];return b},toMat4:function(a,b){b||(b=x.create());b[15]=1;b[14]=0;b[13]=0;b[12]=0;b[11]=0;b[10]=a[8];b[9]=a[7];b[8]=a[6];b[7]=0;b[6]=a[5];b[5]=a[4];b[4]=a[3];b[3]=0;b[2]=a[2];b[1]=a[1];b[0]=a[0];return b},str:function(a){return"["+a[0]+", "+a[1]+
-", "+a[2]+", "+a[3]+", "+a[4]+", "+a[5]+", "+a[6]+", "+a[7]+", "+a[8]+"]"}},x={create:function(a){var b=new o(16);a&&(b[0]=a[0],b[1]=a[1],b[2]=a[2],b[3]=a[3],b[4]=a[4],b[5]=a[5],b[6]=a[6],b[7]=a[7],b[8]=a[8],b[9]=a[9],b[10]=a[10],b[11]=a[11],b[12]=a[12],b[13]=a[13],b[14]=a[14],b[15]=a[15]);return b},createFrom:function(a,b,c,d,e,g,f,h,j,i,m,l,C,q,n,k){var p=new o(16);p[0]=a;p[1]=b;p[2]=c;p[3]=d;p[4]=e;p[5]=g;p[6]=f;p[7]=h;p[8]=j;p[9]=i;p[10]=m;p[11]=l;p[12]=C;p[13]=q;p[14]=n;p[15]=k;return p},set:function(a,
-b){b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=a[3];b[4]=a[4];b[5]=a[5];b[6]=a[6];b[7]=a[7];b[8]=a[8];b[9]=a[9];b[10]=a[10];b[11]=a[11];b[12]=a[12];b[13]=a[13];b[14]=a[14];b[15]=a[15];return b},equal:function(a,b){return a===b||1.0E-6>Math.abs(a[0]-b[0])&&1.0E-6>Math.abs(a[1]-b[1])&&1.0E-6>Math.abs(a[2]-b[2])&&1.0E-6>Math.abs(a[3]-b[3])&&1.0E-6>Math.abs(a[4]-b[4])&&1.0E-6>Math.abs(a[5]-b[5])&&1.0E-6>Math.abs(a[6]-b[6])&&1.0E-6>Math.abs(a[7]-b[7])&&1.0E-6>Math.abs(a[8]-b[8])&&1.0E-6>Math.abs(a[9]-b[9])&&1.0E-6>
-Math.abs(a[10]-b[10])&&1.0E-6>Math.abs(a[11]-b[11])&&1.0E-6>Math.abs(a[12]-b[12])&&1.0E-6>Math.abs(a[13]-b[13])&&1.0E-6>Math.abs(a[14]-b[14])&&1.0E-6>Math.abs(a[15]-b[15])},identity:function(a){a||(a=x.create());a[0]=1;a[1]=0;a[2]=0;a[3]=0;a[4]=0;a[5]=1;a[6]=0;a[7]=0;a[8]=0;a[9]=0;a[10]=1;a[11]=0;a[12]=0;a[13]=0;a[14]=0;a[15]=1;return a},transpose:function(a,b){if(!b||a===b){var c=a[1],d=a[2],e=a[3],g=a[6],f=a[7],h=a[11];a[1]=a[4];a[2]=a[8];a[3]=a[12];a[4]=c;a[6]=a[9];a[7]=a[13];a[8]=d;a[9]=g;a[11]=
-a[14];a[12]=e;a[13]=f;a[14]=h;return a}b[0]=a[0];b[1]=a[4];b[2]=a[8];b[3]=a[12];b[4]=a[1];b[5]=a[5];b[6]=a[9];b[7]=a[13];b[8]=a[2];b[9]=a[6];b[10]=a[10];b[11]=a[14];b[12]=a[3];b[13]=a[7];b[14]=a[11];b[15]=a[15];return b},determinant:function(a){var b=a[0],c=a[1],d=a[2],e=a[3],g=a[4],f=a[5],h=a[6],j=a[7],i=a[8],m=a[9],l=a[10],C=a[11],q=a[12],n=a[13],k=a[14],a=a[15];return q*m*h*e-i*n*h*e-q*f*l*e+g*n*l*e+i*f*k*e-g*m*k*e-q*m*d*j+i*n*d*j+q*c*l*j-b*n*l*j-i*c*k*j+b*m*k*j+q*f*d*C-g*n*d*C-q*c*h*C+b*n*h*C+
-g*c*k*C-b*f*k*C-i*f*d*a+g*m*d*a+i*c*h*a-b*m*h*a-g*c*l*a+b*f*l*a},inverse:function(a,b){b||(b=a);var c=a[0],d=a[1],e=a[2],g=a[3],f=a[4],h=a[5],j=a[6],i=a[7],m=a[8],l=a[9],k=a[10],q=a[11],n=a[12],o=a[13],p=a[14],r=a[15],s=c*h-d*f,v=c*j-e*f,t=c*i-g*f,u=d*j-e*h,w=d*i-g*h,x=e*i-g*j,y=m*o-l*n,z=m*p-k*n,F=m*r-q*n,A=l*p-k*o,D=l*r-q*o,E=k*r-q*p,B=s*E-v*D+t*A+u*F-w*z+x*y;if(!B)return null;B=1/B;b[0]=(h*E-j*D+i*A)*B;b[1]=(-d*E+e*D-g*A)*B;b[2]=(o*x-p*w+r*u)*B;b[3]=(-l*x+k*w-q*u)*B;b[4]=(-f*E+j*F-i*z)*B;b[5]=
-(c*E-e*F+g*z)*B;b[6]=(-n*x+p*t-r*v)*B;b[7]=(m*x-k*t+q*v)*B;b[8]=(f*D-h*F+i*y)*B;b[9]=(-c*D+d*F-g*y)*B;b[10]=(n*w-o*t+r*s)*B;b[11]=(-m*w+l*t-q*s)*B;b[12]=(-f*A+h*z-j*y)*B;b[13]=(c*A-d*z+e*y)*B;b[14]=(-n*u+o*v-p*s)*B;b[15]=(m*u-l*v+k*s)*B;return b},toRotationMat:function(a,b){b||(b=x.create());b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=a[3];b[4]=a[4];b[5]=a[5];b[6]=a[6];b[7]=a[7];b[8]=a[8];b[9]=a[9];b[10]=a[10];b[11]=a[11];b[12]=0;b[13]=0;b[14]=0;b[15]=1;return b},toMat3:function(a,b){b||(b=A.create());b[0]=
-a[0];b[1]=a[1];b[2]=a[2];b[3]=a[4];b[4]=a[5];b[5]=a[6];b[6]=a[8];b[7]=a[9];b[8]=a[10];return b},toInverseMat3:function(a,b){var c=a[0],d=a[1],e=a[2],g=a[4],f=a[5],h=a[6],j=a[8],i=a[9],m=a[10],l=m*f-h*i,k=-m*g+h*j,q=i*g-f*j,n=c*l+d*k+e*q;if(!n)return null;n=1/n;b||(b=A.create());b[0]=l*n;b[1]=(-m*d+e*i)*n;b[2]=(h*d-e*f)*n;b[3]=k*n;b[4]=(m*c-e*j)*n;b[5]=(-h*c+e*g)*n;b[6]=q*n;b[7]=(-i*c+d*j)*n;b[8]=(f*c-d*g)*n;return b},multiply:function(a,b,c){c||(c=a);var d=a[0],e=a[1],g=a[2],f=a[3],h=a[4],j=a[5],
-i=a[6],m=a[7],l=a[8],k=a[9],q=a[10],n=a[11],o=a[12],p=a[13],r=a[14],a=a[15],s=b[0],v=b[1],t=b[2],u=b[3];c[0]=s*d+v*h+t*l+u*o;c[1]=s*e+v*j+t*k+u*p;c[2]=s*g+v*i+t*q+u*r;c[3]=s*f+v*m+t*n+u*a;s=b[4];v=b[5];t=b[6];u=b[7];c[4]=s*d+v*h+t*l+u*o;c[5]=s*e+v*j+t*k+u*p;c[6]=s*g+v*i+t*q+u*r;c[7]=s*f+v*m+t*n+u*a;s=b[8];v=b[9];t=b[10];u=b[11];c[8]=s*d+v*h+t*l+u*o;c[9]=s*e+v*j+t*k+u*p;c[10]=s*g+v*i+t*q+u*r;c[11]=s*f+v*m+t*n+u*a;s=b[12];v=b[13];t=b[14];u=b[15];c[12]=s*d+v*h+t*l+u*o;c[13]=s*e+v*j+t*k+u*p;c[14]=s*g+
-v*i+t*q+u*r;c[15]=s*f+v*m+t*n+u*a;return c},multiplyVec3:function(a,b,c){c||(c=b);var d=b[0],e=b[1],b=b[2];c[0]=a[0]*d+a[4]*e+a[8]*b+a[12];c[1]=a[1]*d+a[5]*e+a[9]*b+a[13];c[2]=a[2]*d+a[6]*e+a[10]*b+a[14];return c},multiplyVec4:function(a,b,c){c||(c=b);var d=b[0],e=b[1],g=b[2],b=b[3];c[0]=a[0]*d+a[4]*e+a[8]*g+a[12]*b;c[1]=a[1]*d+a[5]*e+a[9]*g+a[13]*b;c[2]=a[2]*d+a[6]*e+a[10]*g+a[14]*b;c[3]=a[3]*d+a[7]*e+a[11]*g+a[15]*b;return c},translate:function(a,b,c){var d=b[0],e=b[1],b=b[2],g,f,h,j,i,m,l,k,q,
-n,o,p;if(!c||a===c)return a[12]=a[0]*d+a[4]*e+a[8]*b+a[12],a[13]=a[1]*d+a[5]*e+a[9]*b+a[13],a[14]=a[2]*d+a[6]*e+a[10]*b+a[14],a[15]=a[3]*d+a[7]*e+a[11]*b+a[15],a;g=a[0];f=a[1];h=a[2];j=a[3];i=a[4];m=a[5];l=a[6];k=a[7];q=a[8];n=a[9];o=a[10];p=a[11];c[0]=g;c[1]=f;c[2]=h;c[3]=j;c[4]=i;c[5]=m;c[6]=l;c[7]=k;c[8]=q;c[9]=n;c[10]=o;c[11]=p;c[12]=g*d+i*e+q*b+a[12];c[13]=f*d+m*e+n*b+a[13];c[14]=h*d+l*e+o*b+a[14];c[15]=j*d+k*e+p*b+a[15];return c},scale:function(a,b,c){var d=b[0],e=b[1],b=b[2];if(!c||a===c)return a[0]*=
-d,a[1]*=d,a[2]*=d,a[3]*=d,a[4]*=e,a[5]*=e,a[6]*=e,a[7]*=e,a[8]*=b,a[9]*=b,a[10]*=b,a[11]*=b,a;c[0]=a[0]*d;c[1]=a[1]*d;c[2]=a[2]*d;c[3]=a[3]*d;c[4]=a[4]*e;c[5]=a[5]*e;c[6]=a[6]*e;c[7]=a[7]*e;c[8]=a[8]*b;c[9]=a[9]*b;c[10]=a[10]*b;c[11]=a[11]*b;c[12]=a[12];c[13]=a[13];c[14]=a[14];c[15]=a[15];return c},rotate:function(a,b,c,d){var e=c[0],g=c[1],c=c[2],f=Math.sqrt(e*e+g*g+c*c),h,j,i,m,l,k,q,n,o,p,r,s,v,t,u,w,x,y,z,A;if(!f)return null;1!==f&&(f=1/f,e*=f,g*=f,c*=f);h=Math.sin(b);j=Math.cos(b);i=1-j;b=a[0];
-f=a[1];m=a[2];l=a[3];k=a[4];q=a[5];n=a[6];o=a[7];p=a[8];r=a[9];s=a[10];v=a[11];t=e*e*i+j;u=g*e*i+c*h;w=c*e*i-g*h;x=e*g*i-c*h;y=g*g*i+j;z=c*g*i+e*h;A=e*c*i+g*h;e=g*c*i-e*h;g=c*c*i+j;d?a!==d&&(d[12]=a[12],d[13]=a[13],d[14]=a[14],d[15]=a[15]):d=a;d[0]=b*t+k*u+p*w;d[1]=f*t+q*u+r*w;d[2]=m*t+n*u+s*w;d[3]=l*t+o*u+v*w;d[4]=b*x+k*y+p*z;d[5]=f*x+q*y+r*z;d[6]=m*x+n*y+s*z;d[7]=l*x+o*y+v*z;d[8]=b*A+k*e+p*g;d[9]=f*A+q*e+r*g;d[10]=m*A+n*e+s*g;d[11]=l*A+o*e+v*g;return d},rotateX:function(a,b,c){var d=Math.sin(b),
-b=Math.cos(b),e=a[4],g=a[5],f=a[6],h=a[7],j=a[8],i=a[9],m=a[10],l=a[11];c?a!==c&&(c[0]=a[0],c[1]=a[1],c[2]=a[2],c[3]=a[3],c[12]=a[12],c[13]=a[13],c[14]=a[14],c[15]=a[15]):c=a;c[4]=e*b+j*d;c[5]=g*b+i*d;c[6]=f*b+m*d;c[7]=h*b+l*d;c[8]=e*-d+j*b;c[9]=g*-d+i*b;c[10]=f*-d+m*b;c[11]=h*-d+l*b;return c},rotateY:function(a,b,c){var d=Math.sin(b),b=Math.cos(b),e=a[0],g=a[1],f=a[2],h=a[3],j=a[8],i=a[9],m=a[10],l=a[11];c?a!==c&&(c[4]=a[4],c[5]=a[5],c[6]=a[6],c[7]=a[7],c[12]=a[12],c[13]=a[13],c[14]=a[14],c[15]=
-a[15]):c=a;c[0]=e*b+j*-d;c[1]=g*b+i*-d;c[2]=f*b+m*-d;c[3]=h*b+l*-d;c[8]=e*d+j*b;c[9]=g*d+i*b;c[10]=f*d+m*b;c[11]=h*d+l*b;return c},rotateZ:function(a,b,c){var d=Math.sin(b),b=Math.cos(b),e=a[0],g=a[1],f=a[2],h=a[3],j=a[4],i=a[5],m=a[6],l=a[7];c?a!==c&&(c[8]=a[8],c[9]=a[9],c[10]=a[10],c[11]=a[11],c[12]=a[12],c[13]=a[13],c[14]=a[14],c[15]=a[15]):c=a;c[0]=e*b+j*d;c[1]=g*b+i*d;c[2]=f*b+m*d;c[3]=h*b+l*d;c[4]=e*-d+j*b;c[5]=g*-d+i*b;c[6]=f*-d+m*b;c[7]=h*-d+l*b;return c},frustum:function(a,b,c,d,e,g,f){f||
-(f=x.create());var h=b-a,j=d-c,i=g-e;f[0]=2*e/h;f[1]=0;f[2]=0;f[3]=0;f[4]=0;f[5]=2*e/j;f[6]=0;f[7]=0;f[8]=(b+a)/h;f[9]=(d+c)/j;f[10]=-(g+e)/i;f[11]=-1;f[12]=0;f[13]=0;f[14]=-(2*g*e)/i;f[15]=0;return f},perspective:function(a,b,c,d,e){a=c*Math.tan(a*Math.PI/360);b*=a;return x.frustum(-b,b,-a,a,c,d,e)},ortho:function(a,b,c,d,e,g,f){f||(f=x.create());var h=b-a,j=d-c,i=g-e;f[0]=2/h;f[1]=0;f[2]=0;f[3]=0;f[4]=0;f[5]=2/j;f[6]=0;f[7]=0;f[8]=0;f[9]=0;f[10]=-2/i;f[11]=0;f[12]=-(a+b)/h;f[13]=-(d+c)/j;f[14]=
--(g+e)/i;f[15]=1;return f},lookAt:function(a,b,c,d){d||(d=x.create());var e,g,f,h,j,i,m,l,k=a[0],o=a[1],a=a[2];f=c[0];h=c[1];g=c[2];m=b[0];c=b[1];e=b[2];if(k===m&&o===c&&a===e)return x.identity(d);b=k-m;c=o-c;m=a-e;l=1/Math.sqrt(b*b+c*c+m*m);b*=l;c*=l;m*=l;e=h*m-g*c;g=g*b-f*m;f=f*c-h*b;(l=Math.sqrt(e*e+g*g+f*f))?(l=1/l,e*=l,g*=l,f*=l):f=g=e=0;h=c*f-m*g;j=m*e-b*f;i=b*g-c*e;(l=Math.sqrt(h*h+j*j+i*i))?(l=1/l,h*=l,j*=l,i*=l):i=j=h=0;d[0]=e;d[1]=h;d[2]=b;d[3]=0;d[4]=g;d[5]=j;d[6]=c;d[7]=0;d[8]=f;d[9]=
-i;d[10]=m;d[11]=0;d[12]=-(e*k+g*o+f*a);d[13]=-(h*k+j*o+i*a);d[14]=-(b*k+c*o+m*a);d[15]=1;return d},fromRotationTranslation:function(a,b,c){c||(c=x.create());var d=a[0],e=a[1],g=a[2],f=a[3],h=d+d,j=e+e,i=g+g,a=d*h,m=d*j,d=d*i,k=e*j,e=e*i,g=g*i,h=f*h,j=f*j,f=f*i;c[0]=1-(k+g);c[1]=m+f;c[2]=d-j;c[3]=0;c[4]=m-f;c[5]=1-(a+g);c[6]=e+h;c[7]=0;c[8]=d+j;c[9]=e-h;c[10]=1-(a+k);c[11]=0;c[12]=b[0];c[13]=b[1];c[14]=b[2];c[15]=1;return c},str:function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+", "+a[4]+", "+
-a[5]+", "+a[6]+", "+a[7]+", "+a[8]+", "+a[9]+", "+a[10]+", "+a[11]+", "+a[12]+", "+a[13]+", "+a[14]+", "+a[15]+"]"}},k={create:function(a){var b=new o(4);a?(b[0]=a[0],b[1]=a[1],b[2]=a[2],b[3]=a[3]):b[0]=b[1]=b[2]=b[3]=0;return b},createFrom:function(a,b,c,d){var e=new o(4);e[0]=a;e[1]=b;e[2]=c;e[3]=d;return e},set:function(a,b){b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=a[3];return b},equal:function(a,b){return a===b||1.0E-6>Math.abs(a[0]-b[0])&&1.0E-6>Math.abs(a[1]-b[1])&&1.0E-6>Math.abs(a[2]-b[2])&&1.0E-6>
-Math.abs(a[3]-b[3])},identity:function(a){a||(a=k.create());a[0]=0;a[1]=0;a[2]=0;a[3]=1;return a}},O=k.identity();k.calculateW=function(a,b){var c=a[0],d=a[1],e=a[2];if(!b||a===b)return a[3]=-Math.sqrt(Math.abs(1-c*c-d*d-e*e)),a;b[0]=c;b[1]=d;b[2]=e;b[3]=-Math.sqrt(Math.abs(1-c*c-d*d-e*e));return b};k.dot=function(a,b){return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]+a[3]*b[3]};k.inverse=function(a,b){var c=a[0],d=a[1],e=a[2],g=a[3],c=(c=c*c+d*d+e*e+g*g)?1/c:0;if(!b||a===b)return a[0]*=-c,a[1]*=-c,a[2]*=-c,a[3]*=
-c,a;b[0]=-a[0]*c;b[1]=-a[1]*c;b[2]=-a[2]*c;b[3]=a[3]*c;return b};k.conjugate=function(a,b){if(!b||a===b)return a[0]*=-1,a[1]*=-1,a[2]*=-1,a;b[0]=-a[0];b[1]=-a[1];b[2]=-a[2];b[3]=a[3];return b};k.length=function(a){var b=a[0],c=a[1],d=a[2],a=a[3];return Math.sqrt(b*b+c*c+d*d+a*a)};k.normalize=function(a,b){b||(b=a);var c=a[0],d=a[1],e=a[2],g=a[3],f=Math.sqrt(c*c+d*d+e*e+g*g);if(0===f)return b[0]=0,b[1]=0,b[2]=0,b[3]=0,b;f=1/f;b[0]=c*f;b[1]=d*f;b[2]=e*f;b[3]=g*f;return b};k.add=function(a,b,c){if(!c||
-a===c)return a[0]+=b[0],a[1]+=b[1],a[2]+=b[2],a[3]+=b[3],a;c[0]=a[0]+b[0];c[1]=a[1]+b[1];c[2]=a[2]+b[2];c[3]=a[3]+b[3];return c};k.multiply=function(a,b,c){c||(c=a);var d=a[0],e=a[1],g=a[2],a=a[3],f=b[0],h=b[1],j=b[2],b=b[3];c[0]=d*b+a*f+e*j-g*h;c[1]=e*b+a*h+g*f-d*j;c[2]=g*b+a*j+d*h-e*f;c[3]=a*b-d*f-e*h-g*j;return c};k.multiplyVec3=function(a,b,c){c||(c=b);var d=b[0],e=b[1],g=b[2],b=a[0],f=a[1],h=a[2],a=a[3],j=a*d+f*g-h*e,i=a*e+h*d-b*g,k=a*g+b*e-f*d,d=-b*d-f*e-h*g;c[0]=j*a+d*-b+i*-h-k*-f;c[1]=i*a+
-d*-f+k*-b-j*-h;c[2]=k*a+d*-h+j*-f-i*-b;return c};k.scale=function(a,b,c){if(!c||a===c)return a[0]*=b,a[1]*=b,a[2]*=b,a[3]*=b,a;c[0]=a[0]*b;c[1]=a[1]*b;c[2]=a[2]*b;c[3]=a[3]*b;return c};k.toMat3=function(a,b){b||(b=A.create());var c=a[0],d=a[1],e=a[2],g=a[3],f=c+c,h=d+d,j=e+e,i=c*f,k=c*h,c=c*j,l=d*h,d=d*j,e=e*j,f=g*f,h=g*h,g=g*j;b[0]=1-(l+e);b[1]=k+g;b[2]=c-h;b[3]=k-g;b[4]=1-(i+e);b[5]=d+f;b[6]=c+h;b[7]=d-f;b[8]=1-(i+l);return b};k.toMat4=function(a,b){b||(b=x.create());var c=a[0],d=a[1],e=a[2],g=
-a[3],f=c+c,h=d+d,j=e+e,i=c*f,k=c*h,c=c*j,l=d*h,d=d*j,e=e*j,f=g*f,h=g*h,g=g*j;b[0]=1-(l+e);b[1]=k+g;b[2]=c-h;b[3]=0;b[4]=k-g;b[5]=1-(i+e);b[6]=d+f;b[7]=0;b[8]=c+h;b[9]=d-f;b[10]=1-(i+l);b[11]=0;b[12]=0;b[13]=0;b[14]=0;b[15]=1;return b};k.slerp=function(a,b,c,d){d||(d=a);var e=a[0]*b[0]+a[1]*b[1]+a[2]*b[2]+a[3]*b[3],g,f;if(1<=Math.abs(e))return d!==a&&(d[0]=a[0],d[1]=a[1],d[2]=a[2],d[3]=a[3]),d;g=Math.acos(e);f=Math.sqrt(1-e*e);if(0.001>Math.abs(f))return d[0]=0.5*a[0]+0.5*b[0],d[1]=0.5*a[1]+0.5*b[1],
-d[2]=0.5*a[2]+0.5*b[2],d[3]=0.5*a[3]+0.5*b[3],d;e=Math.sin((1-c)*g)/f;c=Math.sin(c*g)/f;d[0]=a[0]*e+b[0]*c;d[1]=a[1]*e+b[1]*c;d[2]=a[2]*e+b[2]*c;d[3]=a[3]*e+b[3]*c;return d};k.fromRotationMatrix=function(a,b){b||(b=k.create());var c=a[0]+a[4]+a[8],d;if(0<c)d=Math.sqrt(c+1),b[3]=0.5*d,d=0.5/d,b[0]=(a[7]-a[5])*d,b[1]=(a[2]-a[6])*d,b[2]=(a[3]-a[1])*d;else{d=k.fromRotationMatrix.s_iNext=k.fromRotationMatrix.s_iNext||[1,2,0];c=0;a[4]>a[0]&&(c=1);a[8]>a[3*c+c]&&(c=2);var e=d[c],g=d[e];d=Math.sqrt(a[3*c+
-c]-a[3*e+e]-a[3*g+g]+1);b[c]=0.5*d;d=0.5/d;b[3]=(a[3*g+e]-a[3*e+g])*d;b[e]=(a[3*e+c]+a[3*c+e])*d;b[g]=(a[3*g+c]+a[3*c+g])*d}return b};A.toQuat4=k.fromRotationMatrix;(function(){var a=A.create();k.fromAxes=function(b,c,d,e){a[0]=c[0];a[3]=c[1];a[6]=c[2];a[1]=d[0];a[4]=d[1];a[7]=d[2];a[2]=b[0];a[5]=b[1];a[8]=b[2];return k.fromRotationMatrix(a,e)}})();k.identity=function(a){a||(a=k.create());a[0]=0;a[1]=0;a[2]=0;a[3]=1;return a};k.fromAngleAxis=function(a,b,c){c||(c=k.create());var a=0.5*a,d=Math.sin(a);
-c[3]=Math.cos(a);c[0]=d*b[0];c[1]=d*b[1];c[2]=d*b[2];return c};k.toAngleAxis=function(a,b){b||(b=a);var c=a[0]*a[0]+a[1]*a[1]+a[2]*a[2];0<c?(b[3]=2*Math.acos(a[3]),c=E.invsqrt(c),b[0]=a[0]*c,b[1]=a[1]*c,b[2]=a[2]*c):(b[3]=0,b[0]=1,b[1]=0,b[2]=0);return b};k.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};var J={create:function(a){var b=new o(2);a?(b[0]=a[0],b[1]=a[1]):(b[0]=0,b[1]=0);return b},createFrom:function(a,b){var c=new o(2);c[0]=a;c[1]=b;return c},add:function(a,b,c){c||
-(c=b);c[0]=a[0]+b[0];c[1]=a[1]+b[1];return c},subtract:function(a,b,c){c||(c=b);c[0]=a[0]-b[0];c[1]=a[1]-b[1];return c},multiply:function(a,b,c){c||(c=b);c[0]=a[0]*b[0];c[1]=a[1]*b[1];return c},divide:function(a,b,c){c||(c=b);c[0]=a[0]/b[0];c[1]=a[1]/b[1];return c},scale:function(a,b,c){c||(c=a);c[0]=a[0]*b;c[1]=a[1]*b;return c},dist:function(a,b){var c=b[0]-a[0],d=b[1]-a[1];return Math.sqrt(c*c+d*d)},set:function(a,b){b[0]=a[0];b[1]=a[1];return b},equal:function(a,b){return a===b||1.0E-6>Math.abs(a[0]-
-b[0])&&1.0E-6>Math.abs(a[1]-b[1])},negate:function(a,b){b||(b=a);b[0]=-a[0];b[1]=-a[1];return b},normalize:function(a,b){b||(b=a);var c=a[0]*a[0]+a[1]*a[1];0<c?(c=Math.sqrt(c),b[0]=a[0]/c,b[1]=a[1]/c):b[0]=b[1]=0;return b},cross:function(a,b,c){a=a[0]*b[1]-a[1]*b[0];if(!c)return a;c[0]=c[1]=0;c[2]=a;return c},length:function(a){var b=a[0],a=a[1];return Math.sqrt(b*b+a*a)},squaredLength:function(a){var b=a[0],a=a[1];return b*b+a*a},dot:function(a,b){return a[0]*b[0]+a[1]*b[1]},direction:function(a,
-b,c){c||(c=a);var d=a[0]-b[0],a=a[1]-b[1],b=d*d+a*a;if(!b)return c[0]=0,c[1]=0,c[2]=0,c;b=1/Math.sqrt(b);c[0]=d*b;c[1]=a*b;return c},lerp:function(a,b,c,d){d||(d=a);d[0]=a[0]+c*(b[0]-a[0]);d[1]=a[1]+c*(b[1]-a[1]);return d},str:function(a){return"["+a[0]+", "+a[1]+"]"}},I={create:function(a){var b=new o(4);a?(b[0]=a[0],b[1]=a[1],b[2]=a[2],b[3]=a[3]):b[0]=b[1]=b[2]=b[3]=0;return b},createFrom:function(a,b,c,d){var e=new o(4);e[0]=a;e[1]=b;e[2]=c;e[3]=d;return e},set:function(a,b){b[0]=a[0];b[1]=a[1];
-b[2]=a[2];b[3]=a[3];return b},equal:function(a,b){return a===b||1.0E-6>Math.abs(a[0]-b[0])&&1.0E-6>Math.abs(a[1]-b[1])&&1.0E-6>Math.abs(a[2]-b[2])&&1.0E-6>Math.abs(a[3]-b[3])},identity:function(a){a||(a=I.create());a[0]=1;a[1]=0;a[2]=0;a[3]=1;return a},transpose:function(a,b){if(!b||a===b){var c=a[1];a[1]=a[2];a[2]=c;return a}b[0]=a[0];b[1]=a[2];b[2]=a[1];b[3]=a[3];return b},determinant:function(a){return a[0]*a[3]-a[2]*a[1]},inverse:function(a,b){b||(b=a);var c=a[0],d=a[1],e=a[2],g=a[3],f=c*g-e*
-d;if(!f)return null;f=1/f;b[0]=g*f;b[1]=-d*f;b[2]=-e*f;b[3]=c*f;return b},multiply:function(a,b,c){c||(c=a);var d=a[0],e=a[1],g=a[2],a=a[3];c[0]=d*b[0]+e*b[2];c[1]=d*b[1]+e*b[3];c[2]=g*b[0]+a*b[2];c[3]=g*b[1]+a*b[3];return c},rotate:function(a,b,c){c||(c=a);var d=a[0],e=a[1],g=a[2],a=a[3],f=Math.sin(b),b=Math.cos(b);c[0]=d*b+e*f;c[1]=d*-f+e*b;c[2]=g*b+a*f;c[3]=g*-f+a*b;return c},multiplyVec2:function(a,b,c){c||(c=b);var d=b[0],b=b[1];c[0]=d*a[0]+b*a[1];c[1]=d*a[2]+b*a[3];return c},scale:function(a,
-b,c){c||(c=a);var d=a[1],e=a[2],g=a[3],f=b[0],b=b[1];c[0]=a[0]*f;c[1]=d*b;c[2]=e*f;c[3]=g*b;return c},str:function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"}},K={create:function(a){var b=new o(4);a?(b[0]=a[0],b[1]=a[1],b[2]=a[2],b[3]=a[3]):(b[0]=0,b[1]=0,b[2]=0,b[3]=0);return b},createFrom:function(a,b,c,d){var e=new o(4);e[0]=a;e[1]=b;e[2]=c;e[3]=d;return e},add:function(a,b,c){c||(c=b);c[0]=a[0]+b[0];c[1]=a[1]+b[1];c[2]=a[2]+b[2];c[3]=a[3]+b[3];return c},subtract:function(a,b,c){c||(c=
-b);c[0]=a[0]-b[0];c[1]=a[1]-b[1];c[2]=a[2]-b[2];c[3]=a[3]-b[3];return c},multiply:function(a,b,c){c||(c=b);c[0]=a[0]*b[0];c[1]=a[1]*b[1];c[2]=a[2]*b[2];c[3]=a[3]*b[3];return c},divide:function(a,b,c){c||(c=b);c[0]=a[0]/b[0];c[1]=a[1]/b[1];c[2]=a[2]/b[2];c[3]=a[3]/b[3];return c},scale:function(a,b,c){c||(c=a);c[0]=a[0]*b;c[1]=a[1]*b;c[2]=a[2]*b;c[3]=a[3]*b;return c},set:function(a,b){b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=a[3];return b},equal:function(a,b){return a===b||1.0E-6>Math.abs(a[0]-b[0])&&1.0E-6>
-Math.abs(a[1]-b[1])&&1.0E-6>Math.abs(a[2]-b[2])&&1.0E-6>Math.abs(a[3]-b[3])},negate:function(a,b){b||(b=a);b[0]=-a[0];b[1]=-a[1];b[2]=-a[2];b[3]=-a[3];return b},length:function(a){var b=a[0],c=a[1],d=a[2],a=a[3];return Math.sqrt(b*b+c*c+d*d+a*a)},squaredLength:function(a){var b=a[0],c=a[1],d=a[2],a=a[3];return b*b+c*c+d*d+a*a},lerp:function(a,b,c,d){d||(d=a);d[0]=a[0]+c*(b[0]-a[0]);d[1]=a[1]+c*(b[1]-a[1]);d[2]=a[2]+c*(b[2]-a[2]);d[3]=a[3]+c*(b[3]-a[3]);return d},str:function(a){return"["+a[0]+", "+
-a[1]+", "+a[2]+", "+a[3]+"]"}};w&&(w.glMatrixArrayType=o,w.MatrixArray=o,w.setMatrixArrayType=D,w.determineMatrixArrayType=G,w.glMath=E,w.vec2=J,w.vec3=r,w.vec4=K,w.mat2=I,w.mat3=A,w.mat4=x,w.quat4=k);return{glMatrixArrayType:o,MatrixArray:o,setMatrixArrayType:D,determineMatrixArrayType:G,glMath:E,vec2:J,vec3:r,vec4:K,mat2:I,mat3:A,mat4:x,quat4:k}});/**
+
+
+
+/*
+ * A lighter version of the rad gl-matrix created by Brandon Jones, Colin MacKenzie IV
+ * you both rock!
+ */
+
+function determineMatrixArrayType() {
+    PIXI.Matrix = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
+    return PIXI.Matrix;
+}
+
+determineMatrixArrayType();
+
+PIXI.mat3 = {};
+
+PIXI.mat3.create = function()
+{
+	var matrix = new PIXI.Matrix(9);
+
+	matrix[0] = 1;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 1;
+	matrix[5] = 0;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 1;
+	
+	return matrix;
+}
+
+PIXI.mat4 = {};
+
+PIXI.mat4.create = function()
+{
+	var matrix = new PIXI.Matrix(16);
+
+	matrix[0] = 1;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 0;
+	matrix[5] = 1;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 0;
+	matrix[9] = 0;
+	matrix[10] = 1;
+	matrix[11] = 0;
+	matrix[12] = 0;
+	matrix[13] = 0;
+	matrix[14] = 0;
+	matrix[15] = 1;
+	
+	return matrix;
+}
+
+PIXI.mat3.multiply = function (mat, mat2, dest) 
+{
+	if (!dest) { dest = mat; }
+	
+	// Cache the matrix values (makes for huge speed increases!)
+	var a00 = mat[0], a01 = mat[1], a02 = mat[2],
+	    a10 = mat[3], a11 = mat[4], a12 = mat[5],
+	    a20 = mat[6], a21 = mat[7], a22 = mat[8],
+	
+	    b00 = mat2[0], b01 = mat2[1], b02 = mat2[2],
+	    b10 = mat2[3], b11 = mat2[4], b12 = mat2[5],
+	    b20 = mat2[6], b21 = mat2[7], b22 = mat2[8];
+	
+	dest[0] = b00 * a00 + b01 * a10 + b02 * a20;
+	dest[1] = b00 * a01 + b01 * a11 + b02 * a21;
+	dest[2] = b00 * a02 + b01 * a12 + b02 * a22;
+	
+	dest[3] = b10 * a00 + b11 * a10 + b12 * a20;
+	dest[4] = b10 * a01 + b11 * a11 + b12 * a21;
+	dest[5] = b10 * a02 + b11 * a12 + b12 * a22;
+	
+	dest[6] = b20 * a00 + b21 * a10 + b22 * a20;
+	dest[7] = b20 * a01 + b21 * a11 + b22 * a21;
+	dest[8] = b20 * a02 + b21 * a12 + b22 * a22;
+	
+	return dest;
+}
+
+
+PIXI.mat3.toMat4 = function (mat, dest) 
+{
+	if (!dest) { dest = PIXI.mat4.create(); }
+	
+	dest[15] = 1;
+	dest[14] = 0;
+	dest[13] = 0;
+	dest[12] = 0;
+	
+	dest[11] = 0;
+	dest[10] = mat[8];
+	dest[9] = mat[7];
+	dest[8] = mat[6];
+	
+	dest[7] = 0;
+	dest[6] = mat[5];
+	dest[5] = mat[4];
+	dest[4] = mat[3];
+	
+	dest[3] = 0;
+	dest[2] = mat[2];
+	dest[1] = mat[1];
+	dest[0] = mat[0];
+	
+	return dest;
+}
+
+
+/////
+
+
+PIXI.mat4.create = function()
+{
+	var matrix = new PIXI.Matrix(16);
+
+	matrix[0] = 1;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 0;
+	matrix[5] = 1;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 0;
+	matrix[9] = 0;
+	matrix[10] = 1;
+	matrix[11] = 0;
+	matrix[12] = 0;
+	matrix[13] = 0;
+	matrix[14] = 0;
+	matrix[15] = 1;
+	
+	return matrix;
+}
+
+PIXI.mat4.transpose = function (mat, dest) 
+{
+	// If we are transposing ourselves we can skip a few steps but have to cache some values
+	if (!dest || mat === dest) 
+	{
+	    var a01 = mat[1], a02 = mat[2], a03 = mat[3],
+	        a12 = mat[6], a13 = mat[7],
+	        a23 = mat[11];
+	
+	    mat[1] = mat[4];
+	    mat[2] = mat[8];
+	    mat[3] = mat[12];
+	    mat[4] = a01;
+	    mat[6] = mat[9];
+	    mat[7] = mat[13];
+	    mat[8] = a02;
+	    mat[9] = a12;
+	    mat[11] = mat[14];
+	    mat[12] = a03;
+	    mat[13] = a13;
+	    mat[14] = a23;
+	    return mat;
+	}
+	
+	dest[0] = mat[0];
+	dest[1] = mat[4];
+	dest[2] = mat[8];
+	dest[3] = mat[12];
+	dest[4] = mat[1];
+	dest[5] = mat[5];
+	dest[6] = mat[9];
+	dest[7] = mat[13];
+	dest[8] = mat[2];
+	dest[9] = mat[6];
+	dest[10] = mat[10];
+	dest[11] = mat[14];
+	dest[12] = mat[3];
+	dest[13] = mat[7];
+	dest[14] = mat[11];
+	dest[15] = mat[15];
+	return dest;
+}
+
+PIXI.mat4.multiply = function (mat, mat2, dest) 
+{
+	if (!dest) { dest = mat; }
+	
+	// Cache the matrix values (makes for huge speed increases!)
+	var a00 = mat[ 0], a01 = mat[ 1], a02 = mat[ 2], a03 = mat[3];
+	var a10 = mat[ 4], a11 = mat[ 5], a12 = mat[ 6], a13 = mat[7];
+	var a20 = mat[ 8], a21 = mat[ 9], a22 = mat[10], a23 = mat[11];
+	var a30 = mat[12], a31 = mat[13], a32 = mat[14], a33 = mat[15];
+	
+	// Cache only the current line of the second matrix
+    var b0  = mat2[0], b1 = mat2[1], b2 = mat2[2], b3 = mat2[3];  
+    dest[0] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    dest[1] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    dest[2] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    dest[3] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+
+    b0 = mat2[4];
+    b1 = mat2[5];
+    b2 = mat2[6];
+    b3 = mat2[7];
+    dest[4] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    dest[5] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    dest[6] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    dest[7] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+
+    b0 = mat2[8];
+    b1 = mat2[9];
+    b2 = mat2[10];
+    b3 = mat2[11];
+    dest[8] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    dest[9] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    dest[10] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    dest[11] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+
+    b0 = mat2[12];
+    b1 = mat2[13];
+    b2 = mat2[14];
+    b3 = mat2[15];
+    dest[12] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
+    dest[13] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
+    dest[14] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
+    dest[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
+
+    return dest;
+}
+
+/**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
 
@@ -1313,8 +2029,10 @@ a[1]+", "+a[2]+", "+a[3]+"]"}};w&&(w.glMatrixArrayType=o,w.MatrixArray=o,w.setMa
  * @param width {Number} the width of the renderers view
  * @param height {Number} the height of the renderers view
  * @param view {Canvas} the canvas to use as a view, optional
+ * @param transparent {Boolean} the transparency of the render view, default false
+ * @default false
  */
-PIXI.autoDetectRenderer = function(width, height, view)
+PIXI.autoDetectRenderer = function(width, height, view, transparent)
 {
 	if(!width)width = 800;
 	if(!height)height = 600;
@@ -1325,82 +2043,70 @@ PIXI.autoDetectRenderer = function(width, height, view)
 	//console.log(webgl);
 	if( webgl )
 	{
-		return new PIXI.WebGLRenderer(width, height, view);
+		return new PIXI.WebGLRenderer(width, height, view, transparent);
 	}
 
-	return	new PIXI.CanvasRenderer(width, height, view);
+	return	new PIXI.CanvasRenderer(width, height, view, transparent);
 };
+
 
 
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
-	
-PIXI.shaderFragmentSrc = [	"precision mediump float;",
-					  		"varying vec2 vTextureCoord;",
-					  		"varying float vColor;",
-					  		"uniform sampler2D uSampler;",
-					  		"void main(void) {",
-					  		"gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
-					  		"gl_FragColor = gl_FragColor * vColor;",
-					  		"}"];
 
-PIXI.shaderVertexSrc = [	"attribute vec2 aVertexPosition;",
-	    					"attribute vec2 aTextureCoord;",
-	    					"attribute float aColor;",
-	  						"uniform mat4 uMVMatrix;",
-							"varying vec2 vTextureCoord;",
-							"varying float vColor;",
-							"void main(void) {",
-							"gl_Position = uMVMatrix * vec4(aVertexPosition, 1.0, 1.0);",
-							"vTextureCoord = aTextureCoord;",
-							"vColor = aColor;",
-	   					 	"}"]
+PIXI.shaderFragmentSrc = [
+  "precision mediump float;",
+  "varying vec2 vTextureCoord;",
+  "varying float vColor;",
+  "uniform sampler2D uSampler;",
+  "void main(void) {",
+    "gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));",
+    "gl_FragColor = gl_FragColor * vColor;",
+  "}"
+];
+
+PIXI.shaderVertexSrc = [
+  "attribute vec2 aVertexPosition;",
+  "attribute vec2 aTextureCoord;",
+  "attribute float aColor;",
+  "uniform mat4 uMVMatrix;",
+  "varying vec2 vTextureCoord;",
+  "varying float vColor;",
+  "void main(void) {",
+    "gl_Position = uMVMatrix * vec4(aVertexPosition, 1.0, 1.0);",
+    "vTextureCoord = aTextureCoord;",
+    "vColor = aColor;",
+  "}"
+];
 
 PIXI.CompileVertexShader = function(gl, shaderSrc)
 {
-	var src = "";
-	
-	for (var i=0; i < shaderSrc.length; i++) {
-	  src += shaderSrc[i];
-	};
-	
-	var shader;
-    shader = gl.createShader(gl.VERTEX_SHADER);
-       
-    gl.shaderSource(shader, src);
-    gl.compileShader(shader);
-
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        alert(gl.getShaderInfoLog(shader));
-        return null;
-    }
-    
-    return shader;
+  return PIXI._CompileShader(gl, shaderSrc, gl.VERTEX_SHADER);
 }
 
 PIXI.CompileFragmentShader = function(gl, shaderSrc)
 {
-	var src = "";
-	
-	for (var i=0; i < shaderSrc.length; i++) {
-	  src += shaderSrc[i];
-	};
-	
-	var shader;
-    shader = gl.createShader(gl.FRAGMENT_SHADER);
-        
-    gl.shaderSource(shader, src);
-    gl.compileShader(shader);
-	
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        alert(gl.getShaderInfoLog(shader));
-        return null;
-    }
-    
-    return shader;
-}/**
+  return PIXI._CompileShader(gl, shaderSrc, gl.FRAGMENT_SHADER);
+}
+
+PIXI._CompileShader = function(gl, shaderSrc, shaderType)
+{
+  var src = shaderSrc.join("\n");
+  var shader = gl.createShader(shaderType);
+  gl.shaderSource(shader, src);
+  gl.compileShader(shader);
+
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    alert(gl.getShaderInfoLog(shader));
+    return null;
+  }
+
+  return shader;
+}
+
+/**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
 
@@ -1416,16 +2122,23 @@ PIXI._defaultFrame = new PIXI.Rectangle(0,0,1,1);
  * @param height {Number} the height of the canvas view
  * @default 0
  * @param view {Canvas} the canvas to use as a view, optional
+ * @param transparent {Boolean} the transparency of the render view, default false
+ * @default false
+ * 
  */
-PIXI.WebGLRenderer = function(width, height, view)
+PIXI.WebGLRenderer = function(width, height, view, transparent)
 {
+	// do a catch.. only 1 webGL renderer..
+
+	//console.log(transparent)
+	this.transparent = !!transparent;
+	
 	this.width = width || 800;
 	this.height = height || 600;
 	
 	this.view = view || document.createElement( 'canvas' ); 
     this.view.width = this.width;
 	this.view.height = this.height;  
-	this.view.background = "#FF0000";
 	
 	// deal with losing context..	
     var scope = this;
@@ -1437,7 +2150,9 @@ PIXI.WebGLRenderer = function(width, height, view)
 	try 
  	{
         this.gl = this.view.getContext("experimental-webgl",  {  	
-    		 alpha: false
+    		 alpha: this.transparent,
+    		 antialias:false, // SPEED UP??
+    		 premultipliedAlpha:true
         });
     } 
     catch (e) 
@@ -1453,16 +2168,40 @@ PIXI.WebGLRenderer = function(width, height, view)
     this.batch = new PIXI.WebGLBatch(gl);
    	gl.disable(gl.DEPTH_TEST);
     gl.enable(gl.BLEND);
-    gl.colorMask(true, true, true, false); 
+    gl.colorMask(true, true, true, this.transparent); 
     
-    this.projectionMatrix =  mat4.create();
-    
+    this.projectionMatrix =  PIXI.mat4.create();
     this.resize(this.width, this.height)
     this.contextLost = false;
 }
 
 // constructor
 PIXI.WebGLRenderer.constructor = PIXI.WebGLRenderer;
+
+/**
+ * @private 
+ */
+PIXI.WebGLRenderer.prototype.getBatch = function()
+{
+	if(PIXI._batchs.length == 0)
+	{
+		return new PIXI.WebGLBatch(this.gl);
+	}
+	else
+	{
+		return PIXI._batchs.pop();
+	}
+}
+
+/**
+ * @private
+ */
+PIXI.WebGLRenderer.prototype.returnBatch = function(batch)
+{
+	batch.clean();	
+	PIXI._batchs.push(batch);
+}
+
 
 /**
  * @private
@@ -1562,6 +2301,14 @@ PIXI.WebGLRenderer.prototype.render = function(stage)
 {
 	if(this.contextLost)return;
 	
+	
+	// if rendering a new stage clear the batchs..
+	if(this.__stage !== stage)
+	{
+		if(this.__stage)this.checkVisibility(this.__stage, false)
+		this.__stage = stage;
+	}
+	
 	// update children if need be
 	// best to remove first!
 	for (var i=0; i < stage.__childrenRemoved.length; i++)
@@ -1570,14 +2317,16 @@ PIXI.WebGLRenderer.prototype.render = function(stage)
 	}
 
 
+
 	// update any textures	
 	for (var i=0; i < PIXI.texturesToUpdate.length; i++) this.updateTexture(PIXI.texturesToUpdate[i]);
+	for (var i=0; i < PIXI.texturesToDestroy.length; i++) this.destroyTexture(PIXI.texturesToDestroy[i]);
 	
 	// empty out the arrays
 	stage.__childrenRemoved = [];
 	stage.__childrenAdded = [];
 	PIXI.texturesToUpdate = [];
-	
+	PIXI.texturesToDestroy = [];
 	// recursivly loop through all items!
 	this.checkVisibility(stage, true);
 	
@@ -1588,7 +2337,8 @@ PIXI.WebGLRenderer.prototype.render = function(stage)
 	
 	gl.clear(gl.COLOR_BUFFER_BIT)
 
-	gl.clearColor(stage.backgroundColorSplit[0], stage.backgroundColorSplit[1], stage.backgroundColorSplit[2], 1.0);     
+	gl.clearColor(stage.backgroundColorSplit[0], stage.backgroundColorSplit[1], stage.backgroundColorSplit[2], 0);     
+	
 	
 	// set the correct blend mode!
  	gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -1604,6 +2354,10 @@ PIXI.WebGLRenderer.prototype.render = function(stage)
 		if(renderable instanceof PIXI.WebGLBatch)
 		{
 			this.batchs[i].render();
+		}
+		else if(renderable instanceof PIXI.TilingSprite)
+		{
+			if(renderable.visible)this.renderTilingSprite(renderable);
 		}
 		else if(renderable instanceof PIXI.Strip)
 		{
@@ -1621,6 +2375,17 @@ PIXI.WebGLRenderer.prototype.render = function(stage)
 			stage._interactiveEventsAdded = true;
 			stage.interactionManager.setTarget(this);
 		}
+	}
+	
+	// after rendering lets confirm all frames that have been uodated..
+	if(PIXI.Texture.frameUpdates.length > 0)
+	{
+		for (var i=0; i < PIXI.Texture.frameUpdates.length; i++) 
+		{
+		  	PIXI.Texture.frameUpdates[i].updateFrame = false;
+		};
+		
+		PIXI.Texture.frameUpdates = [];
 	}
 }
 
@@ -1643,9 +2408,22 @@ PIXI.WebGLRenderer.prototype.updateTexture = function(texture)
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.source);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-
+		
+		// reguler...
+		
+		//gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+		//gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+		if(!texture._powerOf2)
+		{
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		}
+		else
+		{
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+		}
+		
 	//	gl.generateMipmap(gl.TEXTURE_2D);
 		gl.bindTexture(gl.TEXTURE_2D, null);
 	}
@@ -1653,12 +2431,23 @@ PIXI.WebGLRenderer.prototype.updateTexture = function(texture)
 	this.refreshBatchs = true;
 }
 
+PIXI.WebGLRenderer.prototype.destroyTexture = function(texture)
+{
+	var gl = this.gl;
+	
+	if(texture._glTexture)
+	{
+		texture._glTexture = gl.createTexture();
+		gl.deleteTexture(gl.TEXTURE_2D, texture._glTexture);
+	}
+}
+
 /**
  * @private
  */
 PIXI.WebGLRenderer.prototype.addDisplayObject = function(displayObject)
 {
-	
+	var objectDetaildisplayObject
 	if(!displayObject.stage)return; // means it was removed 
 	if(displayObject.__inWebGL)return; //means it is already in webgL
 	
@@ -1799,7 +2588,7 @@ PIXI.WebGLRenderer.prototype.addDisplayObject = function(displayObject)
 							 * seems the new sprite is in the middle of a batch
 							 * lets split it.. 
 							 */
-							var batch = PIXI._getBatch(this.gl);
+							var batch = this.getBatch();
 
 							var index = this.batchs.indexOf( previousBatch );
 							batch.init(displayObject);
@@ -1823,7 +2612,7 @@ PIXI.WebGLRenderer.prototype.addDisplayObject = function(displayObject)
 		 * time to create anew one!
 		 */
 		
-		var batch = PIXI._getBatch(this.gl);
+		var batch =  this.getBatch();
 		batch.init(displayObject);
 
 		if(previousBatch) // if this is invalid it means 
@@ -1837,6 +2626,13 @@ PIXI.WebGLRenderer.prototype.addDisplayObject = function(displayObject)
 		}
 	
 	}
+	else if(displayObject instanceof PIXI.TilingSprite)
+	{
+		// add to a batch!!
+		this.initTilingSprite(displayObject);
+		this.batchs.push(displayObject);
+		
+	}
 	else if(displayObject instanceof PIXI.Strip)
 	{
 		// add to a batch!!
@@ -1844,7 +2640,7 @@ PIXI.WebGLRenderer.prototype.addDisplayObject = function(displayObject)
 		this.batchs.push(displayObject);
 		
 	}
-
+	
 	// if its somthing else... then custom codes!
 	this.batchUpdate = true;
 }
@@ -1875,7 +2671,6 @@ PIXI.WebGLRenderer.prototype.removeDisplayObject = function(displayObject)
 		
 		batch.remove(displayObject);
 		
-		
 		if(batch.size==0)
 		{
 			batchToRemove = batch
@@ -1900,7 +2695,7 @@ PIXI.WebGLRenderer.prototype.removeDisplayObject = function(displayObject)
 		{
 			// wha - eva! just get of the empty batch!
 			this.batchs.splice(index, 1);
-			if(batchToRemove instanceof PIXI.WebGLBatch)PIXI._returnBatch(batchToRemove);
+			if(batchToRemove instanceof PIXI.WebGLBatch)this.returnBatch(batchToRemove);
 		
 			return;
 		}
@@ -1912,8 +2707,8 @@ PIXI.WebGLRenderer.prototype.removeDisplayObject = function(displayObject)
 				//console.log("MERGE")
 				this.batchs[index-1].merge(this.batchs[index+1]);
 				
-				if(batchToRemove instanceof PIXI.WebGLBatch)PIXI._returnBatch(batchToRemove);
-				PIXI._returnBatch(this.batchs[index+1]);
+				if(batchToRemove instanceof PIXI.WebGLBatch)this.returnBatch(batchToRemove);
+				this.returnBatch(this.batchs[index+1]);
 				this.batchs.splice(index, 2);
 				return;
 			}
@@ -1921,7 +2716,7 @@ PIXI.WebGLRenderer.prototype.removeDisplayObject = function(displayObject)
 		
 		
 		this.batchs.splice(index, 1);
-		if(batchToRemove instanceof PIXI.WebGLBatch)PIXI._returnBatch(batchToRemove);
+		if(batchToRemove instanceof PIXI.WebGLBatch)this.returnBatch(batchToRemove);
 	}
 	
 	
@@ -1942,11 +2737,135 @@ PIXI.WebGLRenderer.prototype.resize = function(width, height)
 	this.view.height = height;
 	
 	this.gl.viewport(0, 0, this.width, this.height);	
-
-	mat4.identity(this.projectionMatrix);
-	mat4.scale(this.projectionMatrix, [2/this.width, -2/this.height, 1]);
-	mat4.translate(this.projectionMatrix, [-this.width/2, -this.height/2, 0]);	
+	
+	var projectionMatrix = this.projectionMatrix;
+	
+	projectionMatrix[0] = 2/this.width;
+	projectionMatrix[5] = -2/this.height;
+	projectionMatrix[12] = -1;
+	projectionMatrix[13] = 1;
 }
+
+
+/**
+ * @private
+ */
+PIXI.WebGLRenderer.prototype.initTilingSprite = function(sprite)
+{
+	
+	
+				
+	var gl = this.gl;
+
+	// make the texture tilable..
+			
+	sprite.verticies = new Float32Array([0, 0,
+										  sprite.width, 0,
+										  sprite.width,  sprite.height,
+										 0,  sprite.height]);
+					
+	sprite.uvs = new Float32Array([0, 0,
+									1, 0,
+									1, 1,
+									0, 1]);
+				
+	sprite.colors = new Float32Array([1,1,1,1]);
+	
+	sprite.indices =  new Uint16Array([0, 1, 3,2])//, 2]);
+	
+	
+	sprite._vertexBuffer = gl.createBuffer();
+	sprite._indexBuffer = gl.createBuffer();
+	sprite._uvBuffer = gl.createBuffer();
+	sprite._colorBuffer = gl.createBuffer();
+						
+	gl.bindBuffer(gl.ARRAY_BUFFER, sprite._vertexBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, sprite.verticies, gl.STATIC_DRAW);
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, sprite._uvBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER,  sprite.uvs, gl.DYNAMIC_DRAW);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, sprite._colorBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, sprite.colors, gl.STATIC_DRAW);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sprite._indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, sprite.indices, gl.STATIC_DRAW);
+    
+//    return ( (x > 0) && ((x & (x - 1)) == 0) );
+
+	if(sprite.texture.baseTexture._glTexture)
+	{
+    	gl.bindTexture(gl.TEXTURE_2D, sprite.texture.baseTexture._glTexture);
+    	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+		sprite.texture.baseTexture._powerOf2 = true;
+	}
+	else
+	{
+		sprite.texture.baseTexture._powerOf2 = true;
+	}
+	
+	/*
+	var context = this.context;
+	
+ 	if(!sprite.__tilePattern) sprite.__tilePattern = context.createPattern(sprite.texture.baseTexture.source, "repeat");
+ 	
+	context.beginPath();
+	
+	var tilePosition = sprite.tilePosition;
+	var tileScale = sprite.tileScale;
+	
+    // offset
+    context.scale(tileScale.x,tileScale.y);
+    context.translate(tilePosition.x, tilePosition.y);
+ 	
+	context.fillStyle = sprite.__tilePattern;
+	context.fillRect(-tilePosition.x,-tilePosition.y,sprite.width / tileScale.x, sprite.height / tileScale.y);
+	
+    context.translate(-tilePosition.x, -tilePosition.y);
+	context.scale(1/tileScale.x, 1/tileScale.y);
+	*/
+}
+
+/**
+ * @private
+ */
+PIXI.WebGLRenderer.prototype.renderTilingSprite = function(sprite)
+{
+	var gl = this.gl;
+	var shaderProgram = this.shaderProgram;
+	
+	var tilePosition = sprite.tilePosition;
+	var tileScale = sprite.tileScale;
+	
+	var offsetX =  tilePosition.x/sprite.texture.baseTexture.width;
+	var offsetY =  tilePosition.y/sprite.texture.baseTexture.height;
+	
+	var scaleX =  (sprite.width / sprite.texture.baseTexture.width)  / tileScale.x///sprite.texture.baseTexture.width;
+	var scaleY =  (sprite.height / sprite.texture.baseTexture.height) / tileScale.y///sprite.texture.baseTexture.height;
+	//
+	//sprite.dirty = true;
+	sprite.uvs[0] = 0 + offsetX
+	sprite.uvs[1] = 0 - offsetY;
+	
+	sprite.uvs[2] = (1 * scaleX)  +offsetX
+	sprite.uvs[3] = 0 - offsetY;
+	
+	sprite.uvs[4] = (1 *scaleX) + offsetX
+	sprite.uvs[5] = (1 *scaleY) - offsetY;
+	
+	sprite.uvs[6] = 0  + offsetX
+	sprite.uvs[7] = (1 *scaleY) - offsetY;
+	
+	
+	gl.bindBuffer(gl.ARRAY_BUFFER, sprite._uvBuffer);
+	gl.bufferSubData(gl.ARRAY_BUFFER, 0, sprite.uvs)
+	
+	this.renderStrip(sprite);
+ 
+}
+
+
 
 /**
  * @private
@@ -1984,10 +2903,9 @@ PIXI.WebGLRenderer.prototype.renderStrip = function(strip)
 	var gl = this.gl;
 	var shaderProgram = this.shaderProgram;
 //	mat
-	var mat4Real = mat3.toMat4(strip.worldTransform);
-	mat4.transpose(mat4Real);
-	
-	mat4.multiply(this.projectionMatrix, mat4Real, mat4Real )
+	var mat4Real = PIXI.mat3.toMat4(strip.worldTransform);
+	PIXI.mat4.transpose(mat4Real);
+	PIXI.mat4.multiply(this.projectionMatrix, mat4Real, mat4Real )
 
 	gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, mat4Real);
   
@@ -2046,7 +2964,7 @@ PIXI.WebGLRenderer.prototype.renderStrip = function(strip)
 	    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, strip.indices, gl.STATIC_DRAW);
 	    
 	}
-	
+	//console.log(gl.TRIANGLE_STRIP)
 	gl.drawElements(gl.TRIANGLE_STRIP, strip.indices.length, gl.UNSIGNED_SHORT, 0);
     
     gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.projectionMatrix);
@@ -2089,6 +3007,7 @@ PIXI.WebGLRenderer.prototype.handleContextRestored = function(event)
 	
 	this.contextLost = false;
 }
+
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
@@ -2506,8 +3425,8 @@ PIXI.WebGLBatch.prototype.update = function()
 	
 	while(displayObject)
 	{
-		width = displayObject.width;
-		height = displayObject.height;
+		width = displayObject.texture.frame.width;
+		height = displayObject.texture.frame.height;
 		
 		aX = displayObject.anchor.x - displayObject.texture.trim.x
 		aY = displayObject.anchor.y - displayObject.texture.trim.y
@@ -2540,7 +3459,7 @@ PIXI.WebGLBatch.prototype.update = function()
 		this.verticies[index + 6] =  a * w1 + c * h0 + tx; 
 		this.verticies[index + 7] =  d * h0 + b * w1 + ty; 
 		
-		if(displayObject.updateFrame)
+		if(displayObject.updateFrame || displayObject.texture.updateFrame)
 		{
 			this.dirtyUVS = true;
 			
@@ -2647,20 +3566,30 @@ PIXI.WebGLBatch.prototype.render = function()
     gl.drawElements(gl.TRIANGLES, this.size * 6, gl.UNSIGNED_SHORT, 0);
 }
 
+
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
+
 
 /**
  * the CanvasRenderer draws the stage and all its content onto a 2d canvas. This renderer should be used for browsers that do not support webGL.
  * Dont forget to add the view to your DOM or you will not see anything :)
  * @class CanvasRenderer
+ * @constructor
  * @param width {Number} the width of the canvas view
+ * @default 0
  * @param height {Number} the height of the canvas view
+ * @default 0
  * @param view {Canvas} the canvas to use as a view, optional
+ * @param transparent {Boolean} the transparency of the render view, default false
+ * @default false
+ * 
  */
-PIXI.CanvasRenderer = function(width, height, view)
+PIXI.CanvasRenderer = function(width, height, view, transparent)
 {
+	this.transparent = transparent;
+	
 	/**
 	 * The width of the canvas view
 	 * @property width
@@ -2717,6 +3646,7 @@ PIXI.CanvasRenderer.prototype.render = function(stage)
 	
 	// update textures if need be
 	PIXI.texturesToUpdate = [];
+	PIXI.texturesToDestroy = [];
 	
 	this.context.setTransform(1,0,0,1,0,0); 
 	stage.updateTransform();
@@ -2724,7 +3654,7 @@ PIXI.CanvasRenderer.prototype.render = function(stage)
 	this.context.setTransform(1,0,0,1,0,0); 
 	
 	// update the background color
-	if(this.view.style.backgroundColor!=stage.backgroundColorString)this.view.style.backgroundColor = stage.backgroundColorString;
+	if(this.view.style.backgroundColor!=stage.backgroundColorString && !this.transparent)this.view.style.backgroundColor = stage.backgroundColorString;
 
 	this.context.clearRect(0, 0, this.width, this.height)
     this.renderDisplayObject(stage);
@@ -2739,6 +3669,12 @@ PIXI.CanvasRenderer.prototype.render = function(stage)
 			stage._interactiveEventsAdded = true;
 			stage.interactionManager.setTarget(this);
 		}
+	}
+	
+	// remove frame updates..
+	if(PIXI.Texture.frameUpdates.length > 0)
+	{
+		PIXI.Texture.frameUpdates = [];
 	}
 }
 
@@ -2808,8 +3744,8 @@ PIXI.CanvasRenderer.prototype.renderDisplayObject = function(displayObject)
 								   frame.height,
 								   (displayObject.anchor.x - displayObject.texture.trim.x) * -frame.width, 
 								   (displayObject.anchor.y - displayObject.texture.trim.y) * -frame.height,
-								   displayObject.width,
-								   displayObject.height);
+								   frame.width,
+								   frame.height);
 			//}
 		}					   
    	}
@@ -2818,12 +3754,19 @@ PIXI.CanvasRenderer.prototype.renderDisplayObject = function(displayObject)
 		context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5])
 		this.renderStrip(displayObject);
 	}
+	else if(displayObject instanceof PIXI.TilingSprite)
+	{
+		context.setTransform(transform[0], transform[3], transform[1], transform[4], transform[2], transform[5])
+		this.renderTilingSprite(displayObject);
+	}
 	
 	// render!
 	for (var i=0; i < displayObject.children.length; i++) 
 	{
 		this.renderDisplayObject(displayObject.children[i]);
 	}
+	
+	
 }
 
 /**
@@ -2864,6 +3807,35 @@ PIXI.CanvasRenderer.prototype.renderStripFlat = function(strip)
 /**
  * @private
  */
+PIXI.CanvasRenderer.prototype.renderTilingSprite = function(sprite)
+{
+	var context = this.context;
+	
+ 	if(!sprite.__tilePattern) sprite.__tilePattern = context.createPattern(sprite.texture.baseTexture.source, "repeat");
+ 	
+	context.beginPath();
+	
+	var tilePosition = sprite.tilePosition;
+	var tileScale = sprite.tileScale;
+	
+    // offset
+    context.scale(tileScale.x,tileScale.y);
+    context.translate(tilePosition.x, tilePosition.y);
+ 	
+	context.fillStyle = sprite.__tilePattern;
+	context.fillRect(-tilePosition.x,-tilePosition.y,sprite.width / tileScale.x, sprite.height / tileScale.y);
+	
+	context.scale(1/tileScale.x, 1/tileScale.y);
+    context.translate(-tilePosition.x, -tilePosition.y);
+    
+    context.closePath();
+}
+
+
+
+/**
+ * @private
+ */
 PIXI.CanvasRenderer.prototype.renderStrip = function(strip)
 {
 	var context = this.context;
@@ -2883,8 +3855,8 @@ PIXI.CanvasRenderer.prototype.renderStrip = function(strip)
 		 var x0 = verticies[index],   x1 = verticies[index+2], x2 = verticies[index+4];
  		 var y0 = verticies[index+1], y1 = verticies[index+3], y2 = verticies[index+5];
  		 
-  		 var u0 = uvs[index] * strip.texture.width,   u1 = uvs[index+2]* strip.texture.width, u2 = uvs[index+4]* strip.texture.width;
-   		 var v0 = uvs[index+1]* strip.texture.height, v1 = uvs[index+3]* strip.texture.height, v2 = uvs[index+5]* strip.texture.height;
+  		 var u0 = uvs[index] * strip.texture.width,   u1 = uvs[index+2] * strip.texture.width, u2 = uvs[index+4]* strip.texture.width;
+   		 var v0 = uvs[index+1]* strip.texture.height, v1 = uvs[index+3] * strip.texture.height, v2 = uvs[index+5]* strip.texture.height;
 
 
 		context.save();
@@ -2921,6 +3893,7 @@ PIXI.CanvasRenderer.prototype.renderStrip = function(strip)
 	
 //	context.globalCompositeOperation = 'source-over';	
 }
+
 
 
 
@@ -3017,6 +3990,7 @@ PIXI.Strip.prototype.onTextureUpdate = function(event)
 	this.updateFrame = true;
 }
 // some helper functions..
+
 
 /**
  * @author Mat Groves http://matgroves.com/
@@ -3193,12 +4167,73 @@ PIXI.Rope.prototype.setTexture = function(texture)
 
 
 
+
+/**
+ * @author Mat Groves http://matgroves.com/
+ */
+
+/**
+ * A tiling sprite is a fast way of rendering a tiling image
+ * @class TilingSprite
+ * @extends DisplayObjectContainer
+ * @constructor
+ * @param texture {Texture} the texture of the tiling sprite
+ * @param width {Number}  the width of the tiling sprite
+ * @param height {Number} the height of the tiling sprite
+ */
+PIXI.TilingSprite = function(texture, width, height)
+{
+	PIXI.DisplayObjectContainer.call( this );
+	
+	this.texture = texture;
+	this.width = width;
+	this.height = height;
+	this.renderable = true;
+	
+	/**
+	 * The scaling of the image that is being tiled
+	 * @property tileScale
+	 * @type Point
+	 */	
+	this.tileScale = new PIXI.Point(2,1);
+	/**
+	 * The offset position of the image that is being tiled
+	 * @property tileScale
+	 * @type Point
+	 */	
+	this.tilePosition = new PIXI.Point(0,0);
+	
+	this.blendMode = PIXI.blendModes.NORMAL
+}
+
+// constructor
+PIXI.TilingSprite.constructor = PIXI.TilingSprite;
+PIXI.TilingSprite.prototype = Object.create( PIXI.DisplayObjectContainer.prototype );
+
+PIXI.TilingSprite.prototype.setTexture = function(texture)
+{
+	//TODO SET THE TEXTURES
+	//TODO VISIBILITY
+	
+	// stop current texture 
+	this.texture = texture;
+	this.updateFrame = true;
+}
+
+PIXI.TilingSprite.prototype.onTextureUpdate = function(event)
+{
+	this.updateFrame = true;
+}
+// some helper functions..
+
+
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
 
 PIXI.BaseTextureCache = {};
 PIXI.texturesToUpdate = [];
+PIXI.texturesToDestroy = [];
 
 /**
  * A texture stores the information that represents an image. All textures have a base texture
@@ -3275,16 +4310,51 @@ PIXI.BaseTexture = function(source)
 		PIXI.texturesToUpdate.push(this);
 	}
 	
-	
+	this._powerOf2 = false;
 	
 }
 
 PIXI.BaseTexture.constructor = PIXI.BaseTexture;
 
-PIXI.BaseTexture.prototype.fromImage = function(imageUrl)
+PIXI.BaseTexture.prototype.destroy = function()
 {
-
+	
+	if(this.source instanceof Image)
+	{
+		this.source.src = null;
+	}
+	this.source = null;
+	PIXI.texturesToDestroy.push(this);
 }
+
+
+/**
+ * 
+ * Helper function that returns a base texture based on an image url
+ * If the image is not in the base texture cache it will be  created and loaded
+ * @static
+ * @method fromImage
+ * @param imageUrl {String} The image url of the texture
+ * @return BaseTexture
+ */
+PIXI.BaseTexture.fromImage = function(imageUrl, crossorigin)
+{
+	var baseTexture = PIXI.BaseTextureCache[imageUrl];
+	if(!baseTexture)
+	{
+		var image = new Image();
+		if (crossorigin)
+		{
+			image.crossOrigin = '';
+		}
+		image.src = imageUrl;
+		baseTexture = new PIXI.BaseTexture(image);
+		PIXI.BaseTextureCache[imageUrl] = baseTexture;
+	}
+
+	return baseTexture;
+}
+
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
@@ -3311,6 +4381,9 @@ PIXI.Texture = function(baseTexture, frame)
 	}
 	
 	this.trim = new PIXI.Point();
+
+	if(baseTexture instanceof PIXI.Texture)
+		baseTexture = baseTexture.baseTexture;
 	
 	/**
 	 * The base texture of this texture
@@ -3359,6 +4432,11 @@ PIXI.Texture.prototype.onBaseTextureLoaded = function(event)
 	this.scope.dispatchEvent( { type: 'update', content: this } );
 }
 
+PIXI.Texture.prototype.destroy = function(destroyBase)
+{
+	if(destroyBase)this.baseTexture.destroy();
+}
+
 /**
  * Specifies the rectangle region of the baseTexture
  * @method setFrame
@@ -3369,7 +4447,16 @@ PIXI.Texture.prototype.setFrame = function(frame)
 	this.frame = frame;
 	this.width = frame.width;
 	this.height = frame.height;
-	//this.updateFrame = true;
+	
+	if(frame.x + frame.width > this.baseTexture.width || frame.y + frame.height > this.baseTexture.height)
+	{
+		throw new Error("Texture Error: frame does not fit inside the base Texture dimensions " + this);
+	}
+	
+	this.updateFrame = true;
+	
+	PIXI.Texture.frameUpdates.push(this);
+	//this.dispatchEvent( { type: 'update', content: this } );
 }
 
 /**
@@ -3387,25 +4474,8 @@ PIXI.Texture.fromImage = function(imageUrl, crossorigin)
 	
 	if(!texture)
 	{
-		var baseTexture = PIXI.BaseTextureCache[imageUrl];
-		if(!baseTexture) 
-		{
-			var image = new Image();//new Image();
-			if (crossorigin)
-			{
-				image.crossOrigin = '';
-			}
-			image.src = imageUrl;
-			
-			baseTexture = new PIXI.BaseTexture(image);
-			PIXI.BaseTextureCache[imageUrl] = baseTexture;
-		}
-		texture = new PIXI.Texture(baseTexture);
-		
-		
+		texture = new PIXI.Texture(PIXI.BaseTexture.fromImage(imageUrl, crossorigin));
 		PIXI.TextureCache[imageUrl] = texture;
-		
-		
 	}
 	
 	return texture;
@@ -3437,23 +4507,8 @@ PIXI.Texture.fromFrame = function(frameId)
  */
 PIXI.Texture.fromCanvas = function(canvas)
 {
-	// create a canvas id??
-	var texture = PIXI.TextureCache[canvas];
-	
-	if(!texture)
-	{
-		var baseTexture = PIXI.BaseTextureCache[canvas];
-		if(!baseTexture) 
-		{
-			baseTexture = new PIXI.BaseTexture(canvas);
-			PIXI.BaseTextureCache[canvas] = baseTexture;
-		}
-		texture = new PIXI.Texture(baseTexture);
-		
-		PIXI.TextureCache[canvas] = texture;
-	}
-	
-	return texture;
+	var	baseTexture = new PIXI.BaseTexture(canvas);
+	return new PIXI.Texture(baseTexture);
 }
 
 
@@ -3482,6 +4537,10 @@ PIXI.Texture.removeTextureFromCache = function(id)
 	PIXI.TextureCache[id] = null;
 	return texture;
 }
+
+// this is more for webGL.. it contains updated frames..
+PIXI.Texture.frameUpdates = [];
+
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
@@ -3554,16 +4613,19 @@ PIXI.SpriteSheetLoader.prototype.onLoaded = function()
 			for (var i in frameData) 
 			{
 				var rect = frameData[i].frame;
-				PIXI.TextureCache[i] = new PIXI.Texture(this.texture, {x:rect.x, y:rect.y, width:rect.w, height:rect.h});
-				
-				if(frameData[i].trimmed)
+				if (rect)
 				{
-					//var realSize = frameData[i].spriteSourceSize;
-					PIXI.TextureCache[i].realSize = frameData[i].spriteSourceSize;
-					PIXI.TextureCache[i].trim.x = 0// (realSize.x / rect.w)
-					// calculate the offset!
+					PIXI.TextureCache[i] = new PIXI.Texture(this.texture, {x:rect.x, y:rect.y, width:rect.w, height:rect.h});
+					
+					if(frameData[i].trimmed)
+					{
+						//var realSize = frameData[i].spriteSourceSize;
+						PIXI.TextureCache[i].realSize = frameData[i].spriteSourceSize;
+						PIXI.TextureCache[i].trim.x = 0// (realSize.x / rect.w)
+						// calculate the offset!
+					}
+	//				this.frames[i] = ;
 				}
-//				this.frames[i] = ;
    			}
 			
 			if(this.texture.hasLoaded)
@@ -3584,6 +4646,7 @@ PIXI.SpriteSheetLoader.prototype.onLoaded = function()
 	}
 	
 }
+
 
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
@@ -3669,7 +4732,7 @@ PIXI.AssetLoader.prototype.load = function()
 		{
 			
 			var texture = PIXI.Texture.fromImage(filename, this.crossorigin);
-			if(!texture.hasLoaded)
+			if(!texture.baseTexture.hasLoaded)
 			{
 				
 				var scope = this;
@@ -3685,6 +4748,12 @@ PIXI.AssetLoader.prototype.load = function()
 				
 				// already loaded!
 				this.loadCount--;
+				// if this hits zero here.. then everything was cached!
+				if(this.loadCount == 0)
+				{
+					this.dispatchEvent( { type: 'onComplete', content: this } );
+					if(this.onComplete)this.onComplete();
+				}
 			}
 			
 		}
