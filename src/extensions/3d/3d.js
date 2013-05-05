@@ -28,6 +28,15 @@
     });
 
     /**
+     * Component of position in 3D environment
+     */
+    m.$c('ng3DSize', {
+        width: 0.0,
+        height: 0.0,
+        depth: 0.0
+    });
+
+    /**
      * ngConvert3DtoParallax
      *
      * Use z to calculate basis of parallax effect.
@@ -73,4 +82,19 @@
         }]
     });
 
+    m.$s('ng3DShiftMovingSystem', {
+        $require: ['ng3D', 'ngShiftMove'],
+
+        $addEntity : function($entity) {
+            $entity.ngShiftMove.dx = $entity.ngShiftMove.dx || 0.0;
+            $entity.ngShiftMove.dy = $entity.ngShiftMove.dy || 0.0;
+            $entity.ngShiftMove.dz = $entity.ngShiftMove.dz || 0.0;
+        },
+
+        $update: ['$entity', '$time', function($entity, $time) {
+            $entity.ng3D.x += 0.001 * $entity.ngShiftMove.dx * $time;
+            $entity.ng3D.y += 0.001 * $entity.ngShiftMove.dy * $time;
+            $entity.ng3D.z += 0.001 * $entity.ngShiftMove.dz * $time;
+        }]
+    });
 })(darlingjs);

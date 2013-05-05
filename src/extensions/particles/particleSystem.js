@@ -57,6 +57,37 @@
     });
 
     /**
+     * Emit Particle in cubic area
+     */
+    m.$s('ngCubicEmitterSystem', {
+        $require: ['ngEmit', 'ngEmitter', 'ng3D', 'ng3DSize'],
+
+        $addEntity: ['$entity', '$world', function($entity, $world) {
+            this._emit($entity, $entity.ng3D, $entity.ng3DSize, $entity.ngEmitter.generate, $world);
+        }],
+
+        _emit: function($entity, ng3D, ng3DSize, generate, $world) {
+            if (darlingutil.isFunction(generate)) {
+                generate = generate($entity);
+            }
+
+            if (generate === null || darlingutil.isUndefined(generate)) {
+                throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
+            }
+
+            generate.ng3D = generate.ng3D || {};
+            generate.ng3D.x = ng3D.x + ng3DSize.width * Math.random();
+            generate.ng3D.y = ng3D.y + ng3DSize.height * Math.random();
+            generate.ng3D.z = ng3D.z + ng3DSize.depth * Math.random();
+            var count = $entity.ngEmit.count;
+            while(--count>=0) {
+                $world.$e(generate);
+            }
+            $entity.$remove('ngEmit');
+        }
+    });
+
+    /**
      * The Random counter causes the emitter to emit particles continuously
      * at a variable random rate between two limits.
      */
