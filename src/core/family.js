@@ -49,7 +49,11 @@ Family.prototype.addIfMatch = function(e) {
         }
     }
 
-    e[this.$marker()] = true;
+    if (!e.$$familyMarker) {
+        e.$$familyMarker = {};
+    }
+
+    e.$$familyMarker[this.$marker()] = true;
 
     this.nodes.add(e);
 };
@@ -59,10 +63,10 @@ Family.prototype.removeIfMatch = function(e, component) {
         return;
     }
 
-    delete e[this.$$marker];
+    e.$$familyMarker[this.$$marker] = false;
     this.nodes.remove(e);
 };
 
 Family.prototype.isInList = function(e) {
-    return e.hasOwnProperty(this.$$marker);
+    return e.$$familyMarker && e.$$familyMarker[this.$$marker];
 };
