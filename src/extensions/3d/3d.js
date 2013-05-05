@@ -12,7 +12,7 @@
      */
     m.$c('ngParallax', {
         //basis of parallax effect
-        //1 is original plane, 0.5 twice times further
+        //1 is original plane, 0.5 - further, 0.25 - twice times further
         basis: 0.5
     });
 

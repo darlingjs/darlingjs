@@ -314,7 +314,9 @@ World.prototype.$e = World.prototype.$entity = function() {
         for (var key in components) {
             if (components.hasOwnProperty(key) && key.charAt(0) !== '$') {
                 var value = components[key];
-                if (isEmptyObject(value)) {
+                if (value === false) {
+                    entity[key] = null;
+                } else if (isEmptyObject(value) || value === null) {
                     entity.$add(key, null);
                 } else {
                     entity.$add(key, value);

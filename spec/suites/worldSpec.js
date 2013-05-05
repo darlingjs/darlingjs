@@ -399,4 +399,22 @@ describe('World', function() {
         expect(world.$isUse(system)).toBeTruthy();
         expect(world.$isUse('theBrandNewSystem')).toBeTruthy();
     });
+
+    it('should build entity with nulled component, if it configed by false', function() {
+        var e = world.$e('theEntity', {
+            testComponent1: false
+        });
+
+        expect(e.testComponent1).toBeNull();
+    });
+
+    it('should build entity with default component, if in configed by true', function() {
+        var e = world.$e('theEntity', {
+            testComponent1: true
+        });
+
+        expect(e.testComponent1).not.toBeNull();
+        expect(e.testComponent1.x).toBe(12);
+        expect(e.testComponent1.y).toBe(34);
+    });
 });
