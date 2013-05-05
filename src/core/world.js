@@ -35,7 +35,7 @@ var World = function(){
     this.$$updating = false;
     this.$playing = false;
 
-    this.$entities = new List();
+    this.$entities = new List('World');
     this.$name = '';
     //this.$$entitiesHead = this.$$entitiesTail = null;
     //this.$$entitiesCount = 0;
@@ -221,7 +221,7 @@ World.prototype.$$removeSystem = function(instance) {
  * @return {Entity}
  */
 World.prototype.$getByName = function(value) {
-    var node = this.$entities._head;
+    var node = this.$entities.$head;
     while(node) {
         var entity = node.instance;
         if (entity.$name === value) {

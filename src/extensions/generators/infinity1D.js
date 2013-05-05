@@ -53,8 +53,7 @@
                 leftClamp = center - half,
                 rightClamp = center + half;
 
-            var tile = this._list._tail;
-            //var rightClampTile = this._lastRightClampTile || this._tail;
+            var tile = this._list.$tail;
 
             //add new from right side
             while(!tile || tile.rightEdge < rightClamp) {
@@ -65,7 +64,7 @@
 
             //this._lastRightClampTile = rightClampTile;
 
-            tile = this._list._head;
+            tile = this._list.$head;
 //            var leftClampTile = this._lastLeftClampTile || this._head;
 
             //add new from left side
@@ -76,7 +75,7 @@
             }
 
             //remove old from right side
-            tile = this._list._head;
+            tile = this._list.$head;
             var edge = leftClamp - width;
             while(tile && tile.rightEdge < edge) {
                 var next = tile.$next;

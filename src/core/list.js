@@ -7,12 +7,18 @@
 /**
  *
  * @inner
+ *
+ * @param {string} [name] The List name
  * @constructor
  */
-var List = function() {
-    this._head = this._tail = null;
+var List = function(name) {
+    this.$head = this.$tail = null;
     this._length = 0;
-    this.PROPERTY_LINK_TO_NODE = '$$listNode_' + Math.random();
+    if (name) {
+        this.PROPERTY_LINK_TO_NODE = '$$listNode_' + name;
+    } else {
+        this.PROPERTY_LINK_TO_NODE = '$$listNode_' + Math.random();
+    }
     mixin(this, Events);
 };
 
@@ -28,12 +34,12 @@ List.prototype.add = function(instance) {
     var node = poolOfListNodes.get();
     node.init(instance, this.PROPERTY_LINK_TO_NODE);
 
-    if (this._head) {
-        this._tail.$next = node;
-        node.$prev = this._tail;
-        this._tail = node;
+    if (this.$head) {
+        this.$tail.$next = node;
+        node.$prev = this.$tail;
+        this.$tail = node;
     } else {
-        this._head = this._tail = node;
+        this.$head = this.$tail = node;
     }
 
     if (instance) {
@@ -57,12 +63,12 @@ List.prototype.addHead = function(instance) {
     var node = poolOfListNodes.get();
     node.init(instance, this.PROPERTY_LINK_TO_NODE);
 
-    if (this._head) {
-        this._head.$prev = node;
-        node.$next = this._head;
-        this._head = node;
+    if (this.$head) {
+        this.$head.$prev = node;
+        node.$next = this.$head;
+        this.$head = node;
     } else {
-        this._head = this._tail = node;
+        this.$head = this.$tail = node;
     }
 
     if (instance) {
@@ -96,12 +102,12 @@ List.prototype.remove = function(instance) {
         }
     }
 
-    if (this._tail === node) {
-        this._tail = node.$prev;
+    if (this.$tail === node) {
+        this.$tail = node.$prev;
     }
 
-    if (this._head === node) {
-        this._head = node.$next;
+    if (this.$head === node) {
+        this.$head = node.$next;
     }
 
     if (node.$prev !== null) {
@@ -140,7 +146,7 @@ List.prototype.forEach = function(callback, context, arg) {
         return;
     }
 
-    var node = this._head;
+    var node = this.$head;
     if (context) {
         while(node) {
             callback.call(context, node.instance, arg);
