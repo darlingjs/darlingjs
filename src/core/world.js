@@ -95,6 +95,7 @@ World.prototype.$add = function(value, config) {
  */
 World.prototype.$$addEntity = function(instance) {
     this.$entities.add(instance);
+    instance.$$world = this;
     instance.on('add', this.$$onComponentAdd, this);
     instance.on('remove', this.$$onComponentRemove, this);
     this.$$matchNewEntityToFamilies(instance);

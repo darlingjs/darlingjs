@@ -40,7 +40,7 @@ describe('Particle System', function() {
     });
 
     it('should add emit component', function() {
-        var emitter = world.$add(world.$e('emitter', {
+        var emitter = world.$e('emitter', {
             'ngEmitter' : {
                 generate: {
                 }
@@ -50,7 +50,7 @@ describe('Particle System', function() {
                 minRate: 1,
                 maxRate: 2
             }
-        }));
+        });
 
         world.$add('ngRandomEmitterSystem');
 
@@ -94,7 +94,7 @@ describe('Particle System', function() {
         });
 
         it('should execute generate factory function on emit', function() {
-            var emitter = world.$add(world.$e('emitter', {
+            var emitter = world.$e('emitter', {
                 'ng2D': {
                     x: 0.0, y: 0.0
                 },
@@ -108,7 +108,7 @@ describe('Particle System', function() {
                         };
                     }
                 }
-            }));
+            });
 
             expect(function() {
                 emitter.$add('ngEmit');
@@ -122,7 +122,7 @@ describe('Particle System', function() {
         it('should pass emitter to particle factory', function() {
             var factory = sinon.spy();
 
-            var emitter = world.$add(world.$e('emitter', {
+            var emitter = world.$e('emitter', {
                 'ng2D': {
                     x: 0.0, y: 0.0
                 },
@@ -134,7 +134,7 @@ describe('Particle System', function() {
                 'ngEmitter' : {
                     generate: factory
                 }
-            }));
+            });
 
             expect(function() {
                 emitter.$add('ngEmit');
@@ -144,7 +144,7 @@ describe('Particle System', function() {
         });
 
         it('should throw exception if factory does\'t return object with components', function() {
-            var emitter = world.$add(world.$e('emitter', {
+            var emitter = world.$e('emitter', {
                 'ng2D': {
                     x: 0.0, y: 0.0
                 },
@@ -156,7 +156,7 @@ describe('Particle System', function() {
                 'ngEmitter' : {
                     generate: function() {}
                 }
-            }));
+            });
 
             expect(function() {
                 emitter.$add('ngEmit');

@@ -18,21 +18,17 @@ describe('box2dModule', function() {
         var box2d = world.$add('ngBox2DSystem');
         world.$add('ngBox2DRevoluteJoint');
 
-        world.$add(
-            world.$e('entity1', {
-                'ng2D': {x:-10.0, y:0.0},
-                'ng2DSize': {width:30, height:30},
-                'ngPhysic': {}
-            })
-        );
+        world.$e('entity1', {
+            'ng2D': {x:-10.0, y:0.0},
+            'ng2DSize': {width:30, height:30},
+            'ngPhysic': {}
+        });
 
-        world.$add(
-            world.$e('entity2', {
-                'ng2D': {x:10.0, y:0.0},
-                'ng2DSize': {width:30, height:30},
-                'ngPhysic': {}
-            })
-        );
+        world.$e('entity2', {
+            'ng2D': {x:10.0, y:0.0},
+            'ng2DSize': {width:30, height:30},
+            'ngPhysic': {}
+        });
 
         var bodies = box2d.getBodiesAt(0, 0);
         expect(bodies).toBeDefined();
@@ -43,27 +39,21 @@ describe('box2dModule', function() {
         world.$add('ngBox2DSystem');
         world.$add('ngBox2DRevoluteJoint');
 
-        world.$add(
-            world.$e('entity1', {
-                'ng2D': {x:-10.0, y:0.0},
-                'ng2DSize': {width:30, height:30},
-                'ngPhysic': {}
-            })
-        );
+        world.$e('entity1', {
+            'ng2D': {x:-10.0, y:0.0},
+            'ng2DSize': {width:30, height:30},
+            'ngPhysic': {}
+        });
 
-        world.$add(
-            world.$e('entity2', {
-                'ng2D': {x:10.0, y:0.0},
-                'ng2DSize': {width:30, height:30},
-                'ngPhysic': {}
-            })
-        );
+        world.$e('entity2', {
+            'ng2D': {x:10.0, y:0.0},
+            'ng2DSize': {width:30, height:30},
+            'ngPhysic': {}
+        });
 
-        world.$add(
-            world.$e('jointEntity', {
-                'ng2D': {x:0.0, y:0.0},
-                'ngRevoluteJoint':{}
-            })
-        );
+        world.$e('jointEntity', {
+            'ng2D': {x:0.0, y:0.0},
+            'ngRevoluteJoint':{}
+        });
     });
 });

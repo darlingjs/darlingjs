@@ -86,11 +86,11 @@ List.prototype.remove = function(instance) {
     if (instance instanceof ListNode) {
         node = instance;
     } else {
-        if (!instance.hasOwnProperty(this.PROPERTY_LINK_TO_NODE)) {
+        if (!instance.$$linkNode || !instance.$$linkNode[this.PROPERTY_LINK_TO_NODE]) {
             return false;
         }
 
-        node = instance[this.PROPERTY_LINK_TO_NODE];
+        node = instance.$$linkNode[this.PROPERTY_LINK_TO_NODE];
         if (node === null) {
             return false;
         }
@@ -182,11 +182,14 @@ ListNode.prototype.init = function(instance, linkBack) {
 
     //optimization
     //if (instance.hasOwnProperty(linkBack)) {
-    if (instance.linkBack) {
-        throw new Error('Can\'t store "' + instance + '" because it containe ' + linkBack + ' property.');
+    if (instance.$$linkNode && instance.$$linkNode[linkBack]) {
+        throw new Error('Can\'t store "' + instance + '" because it contains ' + linkBack + ' property.' + instance.$$linkNode[linkBack]);
     }
 
-    instance[linkBack] = this;
+    if (!instance.$$linkNode) {
+        instance.$$linkNode = {};
+    }
+    instance.$$linkNode[linkBack] = this;
 };
 
 /**
@@ -201,7 +204,9 @@ ListNode.prototype.dispose = function(instance, linkBack) {
 
     //optimization:
     //delete instance[linkBack];
-    instance[linkBack] = null;
+    if (instance.$$linkNode) {
+        instance.$$linkNode[linkBack] = null;
+    }
     this.onDispose();
 }
 

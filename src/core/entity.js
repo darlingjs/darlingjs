@@ -63,7 +63,7 @@ Entity.prototype.$add = function(value, config) {
         throw new Error('Can\'t add null component.');
     }
 
-    if (this.$has(name)) {
+    if (this[name]) {
         this.$remove(name);
     }
 
@@ -96,7 +96,7 @@ Entity.prototype.$remove = function(value) {
         throw new Error('Can\'t remove from component ' + value);
     }
 
-    if (!this.$has(name)) {
+    if (!this[name]) {
         return;
     }
 
@@ -115,10 +115,10 @@ Entity.prototype.$remove = function(value) {
  * @return {boolean}
  */
 Entity.prototype.$has = function(value) {
-    if (isComponent(value)) {
-        return !!this[value.$name];
-    } else {
+    if (isString(value)) {
         return !!this[value];
+    } else {
+        return !!this[value.$name];
     }
 };
 
