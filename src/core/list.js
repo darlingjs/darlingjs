@@ -146,16 +146,19 @@ List.prototype.forEach = function(callback, context, arg) {
         return;
     }
 
-    var node = this.$head;
+    var node = this.$head,
+        next;
     if (context) {
         while(node) {
+            next = node.$next;
             callback.call(context, node.instance, arg);
-            node = node.$next;
+            node = next;
         }
     } else {
         while(node) {
+            next = node.$next;
             callback(node.instance, arg);
-            node = node.$next;
+            node = next;
         }
     }
 };
