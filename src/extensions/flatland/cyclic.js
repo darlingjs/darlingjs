@@ -78,8 +78,8 @@
         topBottom: true
     });
 
-    m.$s('ngCyclicLayer', {
-        $require: ['ngCyclic'],
+    m.$s('ngCyclic3DLayer', {
+        $require: ['ngCyclic', 'ng3D'],
 
         $addEntity: ['$entity', function($entity) {
             var pool = pools[$entity.ngCyclic.group];
