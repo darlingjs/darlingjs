@@ -86,23 +86,24 @@
         $require: ['ng2D', 'ng2DSize', 'ngMarkIfOutsideOfTheViewPort'],
 
         $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
-            var x = $entity.ng2D.x + $entity.ngMarkIfOutsideOfTheViewPort.shift.dx,
-                y = $entity.ng2D.y + $entity.ngMarkIfOutsideOfTheViewPort.shift.dy,
+            var component = $entity.ngMarkIfOutsideOfTheViewPort,
+                x = $entity.ng2D.x + component.shift.dx,
+                y = $entity.ng2D.y + component.shift.dy,
                 viewPortWidth = 0.5 * ng2DViewPort.width,
                 viewPortHeight = 0.5 * ng2DViewPort.height;
 
+            var crossRight = ng2DViewPort.lookAt.x + viewPortWidth < x,
+                crossBottom = ng2DViewPort.lookAt.y + viewPortHeight < y,
+                crossLeft = x + $entity.ng2DSize.width < ng2DViewPort.lookAt.x - viewPortWidth,
+                crossTop = y + $entity.ng2DSize.height < ng2DViewPort.lookAt.y - viewPortHeight;
 
-            if (ng2DViewPort.lookAt.x + viewPortWidth < x ||
-                ng2DViewPort.lookAt.y + viewPortHeight < y ||
-                x + $entity.ng2DSize.width < ng2DViewPort.lookAt.x - viewPortWidth ||
-                y + $entity.ng2DSize.height < ng2DViewPort.lookAt.y - viewPortHeight) {
-
-                var handler = $entity.ngMarkIfOutsideOfTheViewPort.handler;
-                applyMarker($entity, $entity.ngMarkIfOutsideOfTheViewPort.marker);
-                if ($entity.ngMarkIfOutsideOfTheViewPort.autoRemove) {
+            if (crossLeft || crossRight || crossTop || crossBottom) {
+                var handler = component.handler;
+                applyMarker($entity, component.marker);
+                if (component.autoRemove) {
                     $entity.$remove('ngMarkIfOutsideOfTheViewPort');
                 }
-                callIfHasHandler(handler, $entity);
+                callIfHasHandler(handler, $entity, crossLeft, crossRight, crossTop, crossBottom);
             }
         }]
     });
@@ -111,20 +112,21 @@
         $require: ['ng2D', 'ng2DSize', 'ngMarkIfInsideOfTheViewPort'],
 
         $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
-            var x = $entity.ng2D.x + $entity.ngMarkIfInsideOfTheViewPort.shift.dx,
-                y = $entity.ng2D.y + $entity.ngMarkIfInsideOfTheViewPort.shift.dy,
+            var component = $entity.ngMarkIfInsideOfTheViewPort,
+                x = $entity.ng2D.x + component.shift.dx,
+                y = $entity.ng2D.y + component.shift.dy,
                 viewPortWidth = 0.5 * ng2DViewPort.width,
                 viewPortHeight = 0.5 * ng2DViewPort.height;
 
-            if (ng2DViewPort.lookAt.x + viewPortWidth >= x &&
-                ng2DViewPort.lookAt.y + viewPortHeight >= y &&
-                x + $entity.ng2DSize.width >= ng2DViewPort.lookAt.x - viewPortWidth &&
-                y + $entity.ng2DSize.height >= ng2DViewPort.lookAt.y - viewPortHeight) {
+            var crossRight = ng2DViewPort.lookAt.x + viewPortWidth >= x,
+                crossBottom = ng2DViewPort.lookAt.y + viewPortHeight >= y,
+                crossLeft = x + $entity.ng2DSize.width >= ng2DViewPort.lookAt.x - viewPortWidth,
+                crossTop = y + $entity.ng2DSize.height >= ng2DViewPort.lookAt.y - viewPortHeight;
 
-                applyMarker($entity, $entity.ngMarkIfInsideOfTheViewPort.marker);
-
-                var handler = $entity.ngMarkIfInsideOfTheViewPort.handler;
-                if ($entity.ngMarkIfInsideOfTheViewPort.autoRemove) {
+            if (crossLeft && crossRight && crossTop && crossBottom) {
+                applyMarker($entity, component.marker);
+                var handler = component.handler;
+                if (component.autoRemove) {
                     $entity.$remove('ngMarkIfInsideOfTheViewPort');
                 }
                 callIfHasHandler(handler, $entity);
@@ -132,9 +134,9 @@
         }]
     });
 
-    function callIfHasHandler(handler, $entity) {
+    function callIfHasHandler(handler, $entity, leftEdge, rightEdge, topEdge, bottomEdge) {
         if (handler) {
-            handler($entity);
+            handler($entity, leftEdge, rightEdge, topEdge, bottomEdge);
         }
     }
 
