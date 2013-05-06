@@ -43,12 +43,14 @@
                 //, !this.allowSleep // Don't allow sleep
             );
         },
+
         $removed: function() {
             if (this._world !== null) {
                 Box2D.destroy(this._world);
             }
             this._world = null;
         },
+
         $addEntity: ['$entity', '$world', function($entity, $world) {
             var ngPhysic = $entity.ngPhysic;
             var ng2D = $entity.ng2D;
@@ -160,23 +162,31 @@
         },
 
         $removeEntity: function($entity) {
-            var body = $entity.ngPhysic._b2dBody;
+            var body = $entity.ngPhysic._b2dBody,
+                fixture = $entity.ngPhysic._b2dFixture;
             if (this._isEntityOwnBox2DBody($entity)) {
                 if (darlingutil.isDefined(body)) {
                     if (this._world.IsLocked()) {
                         this._arrayOfBodyToRemoveAfterUnlock.push(body);
                     } else {
                         this._world.DestroyBody(body);
+
+                        $entity.ngPhysic._b2dFixture = null;
                         $entity.ngPhysic._b2dBody = null;
+                        fixture.m_userData = null;
+                        body.m_userData = null;
                     }
                 }
             } else if (this._isEntityOwnBox2DFixture($entity)) {
-                var fixture = $entity.ngPhysic._b2dFixture;
                 if (darlingutil.isDefined(fixture) && darlingutil.isDefined(body)) {
                     if (this._world.IsLocked()) {
                         this._arrayOfFixtureToRemoveAfterUnlock.push(fixture);
                     } else {
                         body.DestroyFixture(fixture);
+
+                        $entity.ngPhysic._b2dFixture = null;
+                        $entity.ngPhysic._b2dBody = null;
+                        fixture.m_userData = null;
                     }
                 }
             }
@@ -700,9 +710,11 @@
         _moveByRotation: function(body, speed) {
             body.SetAngularVelocity(3 * speed);
         },
+
         $removed: function() {
             //TODO : stop listening keys
         },
+
         _stayOnGroundDefined: false,
         _stayOnGround: false,
         //TODO : move to ngBox2dSystem
