@@ -1100,6 +1100,12 @@
             $entity.ngAnyJoint.joint = jointState._joint;
         }],
 
+        $removeEntity: ['$entity', function($entity) {
+            $entity.ngRevoluteJoint._joint = null;
+            $entity.ngAnyJoint.joint = null;
+            $entity.$remove('ngAnyJoint');
+        }],
+
         $update: ['$entity', 'ngBox2DSystem', function($entity, ngBox2DSystem) {
             var vec2 = $entity.ngAnyJoint.joint.GetAnchorA();
             var ng2D = $entity.ng2D;
@@ -1160,6 +1166,12 @@
                 $entity.$add('ngAnyJoint');
             }
             $entity.ngAnyJoint.joint = jointState._joint;
+        }],
+
+        $removeEntity: ['$entity', function($entity) {
+            $entity.ngDistanceJoint._joint = null;
+            $entity.ngAnyJoint.joint = null;
+            $entity.$remove('ngAnyJoint');
         }]
     });
 
@@ -1277,6 +1289,12 @@
                 $entity.$add('ngAnyJoint');
             }
             $entity.ngAnyJoint.joint = jointState._joint;
+        }],
+
+        $removeEntity: ['$entity', function($entity) {
+            $entity.ngPrismaticJoint._joint = null;
+            $entity.ngAnyJoint.joint = null;
+            $entity.$remove('ngAnyJoint');
         }]
     });
 
