@@ -8,60 +8,8 @@
 
     var m = darlingjs.m('ngCyclic');
 
-    var outsideConfigHorizontal = {
-        handler: function($entity, lowerEdge, higherEdge) {
-            if (lowerEdge) {
-                $entity.ng3D.x += $entity.ngCyclic.patternWidth;
-            } else if (higherEdge) {
-                $entity.ng3D.x -= $entity.ngCyclic.patternWidth;
-            }
-
-            if (!$entity.ngMarkIfInsideOfTheViewPortHorizontal3D) {
-                $entity.$add('ngMarkIfInsideOfTheViewPortHorizontal3D', insideConfigHorizontal);
-            }
-
-//            if ($entity.$name === 'node_0_16') {
-//                console.log('corner node');
-//            }
-
-            $entity.$remove('ngMarkIfOutsideOfTheViewPortHorizontal3D');
-        }
-    };
-
-    var outsideConfigVertical = {
-        handler: function($entity, lowerEdge, higherEdge) {
-            if (lowerEdge) {
-                $entity.ng3D.y += $entity.ngCyclic.patternHeight;
-            } else if (higherEdge) {
-                $entity.ng3D.y -= $entity.ngCyclic.patternHeight;
-            }
-
-            if (!$entity.ngMarkIfInsideOfTheViewPortVertical3D) {
-                $entity.$add('ngMarkIfInsideOfTheViewPortVertical3D', insideConfigVertical);
-            }
-
-//            if ($entity.$name === 'node_0_16') {
-//                console.log('corner node');
-//            }
-
-            $entity.$remove('ngMarkIfOutsideOfTheViewPortVertical3D');
-        }
-    };
-
-    var insideConfigHorizontal = {
-        marker: {
-            ngMarkIfOutsideOfTheViewPortHorizontal3D: outsideConfigHorizontal
-        }
-    };
-
-    var insideConfigVertical = {
-        marker: {
-            ngMarkIfOutsideOfTheViewPortVertical3D: outsideConfigVertical
-        }
-    };
-
     m.$c('ngCyclic', {
-        group: 'mountains',
+        group: 'none',
 
         patternWidth: 0.0,
         patternHeight: 0.0
@@ -82,6 +30,50 @@
             $entity.$add('ngMarkIfOutsideOfTheViewPortHorizontal3D', outsideConfigHorizontal);
         }]
     });
+
+    var outsideConfigHorizontal = {
+        handler: function($entity, lowerEdge, higherEdge) {
+            if (lowerEdge) {
+                $entity.ng3D.x += $entity.ngCyclic.patternWidth;
+            } else if (higherEdge) {
+                $entity.ng3D.x -= $entity.ngCyclic.patternWidth;
+            }
+
+            if (!$entity.ngMarkIfInsideOfTheViewPortHorizontal3D) {
+                $entity.$add('ngMarkIfInsideOfTheViewPortHorizontal3D', insideConfigHorizontal);
+            }
+
+            $entity.$remove('ngMarkIfOutsideOfTheViewPortHorizontal3D');
+        }
+    };
+
+    var outsideConfigVertical = {
+        handler: function($entity, lowerEdge, higherEdge) {
+            if (lowerEdge) {
+                $entity.ng3D.y += $entity.ngCyclic.patternHeight;
+            } else if (higherEdge) {
+                $entity.ng3D.y -= $entity.ngCyclic.patternHeight;
+            }
+
+            if (!$entity.ngMarkIfInsideOfTheViewPortVertical3D) {
+                $entity.$add('ngMarkIfInsideOfTheViewPortVertical3D', insideConfigVertical);
+            }
+
+            $entity.$remove('ngMarkIfOutsideOfTheViewPortVertical3D');
+        }
+    };
+
+    var insideConfigHorizontal = {
+        marker: {
+            ngMarkIfOutsideOfTheViewPortHorizontal3D: outsideConfigHorizontal
+        }
+    };
+
+    var insideConfigVertical = {
+        marker: {
+            ngMarkIfOutsideOfTheViewPortVertical3D: outsideConfigVertical
+        }
+    };
 
     /**
      * Mark entity by marker if it outside the ViewPort
@@ -175,7 +167,7 @@
             outsideOf($entity,
                 'ngMarkIfOutsideOfTheViewPortVertical3D',
                 component,
-                $entity.ng3D.y,
+                $entity.ng3D.y + component.shift,
                 $entity.ng2DSize.height,
 
                 ng2DViewPort.lookAt.y,
@@ -195,7 +187,7 @@
             outsideOf($entity,
                 'ngMarkIfOutsideOfTheViewPortVertical3D',
                 component,
-                $entity.ng3D.x,
+                $entity.ng3D.x + component.shift,
                 $entity.ng2DSize.width,
 
                 ng2DViewPort.lookAt.x,
@@ -215,7 +207,7 @@
             insideOf($entity,
                 'ngMarkIfOutsideOfTheViewPortVertical',
                 component,
-                $entity.ng3D.y,
+                $entity.ng3D.y + component.shift,
                 $entity.ng2DSize.height,
 
                 ng2DViewPort.lookAt.y,
@@ -235,7 +227,7 @@
             insideOf($entity,
                 'ngMarkIfInsideOfTheViewPortHorizontal3D',
                 component,
-                $entity.ng3D.x,
+                $entity.ng3D.x + component.shift,
                 $entity.ng2DSize.width,
 
                 ng2DViewPort.lookAt.x,
