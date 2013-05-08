@@ -9,8 +9,6 @@
     var m = darlingjs.m('ngCyclic');
 
     m.$c('ngCyclic', {
-        group: 'none',
-
         patternWidth: 0.0,
         patternHeight: 0.0
     });
@@ -19,15 +17,18 @@
         $require: ['ngCyclic', 'ng3D'],
 
         $addEntity: ['$entity', function($entity) {
-            insideConfigHorizontal.minWidth = $entity.ngCyclic.patternWidth;
-            insideConfigVertical.minHeight = $entity.ngCyclic.patternHeight;
-            outsideConfigHorizontal.minWidth = $entity.ngCyclic.patternWidth;
-            outsideConfigVertical.minHeight = $entity.ngCyclic.patternHeight;
-
-            $entity.$add('ngMarkIfInsideOfTheViewPortVertical3D', insideConfigVertical);
-            $entity.$add('ngMarkIfInsideOfTheViewPortHorizontal3D', insideConfigHorizontal);
-            $entity.$add('ngMarkIfOutsideOfTheViewPortVertical3D', outsideConfigVertical);
-            $entity.$add('ngMarkIfOutsideOfTheViewPortHorizontal3D', outsideConfigHorizontal);
+            if ($entity.ngCyclic.patternWidth) {
+                insideConfigHorizontal.minWidth = $entity.ngCyclic.patternWidth;
+                $entity.$add('ngMarkIfInsideOfTheViewPortHorizontal3D', insideConfigHorizontal);
+                outsideConfigHorizontal.minWidth = $entity.ngCyclic.patternWidth;
+                $entity.$add('ngMarkIfOutsideOfTheViewPortHorizontal3D', outsideConfigHorizontal);
+            }
+            if ($entity.ngCyclic.patternHeight) {
+                insideConfigVertical.minHeight = $entity.ngCyclic.patternHeight;
+                $entity.$add('ngMarkIfInsideOfTheViewPortVertical3D', insideConfigVertical);
+                outsideConfigVertical.minHeight = $entity.ngCyclic.patternHeight;
+                $entity.$add('ngMarkIfOutsideOfTheViewPortVertical3D', outsideConfigVertical);
+            }
         }]
     });
 
