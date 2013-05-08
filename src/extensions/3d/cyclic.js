@@ -244,6 +244,20 @@
         }]
     });
 
+    /**
+     * check is $entity is outside of viewPort
+     *
+     * @private
+     * @ignore
+     *
+     * @param $entity
+     * @param componentName
+     * @param component
+     * @param componentPosition
+     * @param componentSize
+     * @param viewPortPosition
+     * @param viewPortSize
+     */
     function outsideOf($entity, componentName, component, componentPosition, componentSize, viewPortPosition, viewPortSize) {
         componentPosition += component.shift;
 
@@ -260,6 +274,21 @@
         }
     }
 
+    /**
+     * check is $entity is inside of viewPort
+     *
+     * @ignore
+     *
+     * @private
+     *
+     * @param $entity
+     * @param componentName
+     * @param component
+     * @param componentPosition
+     * @param componentSize
+     * @param viewPortPosition
+     * @param viewPortSize
+     */
     function insideOf($entity, componentName, component, componentPosition, componentSize, viewPortPosition, viewPortSize) {
         componentPosition += component.shift;
 
@@ -282,6 +311,16 @@
         }
     }
 
+    /**
+     * apply markers from component
+     *
+     * @ignore
+     *
+     * @private
+     *
+     * @param $entity
+     * @param marker
+     */
     function applyMarker($entity, marker) {
         if (darlingutil.isString(marker)) {
             if (!$entity[marker]) {
