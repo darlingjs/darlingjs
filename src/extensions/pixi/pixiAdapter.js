@@ -177,7 +177,43 @@ m.$s('ngBindLifeToAlpha', {
     }]
 });
 
+m.$s('ngLayer', {
+    layerName: null
+});
+
+m.$s('ngPixijsStaticZ', {
+    $require: ['ngLayer', 'ngPixijsSprite'],
+
+    //layers with fixed distance. Use for applying z-depth
+    layers: null,
+    _layers: {},
+
+    $added: ['ngPixijsStage', function(ngPixijsStage) {
+        if (this.layers) {
+            for (var i = 0, count = this.layers.length; i < count; i++) {
+                var layerName = this.layers[i];
+                var layer = new PIXI.DisplayObjectContainer();
+                ngPixijsStage._stage.addChild(layer);
+                this._layers[layerName] = layer;
+            }
+        }
+    }],
+
+    $addEntity: ['$entity', function($entity) {
+        var layer = this._layers[$entity.ngLayer.layerName];
+        layer.addChild($entity.ngPixijsSprite.sprite);
+    }],
+
+    $removeEntity: ['$entity', 'ngPixijsStage', function($entity, ngPixijsStage) {
+        if ($entity.ngPixijsSprite.sprite) {
+            ngPixijsStage._stage.addChild($entity.ngPixijsSprite.sprite);
+        }
+    }]
+});
+
 m.$s('ngPixijsStage', {
+    $require: ['ng2D', 'ngPixijsSprite'],
+
     width: 640,
     height: 480,
 
@@ -188,9 +224,8 @@ m.$s('ngPixijsStage', {
 
     useWebGL: true,
 
+    _stage: null,
     _center: {x:0.0, y:0.0},
-
-    $require: ['ng2D', 'ngPixijsSprite'],
 
     $added: function() {
         // create an new instance of a pixi stage
@@ -232,7 +267,8 @@ m.$s('ngPixijsStage', {
     },
 
     $removeEntity: function($entity) {
-        this._stage.removeChild($entity.ngPixijsSprite.sprite);
+        var parent = $entity.ngPixijsSprite.sprite.parent;
+        parent.removeChild($entity.ngPixijsSprite.sprite);
         $entity.ngPixijsSprite.sprite = null;
     },
 

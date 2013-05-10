@@ -158,7 +158,7 @@
     });
 
     m.$s('ngMarkIfOutsideOfTheViewPortVertical3D', {
-        $require: ['ng2D', 'ng2DSize', 'ngMarkIfOutsideOfTheViewPortVertical3D'],
+        $require: ['ng2D', 'ngMarkIfOutsideOfTheViewPortVertical3D'],
 
         $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
             var component = $entity.ngMarkIfOutsideOfTheViewPortVertical3D;
@@ -169,7 +169,6 @@
                 'ngMarkIfOutsideOfTheViewPortVertical3D',
                 component,
                 $entity.ng3D.y + component.shift,
-                $entity.ng2DSize.height,
 
                 ng2DViewPort.lookAt.y,
                 viewPortHeight
@@ -178,7 +177,7 @@
     });
 
     m.$s('ngMarkIfOutsideOfTheViewPortHorizontal3D', {
-        $require: ['ng2D', 'ng2DSize', 'ngMarkIfOutsideOfTheViewPortHorizontal3D'],
+        $require: ['ng2D', 'ngMarkIfOutsideOfTheViewPortHorizontal3D'],
 
         $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
             var component = $entity.ngMarkIfOutsideOfTheViewPortHorizontal3D;
@@ -189,7 +188,6 @@
                 'ngMarkIfOutsideOfTheViewPortVertical3D',
                 component,
                 $entity.ng3D.x + component.shift,
-                $entity.ng2DSize.width,
 
                 ng2DViewPort.lookAt.x,
                 viewPortWidth
@@ -198,7 +196,7 @@
     });
 
     m.$s('ngMarkIfInsideOfTheViewPortVertical3D', {
-        $require: ['ng2D', 'ng2DSize', 'ngMarkIfInsideOfTheViewPortVertical3D'],
+        $require: ['ng2D', 'ngMarkIfInsideOfTheViewPortVertical3D'],
 
         $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
             var component = $entity.ngMarkIfInsideOfTheViewPortVertical3D;
@@ -209,7 +207,6 @@
                 'ngMarkIfOutsideOfTheViewPortVertical',
                 component,
                 $entity.ng3D.y + component.shift,
-                $entity.ng2DSize.height,
 
                 ng2DViewPort.lookAt.y,
                 viewPortHeight
@@ -218,7 +215,7 @@
     });
 
     m.$s('ngMarkIfInsideOfTheViewPortHorizontal3D', {
-        $require: ['ng2D', 'ng2DSize', 'ngMarkIfInsideOfTheViewPortHorizontal3D'],
+        $require: ['ng2D', 'ngMarkIfInsideOfTheViewPortHorizontal3D'],
 
         $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
             var component = $entity.ngMarkIfInsideOfTheViewPortHorizontal3D;
@@ -229,7 +226,6 @@
                 'ngMarkIfInsideOfTheViewPortHorizontal3D',
                 component,
                 $entity.ng3D.x + component.shift,
-                $entity.ng2DSize.width,
 
                 ng2DViewPort.lookAt.x,
                 viewPortWidth
@@ -247,15 +243,14 @@
      * @param componentName
      * @param component
      * @param componentPosition
-     * @param componentSize
      * @param viewPortPosition
      * @param viewPortSize
      */
-    function outsideOf($entity, componentName, component, componentPosition, componentSize, viewPortPosition, viewPortSize) {
+    function outsideOf($entity, componentName, component, componentPosition, viewPortPosition, viewPortSize) {
         componentPosition += component.shift;
 
         var crossBottom = viewPortPosition + viewPortSize < componentPosition,
-            crossTop = componentPosition + componentSize < viewPortPosition - viewPortSize;
+            crossTop = componentPosition < viewPortPosition - viewPortSize;
 
         if (crossTop || crossBottom) {
             var handler = component.handler;
@@ -278,15 +273,14 @@
      * @param componentName
      * @param component
      * @param componentPosition
-     * @param componentSize
      * @param viewPortPosition
      * @param viewPortSize
      */
-    function insideOf($entity, componentName, component, componentPosition, componentSize, viewPortPosition, viewPortSize) {
+    function insideOf($entity, componentName, component, componentPosition, viewPortPosition, viewPortSize) {
         componentPosition += component.shift;
 
         var crossBottom = viewPortPosition + viewPortSize >= componentPosition,
-            crossTop = componentPosition + componentSize >= viewPortPosition - viewPortSize;
+            crossTop = componentPosition >= viewPortPosition - viewPortSize;
 
         if (crossTop && crossBottom) {
             var handler = component.handler;
