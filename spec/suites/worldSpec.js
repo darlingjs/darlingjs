@@ -417,4 +417,10 @@ describe('World', function() {
         expect(e.testComponent1.x).toBe(12);
         expect(e.testComponent1.y).toBe(34);
     });
+
+    it('should throw exception if try to edd missing system', function() {
+        expect(function() {
+            world.$add('wrong-named-system');
+        }).toThrow();
+    });
 });

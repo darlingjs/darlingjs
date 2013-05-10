@@ -2836,6 +2836,7 @@ PIXI.WebGLRenderer.prototype.renderTilingSprite = function(sprite)
 	var shaderProgram = this.shaderProgram;
 	
 	var tilePosition = sprite.tilePosition;
+
 	var tileScale = sprite.tileScale;
 	
 	var offsetX =  tilePosition.x/sprite.texture.baseTexture.width;
