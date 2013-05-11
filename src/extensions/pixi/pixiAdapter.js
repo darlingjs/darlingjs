@@ -368,12 +368,16 @@
 
     function buildSprite(state, ng2DSize) {
         // create a texture from an image path
-        state._texture = PIXI.Texture.fromImage(state.name);
+        var texture = state._texture = PIXI.Texture.fromImage(state.name);
 
         // create a new Sprite using the texture
         var sprite;
         if (state.tiled) {
-            sprite = state._sprite = new PIXI.TilingSprite(state._texture, ng2DSize.width, ng2DSize.height);
+            if (texture.width & (texture.width - 1) === 0 ||
+                texture.height & (texture.height - 1) === 0) {
+                throw new Error('Tiled Sprite must be power of 2');
+            }
+            sprite = state._sprite = new PIXI.TilingSprite(texture, ng2DSize.width, ng2DSize.height);
         } else {
             sprite = state._sprite = new PIXI.Sprite(state._texture);
             // center the sprites anchor point
