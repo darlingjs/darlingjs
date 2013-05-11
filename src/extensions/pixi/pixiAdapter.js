@@ -8,164 +8,18 @@
     'use strict';
     var m = darlingjs.module('ngPixijsAdapter');
 
-    m.$s('ngPixijsMovieClip', {
-        $require: ['ng2D', 'ngMovieClip'],
-
-        _frames: null,
-
-        $addEntity: function($entity) {
-            var spriteAtlas = $entity.ngMovieClip;
-            var self = this;
-            LoadAtlas(spriteAtlas.url)
-                .then(function() {
-                    var frameNames = spriteAtlas.frames;
-
-                    var frames = [];
-                    if (self._frames !== null) {
-                        frames = self._frames;
-                    } else {
-                        for (var i = 0, l = frameNames.length; i < l; i++) {
-                            frames.push(PIXI.Texture.fromFrame(frameNames[i]));
-                        }
-                        self._frames = frames;
-                    }
-
-                    var movieClip = new PIXI.MovieClip(frames);
-                    movieClip.gotoAndPlay(1);
-
-                    if (spriteAtlas.anchor) {
-                        movieClip.anchor.x = spriteAtlas.anchor.x || 0.5;
-                        movieClip.anchor.y = spriteAtlas.anchor.y || 0.5;
-                    } else {
-                        movieClip.anchor.x = 0.5;
-                        movieClip.anchor.y = 0.5;
-                    }
-
-                    var ng2DSize = $entity.ng2DSize;
-
-                    if (ng2DSize && spriteAtlas.fitToSize) {
-                        movieClip.width = ng2DSize.width;
-                        movieClip.height = ng2DSize.height;
-                    }
-
-                    $entity.$add('ngPixijsSprite', {
-                        sprite: movieClip,
-                        fitToSize: spriteAtlas.fitToSize
-                    });
-                });
-        }
-    });
-
     /**
      * Tiled marker
      */
     m.$c('ngTiledSprite', {});
 
     /**
-     * marker of ordinary Sprite
+     * @TODO !!!
      */
-    m.$c('ngSimpleSprite', {
-        anchor: {
-            x: 0.5,
-            y: 0.5
-        }
-    });
-
-    m.$c('ngSprite', {
-        name: null
-    });
-
-    m.$c('ngSpriteAtlas', {
-        name: null,
-        url: null
-    });
-
-    /**
-     * System for getting sprite from Atlas
-     */
-    m.$s('ngPixijsSheetSprite', {
-        $require: ['ng2D', 'ngSpriteAtlas'],
-
-        $addEntity: ['$entity', function($entity) {
-            var spriteAtlas = $entity.ngSpriteAtlas;
-            LoadAtlas(spriteAtlas.url)
-                .then(function() {
-                    $entity.$add('ngSprite', {
-                        name: spriteAtlas.name
-                    });
-                });
-        }]
-    });
-
-    var _loaders = [];
-    var _loadersPromises = {};
-    var _loaded = {};
-
-    function LoadAtlas(url) {
-        var promise = _loadersPromises[url];
-
-        if (promise) {
-            return promise;
-        }
-
-        var deferred = Q.defer();
-        if (_loaded[url]) {
-            setTimeout(function() {
-                deferred.resolve();
-            }, 0);
-            return;
-        }
-
-        var loader = new PIXI.AssetLoader([url]);
-        _loaders.push(loader);
-        loader.onComplete = function() {
-            var index = _loaders.indexOf(loader);
-            _loaders.splice(index, 1);
-            _loaded[url] = true;
-            deferred.resolve(loader);
-        };
-        loader.load();
-        _loadersPromises[url] = deferred.promise;
-        return deferred.promise;
-    }
-
-    m.$s('ngPixijsSprite', {
+    m.$s('ngPixijsTiledSprite', {
         $require: ['ng2D', 'ngSprite', 'ngSimpleSprite'],
 
-        $addEntity: ['$entity', function($entity) {
-            var ngSprite = $entity.ngSprite;
-            var ngSimpleSprite = $entity.ngSimpleSprite;
-
-            // create a texture from an image path
-            ngSprite._texture = PIXI.Texture.fromImage(ngSprite.name);
-
-            // create a new Sprite using the texture
-            var sprite = ngSprite._sprite = new PIXI.Sprite(ngSprite._texture);
-
-            // center the sprites anchor point
-            sprite.anchor.x = ngSimpleSprite.anchor.x;
-            sprite.anchor.y = ngSimpleSprite.anchor.y;
-
-            var ng2DSize = $entity.ng2DSize;
-            if(ng2DSize && ngSimpleSprite.fitToSize) {
-                if (ngSprite._texture.baseTexture.hasLoaded) {
-                    sprite.width = ng2DSize.width;
-                    sprite.height = ng2DSize.height;
-                } else {
-                    ngSprite._texture.addEventListener( 'update', function() {
-                        sprite.width = ng2DSize.width;
-                        sprite.height = ng2DSize.height;
-                    });
-                }
-
-                //sprite.scale.x = 0.5;
-                //sprite.scale.y = 0.5;
-            }
-
-            $entity.$add('ngPixijsSprite', {
-                sprite: sprite
-            });
-        }]
+        $addEntity: []
     });
 
     m.$c('ngPixijsSprite', {
@@ -209,19 +63,194 @@
         }],
 
         $addEntity: ['$entity', function($entity) {
-            var layer = this._layers[$entity.ngLayer.layerName];
-            layer.addChild($entity.ngPixijsSprite.sprite);
+            this.addChildAt($entity.ngLayer.layerName, $entity.ngPixijsSprite.sprite);
         }],
 
         $removeEntity: ['$entity', 'ngPixijsStage', function($entity, ngPixijsStage) {
             if ($entity.ngPixijsSprite.sprite) {
                 ngPixijsStage._stage.addChild($entity.ngPixijsSprite.sprite);
             }
+        }],
+
+        addChildAt: function(layerName, sprite) {
+            var layer = this._layers[layerName];
+            layer.addChild(sprite);
+        }
+    });
+
+    m.$c('ngSprite', {
+        name: null,
+        spriteSheetUrl: null,
+        fitToSize: false,
+        anchor: {
+            x: 0.5,
+            y: 0.5
+        },
+        layerName: null
+    });
+
+    m.$s('ngPixijsUpdateCycle_FullCycleInOne', {
+        $require: ['ngSprite'],
+
+        $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', function(ngPixijsStage, ngPixijsStaticZ, $entity) {
+            var state = $entity.ngSprite;
+            if (state.spriteSheetUrl) {
+                if (isLoaded(state.spriteSheetUrl)) {
+                    handler();
+                } else {
+                    loadAtlas(state.spriteSheetUrl)
+                        .then(handler);
+                }
+            }
+
+            function handler() {
+                buildSprite(state);
+                fitToSize(state, $entity.ng2DSize);
+                //hide sprite before update phase
+                state._sprite.position.x = -1048576;
+                state._sprite.position.y = -1048576;
+                if (state.layerName) {
+                    ngPixijsStaticZ.addChildAt(state.layerName, state._sprite);
+                } else {
+                    ngPixijsStage.addChild(state._sprite);
+                }
+                $entity.$add('ngPixijsSprite', {
+                    sprite: state._sprite
+                });
+            }
+        }],
+
+        $removeEntity: ['ngPixijsStage', '$entity', function(ngPixijsStage, $entity) {
+            var state = $entity.ngSprite;
+            ngPixijsStage.removeChild(state._sprite);
+            state._texture = null;
+            state._sprite = null;
+        }]
+    });
+
+    /**
+     * TODO: integrate with ngPixijsUpdateCycle_FullCycleInOne
+     */
+    m.$s('ngPixijsMovieClip', {
+        $require: ['ng2D', 'ngMovieClip'],
+
+        _frames: null,
+
+        $addEntity: function($entity) {
+            var spriteAtlas = $entity.ngMovieClip;
+            var self = this;
+            loadAtlas(spriteAtlas.url)
+                .then(function() {
+                    var frameNames = spriteAtlas.frames;
+
+                    var frames = [];
+                    if (self._frames !== null) {
+                        frames = self._frames;
+                    } else {
+                        for (var i = 0, l = frameNames.length; i < l; i++) {
+                            frames.push(PIXI.Texture.fromFrame(frameNames[i]));
+                        }
+                        self._frames = frames;
+                    }
+
+                    var movieClip = new PIXI.MovieClip(frames);
+                    movieClip.gotoAndPlay(1);
+
+                    if (spriteAtlas.anchor) {
+                        movieClip.anchor.x = spriteAtlas.anchor.x || 0.5;
+                        movieClip.anchor.y = spriteAtlas.anchor.y || 0.5;
+                    } else {
+                        movieClip.anchor.x = 0.5;
+                        movieClip.anchor.y = 0.5;
+                    }
+
+                    var ng2DSize = $entity.ng2DSize;
+
+                    if (ng2DSize && spriteAtlas.fitToSize) {
+                        movieClip.width = ng2DSize.width;
+                        movieClip.height = ng2DSize.height;
+                    }
+
+                    $entity.$add('ngPixijsSprite', {
+                        sprite: movieClip,
+                        fitToSize: spriteAtlas.fitToSize
+                    });
+                });
+        }
+    });
+
+    m.$s('ngPixijsUpdateCycle', {
+        $require: ['ng2D', 'ngPixijsSprite'],
+
+//        $addEntity: ['ngPixijsStage', '$entity', function(ngPixijsStage, $entity) {
+//            if (!$entity.ngPixijsSprite.sprite.parent) {
+//                ngPixijsStage.addChild($entity.ngPixijsSprite.sprite);
+//            }
+//        }],
+
+        $removeEntity: ['ngPixijsStage', '$entity', function(ngPixijsStage, $entity) {
+//            ngPixijsStage.removeChild($entity.ngPixijsSprite.sprite);
+            $entity.ngPixijsSprite.sprite = null;
+        }],
+
+        $update: ['$entity', 'ng2DViewPort', 'ngPixijsStage', function($entity, ng2DViewPort, ngPixijsStage) {
+            var state = $entity.ngPixijsSprite;
+
+            var ng2D = $entity.ng2D;
+
+            state.sprite.position.x = ng2D.x + ngPixijsStage._center.x;
+            state.sprite.position.y = ng2D.y + ngPixijsStage._center.y;
+
+            state.sprite.position.x -= ng2DViewPort.lookAt.x;
+            state.sprite.position.y -= ng2DViewPort.lookAt.y;
+        }]
+    });
+
+    m.$s('ngPixijsViewPortUpdateCycle', {
+        $require: ['ngPixijsSprite', 'ngLockViewPort'],
+
+        $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
+            var state = $entity.ngPixijsSprite;
+            if ($entity.ngLockViewPort.lockX) {
+                state.sprite.position.x += ng2DViewPort.lookAt.x;
+            }
+
+            if ($entity.ngLockViewPort.lockY) {
+                state.sprite.position.y += ng2DViewPort.lookAt.y;
+            }
+        }]
+    });
+
+    /**
+     * System perform rotation of sprite
+     */
+    m.$s('ngPixijsRotationUpdateCycle', {
+        $require: ['ngPixijsSprite', 'ng2DRotation'],
+
+        $update: ['$entity', function($entity) {
+            $entity.ngPixijsSprite.sprite.rotation = $entity.ng2DRotation.rotation;
+        }]
+    });
+
+    m.$c('ngFitToSize');
+
+    /**
+     * System perform rescale to 2d size of entity
+     */
+    m.$s('ngPixijsScaleUpdateCycle', {
+        $require: ['ngPixijsSprite', 'ng2DSize', 'ngFitToSize'],
+
+        $update: ['$entity', function($entity) {
+            var state = $entity.ngPixijsSprite;
+            var ng2DSize = $entity.ng2DSize;
+
+            state.sprite.scale.x = ng2DSize.width / state.sprite.width;
+            state.sprite.scale.y = ng2DSize.height / state.sprite.height;
         }]
     });
 
     m.$s('ngPixijsStage', {
-        $require: ['ng2D', 'ngPixijsSprite'],
+        //$require: ['ng2D', 'ngPixijsSprite'],
 
         width: 640,
         height: 480,
@@ -271,55 +300,93 @@
             document.removeChild(this._renderer.view);
         },
 
-        $addEntity: function($entity) {
-            this._stage.addChild($entity.ngPixijsSprite.sprite);
+        addChild: function(child) {
+            this._stage.addChild(child);
         },
 
-        $removeEntity: function($entity) {
-            var parent = $entity.ngPixijsSprite.sprite.parent;
-            parent.removeChild($entity.ngPixijsSprite.sprite);
-            $entity.ngPixijsSprite.sprite = null;
+        removeChild: function(child) {
+            if (!child) {
+                return;
+            }
+            var parent = child.parent;
+            if (!parent) {
+                return;
+            }
+
+            parent.removeChild(child);
         },
 
-        $update: ['$entity', 'ng2DViewPort', function($entity, ng2DViewPort) {
-            var sprite = $entity.ngPixijsSprite;
-
-            var ng2D = $entity.ng2D;
-
-            sprite.sprite.position.x = ng2D.x + this._center.x;
-            sprite.sprite.position.y = ng2D.y + this._center.y;
-
-            if (!($entity.ngLockViewPort && $entity.ngLockViewPort.lockX)) {
-                sprite.sprite.position.x -= ng2DViewPort.lookAt.x;
-            }
-
-            if (!($entity.ngLockViewPort && $entity.ngLockViewPort.lockY)) {
-                sprite.sprite.position.y -= ng2DViewPort.lookAt.y;
-            }
-
-            var ng2DRotation = $entity.ng2DRotation;
-            if (ng2DRotation) {
-                sprite.sprite.rotation = ng2DRotation.rotation;
-            }
-
-            var ng2DSize = $entity.ng2DSize;
-
-            if (ng2DSize && sprite.fitToSize) {
-                sprite.sprite.scale.x = ng2DSize.width / sprite.sprite.width;
-                sprite.sprite.scale.y = ng2DSize.height / sprite.sprite.height;
-            }
-        }],
-
-        $afterUpdate: ['$entities', function($entities) {
+        $afterUpdate: function() {
             //$entities.forEach(this.$updateNode);
             // render the stage
             this._renderer.render(this._stage);
-        }],
-
-        lookAt: function(x, y) {
-            this.shiftX = -x;
-            this.shiftY = -y;
         }
     });
+
+
+    var _loaders = [];
+    var _loadersPromises = {};
+    var _loaded = {};
+
+    function isLoaded(url) {
+        return _loaded[url];
+    }
+
+    function loadAtlas(url) {
+        var promise = _loadersPromises[url];
+
+        if (promise) {
+            return promise;
+        }
+
+        var deferred = Q.defer();
+        if (_loaded[url]) {
+            setTimeout(function() {
+                deferred.resolve();
+            }, 0);
+            return;
+        }
+
+        var loader = new PIXI.AssetLoader([url]);
+        _loaders.push(loader);
+        loader.onComplete = function() {
+            var index = _loaders.indexOf(loader);
+            _loaders.splice(index, 1);
+            _loaded[url] = true;
+            deferred.resolve(loader);
+        };
+        loader.load();
+        _loadersPromises[url] = deferred.promise;
+        return deferred.promise;
+    }
+
+    function buildSprite(state) {
+        // create a texture from an image path
+        state._texture = PIXI.Texture.fromImage(state.name);
+
+        // create a new Sprite using the texture
+        var sprite = state._sprite = new PIXI.Sprite(state._texture);
+
+        // center the sprites anchor point
+        sprite.anchor.x = state.anchor.x;
+        sprite.anchor.y = state.anchor.y;
+
+        return sprite;
+    }
+
+    function fitToSize(state, ng2DSize) {
+        var sprite = state._sprite;
+        if(ng2DSize && state.fitToSize) {
+            if (state._texture.baseTexture.hasLoaded) {
+                sprite.width = ng2DSize.width;
+                sprite.height = ng2DSize.height;
+            } else {
+                state._texture.addEventListener( 'update', function() {
+                    sprite.width = ng2DSize.width;
+                    sprite.height = ng2DSize.height;
+                });
+            }
+        }
+    }
 
 })(darlingjs, darlingutil);
