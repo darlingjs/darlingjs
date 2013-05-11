@@ -8,20 +8,6 @@
     'use strict';
     var m = darlingjs.module('ngPixijsAdapter');
 
-    /**
-     * Tiled marker
-     */
-    m.$c('ngTiledSprite', {});
-
-    /**
-     * @TODO !!!
-     */
-    m.$s('ngPixijsTiledSprite', {
-        $require: ['ng2D', 'ngSprite', 'ngSimpleSprite'],
-
-        $addEntity: []
-    });
-
     m.$c('ngPixijsSprite', {
         sprite: null
     });
@@ -86,7 +72,13 @@
             x: 0.5,
             y: 0.5
         },
-        layerName: null
+        layerName: null,
+        tiled: false
+    });
+
+    m.$c('ngSpriteShift', {
+        dx: 0.0,
+        dy: 0.0
     });
 
     m.$s('ngPixijsSpriteFactory', {
@@ -104,7 +96,7 @@
             }
 
             function handler() {
-                buildSprite(state);
+                buildSprite(state, $entity.ng2DSize);
                 fitToSize(state, $entity.ng2DSize);
                 //hide sprite before update phase
                 state._sprite.position.x = -1048576;
@@ -117,6 +109,13 @@
                 $entity.$add('ngPixijsSprite', {
                     sprite: state._sprite
                 });
+
+                if (state.tiled && state.anchor) {
+                    $entity.$add('ngSpriteShift', {
+                        dx: -$entity.ng2DSize.width * state.anchor.x,
+                        dy: -$entity.ng2DSize.height * state.anchor.y
+                    });
+                }
             }
         }],
 
@@ -182,14 +181,7 @@
     m.$s('ngPixijsUpdateCycle', {
         $require: ['ng2D', 'ngPixijsSprite'],
 
-//        $addEntity: ['ngPixijsStage', '$entity', function(ngPixijsStage, $entity) {
-//            if (!$entity.ngPixijsSprite.sprite.parent) {
-//                ngPixijsStage.addChild($entity.ngPixijsSprite.sprite);
-//            }
-//        }],
-
         $removeEntity: ['ngPixijsStage', '$entity', function(ngPixijsStage, $entity) {
-//            ngPixijsStage.removeChild($entity.ngPixijsSprite.sprite);
             $entity.ngPixijsSprite.sprite = null;
         }],
 
@@ -197,12 +189,26 @@
             var state = $entity.ngPixijsSprite;
 
             var ng2D = $entity.ng2D;
+            var pos = state.sprite.position;
+            pos.x = ng2D.x + ngPixijsStage._center.x;
+            pos.y = ng2D.y + ngPixijsStage._center.y;
 
-            state.sprite.position.x = ng2D.x + ngPixijsStage._center.x;
-            state.sprite.position.y = ng2D.y + ngPixijsStage._center.y;
+            pos.x -= ng2DViewPort.lookAt.x;
+            pos.y -= ng2DViewPort.lookAt.y;
+        }]
+    });
 
-            state.sprite.position.x -= ng2DViewPort.lookAt.x;
-            state.sprite.position.y -= ng2DViewPort.lookAt.y;
+    /**
+     * System for applying dynamic shift of Sprite
+     */
+    m.$s('ngPixijsSpriteShiftUpdate', {
+        $require: ['ngSpriteShift', 'ngPixijsSprite'],
+
+        $update: ['$entity', function($entity) {
+            var pos = $entity.ngPixijsSprite.sprite.position;
+            var shift = $entity.ngSpriteShift;
+            pos.x += shift.dx;
+            pos.y += shift.dy;
         }]
     });
 
@@ -360,16 +366,21 @@
         return deferred.promise;
     }
 
-    function buildSprite(state) {
+    function buildSprite(state, ng2DSize) {
         // create a texture from an image path
         state._texture = PIXI.Texture.fromImage(state.name);
 
         // create a new Sprite using the texture
-        var sprite = state._sprite = new PIXI.Sprite(state._texture);
+        var sprite;
+        if (state.tiled) {
+            sprite = state._sprite = new PIXI.TilingSprite(state._texture, ng2DSize.width, ng2DSize.height);
+        } else {
+            sprite = state._sprite = new PIXI.Sprite(state._texture);
+            // center the sprites anchor point
+            sprite.anchor.x = state.anchor.x;
+            sprite.anchor.y = state.anchor.y;
+        }
 
-        // center the sprites anchor point
-        sprite.anchor.x = state.anchor.x;
-        sprite.anchor.y = state.anchor.y;
 
         return sprite;
     }
