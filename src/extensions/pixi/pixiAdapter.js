@@ -89,7 +89,7 @@
         layerName: null
     });
 
-    m.$s('ngPixijsUpdateCycle_FullCycleInOne', {
+    m.$s('ngPixijsSpriteFactory', {
         $require: ['ngSprite'],
 
         $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', function(ngPixijsStage, ngPixijsStaticZ, $entity) {
