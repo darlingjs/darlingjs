@@ -59,7 +59,8 @@
             var ng2DCircle = $entity.ng2DCircle;
             var ng2DPolygon = $entity.ng2DPolygon;
 
-            var bodyDef = new Box2D.b2BodyDef();
+            //var bodyDef = new Box2D.b2BodyDef();
+            var bodyDef = poolOfBodyDef.get();
 
             switch(ngPhysic.type) {
                 case 'static':
@@ -75,13 +76,13 @@
 
             var rotation = 0.0;
             var shape;
-            var fixDef = new Box2D.b2FixtureDef();
+            var fixDef = poolOfFixtureDef.get();
 
             if (darlingutil.isDefined(ng2DSize)) {
-                shape = new Box2D.b2PolygonShape();
+                shape = poolOfPolygonShape.get();
                 shape.SetAsBox(0.5 * ng2DSize.width * this._invScale, 0.5 * ng2DSize.height * this._invScale);
             } else if (darlingutil.isDefined(ng2DCircle)) {
-                shape = new Box2D.b2CircleShape();
+                shape = poolOfCircleShape.get();
                 shape.set_m_radius(ng2DCircle.radius * this._invScale);
             } else if (darlingutil.isDefined(ng2DPolygon)) {
                 var vertexCount = ng2DPolygon.line.length;
@@ -94,7 +95,7 @@
                     offset += 8;
                 }
 
-                shape = new Box2D.b2PolygonShape();
+                shape = poolOfPolygonShape.get();
                 var ptr_wrapped = Box2D.wrapPointer(buffer, Box2D.b2Vec2);
                 shape.Set(ptr_wrapped, ng2DPolygon.line.length);
             } else {
@@ -127,12 +128,20 @@
                     (ng2D.y - parentNg2D.y) * this._invScale,
                     rotation);
             } else {
-                bodyDef.set_position(new Box2D.b2Vec2(ng2D.x * this._invScale, ng2D.y * this._invScale));
+                var vec = getb2Vec2(ng2D.x * this._invScale, ng2D.y * this._invScale);
+                bodyDef.set_position(vec);
                 bodyDef.set_angle(rotation);
                 bodyDef.set_fixedRotation(ngPhysic.fixedRotation);
                 body = this._world.CreateBody(bodyDef);
+                vec.onDispose();
+
                 isCreatedNew = true;
             }
+
+            //sweep useless objects
+            bodyDef.onDispose();
+            fixDef.onDispose();
+            shape.onDispose();
 
             //body.SetAngle(rotation);
             var fixture = ngPhysic._b2dFixture = body.CreateFixture(fixDef);
@@ -318,14 +327,21 @@
             // Make a small box.
             var aabb = new Box2D.b2AABB();
             var d = 0.001;
-            aabb.set_lowerBound(new Box2D.b2Vec2(x - d, y - d));
-            aabb.set_upperBound(new Box2D.b2Vec2(x + d, y + d));
+            var lowerBound = getb2Vec2(x - d, y - d);
+            var upperBound = getb2Vec2(x + d, y + d);
+            aabb.set_lowerBound(lowerBound);
+            aabb.set_upperBound(upperBound);
 
             // Query the world for overlapping shapes.
             var myQueryCallback = this._getQueryCallbackForAllFixtures();
             myQueryCallback.m_fixtures = [];
-            myQueryCallback.m_point = new Box2D.b2Vec2(x, y);
+            myQueryCallback.m_point = getb2Vec2(x, y);
             this._world.QueryAABB(myQueryCallback, aabb);
+
+            lowerBound.onDispose();
+            upperBound.onDispose();
+            myQueryCallback.m_point.onDispose();
+            myQueryCallback.m_point = null;
 
             return myQueryCallback.m_fixtures;
         },
@@ -348,14 +364,21 @@
             // Make a small box.
             var aabb = new Box2D.b2AABB();
             var d = 0.1;
-            aabb.set_lowerBound(new Box2D.b2Vec2(x - d, y - d));
-            aabb.set_upperBound(new Box2D.b2Vec2(x + d, y + d));
+            var lowerBound = getb2Vec2(x - d, y - d);
+            var upperBound = getb2Vec2(x + d, y + d);
+            aabb.set_lowerBound(lowerBound);
+            aabb.set_upperBound(upperBound);
 
             // Query the world for overlapping shapes.
             var myQueryCallback = this._getQueryCallbackForOneFixture();
             myQueryCallback.m_fixture = null;
-            myQueryCallback.m_point = new Box2D.b2Vec2(x, y);
+            myQueryCallback.m_point = getb2Vec2(x, y);
             this._world.QueryAABB(myQueryCallback, aabb);
+
+            lowerBound.onDispose();
+            upperBound.onDispose();
+            myQueryCallback.m_point.onDispose();
+            myQueryCallback.m_point = null;
 
             return myQueryCallback.m_fixture;
         },
@@ -1082,8 +1105,10 @@
                     break;
             }
 
-            var jointDef = new Box2D.b2RevoluteJointDef();
-            jointDef.Initialize(bodyA, bodyB, new Box2D.b2Vec2(x, y));
+            var jointDef = poolOfRevoluteJointDef.get();
+            var vec = getb2Vec2(x, y);
+            jointDef.Initialize(bodyA, bodyB, vec);
+            vec.onDispose();
             jointDef.set_collideConnected(jointState.collideConnected || false);
             jointDef.set_lowerAngle(jointState.lowerAngle);
             jointDef.set_upperAngle(jointState.upperAngle);
@@ -1094,6 +1119,8 @@
             jointDef.set_enableMotor(jointState.enableMotor);
 
             jointState._joint = ngBox2DSystem.createJoint(jointDef, Box2D.b2RevoluteJoint);
+            jointDef.onDispose();
+
             if (!$entity.$has('ngAnyJoint')) {
                 $entity.$add('ngAnyJoint');
             }
@@ -1128,11 +1155,11 @@
         $addEntity: ['$entity', 'ngBox2DSystem', function($entity, box2DSystem) {
             var jointState = $entity.ngDistanceJoint;
             var ng2D = $entity.ng2D;
-            var anchorA = new Box2D.b2Vec2(
+            var anchorA = getb2Vec2(
                 box2DSystem._invScale * (jointState.anchorA.x + ng2D.x),
                 box2DSystem._invScale * (jointState.anchorA.y + ng2D.y)
             );
-            var anchorB = new Box2D.b2Vec2(
+            var anchorB = getb2Vec2(
                 box2DSystem._invScale * (jointState.anchorB.x + ng2D.x),
                 box2DSystem._invScale * (jointState.anchorB.y + ng2D.y)
             );
@@ -1156,12 +1183,17 @@
                 }
             }
 
-            var jointDef = new Box2D.b2DistanceJointDef();
+            var jointDef = poolOfDistanceJointDef.get();
             jointDef.Initialize(bodyA, bodyB, anchorA, anchorB);
             jointDef.set_collideConnected(jointState.collideConnected);
             jointDef.set_frequencyHz(jointState.frequencyHz);
             jointDef.set_dampingRatio(jointState.dampingRatio);
             jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2DistanceJoint);
+
+            anchorA.onDispose();
+            anchorB.onDispose();
+            jointDef.onDispose();
+
             if (!$entity.$has('ngAnyJoint')) {
                 $entity.$add('ngAnyJoint');
             }
@@ -1204,16 +1236,16 @@
         $addEntity: ['$entity', 'ngBox2DSystem', '$world', function($entity, box2DSystem, $world) {
             var jointState = $entity.ngPrismaticJoint;
             var ng2D = $entity.ng2D;
-            var anchorA = new Box2D.b2Vec2(
+            var anchorA = getb2Vec2(
                 box2DSystem._invScale * (jointState.anchorA.x + ng2D.x),
                 box2DSystem._invScale * (jointState.anchorA.y + ng2D.y)
             );
-            var anchorB = new Box2D.b2Vec2(
+            var anchorB = getb2Vec2(
                 box2DSystem._invScale * (jointState.anchorB.x + ng2D.x),
                 box2DSystem._invScale * (jointState.anchorB.y + ng2D.y)
             );
 
-            var axis = new Box2D.b2Vec2(
+            var axis = getb2Vec2(
                 anchorB.get_x() - anchorA.get_x(),
                 anchorB.get_y() - anchorA.get_y()
             );
@@ -1270,7 +1302,7 @@
                 });
             }
 
-            var jointDef = new Box2D.b2PrismaticJointDef();
+            var jointDef = poolOfPrismaticJointDef.get();
             jointDef.Initialize(bodyA, bodyB, anchorA, axis);
     //            jointDef.set_localAnchorA(bodyA.GetLocalPoint(anchorA));
     //            jointDef.set_localAnchorB(bodyB.GetLocalPoint(anchorB));
@@ -1285,6 +1317,12 @@
             //return;
 
             jointState._joint = box2DSystem.createJoint(jointDef, Box2D.b2PrismaticJoint);
+
+            jointDef.onDispose();
+            anchorA.onDispose()
+            anchorB.onDispose()
+            axis.onDispose();
+
             if (!$entity.$has('ngAnyJoint')) {
                 $entity.$add('ngAnyJoint');
             }
@@ -1597,7 +1635,27 @@
             var currentPosition = body.GetPosition();
             var dx = ngBox2DSystem._invScale * $entity.ng2D.x - currentPosition.get_x();
             var dy = ngBox2DSystem._invScale * $entity.ng2D.y - currentPosition.get_y();
-            body.SetLinearVelocity(new Box2D.b2Vec2(dx, dy));
+            var vec = getb2Vec2(dx, dy);
+            body.SetLinearVelocity(vec);
+            vec.onDispose();
         }]
     });
+
+    var poolOfBodyDef = new darlingutil.PoolOfObjects(Box2D.b2BodyDef).warmup(1);
+    var poolOfFixtureDef = new darlingutil.PoolOfObjects(Box2D.b2FixtureDef).warmup(1);
+    var poolOfPolygonShape = new darlingutil.PoolOfObjects(Box2D.b2PolygonShape).warmup(1);
+    var poolOfCircleShape = new darlingutil.PoolOfObjects(Box2D.b2CircleShape).warmup(1);
+
+    var poolOfRevoluteJointDef = new darlingutil.PoolOfObjects(Box2D.b2RevoluteJointDef).warmup(1);
+    var poolOfDistanceJointDef = new darlingutil.PoolOfObjects(Box2D.b2DistanceJointDef).warmup(1);
+    var poolOfPrismaticJointDef = new darlingutil.PoolOfObjects(Box2D.b2PrismaticJointDef).warmup(1);
+
+
+    var poolOfb2Vec2 = new darlingutil.PoolOfObjects(Box2D.b2Vec2).warmup(100);
+    function getb2Vec2(x, y) {
+        var instance = poolOfb2Vec2.get();
+        instance.set_x(x);
+        instance.set_y(y);
+        return instance;
+    }
 })(darlingjs, darlingutil);

@@ -426,7 +426,6 @@
 
     function disposeSprite(sprite) {
         _poolOfSprites.push(sprite);
-        console.log('_poolOfSprites.length = ' + _poolOfSprites.length);
     }
 
     function fitToSize(state, ng2DSize) {
