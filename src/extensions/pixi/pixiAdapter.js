@@ -131,6 +131,9 @@
             var state = $entity.ngSprite;
             ngPixijsStage.removeChild(state._sprite);
             state._texture = null;
+            if (state._sprite instanceof PIXI.Sprite) {
+                disposeSprite(state._sprite);
+            }
             state._sprite = null;
         }]
     });
@@ -328,6 +331,9 @@
             }
 
             parent.removeChild(child);
+            if (child.onDispose) {
+                child.onDispose();
+            }
         },
 
         $afterUpdate: function() {
@@ -392,13 +398,35 @@
             sprite = state._sprite = new PIXI.TilingSprite(texture, ng2DSize.width, ng2DSize.height);
 
         } else {
-            sprite = state._sprite = new PIXI.Sprite(state._texture);
+            sprite = state._sprite = getSprite(state._texture);
             // center the sprites anchor point
             sprite.anchor.x = state.anchor.x;
             sprite.anchor.y = state.anchor.y;
         }
 
         return sprite;
+    }
+
+    var _poolOfSprites = [];
+
+    function getSprite(texture) {
+        var instance = _poolOfSprites.pop();
+        if (!instance) {
+            instance = new PIXI.Sprite(texture);
+        } else {
+            instance.setTexture(texture);
+            instance.rotation = 0;
+            instance.scale.x = 1;
+            instance.scale.y = 1;
+            instance.alpha = 1;
+        }
+
+        return instance;
+    }
+
+    function disposeSprite(sprite) {
+        _poolOfSprites.push(sprite);
+        console.log('_poolOfSprites.length = ' + _poolOfSprites.length);
     }
 
     function fitToSize(state, ng2DSize) {
