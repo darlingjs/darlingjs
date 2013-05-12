@@ -3,6 +3,14 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+/**
+ * Systems:
+ * ngPixijsSpriteFactory - use for building Pixijs Sprite from entity
+ * ngPixijsStage - create Pixijs Stage, connect it with DOM
+ * ngPixijsUpdateCycle - basic update cycle
+ * ngPixijsViewPortUpdateCycle - update cycle with applying of ViewPort
+ *
+ */
 (function(darlingjs, darlingutil) {
 
     'use strict';
@@ -377,14 +385,18 @@
                 texture.height & (texture.height - 1) === 0) {
                 throw new Error('Tiled Sprite must be power of 2');
             }
+
+            // create a texture from an image path
+            //texture = state._texture = PIXI.Texture.fromImage("assets/p2gui.jpeg");
+            //texture = state._texture = PIXI.Texture.fromImage('p2.jpeg');
             sprite = state._sprite = new PIXI.TilingSprite(texture, ng2DSize.width, ng2DSize.height);
+
         } else {
             sprite = state._sprite = new PIXI.Sprite(state._texture);
             // center the sprites anchor point
             sprite.anchor.x = state.anchor.x;
             sprite.anchor.y = state.anchor.y;
         }
-
 
         return sprite;
     }
