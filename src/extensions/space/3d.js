@@ -7,16 +7,6 @@
     'use strict';
     var m = darlingjs.m('ng3D');
 
-    /**
-     * Component of parallax effect
-     */
-    m.$c('ngParallax', {
-        //basis of parallax effect
-        //1 is original plane, 0.5 - further, 0.25 - twice times further
-        basis: 0.5
-    });
-
-    m.$c('ngConvert3DtoParallax');
 
     /**
      * Component of position in 3D environment
@@ -26,6 +16,20 @@
         y: 0.0,
         z: 0.0
     });
+
+    /**
+     * Component of parallax effect
+     */
+    m.$c('ngParallax', {
+        //basis of parallax effect
+        //1 is original plane, 0.5 - further, 0.25 - twice times further
+        basis: 0.5
+    });
+
+    /**
+     * Marker for converting 3D to tune parallax property
+     */
+    m.$c('ngConvert3DtoParallax');
 
     /**
      * Component of position in 3D environment

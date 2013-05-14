@@ -269,16 +269,21 @@
     m.$s('ngPixijsStage', {
         //$require: ['ng2D', 'ngPixijsSprite'],
 
+        width_to_height: 0,
         width: 640,
         height: 480,
 
         shiftX: 0.0,
         shiftY: 0.0,
 
+        fitToWindow: false,
+        _onResizeDefaultHandler: null,
+
         domId: '',
 
         useWebGL: true,
 
+        _canvas: null,
         _stage: null,
         _center: {x:0.0, y:0.0},
 
@@ -290,13 +295,22 @@
             var width, height;
             var view;
             if (this.domId !== null && this.domId !== '') {
-                view = darlingutil.placeCanvasInStack(this.domId, this.width, this.height);
+                view = darlingutil.getCanvas(this.domId);
+                if (view) {
+                    view.width = this.width;
+                    view.height = this.height;
+                } else {
+                    view = darlingutil.placeCanvasInStack(this.domId, this.width, this.height);
+                }
+                this._canvas = view;
                 width = view.width;
                 height = view.height;
             } else {
                 width = this.width;
                 height = this.height;
             }
+
+            this.width_to_height = this.width / this.height;
 
             this._center.x = 0.5 * this.width;
             this._center.y = 0.5 * this.height;
@@ -311,10 +325,37 @@
             if (!darlingutil.isDefined(view)) {
                 document.body.appendChild(this._renderer.view);
             }
+
+            if (this.fitToWindow) {
+                this._onResizeDefaultHandler = window.onresize || function(){};
+                var self = this;
+                window.onresize = function(e) {
+                    self._onReize(e);
+                };
+                self._onReize();
+            }
+        },
+
+        _onReize: function(e) {
+            this._onResizeDefaultHandler(e);
+
+            var widthRatio = window.innerWidth / this.width;
+            var heightRatio = window.innerHeight / this.height;
+            var ratio = Math.min(widthRatio, heightRatio);
+
+            if (ratio >= 1) {
+                ratio = 1;
+            }
+
+            this._center.x = 0.5 * ratio * this.width;
+            this._center.y = 0.5 * ratio * this.height;
+            this._canvas.width = ratio * this.width;
+            this._canvas.height = ratio * height;
         },
 
         $removed: function() {
-            document.removeChild(this._renderer.view);
+            document.removeChild(this._canvas);
+            this._canvas = null;
         },
 
         addChild: function(child) {

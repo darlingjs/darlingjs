@@ -8,17 +8,17 @@
 
     var m = darlingjs.m('ngPerformance');
 
-    m.$s('ngPerformanceStartLog', {
+    m.$s('ngPerformanceLogBegin', {
         $beforeUpdate: function() {
             this.startTime = Date.now();
         }
     });
 
-    m.$s('ngPerformanceStopLog', {
+    m.$s('ngPerformanceLogEnd', {
         enabled: true,
 
         logToConsole: true,
-        logToGoogleAnalytics: true,
+        logToGoogleAnalytics: 'googleAnalytics',
 
         _warmUpInterval: 4 * 1000,
 
@@ -28,7 +28,7 @@
         _samplesForPerformance: [],
         _samplesForFPS: [],
 
-        $afterUpdate: ['ngPerformanceStartLog', '$time', function(ngPerformanceStartLog, $time) {
+        $afterUpdate: ['ngPerformanceLogBegin', '$time', function(ngPerformanceLogBegin, $time) {
             if (!this.enabled) {
                 return;
             }
@@ -40,7 +40,7 @@
             }
 
             var current = Date.now(),
-                delta = current - ngPerformanceStartLog.startTime;
+                delta = current - ngPerformanceLogBegin.startTime;
 
             this._samplesForPerformance[this._sampleIndex] = delta;
 
@@ -61,8 +61,9 @@
                     console.log('fps avg : ' + avgFps + ' stdsqr : ' + Math.sqrt(stdFps));
                 }
 
-                if (this.logToGoogleAnalytics && window._gaq) {
-                    _gaq.push(['_trackEvent', 'performance-avg', 'performance-avg', avgPerformance]);
+                if (this.logToGoogleAnalytics && window[this.logToGoogleAnalytics]) {
+                    var ga = window[this.logToGoogleAnalytics];
+                    ga('_trackEvent', 'performance-avg', 'performance-avg', avgPerformance);
 
                     var performanceType;
                     if (avgFps < 40) {
@@ -71,7 +72,7 @@
                         performanceType = 'high-fps';
                     }
 
-                    _gaq.push(['_trackEvent', 'fps-avg', performanceType, avgFps]);
+                    ga('_trackEvent', 'fps-avg', performanceType, avgFps);
                 }
 
                 this._sampleIndex = 0;
