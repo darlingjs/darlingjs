@@ -70,6 +70,14 @@
         keyCodeReverse: null
     });
 
+    m.$c('ngEnableMotorOnAccelerometer', {
+        xAxis: false,
+        yAxis: false,
+        zAxis: false,
+        edge: 15.0,
+        invert: true
+    });
+
     m.$c('ngMotorWithAcceleration', {
         min: 0.0,
         max: 10.0,
@@ -121,6 +129,76 @@
                 }
             });
         }
+    });
+
+    m.$s('ngEnableMotorOnAccelerometer', {
+        $require: ['ngEnableMotorOnAccelerometer', 'ngSelected'],
+
+        _calibration: {alpha:0.0, beta:0.0, gamma:0.0},
+        _acceleration: {x:0.0, y:0.0, z:0.0},
+        _handler: null,
+
+        $added: function() {
+            var self = this;
+            window.addEventListener('deviceorientation', this._handler = function(e) {
+                self._acceleration.x = e.alpha - self._calibration.alpha;
+                self._acceleration.y = e.beta - self._calibration.beta;
+                self._acceleration.z = e.gamma - self._calibration.gamma;
+            });
+        },
+
+        $remove: function() {
+            window.removeEventListener('deviceorientation', this._handler);
+        },
+
+        enableMotorIsInInterval: function($entity, value, edge, invert) {
+            var enablingMotor = false;
+            var reverse = false;
+            if (value > edge) {
+                enablingMotor = true;
+                reverse = false;
+            } else if (value < -edge) {
+                enablingMotor = true;
+                reverse = true;
+            }
+
+            if (invert) {
+                reverse = !reverse;
+            }
+
+            if (enablingMotor) {
+                if (!$entity.ngEnableMotor) {
+                    $entity.$add('ngEnableMotor');
+                }
+                if (reverse) {
+                    if (!$entity.ngEnableMotorReverse) {
+                        $entity.$add('ngEnableMotorReverse');
+                    }
+                } else {
+                    if ($entity.ngEnableMotorReverse) {
+                        $entity.$remove('ngEnableMotorReverse');
+                    }
+                }
+            } else {
+                if ($entity.ngEnableMotorReverse) {
+                    $entity.$remove('ngEnableMotorReverse');
+                }
+                if ($entity.ngEnableMotor) {
+                    $entity.$remove('ngEnableMotor');
+                }
+            }
+        },
+
+        $update: ['$entity', function($entity) {
+            var component = $entity.ngEnableMotorOnAccelerometer;
+            if (component.xAxis) {
+                this.enableMotorIsInInterval($entity, this._acceleration.x, $entity.ngEnableMotorOnAccelerometer.edge, component.invert);
+            } else if (component.yAxis) {
+                this.enableMotorIsInInterval($entity, this._acceleration.y, $entity.ngEnableMotorOnAccelerometer.edge, component.invert);
+            } else if (component.zAxis) {
+                this.enableMotorIsInInterval($entity, this._acceleration.z, $entity.ngEnableMotorOnAccelerometer.edge, component.invert);
+            }
+        }]
     });
 
     m.$c('ngWantsToCollide', {

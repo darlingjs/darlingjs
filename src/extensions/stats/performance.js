@@ -19,6 +19,9 @@
 
         logToConsole: true,
         logToGoogleAnalytics: 'googleAnalytics',
+        category: 'performance',
+        performanceAvgActionName: 'performance-avg',
+        fpsActionName: 'fps-avg',
 
         _warmUpInterval: 4 * 1000,
 
@@ -63,7 +66,7 @@
 
                 if (this.logToGoogleAnalytics && window[this.logToGoogleAnalytics]) {
                     var ga = window[this.logToGoogleAnalytics];
-                    ga('_trackEvent', 'performance-avg', 'performance-avg', avgPerformance);
+                    ga('_trackEvent', this.category, this.performanceAvgActionName, avgPerformance);
 
                     var performanceType;
                     if (avgFps < 40) {
@@ -72,7 +75,7 @@
                         performanceType = 'high-fps';
                     }
 
-                    ga('_trackEvent', 'fps-avg', performanceType, avgFps);
+                    ga('_trackEvent', this.category, this.fpsActionName, performanceType, avgFps);
                 }
 
                 this._sampleIndex = 0;
