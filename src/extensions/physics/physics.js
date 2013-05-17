@@ -137,6 +137,7 @@
         _calibration: {alpha:0.0, beta:0.0, gamma:0.0},
         _acceleration: {x:0.0, y:0.0, z:0.0},
         _handler: null,
+        _enabled: false,
 
         $added: function() {
             var self = this;
@@ -167,6 +168,7 @@
             }
 
             if (enablingMotor) {
+                this._enabled = true;
                 if (!$entity.ngEnableMotor) {
                     $entity.$add('ngEnableMotor');
                 }
@@ -180,11 +182,14 @@
                     }
                 }
             } else {
-                if ($entity.ngEnableMotorReverse) {
-                    $entity.$remove('ngEnableMotorReverse');
-                }
-                if ($entity.ngEnableMotor) {
-                    $entity.$remove('ngEnableMotor');
+                if (this._enabled) {
+                    this._enabled = false;
+                    if ($entity.ngEnableMotorReverse) {
+                        $entity.$remove('ngEnableMotorReverse');
+                    }
+                    if ($entity.ngEnableMotor) {
+                        $entity.$remove('ngEnableMotor');
+                    }
                 }
             }
         },
