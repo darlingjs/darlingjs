@@ -66,7 +66,7 @@
 
                 if (this.logToGoogleAnalytics && window[this.logToGoogleAnalytics]) {
                     var ga = window[this.logToGoogleAnalytics];
-                    ga('send', 'event', this.category, this.performanceAvgActionName, avgPerformance);
+                    ga('send', 'event', this.category, this.performanceAvgActionName, this.performanceAvgActionName, avgPerformance);
 
                     var performanceType;
                     if (avgFps < 40) {
