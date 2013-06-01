@@ -29,7 +29,7 @@
     /**
      * Emit Particle in square area
      */
-    m.$s('ngSquareEmitterSystem', {
+    m.$s('ngCircleEmitterSystem', {
         $require: ['ngEmit', 'ngEmitter', 'ng2D', 'ng2DSize'],
 
         $addEntity: ['$entity', '$world', function($entity, $world) {
@@ -41,6 +41,19 @@
                 generate = generate($entity);
             }
 
+            var emitCount = $entity.ngEmit.count;
+            if (darlingutil.isArray(generate)) {
+                for(var i = 0, count = generate.length; i < count; i++) {
+                    this._emitOne($entity, ng2D, ng2DSize, generate[i], $world, emitCount);
+                }
+            } else {
+                this._emitOne($entity, ng2D, ng2DSize, generate, $world, emitCount);
+            }
+
+            $entity.$remove('ngEmit');
+        },
+
+        _emitOne: function($entity, ng2D, ng2DSize, generate, $world, count) {
             if (generate === null || darlingutil.isUndefined(generate)) {
                 throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
             }
@@ -48,11 +61,51 @@
             generate.ng2D = generate.ng2D || {};
             generate.ng2D.x = ng2D.x + ng2DSize.width * Math.random();
             generate.ng2D.y = ng2D.y + ng2DSize.height * Math.random();
-            var count = $entity.ngEmit.count;
             while(--count>=0) {
                 $world.$e(generate);
             }
+        }
+    });
+
+    /**
+     * Emit Particle in circle area
+     */
+    m.$s('ngSquareEmitterSystem', {
+        $require: ['ngEmit', 'ngEmitter', 'ng2D', 'ng2DCircle'],
+
+        $addEntity: ['$entity', '$world', function($entity, $world) {
+            this._emit($entity, $entity.ng2D, $entity.ng2DCircle, $entity.ngEmitter.generate, $world);
+        }],
+
+        _emit: function($entity, ng2D, ng2DCircle, generate, $world) {
+            if (darlingutil.isFunction(generate)) {
+                generate = generate($entity);
+            }
+
+            var emitCount = $entity.ngEmit.count;
+            if (darlingutil.isArray(generate)) {
+                for(var i = 0, count = generate.length; i < count; i++) {
+                    this._emitOne($entity, ng2D, ng2DCircle, generate[i], $world, emitCount);
+                }
+            } else {
+                this._emitOne($entity, ng2D, ng2DCircle, generate, $world, emitCount);
+            }
+
             $entity.$remove('ngEmit');
+        },
+
+        _emitOne: function($entity, ng2D, ng2DCircle, generate, $world, count) {
+            if (generate === null || darlingutil.isUndefined(generate)) {
+                throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
+            }
+
+            generate.ng2D = generate.ng2D || {};
+            var angle = 2 * Math.random() * Math.PI;
+            generate.ng2D.x = ng2D.x + ng2DCircle.radius * Math.random() * Math.cos(angle);
+            generate.ng2D.y = ng2D.y + ng2DCircle.radius * Math.random() * Math.sin(angle);
+            while(--count>=0) {
+                $world.$e(generate);
+            }
         }
     });
 
@@ -248,7 +301,9 @@
         $require: ['ngRemoveIfDead', 'ngDead'],
 
         $addEntity: ['$world', '$entity', function($world, $entity) {
-            $world.$remove($entity);
+            setTimeout(function(){
+                $world.$remove($entity);
+            }, 0);
         }]
     });
 

@@ -1453,6 +1453,9 @@
 
         if (!component) {
             config = config || {};
+            if (config === true) {
+                config = {};
+            }
             config.entities = [entityB];
             entityA.$add(componentName, config);
         } else {
