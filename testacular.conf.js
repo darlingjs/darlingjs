@@ -10,21 +10,24 @@ files = [
     JASMINE,
     JASMINE_ADAPTER,
     'src/utils/**/*.js',
-    'src/**/*.js',
+    'src/core/**/*.js',
+    'vendor/**/*.js',
+    'src/extensions/**/*.js',
     'spec/lib/**/*.js',
     'spec/**/*Spec.js'
-    //TODO : need to fix Uncaught TypeError: 'caller', 'callee', and 'arguments' properties
-    // may not be accessed on strict mode functions or the arguments objects for calls to them
-    // in vendor/box2dEmscripten/box2d-dev.js
-//    'vendor/box2dEmscripten/box2d-dev.js',
-//    'vendor/box2dEmscripten/embox2d-helpers.js',
-//    'vendor/box2dEmscripten/embox2d-html5canvas-debugDraw.js'
 ];
 
 
 // list of files to exclude
 exclude = [
-
+    'vendor/box2dEmscripten/**/*.*',
+    'src/extensions/box2dweb/**/*.*',
+    'src/extensions/box2dEmscripten/**/*.*',
+    //TODO : need to fix Uncaught TypeError: 'caller', 'callee', and 'arguments' properties
+    // may not be accessed on strict mode functions or the arguments objects for calls to them
+    // in vendor/box2dEmscripten/box2d-dev.js
+    'spec/suites/extensions/box2d/*Spec.js',
+    'spec/suites/extensions/particles/*Spec.js'
 ];
 
 /**
