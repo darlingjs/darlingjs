@@ -124,6 +124,70 @@ Entity.prototype.$has = function(value) {
     }
 };
 
+
+
+/**
+ * Apply modifier to $entity
+ *
+ * modifier can be:
+ * 1. callback function (execute);
+ * 2. name of component (add);
+ * 3. object with key - components, value - is config of components (add);
+ * 4. array of components (add);
+ *
+ * @param modifier
+ */
+Entity.prototype.$applyModifier = function(modifier) {
+    if (darlingutil.isFunction(modifier)) {
+        modifier.call(this);
+    } else {
+        //TODO : add components from ngAnyJoint.onEnableReverse
+        if (darlingutil.isString(modifier)) {
+            this.$add(modifier);
+        } else if (darlingutil.isArray(modifier)) {
+            for(var i = 0, count = modifier.length; i < count; i++) {
+                this.$add(modifier[i]);
+            }
+        } else if (darlingutil.isObject(modifier)) {
+            for(var key in modifier) {
+                this.$add(key, modifier[key])
+            }
+        } else {
+            throw new Error('Unknown modifier')
+        }
+    }
+}
+
+/**
+ * Revert modifier to $entity
+ *
+ * modifier can be:
+ * 1. callback function (can't be reverted);
+ * 2. name of component (remove);
+ * 3. object with key - components, value - is config of components (remove);
+ * 4. array of components (remove);
+ *
+ * @param handler
+ */
+Entity.prototype.$revertModifier = function(modifier) {
+    if (!darlingutil.isFunction(modifier)) {
+        //TODO : remove components from ngAnyJoint.onEnableReverse
+        if (darlingutil.isString(modifier)) {
+            this.$remove(modifier);
+        } else if (darlingutil.isArray(modifier)) {
+            for(var i = 0, count = modifier.length; i < count; i++) {
+                this.$remove(modifier[i]);
+            }
+        } else if (darlingutil.isObject(modifier)) {
+            for(var key in modifier) {
+                this.$remove(key, modifier[key])
+            }
+        } else {
+            throw new Error('Unknown modifier')
+        }
+    }
+}
+
 function isComponent(value) {
     return isObject(value) && isDefined(value.$name);
 }

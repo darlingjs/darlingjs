@@ -1,6 +1,4 @@
 /**
-/**
-/**
  * Project: darlingjs / GameEngine.
  *
  * Adapter for emscripten port of Box2D 2.2.1 to javascript
@@ -943,18 +941,40 @@
         $require: ['ngEnableMotor', 'ngAnyJoint'],
 
         $addEntity: function($entity) {
-            var joint = $entity.ngAnyJoint.joint;
+            var ngAnyJoint = $entity.ngAnyJoint;
+            var joint = ngAnyJoint.joint;
 
             if (joint) {
                 joint.EnableMotor(true);
             }
+
+            if (ngAnyJoint.onEnableReverse && $entity.ngEnableMotorReverse) {
+                $entity.$applyModifier(ngAnyJoint.onEnableReverse);
+            } else if (ngAnyJoint.onEnabled) {
+                $entity.$applyModifier(ngAnyJoint.onEnabled);
+            }
+
+            if (ngAnyJoint.onDisabled) {
+                $entity.$revertModifier(ngAnyJoint.onDisabled);
+            }
         },
 
         $removeEntity: function($entity) {
-            var joint = $entity.ngAnyJoint.joint;
+            var ngAnyJoint = $entity.ngAnyJoint;
+            var joint = ngAnyJoint.joint;
 
             if (joint) {
                 joint.EnableMotor(false);
+            }
+
+            if (ngAnyJoint.onEnableReverse && $entity.ngEnableMotorReverse) {
+                $entity.$revertModifier(ngAnyJoint.onEnableReverse);
+            } else if (ngAnyJoint.onEnabled) {
+                $entity.$revertModifier(ngAnyJoint.onEnabled);
+            }
+
+            if (ngAnyJoint.onDisabled) {
+                $entity.$applyModifier(ngAnyJoint.onDisabled);
             }
         }
     });
