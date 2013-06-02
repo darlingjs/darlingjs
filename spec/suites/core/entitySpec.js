@@ -182,4 +182,40 @@ describe('entity', function() {
         expect(e.theComponent).toBeDefined();
         expect(e.theComponent2).toBeDefined();
     });
+
+    it('should use result of object of components callback function as config of component', function(){
+        var e = world.$entity('theEntity');
+        e.$applyModifier({
+            'theComponent': function() {
+                return {
+                    x: 1,
+                    y: 2
+                }
+            },
+            'theComponent2': function() {
+                return {
+                    x: 3,
+                    y: 4
+                }
+            }});
+
+        expect(e.theComponent).toBeDefined();
+        expect(e.theComponent.x).toBe(1);
+        expect(e.theComponent.y).toBe(2);
+        expect(e.theComponent2).toBeDefined();
+        expect(e.theComponent2.x).toBe(3);
+        expect(e.theComponent2.y).toBe(4);
+    });
+
+    it('should use result of array of components callback function as config of component', function(){
+        var e = world.$entity('theEntity');
+        e.$applyModifier([function() {
+                return 'theComponent'
+            },function() {
+                return 'theComponent2'
+            }]);
+
+        expect(e.theComponent).toBeDefined();
+        expect(e.theComponent2).toBeDefined();
+    });
 });

@@ -135,6 +135,8 @@ Entity.prototype.$has = function(value) {
  * result is defined will be apply as modifier;
  * 2. name of component (add);
  * 3. object with key - components, value - is config of components (add);
+ * any value can be callback that will be executed
+ * and result will be used as config fo component;
  * 4. array of components (add);
  *
  * @param modifier
@@ -151,11 +153,19 @@ Entity.prototype.$applyModifier = function(modifier) {
             this.$add(modifier);
         } else if (darlingutil.isArray(modifier)) {
             for(var i = 0, count = modifier.length; i < count; i++) {
-                this.$add(modifier[i]);
+                var componentName = modifier[i];
+                if (darlingutil.isFunction(componentName)) {
+                    componentName = componentName.call(this);
+                }
+                this.$add(componentName);
             }
         } else if (darlingutil.isObject(modifier)) {
             for(var key in modifier) {
-                this.$add(key, modifier[key])
+                var config = modifier[key];
+                if (darlingutil.isFunction(config)) {
+                    config = config.call(this);
+                }
+                this.$add(key, config)
             }
         } else {
             throw new Error('Unknown modifier')
@@ -181,11 +191,15 @@ Entity.prototype.$revertModifier = function(modifier) {
             this.$remove(modifier);
         } else if (darlingutil.isArray(modifier)) {
             for(var i = 0, count = modifier.length; i < count; i++) {
-                this.$remove(modifier[i]);
+                var componentName = modifier[i];
+                if (darlingutil.isFunction(componentName)) {
+                    componentName = componentName.call(this);
+                }
+                this.$remove(componentName);
             }
         } else if (darlingutil.isObject(modifier)) {
             for(var key in modifier) {
-                this.$remove(key, modifier[key])
+                this.$remove(key)
             }
         } else {
             throw new Error('Unknown modifier')
