@@ -9,56 +9,59 @@
     var m = darlingjs.module('ngHowlerAdapter');
 
     m.$s('ngHowlerAdapter', {
-        $require: ['ngPlaySound', 'ng2D'],
+        $require: ['ngSound', 'ng2D'],
 
         $addEntity: ['$entity',  'ng2DViewPort', '$world', function($entity, ng2DViewPort, $world){
-            var ngPlaySound = $entity.ngPlaySound;
-            ngPlaySound.$sound = new Howl({
-                urls: ngPlaySound.urls,
+            var ngSound = $entity.ngSound;
+            ngSound.$sound = new Howl({
+                urls: ngSound.urls,
                 autoplay: true,
-                loop: ngPlaySound.loop,
-                volume: ngPlaySound.volume
+                loop: ngSound.loop,
+                volume: ngSound.volume
             });
 
-            ngPlaySound.$sound.pos3d(
-                ($entity.ng2D.x - ng2DViewPort.lookAt.x) / ngPlaySound.distance,
-                ($entity.ng2D.y - ng2DViewPort.lookAt.y) / ngPlaySound.distance,
+            ngSound.$sound.pos3d(
+                ($entity.ng2D.x - ng2DViewPort.lookAt.x) / ngSound.distance,
+                ($entity.ng2D.y - ng2DViewPort.lookAt.y) / ngSound.distance,
                 -0.5
             );
 
-            if (ngPlaySound.onend) {
-                ngPlaySound.$sound.on('end', function() {
-                    $entity.$add(ngPlaySound.onend);
+            if (ngSound.onend) {
+                ngSound.$sound.on('end', function() {
+                    $entity.$add(ngSound.onend);
                 });
             }
 
-            if (ngPlaySound.removeOnEnd) {
-                ngPlaySound.$sound.on('end', function() {
+            if (ngSound.removeOnEnd && !ngSound.loop) {
+                ngSound.$sound.on('end', function() {
                     $world.$remove($entity);
+                    ngSound.$sound.off('end');
                 });
             }
         }],
 
         $update: ['$entity',  'ng2DViewPort', function($entity, ng2DViewPort){
-            var ngPlaySound = $entity.ngPlaySound;
-            ngPlaySound.$sound.pos3d(
-                ($entity.ng2D.x - ng2DViewPort.lookAt.x) / ngPlaySound.distance,
-                ($entity.ng2D.y - ng2DViewPort.lookAt.y) / ngPlaySound.distance,
+            var ngSound = $entity.ngSound;
+            ngSound.$sound.pos3d(
+                ($entity.ng2D.x - ng2DViewPort.lookAt.x) / ngSound.distance,
+                ($entity.ng2D.y - ng2DViewPort.lookAt.y) / ngSound.distance,
                 -0.5
             );
         }],
 
         $removeEntity: ['$entity', function($entity){
-            var ngPlaySound = $entity.ngPlaySound;
-            if (ngPlaySound.stopPlayAfterRemove) {
-                ngPlaySound.$sound.stop();
-            } else if (ngPlaySound.loop) {
-                ngPlaySound.$sound.on('end', function() {
-                    ngPlaySound.$sound.stop();
+            var ngSound = $entity.ngSound;
+            if (ngSound.stopPlayAfterRemove) {
+                ngSound.$sound.stop();
+                ngSound.$sound.off('end');
+            } else if (ngSound.loop) {
+                ngSound.$sound.on('end', function() {
+                    ngSound.$sound.stop();
+                    ngSound.$sound.off('end');
                 });
             }
 
-            ngPlaySound.$sound = null;
+            ngSound.$sound = null;
         }]
     });
 })(darlingjs);
