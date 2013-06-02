@@ -31,7 +31,13 @@
                 });
             }
 
-            if (ngSound.removeOnEnd && !ngSound.loop) {
+            if (ngSound.removeComponentOnEnd && !ngSound.loop) {
+                ngSound.$sound.on('end', function() {
+                    $entity.$remove('ngAmbientSound');
+                });
+            }
+
+            if (ngSound.removeEntityOnEnd && !ngSound.loop) {
                 ngSound.$sound.on('end', function() {
                     $world.$remove($entity);
                     //ngSound.$sound.off('end');
@@ -87,7 +93,13 @@
                 });
             }
 
-            if (ngSound.removeOnEnd && !ngSound.loop) {
+            if (ngSound.removeComponentOnEnd && !ngSound.loop) {
+                ngSound.$sound.on('end', function() {
+                    $entity.$remove('ngSound')
+                });
+            }
+
+            if (ngSound.removeEntityOnEnd && !ngSound.loop) {
                 ngSound.$sound.on('end', function() {
                     $world.$remove($entity);
                     //ngSound.$sound.off('end');

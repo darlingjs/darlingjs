@@ -40,7 +40,9 @@
          * Auto remove entity when the sound finishes playing
          * (if it is looping, it doesn't works)
          */
-        removeOnEnd: true,
+        removeEntityOnEnd: true,
+
+        removeComponentOnEnd: false,
 
         /**
          * offset time in the buffer (in seconds) where playback
@@ -89,7 +91,9 @@
          * Auto remove entity when the sound finishes playing
          * (if it is looping, it doesn't works)
          */
-        removeOnEnd: true,
+        removeEntityOnEnd: true,
+
+        removeComponentOnEnd: false,
 
         /**
          * offset time in the buffer (in seconds) where playback

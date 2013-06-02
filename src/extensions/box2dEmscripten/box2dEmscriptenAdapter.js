@@ -1472,6 +1472,9 @@
         var component = entityA[componentName];
 
         if (!component) {
+            if (darlingutil.isFunction(config)) {
+                config = config.call(entityA);
+            }
             config = config || {};
             if (config === true) {
                 config = {};
