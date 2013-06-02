@@ -131,7 +131,8 @@ Entity.prototype.$has = function(value) {
  * Apply modifier to $entity
  *
  * modifier can be:
- * 1. callback function (execute);
+ * 1. callback function (execute),
+ * result is defined will be apply as modifier;
  * 2. name of component (add);
  * 3. object with key - components, value - is config of components (add);
  * 4. array of components (add);
