@@ -13,8 +13,10 @@
  * @constructor
  */
 var Entity = function() {
-    mixin(this, Events);
+
 };
+
+mixin(Entity.prototype, Events);
 
 /**
  * Name of entity

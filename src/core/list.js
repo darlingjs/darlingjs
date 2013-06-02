@@ -19,10 +19,11 @@ var List = function(name) {
     } else {
         this.PROPERTY_LINK_TO_NODE = '$$listNode_' + Math.random();
     }
-    mixin(this, Events);
 };
 
 darlingutil.List = List;
+
+mixin(List.prototype, Events);
 
 /**
  * Add instance to list
