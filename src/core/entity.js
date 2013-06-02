@@ -140,7 +140,10 @@ Entity.prototype.$has = function(value) {
  */
 Entity.prototype.$applyModifier = function(modifier) {
     if (darlingutil.isFunction(modifier)) {
-        modifier.call(this);
+        modifier = modifier.call(this);
+        if (darlingutil.isDefined(modifier)) {
+            this.$applyModifier(modifier);
+        }
     } else {
         //TODO : add components from ngAnyJoint.onEnableReverse
         if (darlingutil.isString(modifier)) {

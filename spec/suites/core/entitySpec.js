@@ -172,4 +172,14 @@ describe('entity', function() {
         expect(e.theComponent).toBeNull();
         expect(e.theComponent2).toBeNull();
     });
+
+    it('should use result of executed modifier to recursive modify', function(){
+        var e = world.$entity('theEntity');
+        e.$applyModifier(function() {
+            return ['theComponent', 'theComponent2'];
+        });
+
+        expect(e.theComponent).toBeDefined();
+        expect(e.theComponent2).toBeDefined();
+    });
 });
