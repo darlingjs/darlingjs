@@ -23,6 +23,8 @@
                 volume: ngSound.volume
             });
 
+            ngSound.$sound.pos(ngSound.offset);
+
             if (ngSound.onend) {
                 ngSound.$sound.on('end', function() {
                     $entity.$add(ngSound.onend);
@@ -61,12 +63,17 @@
 
         $addEntity: ['$entity',  'ng2DViewPort', '$world', function($entity, ng2DViewPort, $world){
             var ngSound = $entity.ngSound;
+            if ($entity.ng2DCircle) {
+                ngSound.distance = $entity.ng2DCircle.radius;
+            }
             ngSound.$sound = new Howl({
                 urls: ngSound.urls,
                 autoplay: true,
                 loop: ngSound.loop,
                 volume: ngSound.volume
             });
+
+            ngSound.$sound.pos(ngSound.offset);
 
             ngSound.$sound.pos3d(
                 ($entity.ng2D.x - ng2DViewPort.lookAt.x) / ngSound.distance,

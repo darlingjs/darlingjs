@@ -40,7 +40,13 @@
          * Auto remove entity when the sound finishes playing
          * (if it is looping, it doesn't works)
          */
-        removeOnEnd: true
+        removeOnEnd: true,
+
+        /**
+         * offset time in the buffer (in seconds) where playback
+         * will begin
+         */
+        offset: 0
     });
 
     /**
@@ -83,7 +89,13 @@
          * Auto remove entity when the sound finishes playing
          * (if it is looping, it doesn't works)
          */
-        removeOnEnd: true
+        removeOnEnd: true,
+
+        /**
+         * offset time in the buffer (in seconds) where playback
+         * will begin
+         */
+        offset: 0
     });
 
 })(darlingjs);
