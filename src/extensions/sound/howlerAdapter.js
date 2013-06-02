@@ -65,6 +65,7 @@
      * Sound placed in the space
      */
     m.$s('ngHowlerAdapter', {
+
         $require: ['ngSound', 'ng2D'],
 
         $addEntity: ['$entity',  'ng2DViewPort', '$world', function($entity, ng2DViewPort, $world){
@@ -129,6 +130,22 @@
             }
 
             ngSound.$sound = null;
-        }]
+        }],
+
+        _mute: false,
+
+        isMute: function() {
+            return this._mute;
+        },
+
+        mute: function() {
+            this._mute = true;
+            Howler.mute();
+        },
+
+        unmute: function() {
+            this._mute = false;
+            Howler.unmute();
+        }
     });
 })(darlingjs);
