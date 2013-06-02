@@ -171,7 +171,7 @@ Entity.prototype.$applyModifier = function(modifier) {
             throw new Error('Unknown modifier')
         }
     }
-}
+};
 
 /**
  * Revert modifier to $entity
@@ -205,7 +205,7 @@ Entity.prototype.$revertModifier = function(modifier) {
             throw new Error('Unknown modifier')
         }
     }
-}
+};
 
 function isComponent(value) {
     return isObject(value) && isDefined(value.$name);
