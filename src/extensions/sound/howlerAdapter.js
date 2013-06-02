@@ -11,7 +11,7 @@
     m.$s('ngHowlerAdapter', {
         $require: ['ngPlaySound', 'ng2D'],
 
-        $addEntity: ['$entity',  'ng2DViewPort', function($entity, ng2DViewPort){
+        $addEntity: ['$entity',  'ng2DViewPort', '$world', function($entity, ng2DViewPort, $world){
             var ngPlaySound = $entity.ngPlaySound;
             ngPlaySound.$sound = new Howl({
                 urls: ngPlaySound.urls,
@@ -29,6 +29,12 @@
             if (ngPlaySound.onend) {
                 ngPlaySound.$sound.on('end', function() {
                     $entity.$add(ngPlaySound.onend);
+                });
+            }
+
+            if (ngPlaySound.removeOnEnd) {
+                ngPlaySound.$sound.on('end', function() {
+                    $world.$remove($entity);
                 });
             }
         }],

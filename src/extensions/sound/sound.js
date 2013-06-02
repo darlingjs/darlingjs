@@ -13,7 +13,8 @@
         stopPlayAfterRemove: true,
         volume: 1.0,
         distance: 50.0,
-        onend: null
+        onend: null,
+        removeOnEnd: false
     });
 
 })(darlingjs);
