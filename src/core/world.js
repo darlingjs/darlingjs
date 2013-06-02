@@ -671,16 +671,16 @@ World.prototype.$$onComponentAdd = function(entity, component) {
  * @param component
  */
 World.prototype.$$onComponentRemove = function(entity, component) {
-    if (!beforeMatch(entity, 'onComponentRemove', this, this.$$onComponentRemove, arguments)) {
-        return;
-    }
+//    if (!beforeMatch(entity, 'onComponentRemove', this, this.$$onComponentRemove, arguments)) {
+//        return;
+//    }
 
     for (var componentsString in this.$$families) {
         var family = this.$$families[componentsString];
         family.removeIfMatch(entity, component);
     }
 
-    afterMatch(entity, 'onComponentRemove');
+//    afterMatch(entity, 'onComponentRemove');
 };
 
 /**

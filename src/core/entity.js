@@ -102,17 +102,18 @@ Entity.prototype.$remove = function(value) {
         return;
     }
 
+    this.trigger('remove', this, instance);
+
     //nullity optimization
     //delete this[name];
     this[name] = null;
-
-    this.trigger('remove', this, instance);
 
     return instance;
 };
 
 /**
  * Is entity has component
+ *
  * @param {string|Component} value The name or instance of component test
  * @return {boolean}
  */

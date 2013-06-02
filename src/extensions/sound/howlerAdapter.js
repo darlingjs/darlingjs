@@ -8,6 +8,54 @@
 
     var m = darlingjs.module('ngHowlerAdapter');
 
+    /**
+     * Ambient sound without position
+     */
+    m.$s('ngHowlerAmbientSoundAdapter', {
+        $require: ['ngAmbientSound'],
+
+        $addEntity: ['$entity',  '$world', function($entity, $world){
+            var ngSound = $entity.ngAmbientSound;
+            ngSound.$sound = new Howl({
+                urls: ngSound.urls,
+                autoplay: true,
+                loop: ngSound.loop,
+                volume: ngSound.volume
+            });
+
+            if (ngSound.onend) {
+                ngSound.$sound.on('end', function() {
+                    $entity.$add(ngSound.onend);
+                });
+            }
+
+            if (ngSound.removeOnEnd && !ngSound.loop) {
+                ngSound.$sound.on('end', function() {
+                    $world.$remove($entity);
+                    //ngSound.$sound.off('end');
+                });
+            }
+        }],
+
+        $removeEntity: ['$entity', function($entity){
+            var ngSound = $entity.ngAmbientSound;
+            if (ngSound.stopPlayAfterRemove) {
+                ngSound.$sound.stop();
+                //ngSound.$sound.off('end');
+            } else if (ngSound.loop) {
+                ngSound.$sound.on('end', function() {
+                    ngSound.$sound.stop();
+                    //ngSound.$sound.off('end');
+                });
+            }
+
+            ngSound.$sound = null;
+        }]
+    });
+
+    /**
+     * Sound placed in the space
+     */
     m.$s('ngHowlerAdapter', {
         $require: ['ngSound', 'ng2D'],
 
@@ -35,7 +83,7 @@
             if (ngSound.removeOnEnd && !ngSound.loop) {
                 ngSound.$sound.on('end', function() {
                     $world.$remove($entity);
-                    ngSound.$sound.off('end');
+                    //ngSound.$sound.off('end');
                 });
             }
         }],
@@ -53,11 +101,11 @@
             var ngSound = $entity.ngSound;
             if (ngSound.stopPlayAfterRemove) {
                 ngSound.$sound.stop();
-                ngSound.$sound.off('end');
+                //ngSound.$sound.off('end');
             } else if (ngSound.loop) {
                 ngSound.$sound.on('end', function() {
                     ngSound.$sound.stop();
-                    ngSound.$sound.off('end');
+                    //ngSound.$sound.off('end');
                 });
             }
 
