@@ -948,8 +948,8 @@
                 joint.EnableMotor(true);
             }
 
-            if (ngAnyJoint.onEnableReverse && $entity.ngEnableMotorReverse) {
-                $entity.$applyModifier(ngAnyJoint.onEnableReverse);
+            if (ngAnyJoint.onEnabledReverse && $entity.ngEnableMotorReverse) {
+                $entity.$applyModifier(ngAnyJoint.onEnabledReverse);
             } else if (ngAnyJoint.onEnabled) {
                 $entity.$applyModifier(ngAnyJoint.onEnabled);
             }
@@ -967,8 +967,8 @@
                 joint.EnableMotor(false);
             }
 
-            if (ngAnyJoint.onEnableReverse && $entity.ngEnableMotorReverse) {
-                $entity.$revertModifier(ngAnyJoint.onEnableReverse);
+            if (ngAnyJoint.onEnabledReverse && $entity.ngEnableMotorReverse) {
+                $entity.$revertModifier(ngAnyJoint.onEnabledReverse);
             } else if (ngAnyJoint.onEnabled) {
                 $entity.$revertModifier(ngAnyJoint.onEnabled);
             }

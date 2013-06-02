@@ -107,11 +107,11 @@
                 } else {
                     index = keyCodeReverse.indexOf(e.keyCode);
                     if (index >= 0) {
-                        if (!$entity.$has('ngEnableMotor')) {
-                            $entity.$add('ngEnableMotor');
-                        }
                         if (!$entity.$has('ngEnableMotorReverse')) {
                             $entity.$add('ngEnableMotorReverse');
+                        }
+                        if (!$entity.$has('ngEnableMotor')) {
+                            $entity.$add('ngEnableMotor');
                         }
                     }
                 }
@@ -123,8 +123,8 @@
                 } else {
                     index = keyCodeReverse.indexOf(e.keyCode);
                     if (index >= 0) {
-                        $entity.$remove('ngEnableMotor');
                         $entity.$remove('ngEnableMotorReverse');
+                        $entity.$remove('ngEnableMotor');
                     }
                 }
             });
