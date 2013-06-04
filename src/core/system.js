@@ -16,6 +16,8 @@ var System = function () {
     this.$$init();
 };
 
+mixin(System.prototype, Events);
+
 /**
  * name of the System
  * @type {string}

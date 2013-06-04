@@ -906,6 +906,9 @@ function factoryOfFastFunctionAsCallOrApply(fn, context, args) {
         case 3: return function() {
             return fn.call(context, args[0], args[1], args[2]);
         };
+        case 4: return function() {
+            return fn.call(context, args[0], args[1], args[2], args[4]);
+        };
         default: return function() {
             return fn.apply(context, args);
         };
@@ -925,6 +928,9 @@ function factoryOfFastFunctionAsAMember(fn, context, args, methodName) {
         };
         case 3: return function() {
             return context[methodName](args[0], args[1], args[2]);
+        };
+        case 4: return function() {
+            return context[methodName](args[0], args[1], args[2], args[3]);
         };
         default: return function() {
             return fn.apply(context, args);
@@ -999,6 +1005,10 @@ function factoryOfFastFunctionWithMatcherAsAMember(fn, context, args, argsMatche
         case 3: return function() {
             argsMatcher(args, arguments);
             return context[methodName](args[0], args[1], args[2]);
+        };
+        case 4: return function() {
+            argsMatcher(args, arguments);
+            return context[methodName](args[0], args[1], args[2], args[3]);
         };
         default: return function() {
             argsMatcher(args, arguments);

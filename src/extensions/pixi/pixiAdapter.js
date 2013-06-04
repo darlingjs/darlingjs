@@ -92,18 +92,20 @@
     m.$s('ngPixijsSpriteFactory', {
         $require: ['ngSprite'],
 
-        $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', function(ngPixijsStage, ngPixijsStaticZ, $entity) {
+        $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', 'ngResourceRepository', function(ngPixijsStage, ngPixijsStaticZ, $entity, ngResourceRepository) {
             var state = $entity.ngSprite;
             if (state.spriteSheetUrl) {
                 if (isLoaded(state.spriteSheetUrl)) {
                     handler();
                 } else {
+                    ngResourceRepository.startLoading(state.spriteSheetUrl);
                     loadAtlas(state.spriteSheetUrl)
                         .then(handler);
                 }
             }
 
             function handler() {
+                ngResourceRepository.stopLoading(state.spriteSheetUrl);
                 buildSprite(state, $entity.ng2DSize);
                 fitToSize(state, $entity.ng2DSize);
                 //hide sprite before update phase

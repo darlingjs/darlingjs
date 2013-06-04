@@ -14,8 +14,11 @@
     m.$s('ngHowlerAmbientSoundAdapter', {
         $require: ['ngAmbientSound'],
 
-        $addEntity: ['$entity',  '$world', function($entity, $world){
+        $addEntity: ['$entity',  '$world', 'ngResourceRepository', function($entity, $world, ngResourceRepository){
             var ngSound = $entity.ngAmbientSound;
+
+            ngResourceRepository.startLoading(ngSound.urls);
+
             ngSound.$sound = new Howl({
                 urls: ngSound.urls,
                 autoplay: true,
@@ -24,6 +27,10 @@
             });
 
             ngSound.$sound.pos(ngSound.offset);
+
+            ngSound.$sound.on('load', function() {
+                ngResourceRepository.stopLoading(ngSound.urls);
+            });
 
             if (ngSound.onend) {
                 ngSound.$sound.on('end', function() {
@@ -68,16 +75,23 @@
 
         $require: ['ngSound', 'ng2D'],
 
-        $addEntity: ['$entity',  'ng2DViewPort', '$world', function($entity, ng2DViewPort, $world){
+        $addEntity: ['$entity',  'ng2DViewPort', '$world', 'ngResourceRepository', function($entity, ng2DViewPort, $world, ngResourceRepository){
             var ngSound = $entity.ngSound;
             if ($entity.ng2DCircle) {
                 ngSound.distance = $entity.ng2DCircle.radius;
             }
+
+            ngResourceRepository.startLoading(ngSound.urls);
+
             ngSound.$sound = new Howl({
                 urls: ngSound.urls,
                 autoplay: true,
                 loop: ngSound.loop,
                 volume: ngSound.volume
+            });
+
+            ngSound.$sound.on('load', function() {
+                ngResourceRepository.stopLoading(ngSound.urls);
             });
 
             ngSound.$sound.pos(ngSound.offset);
