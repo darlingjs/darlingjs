@@ -14,10 +14,10 @@
     m.$s('ngHowlerAmbientSoundAdapter', {
         $require: ['ngAmbientSound'],
 
-        $addEntity: ['$entity',  '$world', 'ngResourceRepository', function($entity, $world, ngResourceRepository){
+        $addEntity: ['$entity',  '$world', 'ngResourceLoader', function($entity, $world, ngResourceLoader){
             var ngSound = $entity.ngAmbientSound;
 
-            ngResourceRepository.startLoading(ngSound.urls);
+            ngResourceLoader.startLoading(ngSound.urls);
 
             ngSound.$sound = new Howl({
                 urls: ngSound.urls,
@@ -29,7 +29,7 @@
             ngSound.$sound.pos(ngSound.offset);
 
             ngSound.$sound.on('load', function() {
-                ngResourceRepository.stopLoading(ngSound.urls);
+                ngResourceLoader.stopLoading(ngSound.urls);
             });
 
             if (ngSound.onend) {
@@ -75,13 +75,13 @@
 
         $require: ['ngSound', 'ng2D'],
 
-        $addEntity: ['$entity',  'ng2DViewPort', '$world', 'ngResourceRepository', function($entity, ng2DViewPort, $world, ngResourceRepository){
+        $addEntity: ['$entity',  'ng2DViewPort', '$world', 'ngResourceLoader', function($entity, ng2DViewPort, $world, ngResourceLoader){
             var ngSound = $entity.ngSound;
             if ($entity.ng2DCircle) {
                 ngSound.distance = $entity.ng2DCircle.radius;
             }
 
-            ngResourceRepository.startLoading(ngSound.urls);
+            ngResourceLoader.startLoading(ngSound.urls);
 
             ngSound.$sound = new Howl({
                 urls: ngSound.urls,
@@ -91,7 +91,7 @@
             });
 
             ngSound.$sound.on('load', function() {
-                ngResourceRepository.stopLoading(ngSound.urls);
+                ngResourceLoader.stopLoading(ngSound.urls);
             });
 
             ngSound.$sound.pos(ngSound.offset);
@@ -175,15 +175,15 @@
      * in first seconds of game.
      */
     m.$s('ngHowlerResources', {
-        load: function(urls, ngResourceRepository) {
+        load: function(urls, ngResourceLoader) {
             var sound = new Howl({
                 urls: urls,
                 autoplay: false
             });
 
-            ngResourceRepository.startLoading(urls);
+            ngResourceLoader.startLoading(urls);
             sound.on('load', function() {
-                ngResourceRepository.stopLoading(urls);
+                ngResourceLoader.stopLoading(urls);
             });
         }
     });

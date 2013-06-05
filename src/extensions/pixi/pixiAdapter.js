@@ -92,20 +92,20 @@
     m.$s('ngPixijsSpriteFactory', {
         $require: ['ngSprite'],
 
-        $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', 'ngResourceRepository', function(ngPixijsStage, ngPixijsStaticZ, $entity, ngResourceRepository) {
+        $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', 'ngResourceLoader', function(ngPixijsStage, ngPixijsStaticZ, $entity, ngResourceLoader) {
             var state = $entity.ngSprite;
             if (state.spriteSheetUrl) {
                 if (isLoaded(state.spriteSheetUrl)) {
                     handler();
                 } else {
-                    ngResourceRepository.startLoading(state.spriteSheetUrl);
+                    ngResourceLoader.startLoading(state.spriteSheetUrl);
                     loadAtlas(state.spriteSheetUrl)
                         .then(handler);
                 }
             }
 
             function handler() {
-                ngResourceRepository.stopLoading(state.spriteSheetUrl);
+                ngResourceLoader.stopLoading(state.spriteSheetUrl);
                 buildSprite(state, $entity.ng2DSize);
                 fitToSize(state, $entity.ng2DSize);
                 //hide sprite before update phase
@@ -398,11 +398,11 @@
      * in first seconds of game.
      */
     m.$s('ngPixijsResources', {
-        load: function(url, ngResourceRepository) {
-            ngResourceRepository.startLoading(url);
+        load: function(url, ngResourceLoader) {
+            ngResourceLoader.startLoading(url);
             loadAtlas(url)
                 .then(function() {
-                    ngResourceRepository.stopLoading(url);
+                    ngResourceLoader.stopLoading(url);
                 });
         }
     });
