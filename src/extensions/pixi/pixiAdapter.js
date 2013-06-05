@@ -386,6 +386,27 @@
         }
     });
 
+    /**
+     * Resources of Pixi.js
+     * Every Asset or image that need to bee tracked by
+     * ngResourceLoader. Can by loaded though
+     *
+     * ngPixijsResources.load(url)
+     *
+     * It's good practice to preload all images and assets
+     * before game is started. To avoid lack of them
+     * in first seconds of game.
+     */
+    m.$s('ngPixijsResources', {
+        load: function(url, ngResourceRepository) {
+            ngResourceRepository.startLoading(url);
+            loadAtlas(url)
+                .then(function() {
+                    ngResourceRepository.stopLoading(url);
+                });
+        }
+    });
+
 
     var _loaders = [];
     var _loadersPromises = {};

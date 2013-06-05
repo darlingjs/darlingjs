@@ -162,4 +162,29 @@
             Howler.unmute();
         }
     });
+
+    /**
+     * Resources of Howler.js
+     * Every sounds that need to bee tracked by
+     * ngResourceLoader. Can by loaded though
+     *
+     * ngHowlerResources.load(url)
+     *
+     * It's good practice to preload all sounds
+     * before game is started. To avoid lack of them
+     * in first seconds of game.
+     */
+    m.$s('ngHowlerResources', {
+        load: function(urls, ngResourceRepository) {
+            var sound = new Howl({
+                urls: urls,
+                autoplay: false
+            });
+
+            ngResourceRepository.startLoading(urls);
+            sound.on('load', function() {
+                ngResourceRepository.stopLoading(urls);
+            });
+        }
+    });
 })(darlingjs);

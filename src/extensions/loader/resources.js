@@ -10,7 +10,7 @@
     /**
      * Resource repository
      */
-    m.$s('ngResourceRepository', {
+    m.$s('ngResourceLoader', {
 
         availableCount: 0,
         totalCount: 0,
