@@ -269,29 +269,51 @@
     });
 
     m.$s('ngPixijsStage', {
-        //$require: ['ng2D', 'ngPixijsSprite'],
-
-        width_to_height: 0,
         width: 640,
         height: 480,
 
-        shiftX: 0.0,
-        shiftY: 0.0,
-
         fitToWindow: false,
-        _onResizeDefaultHandler: null,
 
         domId: '',
 
+        /**
+         * user webGL to renderer scene
+         */
         useWebGL: true,
 
+        /**
+         * @private
+         */
+        _onResizeDefaultHandler: null,
+        _canvasWasCreated: false,
         _canvas: null,
         _stage: null,
         _center: {x:0.0, y:0.0},
 
+        _visible: false,
+
         $added: function() {
             // create an new instance of a pixi stage
             this._stage = new PIXI.Stage(0x0);
+
+            this.show();
+        },
+
+        $removed: function() {
+            this._stage = null;
+
+            this.hide();
+        },
+
+        /**
+         * Show pixi.js stage
+         */
+        show: function() {
+            if (this._visible) {
+                return;
+            }
+
+            this._visible = true;
 
             // create a renderer instance.
             var width, height;
@@ -303,6 +325,7 @@
                     view.height = this.height;
                 } else {
                     view = darlingutil.placeCanvasInStack(this.domId, this.width, this.height);
+                    this._canvasWasCreated = true;
                 }
                 this._canvas = view;
                 width = view.width;
@@ -311,8 +334,6 @@
                 width = this.width;
                 height = this.height;
             }
-
-            this.width_to_height = this.width / this.height;
 
             this._center.x = 0.5 * this.width;
             this._center.y = 0.5 * this.height;
@@ -332,13 +353,13 @@
                 this._onResizeDefaultHandler = window.onresize || function(){};
                 var self = this;
                 window.onresize = function(e) {
-                    self._onReize(e);
+                    self._onResize(e);
                 };
-                self._onReize();
+                self._onResize();
             }
         },
 
-        _onReize: function(e) {
+        _onResize: function(e) {
             this._onResizeDefaultHandler(e);
 
             var widthRatio = window.innerWidth / this.width;
@@ -352,12 +373,24 @@
             this._center.x = 0.5 * ratio * this.width;
             this._center.y = 0.5 * ratio * this.height;
             this._canvas.width = ratio * this.width;
-            this._canvas.height = ratio * height;
+            this._canvas.height = ratio * this.height;
         },
 
-        $removed: function() {
-            document.removeChild(this._canvas);
+        /**
+         * hide pixi.js stage
+         */
+        hide: function() {
+            if (!this._visible) {
+                return;
+            }
+            this._visible = false;
+            if (this._canvasWasCreated) {
+                document.removeChild(this._canvas);
+            }
+            window.onresize = this._onResizeDefaultHandler;
+            this._onResizeDefaultHandler = null;
             this._canvas = null;
+            this._renderer = null;
         },
 
         addChild: function(child) {
@@ -379,6 +412,9 @@
             }
         },
 
+        /**
+         * apply renderer
+         */
         $afterUpdate: function() {
             //$entities.forEach(this.$updateNode);
             // render the stage
