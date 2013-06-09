@@ -150,7 +150,7 @@ describe('system', function() {
         expect(addedHandler.callCount).toBe(1);
     });
 
-    it('should invoke $removed on system remove from world', function() {
+    it('should invoke $removed on system has removed from world', function() {
         var removedHandler = sinon.spy();
         darlingjs.module('theModule')
             .$c('theComponent')
@@ -165,6 +165,25 @@ describe('system', function() {
 
         expect(removedHandler.callCount).toBe(1);
         expect(system.$nodes.length()).toBe(0);
+    });
+
+    it('should invoke $removeEntity for each entity on system has removed from world', function() {
+        var removedHandler = sinon.spy();
+        darlingjs.module('theModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                $require: ['theComponent'],
+                $removeEntity: ['$entity', removedHandler]
+            });
+
+        var world = darlingjs.world('testWorld', ['theModule']);
+        var system = world.$add('testSystem');
+        world.$e('theEntity1', ['theComponent']);
+        world.$e('theEntity2', ['theComponent']);
+        expect(system.$nodes.length()).toBe(2);
+        world.$remove(system);
+
+        expect(removedHandler.callCount).toBe(2);
     });
 
     it('should run update once for $entities request.', function() {

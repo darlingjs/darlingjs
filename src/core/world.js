@@ -209,12 +209,25 @@ World.prototype.$$removeSystem = function(instance) {
     var index = this.$$systems.indexOf(instance);
     this.$$systems.splice(index);
 
+    instance.$nodes.forEach(instance.$$removeEntityHandler);
     instance.$$init();
 
     instance.$$removedHandler();
 
     return instance;
 };
+
+/**
+ * Remove all systems from the World
+ */
+World.prototype.$removeAllSystems = function() {
+    for(var i = 0, count = this.$$systems.length; i < count; i++) {
+        var system = this.$$systems[i];
+        system.$$init();
+        system.$$removedHandler();
+    }
+    this.$$systems.length = 0;
+}
 
 /**
  * Get entity by name

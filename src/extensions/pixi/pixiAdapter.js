@@ -98,14 +98,18 @@
                 if (isLoaded(state.spriteSheetUrl)) {
                     handler();
                 } else {
-                    ngResourceLoader.startLoading(state.spriteSheetUrl);
+                    if (ngResourceLoader) {
+                        ngResourceLoader.startLoading(state.spriteSheetUrl);
+                    }
                     loadAtlas(state.spriteSheetUrl)
                         .then(handler);
                 }
             }
 
             function handler() {
-                ngResourceLoader.stopLoading(state.spriteSheetUrl);
+                if (ngResourceLoader) {
+                    ngResourceLoader.stopLoading(state.spriteSheetUrl);
+                }
                 buildSprite(state, $entity.ng2DSize);
                 fitToSize(state, $entity.ng2DSize);
                 //hide sprite before update phase
@@ -338,10 +342,15 @@
             this._center.x = 0.5 * this.width;
             this._center.y = 0.5 * this.height;
 
-            if (this.useWebGL) {
-                this._renderer = PIXI.autoDetectRenderer(width, height, view);
+            if (this._renderer) {
+                this._renderer.view = view;
+                this._renderer.handleContextRestored();
             } else {
-                this._renderer = new PIXI.CanvasRenderer(width, height, view);
+                if (this.useWebGL) {
+                    this._renderer = PIXI.autoDetectRenderer(width, height, view);
+                } else {
+                    this._renderer = new PIXI.CanvasRenderer(width, height, view);
+                }
             }
 
             // add the renderer view element to the DOM

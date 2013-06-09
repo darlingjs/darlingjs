@@ -150,17 +150,23 @@ darlingjs.removeAllModules = function() {
  * @param {String/World} value The name or instance of world to remove
  */
 darlingjs.removeWorld = function(value) {
+    var worldName;
     if (isString(value)) {
-        delete worlds[value];
+        worldName = value;
     } else {
-        for(var worldName in worlds) {
-            if(worlds[worldName] === value) {
-                delete worlds[worldName];
+        for(var name in worlds) {
+            if(worlds[name] === value) {
+                worldName = name;
                 break;
             }
         }
     }
-}
+
+    var world = worlds[worldName];
+    world.$removeAllSystems();
+
+    delete worlds[worldName];
+};
 
 /**
  * Remove all worlds from engine

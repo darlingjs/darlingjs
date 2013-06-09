@@ -423,4 +423,25 @@ describe('World', function() {
             world.$add('wrong-named-system');
         }).toThrow();
     });
+
+    it('should remove all systems on $removeAllSystems', function() {
+        var removeHandler = sinon.spy();
+        var removeEntityHandler = sinon.spy();
+        darlingjs.module('theModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                $require: ['theComponent'],
+                $removed: removeHandler,
+                $removeEntity: removeEntityHandler
+            });
+
+        var world = darlingjs.world('testWorld', ['theModule']);
+        var system = world.$add('testSystem');
+        world.$e('theEntity', ['theComponent']);
+        expect(system.$nodes.length()).toBe(1);
+        world.$removeAllSystems();
+        expect(system.$nodes.length()).toBe(0);
+        expect(world.$isUse('testSystem')).toBeFalsy();
+        expect(removeHandler.calledOnce).toBeTruthy();
+    });
 });

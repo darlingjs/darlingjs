@@ -130,4 +130,17 @@ describe('darling', function() {
             darlingjs.world('theWorld');
         }).not.toThrow();
     });
+
+    it('should execute $remove on every modules add to world, that going to remove', function() {
+        var removeHandler = sinon.spy();
+        darlingjs.module('theModule')
+            .$system('theSystem', {
+                $removed: removeHandler
+            });
+
+        var w = darlingjs.world('theWorld', ['theModule']);
+        w.$add('theSystem');
+        darlingjs.removeWorld(w);
+        expect(removeHandler.callCount).toBe(1);
+    });
 });

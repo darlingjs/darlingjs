@@ -17,7 +17,9 @@
         $addEntity: ['$entity',  '$world', 'ngResourceLoader', function($entity, $world, ngResourceLoader){
             var ngSound = $entity.ngAmbientSound;
 
-            ngResourceLoader.startLoading(ngSound.urls);
+            if (ngResourceLoader) {
+                ngResourceLoader.startLoading(ngSound.urls);
+            }
 
             ngSound.$sound = new Howl({
                 urls: ngSound.urls,
@@ -29,7 +31,9 @@
             ngSound.$sound.pos(ngSound.offset);
 
             ngSound.$sound.on('load', function() {
-                ngResourceLoader.stopLoading(ngSound.urls);
+                if (ngResourceLoader) {
+                    ngResourceLoader.stopLoading(ngSound.urls);
+                }
             });
 
             if (ngSound.onend) {
@@ -81,7 +85,9 @@
                 ngSound.distance = $entity.ng2DCircle.radius;
             }
 
-            ngResourceLoader.startLoading(ngSound.urls);
+            if (ngResourceLoader) {
+                ngResourceLoader.startLoading(ngSound.urls);
+            }
 
             ngSound.$sound = new Howl({
                 urls: ngSound.urls,
@@ -91,7 +97,9 @@
             });
 
             ngSound.$sound.on('load', function() {
-                ngResourceLoader.stopLoading(ngSound.urls);
+                if (ngResourceLoader) {
+                    ngResourceLoader.stopLoading(ngSound.urls);
+                }
             });
 
             ngSound.$sound.pos(ngSound.offset);
