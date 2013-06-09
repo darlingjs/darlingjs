@@ -305,8 +305,14 @@
 
         $removed: function() {
             this._stage = null;
-
             this.hide();
+            clearLoaders();
+
+            //clear all cache in Pixi.js
+            PIXI._batchs.length = 0;
+            PIXI.TextureCache = {};
+            PIXI.BaseTextureCache = {};
+            PIXI.shaderProgram = null;
         },
 
         /**
@@ -322,6 +328,7 @@
             // create a renderer instance.
             var width, height;
             var view;
+
             if (this.domId !== null && this.domId !== '') {
                 view = darlingutil.getCanvas(this.domId);
                 if (view) {
@@ -400,6 +407,7 @@
             this._onResizeDefaultHandler = null;
             this._canvas = null;
             this._renderer = null;
+            this._stage = null;
             PIXI.gl = null;
         },
 
@@ -453,6 +461,11 @@
         }
     });
 
+    function clearLoaders() {
+        _loaders.length = 0;
+        _loadersPromises = {};
+        _loaded = {}
+    }
 
     var _loaders = [];
     var _loadersPromises = {};
