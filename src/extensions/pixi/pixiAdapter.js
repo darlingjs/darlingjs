@@ -56,6 +56,15 @@
             }
         }],
 
+        $removed: ['ngPixijsStage', function(ngPixijsStage) {
+            if (ngPixijsStage._stage) {
+                for (var layerName in this._layers) {
+                    ngPixijsStage._stage.removeChild(this._layers[layerName]);
+                }
+            }
+            this._layers = {};
+        }],
+
         $addEntity: ['$entity', function($entity) {
             this.addChildAt($entity.ngLayer.layerName, $entity.ngPixijsSprite.sprite);
         }],
