@@ -400,6 +400,7 @@
             this._onResizeDefaultHandler = null;
             this._canvas = null;
             this._renderer = null;
+            PIXI.gl = null;
         },
 
         addChild: function(child) {

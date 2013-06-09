@@ -202,19 +202,19 @@ World.prototype.$$addSystem = function(instance) {
 /**
  * Remove System by instance
  * @private
- * @param {System} instance
+ * @param {System} system
  * @return {System}
  */
-World.prototype.$$removeSystem = function(instance) {
-    var index = this.$$systems.indexOf(instance);
+World.prototype.$$removeSystem = function(system) {
+    var index = this.$$systems.indexOf(system);
     this.$$systems.splice(index);
 
-    instance.$nodes.forEach(instance.$$removeEntityHandler);
-    instance.$$init();
+    system.$nodes.forEach(system.$$removeEntityHandler, system);
+    system.$$init();
 
-    instance.$$removedHandler();
+    system.$$removedHandler();
 
-    return instance;
+    return system;
 };
 
 /**
@@ -223,6 +223,7 @@ World.prototype.$$removeSystem = function(instance) {
 World.prototype.$removeAllSystems = function() {
     for(var i = 0, count = this.$$systems.length; i < count; i++) {
         var system = this.$$systems[i];
+        system.$nodes.forEach(system.$$removeEntityHandler, system);
         system.$$init();
         system.$$removedHandler();
     }

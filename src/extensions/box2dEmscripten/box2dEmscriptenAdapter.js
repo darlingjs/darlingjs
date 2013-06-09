@@ -189,7 +189,9 @@
                     if (this._world.IsLocked()) {
                         this._arrayOfFixtureToRemoveAfterUnlock.push(fixture);
                     } else {
-                        body.DestroyFixture(fixture);
+                        if (body.m_userData != null) {
+                            body.DestroyFixture(fixture);
+                        }
 
                         $entity.ngPhysic._b2dFixture = null;
                         $entity.ngPhysic._b2dBody = null;
