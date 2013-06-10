@@ -56,6 +56,9 @@
                     var entity = entities[i];
                     $world.$remove(entity);
                     $entity.ngScores.score += entity.ngBonus.score;
+                    if ($entity.ngScores.handler) {
+                        $entity.ngScores.handler.call($entity, $entity.ngScores.score);
+                    }
                 }
             }, 0);
         }]
