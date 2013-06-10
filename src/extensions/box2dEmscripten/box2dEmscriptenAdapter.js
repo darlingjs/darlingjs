@@ -1457,10 +1457,14 @@
      * @param entityB
      */
     function addContactComponent(rule, entityA, entityB) {
-        if (darlingutil.isString(rule.andGet)) {
-            addOneByOneContactComponent(rule.andGet, null, entityA, entityB);
-        } else if(darlingutil.isObject(rule.andGet)) {
-            var components = rule.andGet;
+        var result = rule.andGet;
+        if (darlingutil.isFunction(result)) {
+            result = result.call(entityA);
+        }
+        if (darlingutil.isString(result)) {
+            addOneByOneContactComponent(result, null, entityA, entityB);
+        } else if(darlingutil.isObject(result)) {
+            var components = result;
             for(var key in components) {
                 if (components.hasOwnProperty(key)) {
                     addOneByOneContactComponent(key, components[key], entityA, entityB);
