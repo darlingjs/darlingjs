@@ -13,6 +13,7 @@
         restitution: 0.5,
         friction: 0.75,
         density: 1.0,
+        angularDamping: 0.0,
         fixedRotation: false
     });
 

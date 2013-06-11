@@ -130,6 +130,7 @@
                 bodyDef.set_position(vec);
                 bodyDef.set_angle(rotation);
                 bodyDef.set_fixedRotation(ngPhysic.fixedRotation);
+                bodyDef.set_angularDamping(ngPhysic.angularDamping);
                 body = this._world.CreateBody(bodyDef);
                 vec.onDispose();
 
@@ -1670,6 +1671,23 @@
             var vec = getb2Vec2(dx, dy);
             body.SetLinearVelocity(vec);
             vec.onDispose();
+        }]
+    });
+
+    /**
+     * Marker of bind entity.ngPhysic.angularDamping to physics parameters
+     */
+    m.$c('ngBindAngularDampingToPhysics');
+
+    /**
+     * System that bind entity.ngPhysic.angularDamping to physics parameters
+     */
+    m.$s('ngBindAngularDampingToPhysics', {
+        $require: ['ngBindAngularDampingToPhysics', 'ngPhysic'],
+
+        $update: ['$entity', function($entity) {
+            var body = $entity.ngPhysic._b2dBody;
+            body.SetAngularDamping($entity.ngPhysic.angularDamping);
         }]
     });
 
