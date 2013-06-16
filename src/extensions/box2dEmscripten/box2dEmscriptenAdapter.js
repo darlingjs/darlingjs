@@ -221,9 +221,6 @@
         },
 
         $update: ['$entities', '$time', function($entities, $time) {
-            if (!this._world) {
-                console.log('! world == null');
-            }
             this._world.Step(
                 this.PHYSICS_LOOP_HZ,    //frame-rate
                 this.velocityIterations, //velocity iterations
