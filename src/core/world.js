@@ -207,7 +207,7 @@ World.prototype.$$addSystem = function(instance) {
  */
 World.prototype.$$removeSystem = function(system) {
     var index = this.$$systems.indexOf(system);
-    this.$$systems.splice(index);
+    this.$$systems.splice(index, 1);
 
     system.$nodes.forEach(system.$$removeEntityHandler, system);
     system.$$init();
