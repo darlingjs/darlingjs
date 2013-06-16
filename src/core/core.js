@@ -164,6 +164,7 @@ darlingjs.removeWorld = function(value) {
 
     var world = worlds[worldName];
     world.$removeAllSystems();
+    world.$stop();
 
     delete worlds[worldName];
 };

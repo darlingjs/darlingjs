@@ -214,6 +214,21 @@ World.prototype.$$removeSystem = function(system) {
 
     system.$$removedHandler();
 
+    index = this.$$beforeUpdateHandledSystems.indexOf(system);
+    if (index >= 0) {
+        this.$$beforeUpdateHandledSystems.splice(index, 1);
+    }
+
+    index = this.$$afterUpdateHandledSystem.indexOf(system);
+    if (index >= 0) {
+        this.$$afterUpdateHandledSystem.splice(index, 1);
+    }
+
+    index = this.$$updateHandledSystem.indexOf(system);
+    if (index >= 0) {
+        this.$$updateHandledSystem.splice(index, 1);
+    }
+
     return system;
 };
 
@@ -233,6 +248,9 @@ World.prototype.$removeAllSystems = function() {
         this.$$systems[i].$$removedHandler();
     }
     this.$$systems.length = 0;
+    this.$$beforeUpdateHandledSystems.length = 0;
+    this.$$afterUpdateHandledSystem.length = 0;
+    this.$$updateHandledSystem.length = 0;
 }
 
 /**
