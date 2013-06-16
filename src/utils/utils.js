@@ -1024,3 +1024,21 @@ darlingutil.wipe = function (obj) {
             delete obj[p];
     }
 };
+
+/**
+ * result of function is value that lays in interval [min, max]
+ *
+ * http://en.wikipedia.org/wiki/Clamping_(graphics)
+ *
+ * @param value
+ * @param min
+ * @param max
+ */
+darlingutil.clamp = function(value, min, max) {
+    if (value < min) {
+        return min
+    } else if (value > max) {
+        return max;
+    }
+    return value;
+}
