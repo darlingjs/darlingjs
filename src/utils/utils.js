@@ -1042,3 +1042,58 @@ darlingutil.clamp = function(value, min, max) {
     }
     return value;
 }
+
+/**
+ * define is convex polygon define by vertexes clockwise on anticlockwise
+ * @private
+ * @param vertexes
+ * @returns {*}
+ */
+darlingutil.isConvexPolygonClockwise = function(vertexes) {
+    if (!vertexes) {
+        return undefined;
+    }
+
+    if (vertexes.length < 3) {
+        return undefined;
+    }
+
+    var index = 0;
+    var firstPoint = vertexes[index];
+
+    var secondPoint = null;
+    while(++index < vertexes.length) {
+        secondPoint = vertexes[index]
+        if (firstPoint.x !== secondPoint.x || firstPoint.y !== secondPoint.y) {
+            break;
+        }
+        secondPoint = null;
+    }
+
+    if (secondPoint === null) {
+        return undefined;
+    }
+
+    var initAngle = Math.atan2(secondPoint.y - firstPoint.y, secondPoint.x - firstPoint.x);
+
+    while(++index < vertexes.length) {
+        var currentPoint = vertexes[index];
+        if (firstPoint.x !== currentPoint.x && secondPoint.x !== currentPoint.x
+            || firstPoint.y !== currentPoint.y && secondPoint.y !== currentPoint.y) {
+
+            var currentAngle = Math.atan2(currentPoint.y - firstPoint.y, currentPoint.x - firstPoint.x);
+            var deltaAngle = initAngle - currentAngle;
+            if (deltaAngle > Math.PI) {
+                deltaAngle -= 2*Math.PI;
+            } else if (deltaAngle < -Math.PI) {
+                deltaAngle += 2*Math.PI;
+            }
+            if (deltaAngle < 0) {
+                return false;
+            }
+            if (deltaAngle > 0) {
+                return true;
+            }
+        }
+    }
+}

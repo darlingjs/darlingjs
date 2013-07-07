@@ -7,7 +7,7 @@
  *
  */
 
-(function(darlingjs, darlingutil) {
+(function(darlingjs, darlingutil, undefined) {
     'use strict';
     var m = darlingjs.module('ngBox2DEmscripten');
 
@@ -86,11 +86,21 @@
                 var vertexCount = ng2DPolygon.line.length;
                 var buffer = Box2D.allocate(vertexCount * 8, 'float', Box2D.ALLOC_STACK);
                 var offset = 0;
-                for (var vertexIndex = 0 ; vertexIndex < vertexCount; vertexIndex++) {
-                    var point = ng2DPolygon.line[vertexIndex];
-                    Box2D.setValue(buffer+(offset), point.x * this._invScale, 'float'); // x
-                    Box2D.setValue(buffer+(offset+4), point.y * this._invScale, 'float'); // y
-                    offset += 8;
+
+                if (darlingutil.isConvexPolygonClockwise(ng2DPolygon.line)) {
+                    for (var vertexIndex = vertexCount - 1 ; vertexIndex >= 0; vertexIndex--) {
+                        var point = ng2DPolygon.line[vertexIndex];
+                        Box2D.setValue(buffer+(offset), point.x * this._invScale, 'float'); // x
+                        Box2D.setValue(buffer+(offset+4), point.y * this._invScale, 'float'); // y
+                        offset += 8;
+                    }
+                } else {
+                    for (var vertexIndex = 0 ; vertexIndex < vertexCount; vertexIndex++) {
+                        var point = ng2DPolygon.line[vertexIndex];
+                        Box2D.setValue(buffer+(offset), point.x * this._invScale, 'float'); // x
+                        Box2D.setValue(buffer+(offset+4), point.y * this._invScale, 'float'); // y
+                        offset += 8;
+                    }
                 }
 
                 shape = poolOfPolygonShape.get();
@@ -1708,4 +1718,7 @@
         instance.set_y(y);
         return instance;
     }
+
+
+
 })(darlingjs, darlingutil);
