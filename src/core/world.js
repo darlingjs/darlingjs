@@ -238,13 +238,13 @@ World.prototype.$$removeSystem = function(system) {
 World.prototype.$removeAllSystems = function() {
     var i,
         count = this.$$systems.length;
-    for(i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         var system = this.$$systems[i];
         system.$nodes.forEach(system.$$removeEntityHandler, system);
         system.$$init();
     }
 
-    for(i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         this.$$systems[i].$$removedHandler();
     }
     this.$$systems.length = 0;
@@ -278,8 +278,6 @@ World.prototype.$getByName = function(value) {
 World.prototype.$numEntities = function() {
     return this.$entities.length();
 };
-
-
 /**
  * @description Build and add Entity
  * @see Entity
@@ -350,18 +348,7 @@ World.prototype.$e = World.prototype.$entity = function() {
     } else if (isObject(arguments[componentsIndex])) {
         var components = arguments[componentsIndex];
         componentsIndex++;
-        for (var key in components) {
-            if (components.hasOwnProperty(key) && key.charAt(0) !== '$') {
-                var value = components[key];
-                if (value === false) {
-                    entity[key] = null;
-                } else if (isEmptyObject(value) || value === null) {
-                    entity.$add(key, null);
-                } else {
-                    entity.$add(key, value);
-                }
-            }
-        }
+        mapComponents(components, entity);
 
         if (isDefined(components.$name)) {
             entity.$name = components.$name;
@@ -374,6 +361,31 @@ World.prototype.$e = World.prototype.$entity = function() {
 
     return entity;
 };
+
+/**
+ * @ignore
+ */
+function mapComponents(components, entity) {
+    for (var key in components) {
+        mapComponent(components, key, entity);
+    }
+}
+
+/**
+ * @ignore
+ */
+function mapComponent(components, key, entity) {
+    if (components.hasOwnProperty(key) && key.charAt(0) !== '$') {
+        var value = components[key];
+        if (value === false) {
+            entity[key] = null;
+        } else if (isEmptyObject(value) || value === null) {
+            entity.$add(key, null);
+        } else {
+            entity.$add(key, value);
+        }
+    }
+}
 
 /**
  * Check to see if an object is empty (contains no enumerable properties).
@@ -660,11 +672,18 @@ World.prototype.$$matchNewEntityToFamilies = function (entity) {
     }
 
     for (var componentsString in this.$$families) {
-        var family = this.$$families[componentsString];
-        family.newEntity(entity);
+        this.$$matchNewEntityToFamily(componentsString, entity);
     }
 
     afterMatch(entity, 'matchNewEntityToFamilies');
+};
+
+/**
+ * @ignore
+ */
+World.prototype.$$matchNewEntityToFamily = function(componentsString, entity) {
+    var family = this.$$families[componentsString];
+    family.newEntity(entity);
 };
 
 /**
@@ -677,11 +696,18 @@ World.prototype.$$matchRemoveEntityToFamilies = function (entity) {
     }
 
     for (var componentsString in this.$$families) {
-        var family = this.$$families[componentsString];
-        family.removeIfMatch(entity);
+        this.$$matchRemoveEntityToFamily(componentsString, entity);
     }
 
     afterMatch(entity, 'matchRemoveEntityToFamilies');
+};
+
+/**
+ * @ignore
+ */
+World.prototype.$$matchRemoveEntityToFamily = function (componentsString, entity) {
+    var family = this.$$families[componentsString];
+    family.removeIfMatch(entity);
 };
 
 /**
@@ -695,11 +721,18 @@ World.prototype.$$onComponentAdd = function(entity, component) {
     }
 
     for (var componentsString in this.$$families) {
-        var family = this.$$families[componentsString];
-        family.addIfMatch(entity);
+        this.$$mapAddedComponentToFamily (componentsString, entity);
     }
 
     afterMatch(entity, 'onComponentAdd');
+};
+
+/**
+ * @ignore
+ */
+World.prototype.$$mapAddedComponentToFamily = function(componentsString, entity) {
+    var family = this.$$families[componentsString];
+    family.addIfMatch(entity);
 };
 
 /**
@@ -713,11 +746,15 @@ World.prototype.$$onComponentRemove = function(entity, component) {
 //    }
 
     for (var componentsString in this.$$families) {
-        var family = this.$$families[componentsString];
-        family.removeIfMatch(entity, component);
+        this.$$mapRemovedComponentToFamily(componentsString, entity, component);
     }
 
 //    afterMatch(entity, 'onComponentRemove');
+};
+
+World.prototype.$$mapRemovedComponentToFamily = function(componentsString, entity, component) {
+    var family = this.$$families[componentsString];
+    family.removeIfMatch(entity, component);
 };
 
 /**
@@ -765,13 +802,20 @@ function afterMatch(entity, phase) {
     entity._matchingToFamily.processing = false;
     var phases = entity._matchingToFamily.phases;
     for (var key in phases) {
-        if (phases.hasOwnProperty(key)) {
-            var phaseHandlerArray = entity._matchingToFamily.phases[key];
-            if (phaseHandlerArray.length > 0) {
-                var phaseHandler = phaseHandlerArray.pop();
-                phaseHandler.fn.apply(phaseHandler.ctx, phaseHandler.args);
-                return;
-            }
+        invokeStoredHandlers(phases, key, entity)
+    }
+}
+
+/**
+ * @ignore
+ */
+function invokeStoredHandlers(phases, key, entity) {
+    if (phases.hasOwnProperty(key)) {
+        var phaseHandlerArray = entity._matchingToFamily.phases[key];
+        if (phaseHandlerArray.length > 0) {
+            var phaseHandler = phaseHandlerArray.pop();
+            phaseHandler.fn.apply(phaseHandler.ctx, phaseHandler.args);
+            return;
         }
     }
 }
@@ -800,7 +844,7 @@ World.prototype.$queryByComponents = function(request) {
         return this.$$families[componentsString].nodes;
     }
 
-    for(var i = 0, l = componentsArray.length; i < l; i++) {
+    for (var i = 0, l = componentsArray.length; i < l; i++) {
         componentsHash[componentsArray[i]] = true;
     }
 
@@ -824,7 +868,7 @@ World.prototype.$update = function(time) {
     time = time || this.$$interval;
 
     var index, count, system;
-    for(index = 0, count = this.$$beforeUpdateHandledSystems.length; index < count; index++ ) {
+    for (index = 0, count = this.$$beforeUpdateHandledSystems.length; index < count; index++ ) {
         system = this.$$beforeUpdateHandledSystems[index];
         system.$$beforeUpdateHandler(time, system.$nodes);
     }
@@ -834,7 +878,7 @@ World.prototype.$update = function(time) {
         system.$$updateHandler(time);
     }
 
-    for(index = 0, count = this.$$afterUpdateHandledSystem.length; index < count; index++ ) {
+    for (index = 0, count = this.$$afterUpdateHandledSystem.length; index < count; index++ ) {
         system = this.$$afterUpdateHandledSystem[index];
         system.$$afterUpdateHandler(time, system.$nodes);
     }
