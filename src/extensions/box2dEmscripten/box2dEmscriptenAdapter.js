@@ -34,6 +34,12 @@
 
         $require: ['ng2D', 'ngPhysic'],
 
+        setGravity: function(x, y) {
+            var vec = getb2Vec2(x, y);
+            this._world.SetGravity(vec);
+            vec.onDispose();
+        },
+
         $added: function() {
             this._invScale = 1/this.scale;
             this._world = new Box2D.b2World(
@@ -1712,6 +1718,15 @@
 
 
     var poolOfb2Vec2 = new darlingutil.PoolOfObjects(Box2D.b2Vec2).warmup(100);
+
+    /**
+     * get new b2Vec instance from pool,
+     * to swipe useless b2vec2 use onDispose function of b2Vec
+     *
+     * @param x
+     * @param y
+     * @returns {*}
+     */
     function getb2Vec2(x, y) {
         var instance = poolOfb2Vec2.get();
         instance.set_x(x);
