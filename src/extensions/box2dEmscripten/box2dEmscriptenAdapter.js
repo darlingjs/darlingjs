@@ -42,10 +42,12 @@
 
         $added: function() {
             this._invScale = 1/this.scale;
+            var vec = getb2Vec2(this.gravity.x, this.gravity.y);
             this._world = new Box2D.b2World(
-                new Box2D.b2Vec2(this.gravity.x, this.gravity.y) // Gravity vector
+                vec // Gravity vector
                 //, !this.allowSleep // Don't allow sleep
             );
+            vec.onDispose();
         },
 
         $removed: function() {
@@ -342,7 +344,7 @@
          */
         getFixturesAt: function(x, y) {
             // Make a small box.
-            var aabb = new Box2D.b2AABB();
+            var aabb = poolOfAABBB.get();
             var d = 0.001;
             var lowerBound = getb2Vec2(x - d, y - d);
             var upperBound = getb2Vec2(x + d, y + d);
@@ -355,6 +357,7 @@
             myQueryCallback.m_point = getb2Vec2(x, y);
             this._world.QueryAABB(myQueryCallback, aabb);
 
+            aabb.onDispose();
             lowerBound.onDispose();
             upperBound.onDispose();
             myQueryCallback.m_point.onDispose();
@@ -379,7 +382,7 @@
          */
         getOneFixtureAt: function(x, y) {
             // Make a small box.
-            var aabb = new Box2D.b2AABB();
+            var aabb = poolOfAABBB.get();
             var d = 0.1;
             var lowerBound = getb2Vec2(x - d, y - d);
             var upperBound = getb2Vec2(x + d, y + d);
@@ -635,21 +638,31 @@
 
             var self = this;
             this._isMouseDown = false;
-            document.addEventListener("mousedown", function(e) {
+
+            this._mouseDownHandler = function(e) {
                 self._isMouseDown = true;
                 self._handleMouseMove(e);
-                document.addEventListener("mousemove", mouseMoveHandler, true);
-            }, true);
+                document.addEventListener("mousemove", this._mouseMoveHandler, true);
+            };
 
-            document.addEventListener("mouseup", function() {
-                document.removeEventListener("mousemove", mouseMoveHandler, true);
+            this._mouseUpHandler = function() {
+                document.removeEventListener("mousemove", this._mouseMoveHandler, true);
                 self._isMouseDown = false;
-            }, true);
+            };
 
-            function mouseMoveHandler(e) {
+            this._mouseMoveHandler = function (e) {
                 self._handleMouseMove(e);
-            }
+            };
+
+            document.addEventListener("mousedown", this._mouseDownHandler, true);
+            document.addEventListener("mouseup", this._mouseUpHandler, true);
         }],
+
+        $removed: function() {
+            document.removeEventListener("mousemove", this._mouseMoveHandler, true);
+            document.removeEventListener("mousedown", this._mouseDownHandler, true);
+            document.removeEventListener("mouseup", this._mouseUpHandler, true);
+        },
 
         _handleMouseMove: function (e) {
             this._mouseX = (e.clientX - this._shiftX - this._ng2DViewPort.lookAt.x + 0.5 * this.width) * this._invScale;
@@ -663,20 +676,25 @@
                 world = ngBox2DSystem._world;
                 var body = ngBox2DSystem.getOneBodyAt(this._mouseX, this._mouseY);
                 if(body && body.m_userData && body.m_userData.ngDraggable) {
-                    var md = new Box2D.b2MouseJointDef();
+                    var md = poolOfMouseJointDef.get();
                     md.set_bodyA(ngBox2DSystem.getGroundBody());
                     md.set_bodyB(body);
-                    md.set_target(new Box2D.b2Vec2(this._mouseX, this._mouseY));
+                    var vec2 = getb2Vec2(this._mouseX, this._mouseY);
+                    md.set_target(vec2);
+                    vec2.onDispose();
                     md.set_collideConnected(true);
                     md.set_maxForce(300.0 * body.GetMass());
                     this._mouseJoint = ngBox2DSystem.createJoint(md, Box2D.b2MouseJoint);
+                    md.onDispose();
                     body.SetAwake(true);
                 }
             }
 
             if(this._mouseJoint) {
                 if(this._isMouseDown) {
-                    this._mouseJoint.SetTarget(new Box2D.b2Vec2(this._mouseX, this._mouseY));
+                    var vec2 = getb2Vec2(this._mouseX, this._mouseY);
+                    this._mouseJoint.SetTarget(vec2);
+                    vec2.onDispose();
                 } else {
                     world = ngBox2DSystem._world;
                     world.DestroyJoint(this._mouseJoint);
@@ -1715,6 +1733,10 @@
     var poolOfRevoluteJointDef = new darlingutil.PoolOfObjects(Box2D.b2RevoluteJointDef).warmup(1);
     var poolOfDistanceJointDef = new darlingutil.PoolOfObjects(Box2D.b2DistanceJointDef).warmup(1);
     var poolOfPrismaticJointDef = new darlingutil.PoolOfObjects(Box2D.b2PrismaticJointDef).warmup(1);
+
+    var poolOfMouseJointDef = new darlingutil.PoolOfObjects(Box2D.b2MouseJointDef).warmup(1);
+
+    var poolOfAABBB = new darlingutil.PoolOfObjects(Box2D.b2AABB).warmup(1);
 
 
     var poolOfb2Vec2 = new darlingutil.PoolOfObjects(Box2D.b2Vec2).warmup(100);
