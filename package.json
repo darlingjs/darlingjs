@@ -2,7 +2,7 @@
   "name": "darlingjs",
   "shortName": "darling",
   "title": "DarlingJS Game Engine",
-  "version": "0.0.7",
+  "version": "0.7.0",
   "homepage": "http://darlingjs.github.io/",
   "description": "Component & Entity based javascript game engine. Decoupled from any visualization, physics, and so on. With injections and modules based on AngularJS.",
   "author": {
@@ -43,6 +43,7 @@
     "grunt-contrib-jasmine": "~0.4.1",
     "grunt-contrib-yuidoc": "~0.4.0",
     "grunt-version": "~0.2.1",
-    "grunt-jsdoc": "~0.3.2"
+    "grunt-jsdoc": "~0.3.2",
+    "grunt-contrib-clean": "~0.4.1"
   }
 }
