@@ -419,6 +419,14 @@
                 window.onresize = function(e) {
                     self._onResize(e);
                 };
+
+                var dx = document.body.clientWidth - this._canvas.clientWidth;
+                var dy = document.body.clientHeight - this._canvas.clientHeight;
+
+                if (dx < 0) dx = 0;
+                if (dy < 0) dy = 0;
+                this.dx = dx;
+                this.dy = dy;
                 self._onResize();
             }
         },
@@ -426,8 +434,9 @@
         _onResize: function(e) {
             this._onResizeDefaultHandler(e);
 
-            var widthRatio = window.innerWidth / this.width;
-            var heightRatio = window.innerHeight / this.height;
+            var widthRatio = (window.innerWidth - this.dx) / this.width;
+            var heightRatio = (window.innerHeight - this.dy) / this.height;
+
             var ratio = Math.min(widthRatio, heightRatio);
 
             if (ratio >= 1) {
@@ -436,8 +445,13 @@
 
             this._center.x = 0.5 * ratio * this.width;
             this._center.y = 0.5 * ratio * this.height;
+            /*
             this._canvas.width = ratio * this.width;
             this._canvas.height = ratio * this.height;
+            */
+
+            this._canvas.style.width = ratio * this.width + "px";
+            this._canvas.style.height = ratio * this.height + "px";
         },
 
         /**
