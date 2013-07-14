@@ -326,6 +326,12 @@
 
         fitToWindow: false,
 
+        /**
+         * If canvas element by default doesn't fit to screen
+         * so we just use delta size to body.clientWidth - canvas.clientWidth
+         */
+        adaptToContext: false,
+
         domId: '',
 
         /**
@@ -341,6 +347,12 @@
         _canvas: null,
         _stage: null,
         _center: {x:0.0, y:0.0},
+
+        /**
+         * tune width, height with some delta
+         */
+        _dWidth: 0,
+        _dHeight: 0,
 
         _visible: false,
 
@@ -420,13 +432,15 @@
                     self._onResize(e);
                 };
 
-                var dx = document.body.clientWidth - this._canvas.clientWidth;
-                var dy = document.body.clientHeight - this._canvas.clientHeight;
+                if (this.adaptToContext) {
+                    var dx = document.body.clientWidth - this._canvas.clientWidth;
+                    var dy = document.body.clientHeight - this._canvas.clientHeight;
 
-                if (dx < 0) dx = 0;
-                if (dy < 0) dy = 0;
-                this.dx = dx;
-                this.dy = dy;
+                    if (dx < 0) dx = 0;
+                    if (dy < 0) dy = 0;
+                    this._dWidth = dx;
+                    this._dHeight = dy;
+                }
                 self._onResize();
             }
         },
@@ -434,8 +448,8 @@
         _onResize: function(e) {
             this._onResizeDefaultHandler(e);
 
-            var widthRatio = (window.innerWidth - this.dx) / this.width;
-            var heightRatio = (window.innerHeight - this.dy) / this.height;
+            var widthRatio = (window.innerWidth - this._dWidth) / this.width;
+            var heightRatio = (window.innerHeight - this._dHeight) / this.height;
 
             var ratio = Math.min(widthRatio, heightRatio);
 
