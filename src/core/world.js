@@ -251,7 +251,20 @@ World.prototype.$removeAllSystems = function() {
     this.$$beforeUpdateHandledSystems.length = 0;
     this.$$afterUpdateHandledSystem.length = 0;
     this.$$updateHandledSystem.length = 0;
-}
+};
+
+/**
+ * Remove all entities from the World
+ */
+World.prototype.$removeAllEntities = function() {
+    var node = this.$entities.$head;
+    while(node) {
+        var entity = node.instance,
+            nextEntity = node.$next;
+        this.$$removeEntity(entity);
+        node = nextEntity;
+    }
+};
 
 /**
  * Get entity by name

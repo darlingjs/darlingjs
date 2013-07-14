@@ -123,6 +123,17 @@ describe('World', function() {
         expect(world.$numEntities()).toBe(0);
     });
 
+    it('should remove all entities on $removeAllEntities', function(){
+        var world = darlingjs.world('testWorld');
+        var count = 10;
+        while(--count>=0) {
+            world.$e('theEntity-' + count);
+        }
+        expect(world.$numEntities()).toBe(10);
+        world.$removeAllEntities();
+        expect(world.$numEntities()).toBe(0);
+    });
+
     it('should return by one component', function() {
         var e1 = world.$entity('entity1', ['testComponent1']);
         var e2 = world.$entity('entity2', ['testComponent2']);
