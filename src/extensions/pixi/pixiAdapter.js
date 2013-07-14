@@ -7,8 +7,10 @@
  * Systems:
  * ngPixijsSpriteFactory - use for building Pixijs Sprite from entity
  * ngPixijsStage - create Pixijs Stage, connect it with DOM
- * ngPixijsUpdateCycle - basic update cycle
+ * ngPixijsPositionUpdateCycle - basic update cycle
  * ngPixijsViewPortUpdateCycle - update cycle with applying of ViewPort
+ *
+ * Uses Promises/A - Q.js
  *
  */
 (function(darlingjs, darlingutil) {
@@ -98,6 +100,12 @@
         dy: 0.0
     });
 
+    /**
+     * Main Factory System of Pixijs Adapter. It:
+     * * gets sprite desc (name, spriteSheetUrl) from ngSprite;
+     * * loads it;
+     * * and creates component ngPixijsSprite;
+     */
     m.$s('ngPixijsSpriteFactory', {
         $require: ['ngSprite'],
 
@@ -204,10 +212,37 @@
         }
     });
 
-    m.$s('ngPixijsUpdateCycle', {
+    /**
+     * Update sprite position from ng2D
+     */
+    m.$s('ngPixijsPositionUpdateCycle', {
         $require: ['ng2D', 'ngPixijsSprite'],
 
-        $removeEntity: ['ngPixijsStage', '$entity', function(ngPixijsStage, $entity) {
+        $removeEntity: ['$entity', function($entity) {
+            $entity.ngPixijsSprite.sprite = null;
+        }],
+
+        $update: ['$entity', function($entity) {
+            var state = $entity.ngPixijsSprite;
+
+            var ng2D = $entity.ng2D;
+            var pos = state.sprite.position;
+
+            pos.x = ng2D.x;
+            pos.y = ng2D.y;
+        }]
+    });
+
+    /**
+     * Update sprite position based on ViewPort position
+     *
+     * * uses ng2DViewPort
+     * * uses ngPixijsStage
+     */
+    m.$s('ngPixijsPositionUpdateCycleWithViewPort', {
+        $require: ['ng2D', 'ngPixijsSprite'],
+
+        $removeEntity: ['$entity', function($entity) {
             $entity.ngPixijsSprite.sprite = null;
         }],
 
@@ -216,11 +251,9 @@
 
             var ng2D = $entity.ng2D;
             var pos = state.sprite.position;
-            pos.x = ng2D.x + ngPixijsStage._center.x;
-            pos.y = ng2D.y + ngPixijsStage._center.y;
 
-            pos.x -= ng2DViewPort.lookAt.x;
-            pos.y -= ng2DViewPort.lookAt.y;
+            pos.x = ng2D.x + ngPixijsStage._center.x - ng2DViewPort.lookAt.x;
+            pos.y = ng2D.y + ngPixijsStage._center.y - ng2DViewPort.lookAt.y;
         }]
     });
 
