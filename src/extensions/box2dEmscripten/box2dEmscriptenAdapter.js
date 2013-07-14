@@ -1718,6 +1718,25 @@
         }]
     });
 
+    m.$s('ngBox2DApplyImpulse', {
+        $require: ['ngApplyImpulse', 'ngPhysic'],
+
+        $update: ['$entity', function($entity) {
+            var body = $entity.ngPhysic._b2dBody;
+            var ngApplyImpulse = $entity.ngApplyImpulse;
+            if (body) {
+                var vec = getb2Vec2(ngApplyImpulse.x, ngApplyImpulse.y);
+                body.ApplyLinearImpulse(vec, body.GetWorldCenter());
+                vec.onDispose();
+
+                if (ngApplyImpulse.autoRemove) {
+                    $entity.$remove('ngApplyImpulse');
+                }
+            }
+
+        }]
+    });
+
     /**
      * Marker of bind entity.ngPhysic.angularDamping to physics parameters
      */

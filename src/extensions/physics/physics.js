@@ -251,4 +251,16 @@
         'is': ['rock'],
         'collideWith': ['vehicle']
     });
+
+    /**
+     * Component for applying impulse to physic body
+     */
+    m.$c('ngApplyImpulse', {
+        x: 0.0,
+        y: 0.0,
+        center: true,
+        dx: 0.0,
+        dy: 0.0,
+        autoRemove: true
+    })
 })(darlingjs);
