@@ -101,6 +101,11 @@
     });
 
     /**
+     * Marker for temporary hide some sprite
+     */
+    m.$c('ngHide');
+
+    /**
      * Main Factory System of Pixijs Adapter. It:
      * * gets sprite desc (name, spriteSheetUrl) from ngSprite;
      * * loads it;
@@ -534,6 +539,21 @@
                 .then(function() {
                     ngResourceLoader.stopLoading(url);
                 });
+        }
+    });
+
+    /**
+     * System for hiding sprite
+     */
+    m.$s('ngPixijsHideSprite', {
+        $require: ['ngHide', 'ngPixijsSprite'],
+
+        $addEntity: function($entity) {
+            $entity.ngPixijsSprite.sprite.visible = false;
+        },
+
+        $removeEntity: function($entity) {
+            $entity.ngPixijsSprite.sprite.visible = true;
         }
     });
 
