@@ -85,6 +85,10 @@
                     break;
             }
 
+            if (ngPhysic.allowSleep === false) {
+                bodyDef.set_allowSleep(false);
+            }
+
             var rotation = 0.0;
             var shape;
             var fixDef = poolOfFixtureDef.get();
