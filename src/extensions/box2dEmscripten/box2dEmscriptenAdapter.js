@@ -157,6 +157,7 @@
                 bodyDef.set_position(vec);
                 bodyDef.set_angle(rotation);
                 bodyDef.set_fixedRotation(ngPhysic.fixedRotation);
+                bodyDef.set_linearDamping(ngPhysic.linearDamping);
                 bodyDef.set_angularDamping(ngPhysic.angularDamping);
                 body = this._world.CreateBody(bodyDef);
                 vec.onDispose();
