@@ -109,7 +109,7 @@
     m.$s('ngPixijsSpriteFactory', {
         $require: ['ngSprite'],
 
-        $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', 'ngResourceLoader', function(ngPixijsStage, ngPixijsStaticZ, $entity, ngResourceLoader) {
+        $addEntity: ['ngPixijsStage', 'ngPixijsStaticZ', '$entity', 'ngResourceLoader', 'ngPixijsPositionUpdateCycle', function(ngPixijsStage, ngPixijsStaticZ, $entity, ngResourceLoader, ngPixijsPositionUpdateCycle) {
             var state = $entity.ngSprite;
             if (state.spriteSheetUrl) {
                 if (isLoaded(state.spriteSheetUrl)) {
@@ -130,8 +130,14 @@
                 buildSprite(state, $entity.ng2DSize);
                 fitToSize(state, $entity.ng2DSize);
                 //hide sprite before update phase
-                state._sprite.position.x = -1048576;
-                state._sprite.position.y = -1048576;
+
+                if (ngPixijsPositionUpdateCycle) {
+                    state._sprite.position.x = -1048576;
+                    state._sprite.position.y = -1048576;
+                } else if ($entity.ng2D){
+                    state._sprite.position.x = $entity.ng2D.x;
+                    state._sprite.position.y = $entity.ng2D.y;
+                }
                 if (state.layerName) {
                     ngPixijsStaticZ.addChildAt(state.layerName, state._sprite);
                 } else {
