@@ -106,6 +106,13 @@
     m.$c('ngHide');
 
     /**
+     * Marker that visualization need to fit to size
+     */
+    m.$c('ngBindViewToSize', {
+        autoRemove: false
+    });
+
+    /**
      * Main Factory System of Pixijs Adapter. It:
      * * gets sprite desc (name, spriteSheetUrl) from ngSprite;
      * * loads it;
@@ -230,6 +237,7 @@
         $require: ['ng2D', 'ngPixijsSprite'],
 
         $removeEntity: ['$entity', function($entity) {
+            $entity.ngPixijsSprite.sprite.visible = true;
             $entity.ngPixijsSprite.sprite = null;
         }],
 
@@ -254,6 +262,7 @@
         $require: ['ng2D', 'ngPixijsSprite'],
 
         $removeEntity: ['$entity', function($entity) {
+            $entity.ngPixijsSprite.sprite.visible = true;
             $entity.ngPixijsSprite.sprite = null;
         }],
 
@@ -553,8 +562,29 @@
         },
 
         $removeEntity: function($entity) {
-            $entity.ngPixijsSprite.sprite.visible = true;
+            if ($entity.ngPixijsSprite && $entity.ngPixijsSprite.sprite) {
+                $entity.ngPixijsSprite.sprite.visible = true;
+            }
         }
+    });
+
+    /**
+     * System to bind sprite size to ng2DSize
+     */
+    m.$s('ngPixijsBindViewToSize', {
+        $require: ['ngBindViewToSize', 'ng2DSize', 'ngPixijsSprite'],
+
+        $update: ['$entity', function($entity) {
+            var ng2DSize = $entity.ng2DSize;
+            var sprite = $entity.ngPixijsSprite.sprite;
+
+            sprite.width = ng2DSize.width;
+            sprite.height = ng2DSize.height;
+
+            if ($entity.ngBindViewToSize.autoRemove) {
+                $entity.$remove('ngBindViewToSize');
+            }
+        }]
     });
 
     function clearLoaders() {
