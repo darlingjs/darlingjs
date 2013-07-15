@@ -452,7 +452,13 @@
 
                     if (dx < 0) dx = 0;
                     if (dy < 0) dy = 0;
-                    this._dWidth = dx;
+
+                    //FIXME: doesn't work well - because body (as any block element) 
+                    //shrink to whole side without any pay attention to Canvas inside
+                    //so we can't actualy define is user want to get some border between 
+                    //canvas and other staff, or it's just browser fit it to width.
+
+                    //this._dWidth = dx;
                     this._dHeight = dy;
                 }
                 self._onResize();
