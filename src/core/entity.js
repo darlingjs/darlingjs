@@ -99,7 +99,7 @@ Entity.prototype.$remove = function(value) {
     }
 
     if (!this[name]) {
-        return;
+        return null;
     }
 
     this.trigger('remove', this, instance);
@@ -143,33 +143,51 @@ Entity.prototype.$has = function(value) {
  */
 Entity.prototype.$applyModifier = function(modifier) {
     if (darlingutil.isFunction(modifier)) {
-        modifier = modifier.call(this);
-        if (darlingutil.isDefined(modifier)) {
-            this.$applyModifier(modifier);
-        }
+        this.$$applyModifierFunction(modifier);
     } else {
-        //TODO : add components from ngAnyJoint.onEnableReverse
         if (darlingutil.isString(modifier)) {
             this.$add(modifier);
         } else if (darlingutil.isArray(modifier)) {
-            for(var i = 0, count = modifier.length; i < count; i++) {
-                var componentName = modifier[i];
-                if (darlingutil.isFunction(componentName)) {
-                    componentName = componentName.call(this);
-                }
-                this.$add(componentName);
-            }
+            this.$applyModifierArray(modifier);
         } else if (darlingutil.isObject(modifier)) {
-            for(var key in modifier) {
-                var config = modifier[key];
-                if (darlingutil.isFunction(config)) {
-                    config = config.call(this);
-                }
-                this.$add(key, config)
-            }
+            this.$applyModifierObject(modifier);
         } else {
             throw new Error('Unknown modifier')
         }
+    }
+};
+
+/**
+ * @ignore
+ */
+Entity.prototype.$$applyModifierFunction = function(modifier) {
+    modifier = modifier.call(this);
+    if (darlingutil.isDefined(modifier)) {
+        this.$applyModifier(modifier);
+    }
+};
+
+/**
+ * @ignore
+ * @param modifier
+ */
+Entity.prototype.$applyModifierArray = function(modifier) {
+    for(var i = 0, count = modifier.length; i < count; i++) {
+        this.$applyModifier(modifier[i]);
+    }
+};
+
+/**
+ * @ignore
+ * @param modifier
+ */
+Entity.prototype.$applyModifierObject = function(modifier) {
+    for(var key in modifier) {
+        var config = modifier[key];
+        if (darlingutil.isFunction(config)) {
+            config = config.call(this);
+        }
+        this.$add(key, config)
     }
 };
 
@@ -186,24 +204,35 @@ Entity.prototype.$applyModifier = function(modifier) {
  */
 Entity.prototype.$revertModifier = function(modifier) {
     if (!darlingutil.isFunction(modifier)) {
-        //TODO : remove components from ngAnyJoint.onEnableReverse
         if (darlingutil.isString(modifier)) {
             this.$remove(modifier);
         } else if (darlingutil.isArray(modifier)) {
-            for(var i = 0, count = modifier.length; i < count; i++) {
-                var componentName = modifier[i];
-                if (darlingutil.isFunction(componentName)) {
-                    componentName = componentName.call(this);
-                }
-                this.$remove(componentName);
-            }
+            this.$revertModifierArray(modifier);
         } else if (darlingutil.isObject(modifier)) {
-            for(var key in modifier) {
-                this.$remove(key)
-            }
+            this.$revertModifierObject(modifier);
         } else {
             throw new Error('Unknown modifier')
         }
+    }
+};
+
+/**
+ * @ignore
+ * @param modifier
+ */
+Entity.prototype.$revertModifierArray = function(modifier) {
+    for(var i = 0, count = modifier.length; i < count; i++) {
+        this.$revertModifier(modifier[i]);
+    }
+};
+
+/**
+ * @ignore
+ * @param modifier
+ */
+Entity.prototype.$revertModifierObject = function(modifier) {
+    for(var key in modifier) {
+        this.$remove(key)
     }
 };
 
