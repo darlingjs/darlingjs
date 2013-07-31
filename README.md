@@ -3,7 +3,7 @@ darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=
 
 ![Logo](http://darlingjs.github.io/images/logo-oldschool.png)
 
-Lightweight component and entity based Game Engine. With flexible architecture. Decupled from any dependecy. So any interaction with (Box2D, Render system and so on) put in pluggable modules. Use fluent API (Crafty.js/jQUery like).
+Lightweight entity, component, system based game engine. With flexible architecture. Decupled from any dependecy. So all interaction with Box2D, Render system, Particle System and so on put in pluggable modules. Use fluent API [Crafty.js](craftyjs.com), [jQUery](http://jquery.com) like.
 
 ## Support
 
@@ -12,7 +12,8 @@ Lightweight component and entity based Game Engine. With flexible architecture. 
 
 ## Examples
 
-* [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/darlingjs/darlingjs-examples/tree/master/04-box2d-simulation-of-vehicle);
+* [Game of Pong](http://darlingjs.github.io/games/game-of-pong/) with [sources](https://github.com/darlingjs/darlingjs-examples/blob/master/game-of-pong/);
+* [*In Progress* Red Cabrioler](http://darlingjs.github.io/games/cabriolet/) with [sources](https://github.com/darlingjs/darlingjs-examples/tree/master/red-cabriolet/);
 * [Repo with other sources](https://github.com/darlingjs/darlingjs-examples/);
 
 ## Quick Start
