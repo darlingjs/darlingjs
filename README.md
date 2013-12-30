@@ -544,3 +544,7 @@ ngModule.$system('ngDOMSystem', {
 ## Copyrights
 
 Logo by Alena Krevenets (Burenka) <http://burenkaz.daportfolio.com/>
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/darlingjs/darlingjs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
