@@ -1,6 +1,8 @@
 darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=master)](https://travis-ci.org/darlingjs/darlingjs)
 =========
 
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/darlingjs/heart?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![Logo](http://darlingjs.github.io/images/logo-oldschool.png)
 
 Lightweight entity, component, system based game engine. With flexible architecture. Decupled from any dependecy. So all interaction with Box2D, Render system, Particle System and so on put in pluggable modules. Use fluent API [Crafty.js](craftyjs.com), [jQUery](http://jquery.com) like.
