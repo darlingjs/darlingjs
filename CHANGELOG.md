@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 Based on [http://keepachangelog.com/](http://keepachangelog.com/) 
-and (Changelogs convention)[https://github.com/tech-angels/vandamme/#changelogs-convention]
+and [Changelogs convention](https://github.com/tech-angels/vandamme/#changelogs-convention)
 
 ## [Unreleased][unreleased]
 - [FEATURE] Add CHANGELOG.md file
