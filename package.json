@@ -7,7 +7,7 @@
   "description": "Component & Entity based javascript game engine. Decoupled from any visualization, physics, and so on. With injections and modules based on AngularJS.",
   "author": {
     "name": "Eugene Krenevenets",
-    "email": "hyzhak@ya.ru",
+    "email": "ievgenii.krevenets@gmail.com",
     "url": "http://hyzhak.github.com"
   },
   "repository": {
