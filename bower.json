@@ -1,0 +1,29 @@
+{
+  "name": "darlingjs",
+  "version": "0.7.2",
+  "homepage": "https://github.com/darlingjs/darlingjs",
+  "authors": [
+    "Eugene Krevenets <ievgenii.krevenets@gmail.com> (http://hyzhak.github.io)"
+  ],
+  "main": "index.js",
+  "description": "Entity, Component, System based javascript game engine. Decoupled from any visualization, physics, and so on. With injections and modules based on AngularJS.",
+  "keywords": [
+    "entity",
+    "gamedev",
+    "engine"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "*.iml",
+    "bower_components",
+    "doc-template",
+    "node_modules",
+    "package.json",
+    "spec",
+    "testacular.conf.js"
+  ]
+}
