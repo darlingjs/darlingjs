@@ -2,7 +2,7 @@
   "name": "darlingjs",
   "shortName": "darling",
   "title": "DarlingJS Game Engine",
-  "version": "0.7.2",
+  "version": "0.7.4",
   "homepage": "http://darlingjs.github.io/",
   "description": "Component & Entity based javascript game engine. Decoupled from any visualization, physics, and so on. With injections and modules based on AngularJS.",
   "author": {
