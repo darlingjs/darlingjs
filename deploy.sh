@@ -24,10 +24,12 @@ git reset upstream/master
 
 # The first and only commit to this new Git repo contains all the
 # files present with the commit message "Deploy to GitHub Pages".
-git add .
+git add . --all
 git commit -m "${COMMIT_MESAGE}"
 
+echo 'tag: ${TRAVIS_TAG}'
 if [ ${TRAVIS_TAG} ]; then
+    echo 'update tag to ${TRAVIS_TAG}'
     git tag ${TRAVIS_TAG}
 fi
 
