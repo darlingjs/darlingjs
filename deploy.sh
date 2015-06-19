@@ -10,6 +10,8 @@ set -o errexit -o nounset
 
 COMMIT_MESAGE="$(git log -1 --pretty=%B)"
 
+NEW_TAG="$(git describe --tags)"
+
 # go to the out directory and create a *new* Git repo
 cd build
 git init
@@ -22,14 +24,24 @@ git remote add upstream "https://${GH_TOKEN}@${GH_REF}"
 git fetch upstream
 git reset upstream/master
 
+OLD_TAG="$(git describe --tags)"
+
+if [NEW_TAG === OLD_TAG]; then
+    echo "still have smae tag. To update bower repo should change tag"
+    echo "current tag is ${NEW_TAG}"
+    exit 0
+fi
+
 # The first and only commit to this new Git repo contains all the
 # files present with the commit message "Deploy to GitHub Pages".
-git add . --all
-git commit -m "${COMMIT_MESAGE}"
+echo "before git add"
+git add . --verbose --all
+git commit --verbose -m "${COMMIT_MESAGE}"
 
-echo 'tag: ${TRAVIS_TAG}'
+echo "tag: ${TRAVIS_TAG}"
+
 if [ ${TRAVIS_TAG} ]; then
-    echo 'update tag to ${TRAVIS_TAG}'
+    echo "update tag to ${TRAVIS_TAG}"
     git tag ${TRAVIS_TAG}
 fi
 
