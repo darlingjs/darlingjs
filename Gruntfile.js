@@ -44,7 +44,8 @@ module.exports = function(grunt) {
             }
         },
         clean: {
-            docs: ['docs/']
+            docs: ['docs/'],
+            build: 'build/*'
         },
         copy: {
             bowerfile: {
@@ -94,6 +95,7 @@ module.exports = function(grunt) {
 
     // Default task(s).
     grunt.registerTask('default', ['jasmine', 'concat', 'uglify', 'copy', 'version']);
+    grunt.registerTask('build', ['clean:build', 'concat', 'uglify', 'copy', 'version']);
     grunt.registerTask('test', ['concat', 'jasmine']);
     //grunt.registerTask('docs', ['clean', 'yuidoc']);
     grunt.registerTask('docs', ['clean', 'jsdoc']);
