@@ -46,6 +46,22 @@ module.exports = function(grunt) {
         clean: {
             docs: ['docs/']
         },
+        copy: {
+            bowerfile: {
+                files: [
+                    {
+                        expand: true, cwd: 'deploy-template', src: ['bower.json'], dest: 'build/'
+                    }
+                ]
+            },
+            readme: {
+                files: [
+                    {
+                        expand: true, cwd: 'deploy-template', src: ['README.md'], dest: 'build/'
+                    }
+                ]
+            }
+        },
         jsdoc: {
             src: ['src/core/**/*.js', 'src/utils/**/*.js', 'README.md'],
             options: {
@@ -69,17 +85,21 @@ module.exports = function(grunt) {
             defaults: {
                 //src: ['src/core/core.js', 'src/util/util.js']
                 src: ['build/<%= pkg.shortName %>.js']
+            },
+            bowerfile: {
+                src: 'build/bower.json'
             }
         }
     });
 
     // Default task(s).
-    grunt.registerTask('default', ['jasmine', 'concat', 'uglify', 'version']);
+    grunt.registerTask('default', ['jasmine', 'concat', 'uglify', 'copy', 'version']);
     grunt.registerTask('test', ['concat', 'jasmine']);
     //grunt.registerTask('docs', ['clean', 'yuidoc']);
     grunt.registerTask('docs', ['clean', 'jsdoc']);
 
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
