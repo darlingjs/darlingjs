@@ -45,7 +45,7 @@ module.exports = function(grunt) {
         },
         clean: {
             docs: ['docs/'],
-            build: 'build/*'
+            build: ['build/**/*', 'build/.git']
         },
         copy: {
             bowerfile: {

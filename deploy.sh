@@ -10,23 +10,37 @@ set -o errexit -o nounset
 
 COMMIT_MESAGE="$(git log -1 --pretty=%B)"
 
-NEW_TAG="$(git describe --tags)"
+NEW_TAG="$(git describe --tags --abbrev=0)"
+
+echo "start"
 
 # go to the out directory and create a *new* Git repo
 cd build
 git init
 
+echo "before config"
+
 # inside this git repo we'll pretend to be a new user
 git config user.name "Travis CI"
 git config user.email "ievgenii.krevenets@gmail.com"
 
+echo "before add upstream"
+
 git remote add upstream "https://${GH_TOKEN}@${GH_REF}"
+
+echo "before fetch"
 git fetch upstream
+
+echo "before reset"
 git reset upstream/master
 
-OLD_TAG="$(git describe --tags)"
+echo "before get old tag"
+OLD_TAG="$(git describe --tags --abbrev=0)"
 
-if [NEW_TAG === OLD_TAG]; then
+echo "new tag: ${NEW_TAG}"
+echo "old tag: ${OLD_TAG}"
+
+if [ $NEW_TAG = $OLD_TAG ]; then
     echo "still have smae tag. To update bower repo should change tag"
     echo "current tag is ${NEW_TAG}"
     exit 0
@@ -38,11 +52,9 @@ echo "before git add"
 git add . --verbose --all
 git commit --verbose -m "${COMMIT_MESAGE}"
 
-echo "tag: ${TRAVIS_TAG}"
-
-if [ ${TRAVIS_TAG} ]; then
-    echo "update tag to ${TRAVIS_TAG}"
-    git tag ${TRAVIS_TAG}
+if [ ${NEW_TAG} ]; then
+    echo "update tag to ${NEW_TAG}"
+    git tag ${NEW_TAG}
 fi
 
 # Force push from the current repo's master branch to the remote
