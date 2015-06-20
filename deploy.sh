@@ -18,23 +18,14 @@ echo "start"
 cd build
 git init
 
-echo "before config"
-
 # inside this git repo we'll pretend to be a new user
 git config user.name "Travis CI"
 git config user.email "ievgenii.krevenets@gmail.com"
 
-echo "before add upstream"
-
 git remote add upstream "https://${GH_TOKEN}@${GH_REF}"
-
-echo "before fetch"
 git fetch upstream
-
-echo "before reset"
 git reset upstream/master
 
-echo "before get old tag"
 OLD_TAG="$(git describe --tags --abbrev=0)"
 
 echo "new tag: ${NEW_TAG}"
@@ -48,7 +39,6 @@ fi
 
 # The first and only commit to this new Git repo contains all the
 # files present with the commit message "Deploy to GitHub Pages".
-echo "before git add"
 git add . --verbose --all
 git commit --verbose -m "${COMMIT_MESAGE}"
 
