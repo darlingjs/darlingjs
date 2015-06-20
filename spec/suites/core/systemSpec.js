@@ -8,22 +8,30 @@ describe('system', function() {
 
     var defaultModule,
         defaultWorld;
+
     beforeEach(function() {
         defaultModule = darlingjs.module('defaultModule', {})
             .$system('defaultSystem');
         defaultWorld = darlingjs.world('defaultWorld', ['defaultModule']);
 
-        this.addMatchers({
-            calledWith: function() {
-                var notText = this.isNot ? ' not' : '';
+        /*
+        jasmine.addMatchers({
+            calledWith: function(actual) {
+                //var notText = this.isNot ? ' not' : '';
+                var notText = '';
 
-                this.message = function() {
+                var result = {};
+
+                result.message = function() {
                     return 'Expected that function ' + notText + ' has called with ' + Array.prototype.join.call(arguments, ', ') +  ' but was ';
                 };
 
-                return this.actual.calledWith.apply(this.actual, arguments);
+                return result.
+
+                //return this.actual).toHaveBeenCalledWith.apply(this.actual, arguments);
             }
         });
+        */
     });
 
     afterEach(function() {
@@ -200,7 +208,7 @@ describe('system', function() {
         world.$update(11);
 
         expect(updateHandler.callCount).toBe(1);
-        expect(updateHandler.calledWith(system.$nodes, 11)).toBeTruthy();
+        expect(updateHandler).toHaveBeenCalledWith(system.$nodes, 11);
     });
 
     it('should inject the World instance to update by $world argument', function() {
@@ -216,7 +224,7 @@ describe('system', function() {
         world.$add('testSystem');
         world.$update(11);
         expect(updateHandler.callCount).toBe(1);
-        expect(updateHandler.calledWith(world)).toBeTruthy();
+        expect(updateHandler).toHaveBeenCalledWith(world);
     });
 
     it('should run update for each request $entity.', function() {
@@ -240,9 +248,9 @@ describe('system', function() {
         world.$update(11);
 
         expect(updateHandler.callCount).toBe(3);
-        expect(updateHandler.calledWith(entities[0], 11)).toBeTruthy();
-        expect(updateHandler.calledWith(entities[1], 11)).toBeTruthy();
-        expect(updateHandler.calledWith(entities[2], 11)).toBeTruthy();
+        expect(updateHandler).toHaveBeenCalledWith(entities[0], 11);
+        expect(updateHandler).toHaveBeenCalledWith(entities[1], 11);
+        expect(updateHandler).toHaveBeenCalledWith(entities[2], 11);
     });
 
     it('should execute $addEntity handler on node is adding', function() {
@@ -263,9 +271,9 @@ describe('system', function() {
         }
 
         expect(addHandler.callCount).toBe(3);
-        expect(addHandler.calledWith(entities[0])).toBeTruthy();
-        expect(addHandler.calledWith(entities[1])).toBeTruthy();
-        expect(addHandler.calledWith(entities[2])).toBeTruthy();
+        expect(addHandler).toHaveBeenCalledWith(entities[0]);
+        expect(addHandler).toHaveBeenCalledWith(entities[1]);
+        expect(addHandler).toHaveBeenCalledWith(entities[2]);
         expect(removeHandler.callCount).toBe(0);
     });
 
@@ -295,9 +303,9 @@ describe('system', function() {
 
         expect(addHandler.callCount).toBe(3);
         expect(removeHandler.callCount).toBe(3);
-        expect(removeHandler.calledWith(entities[0])).toBeTruthy();
-        expect(removeHandler.calledWith(entities[1])).toBeTruthy();
-        expect(removeHandler.calledWith(entities[2])).toBeTruthy();
+        expect(removeHandler).toHaveBeenCalledWith(entities[0]);
+        expect(removeHandler).toHaveBeenCalledWith(entities[1]);
+        expect(removeHandler).toHaveBeenCalledWith(entities[2]);
     });
 
     it('should inject other systems in $added', function() {
@@ -317,7 +325,7 @@ describe('system', function() {
         world.$add('testSystem2');
 
         expect(handler.callCount).toBe(1);
-        expect(handler.calledWith(s1)).toBeTruthy();
+        expect(handler).toHaveBeenCalledWith(s1);
     });
 
     it('should inject other systems in $removed', function() {
@@ -337,7 +345,7 @@ describe('system', function() {
         world.$remove(s2);
 
         expect(handler.callCount).toBe(1);
-        expect(handler.calledWith(s1)).toBeTruthy();
+        expect(handler).toHaveBeenCalledWith(s1);
     });
 
     it('should inject other systems in $addEntity', function() {
@@ -357,7 +365,7 @@ describe('system', function() {
         var e = world.$e('theEntity', ['theComponent']);
 
         expect(handler.callCount).toBe(1);
-        expect(handler.calledWith(s1, e)).toBeTruthy();
+        expect(handler).toHaveBeenCalledWith(s1, e);
     });
 
 
@@ -379,7 +387,7 @@ describe('system', function() {
         world.$remove(e);
 
         expect(handler.callCount).toBe(1);
-        expect(handler.calledWith(s1, e)).toBeTruthy();
+        expect(handler).toHaveBeenCalledWith(s1, e);
     });
 
 
@@ -401,7 +409,7 @@ describe('system', function() {
         world.$update(1);
 
         expect(handler.callCount).toBe(1);
-        expect(handler).calledWith(s1, s2.$nodes);
+        expect(handler).toHaveBeenCalledWith(s1, s2.$nodes);
     });
 
     it('should operate removing component inside of $addEntity handler', function() {

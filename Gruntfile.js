@@ -39,7 +39,7 @@ module.exports = function(grunt) {
                 ],
                 options: {
                     specs: 'spec/suites/core/**/*Spec.js',
-                    helpers: 'spec/**/*Helper.js'
+                    helpers: ['spec/**/*Helper.js', 'node_modules/jasmine-sinon/lib/jasmine-sinon.js']
                 }
             }
         },

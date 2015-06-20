@@ -274,45 +274,52 @@ describe('World', function() {
         expect(world2.$isUse(systemInstance)).toBeTruthy();
     });
 
-    it('should update every requestAnimationFrame on $start and stop after $stop', function() {
-        var updateHandler;
-        var world;
-        var flag;
+    it('should update every requestAnimationFrame on $start and stop after $stop', function(done) {
+        var updateHandler,
+            world,
+            triggerTimes = 0,
+            handleRequests = true;
 
-        runs(function() {
-            updateHandler = sinon.spy();
-            darlingjs.module('theModule')
-                .$c('theComponent')
-                .$system('testSystem', {
-                    require: ['theComponent'],
-                    $update: updateHandler
-                });
+        function increase() {
+            triggerTimes++;
+            if (handleRequests) {
+                subscribeRequestAnimationFrame();
+            }
+        }
 
-            world = darlingjs.world('testWorld', ['theModule']);
-            world.$add('testSystem');
-            world.$start();
-            expect(world.$playing).toBeTruthy();
-        });
+        function subscribeRequestAnimationFrame() {
+            window.requestAnimationFrame(increase);
+        }
 
-        waitsFor(function() {
-            return updateHandler.callCount === 3;
-        }, 'The updateHandler should be called sometimes.', 500);
+        subscribeRequestAnimationFrame();
 
+        updateHandler = sinon.spy();
+        darlingjs.module('theModule')
+            .$c('theComponent')
+            .$system('testSystem', {
+                require: ['theComponent'],
+                $update: updateHandler
+            });
 
-        runs(function() {
+        world = darlingjs.world('testWorld', ['theModule']);
+        world.$add('testSystem');
+        world.$start();
+
+        expect(world.$playing).toBeTruthy();
+        expect(updateHandler.callCount).toBe(1);
+
+        setTimeout(function() {
+            //The updateHandler should be called sometimes
+            expect(updateHandler.callCount).toBe(triggerTimes + 1);
+            handleRequests = false;
             world.$stop();
-            setTimeout(function() {
-                flag = true;
-            }, 500);
-        });
+            done();
+        }, 500);
 
-        waitsFor(function() {
-            return flag;
-        }, 'Wait 500ms', 1000);
-
-        runs(function() {
-            expect(updateHandler.callCount).toBe(3);
-        });
+        setTimeout(function() {
+            expect(updateHandler.callCount).toBe(triggerTimes + 1);
+            done();
+        }, 1000);
     });
 
     it('should execute update in sequence: $beforeUpdate(), $update() and $afterUpdate()', function() {
