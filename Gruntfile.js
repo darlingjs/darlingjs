@@ -38,7 +38,7 @@ module.exports = function(grunt) {
                     'spec/lib/**/*.js'
                 ],
                 options: {
-                    specs: 'spec/suiters/core/**/*Spec.js',
+                    specs: 'spec/suites/core/**/*Spec.js',
                     helpers: 'spec/**/*Helper.js'
                 }
             }
@@ -84,7 +84,6 @@ module.exports = function(grunt) {
         },
         version: {
             defaults: {
-                //src: ['src/core/core.js', 'src/util/util.js']
                 src: ['build/<%= pkg.shortName %>.js']
             },
             bowerfile: {

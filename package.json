@@ -45,7 +45,6 @@
     "grunt-contrib-yuidoc": "~0.4.0",
     "grunt-jsdoc": "~0.3.2",
     "grunt-version": "~0.2.1",
-    "jasmine-node": "*",
-    "testacular": "*"
+    "jasmine": "^2.3.1"
   }
 }
