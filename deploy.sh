@@ -32,7 +32,7 @@ echo "new tag: ${NEW_TAG}"
 echo "old tag: ${OLD_TAG}"
 
 if [ $NEW_TAG = $OLD_TAG ]; then
-    echo "still have smae tag. To update bower repo should change tag"
+    echo "still have same tag. To update bower repo should change tag"
     echo "current tag is ${NEW_TAG}"
     exit 0
 fi
