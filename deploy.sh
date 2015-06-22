@@ -8,8 +8,6 @@
 # This sets two options for the shell to make the script more reliable:
 set -o errexit -o nounset
 
-COMMIT_MESAGE="$(git log -1 --pretty=%B)"
-
 NEW_TAG="$(git describe --tags --abbrev=0)"
 
 echo "start"
@@ -40,7 +38,7 @@ fi
 # The first and only commit to this new Git repo contains all the
 # files present with the commit message "Deploy to GitHub Pages".
 git add . --verbose --all
-git commit --verbose -m "${COMMIT_MESAGE}"
+git commit --verbose -m "${NEW_TAG}"
 
 if [ ${NEW_TAG} ]; then
     echo "update tag to ${NEW_TAG}"
