@@ -8,6 +8,12 @@
 # This sets two options for the shell to make the script more reliable:
 set -o errexit -o nounset
 
+
+if [ $TRAVIS_BRANCH != "master" ]; then
+    echo "this is ${TRAVIS_BRANCH} branch"
+    echo "build works only for master branch"
+fi
+
 NEW_TAG="$(git describe --tags --abbrev=0)"
 
 echo "start"
