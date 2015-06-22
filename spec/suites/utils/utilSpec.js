@@ -2,6 +2,10 @@
  * Project: darlingjs (GameEngine).
  * Copyright (c) 2013, Eugene-Krevenets
  */
+
+var darlingutil = require('./../../../src/utils/utils');
+var sinon = require('sinon');
+
 describe('darlingutil', function() {
     'use strict';
 

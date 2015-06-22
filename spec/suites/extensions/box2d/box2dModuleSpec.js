@@ -4,7 +4,15 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-describe('box2dModule', function() {
+var darlingjs = require('./../../../../');
+var sinon = require('sinon');
+
+
+//TODO: will fix later there https://github.com/darlingjs/darlingjs/issues/14
+//require('./../../../../src/extensions/space/flatland.js');
+//require('./../../../../src/extensions/box2dweb/box2dWebModule.js');
+
+xdescribe('box2dModule', function() {
     var world;
     beforeEach(function() {
         world = darlingjs.world('myWorld', ['ngFlatland', 'ngPhysics', 'ngBox2D']);

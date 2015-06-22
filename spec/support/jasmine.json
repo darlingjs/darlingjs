@@ -1,0 +1,11 @@
+{
+  "spec_dir": "spec",
+  "spec_files": [
+    "**/*[sS]pec.js"
+  ],
+  "helpers": [
+    "helpers/**/*.js",
+    "../node_modules/jasmine-sinon/node_modules/sinon/lib/sinon.js",
+    "../node_modules/jasmine-sinon/lib/jasmine-sinon.js"
+  ]
+}

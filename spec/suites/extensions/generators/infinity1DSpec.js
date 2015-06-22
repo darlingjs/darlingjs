@@ -1,9 +1,16 @@
-'use strict';
 /**
  * Project: darlingjs / GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
+
+var darlingjs = require('./../../../../');
+var sinon = require('sinon');
+require('./../../../../src/extensions/space/flatland.js');
+require('./../../../../src/extensions/generators/infinity1D.js');
+
 describe('infinity1DWorldGenerator', function() {
+    'use strict';
+
     var world,
         viewPort;
 

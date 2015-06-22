@@ -3,36 +3,20 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var darlingjs = require('./../../../../');
+var sinon = require('sinon');
+
+require('to-have-property');
+require('./../../../../src/extensions/particles/particleSystem.js');
+require('./../../../../src/extensions/space/flatland.js');
+
 describe('Particle System', function() {
     'use strict';
 
     var world;
+
     beforeEach(function() {
         world = darlingjs.world('theWorld', ['ngParticleSystem', 'ngFlatland']);
-
-        this.addMatchers({
-
-            toHas: function(expected) {
-                var actual = this.actual;
-                var notText = this.isNot ? ' not' : '';
-
-                this.message = function () {
-                    return 'Expected entity "' + actual.$name + '" ' + notText + ' has component "' + expected + '"';
-                };
-
-                return actual.$has(expected);
-            },
-
-            calledWith: function() {
-                var notText = this.isNot ? ' not' : '';
-
-                this.message = function() {
-                    return 'Expected that function ' + notText + ' has called with ' + Array.prototype.join.call(arguments, ', ');
-                };
-
-                return this.actual.calledWith.apply(this.actual, arguments);
-            }
-        });
     });
 
     afterEach(function() {
@@ -55,7 +39,7 @@ describe('Particle System', function() {
         world.$add('ngRandomEmitterSystem');
 
         world.$update(1000);
-        expect(emitter).toHas('ngEmit');
+        expect(emitter).toHaveProperty('ngEmit');
         expect(emitter.ngEmit.count).toBeGreaterThan(0);
         expect(emitter.ngEmit.count).toBeLessThan(3);
     });
@@ -82,7 +66,7 @@ describe('Particle System', function() {
             });
 
             emitter.$add('ngEmit');
-
+            world.$update(100);
             expect(world.$numEntities()).toBe(2);
             var particle = world.$getByName('particle');
             expect(particle).toBeDefined();
@@ -140,7 +124,7 @@ describe('Particle System', function() {
                 emitter.$add('ngEmit');
             }).toThrow();
 
-            expect(factory).calledWith(emitter);
+            expect(factory).toHaveBeenCalledWith(emitter);
         });
 
         it('should throw exception if factory does\'t return object with components', function() {

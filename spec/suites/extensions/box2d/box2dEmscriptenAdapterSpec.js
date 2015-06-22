@@ -1,10 +1,13 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var darlingjs = require('./../../../../');
+var sinon = require('sinon');
+
 describe('box2dEmscriptenAdapter', function() {
+    'use strict';
     var world;
     beforeEach(function() {
         world = darlingjs.world('myWorld', ['ngFlatland', 'ngPhysics', 'ngBox2DEmscripten']);

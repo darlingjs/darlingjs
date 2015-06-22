@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
@@ -11,6 +9,28 @@
  * them implemented by list.
  *
  */
+
+'use strict';
+
+var Entity = require('./entity');
+var Family = require('./family');
+
+var annotate = require('./../utils/utils').annotate;
+var copy = require('./../utils/utils').copy;
+var factoryOfFastFunction = require('./../utils/utils').factoryOfFastFunction;
+var factoryOfFastFunctionWithMatcher = require('./../utils/utils').factoryOfFastFunctionWithMatcher;
+var isArray = require('./../utils/utils').isArray;
+var isDefined = require('./../utils/utils').isDefined;
+var isObject = require('./../utils/utils').isObject;
+var isString = require('./../utils/utils').isString;
+var isUndefined = require('./../utils/utils').isUndefined;
+var List = require('./../utils/list')
+var noop = require('./../utils/utils').noop;
+var swallowCopy = require('./../utils/utils').swallowCopy;
+var System = require('./system');
+
+var requestAnimationFrame = require('./../utils/animationFrame').request;
+var cancelAnimationFrame = require('./../utils/animationFrame').cancel;
 
 /**
  * @class World
@@ -920,7 +940,7 @@ World.prototype.$start = function() {
         self.$update(deltaTime);
         previousTime = time;
         if (self.$playing) {
-            self.$requestAnimationFrameId = window.requestAnimationFrame(step);
+            self.$requestAnimationFrameId = requestAnimationFrame(step);
         }
     })(0);
 };
@@ -934,5 +954,7 @@ World.prototype.$stop = function() {
     }
     this.$playing = false;
 
-    window.cancelAnimationFrame(this.$requestAnimationFrameId);
+    cancelAnimationFrame(this.$requestAnimationFrameId);
 };
+
+module.exports = World;

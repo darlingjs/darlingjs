@@ -9,337 +9,338 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-(function(darlingjs) {
-    'use strict';
+'use strict';
 
-    var m = darlingjs.module('ngParticleSystem');
+var darlingjs = require('./../../../');
+var darlingutil = require('./../../utils/utils');
 
-    m.$c('ngEmitter', {
-        generate: null
-    });
+var m = darlingjs.module('ngParticleSystem');
 
-    /**
-     * Marker that use for emitter to note that it should emit particle
-     */
-    m.$c('ngEmit', {
-        //number of particles to emit
-        count: 1
-    });
+m.$c('ngEmitter', {
+    generate: null
+});
 
-    /**
-     * Emit Particle in square area
-     */
-    m.$s('ngCircleEmitterSystem', {
-        $require: ['ngEmit', 'ngEmitter', 'ng2D', 'ng2DSize'],
+/**
+ * Marker that use for emitter to note that it should emit particle
+ */
+m.$c('ngEmit', {
+    //number of particles to emit
+    count: 1
+});
 
-        $addEntity: ['$entity', '$world', function($entity, $world) {
-            this._emit($entity, $entity.ng2D, $entity.ng2DSize, $entity.ngEmitter.generate, $world);
-        }],
+/**
+ * Emit Particle in square area
+ */
+m.$s('ngSquareEmitterSystem', {
+    $require: ['ngEmit', 'ngEmitter', 'ng2D', 'ng2DSize'],
 
-        _emit: function($entity, ng2D, ng2DSize, generate, $world) {
-            if (darlingutil.isFunction(generate)) {
-                generate = generate($entity);
+    $addEntity: ['$entity', '$world', function($entity, $world) {
+        this._emit($entity, $entity.ng2D, $entity.ng2DSize, $entity.ngEmitter.generate, $world);
+    }],
+
+    _emit: function($entity, ng2D, ng2DSize, generate, $world) {
+        if (darlingutil.isFunction(generate)) {
+            generate = generate($entity);
+        }
+
+        var emitCount = $entity.ngEmit.count;
+        if (darlingutil.isArray(generate)) {
+            for(var i = 0, count = generate.length; i < count; i++) {
+                this._emitOne($entity, ng2D, ng2DSize, generate[i], $world, emitCount);
             }
+        } else {
+            this._emitOne($entity, ng2D, ng2DSize, generate, $world, emitCount);
+        }
 
-            var emitCount = $entity.ngEmit.count;
-            if (darlingutil.isArray(generate)) {
-                for(var i = 0, count = generate.length; i < count; i++) {
-                    this._emitOne($entity, ng2D, ng2DSize, generate[i], $world, emitCount);
-                }
+        $entity.$remove('ngEmit');
+    },
+
+    _emitOne: function($entity, ng2D, ng2DSize, generate, $world, count) {
+        if (generate === null || darlingutil.isUndefined(generate)) {
+            throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
+        }
+
+        generate.ng2D = generate.ng2D || {};
+        generate.ng2D.x = ng2D.x + ng2DSize.width * Math.random();
+        generate.ng2D.y = ng2D.y + ng2DSize.height * Math.random();
+        while(--count>=0) {
+            $world.$e(generate);
+        }
+    }
+});
+
+/**
+ * Emit Particle in circle area
+ */
+m.$s('ngCircleEmitterSystem', {
+    $require: ['ngEmit', 'ngEmitter', 'ng2D', 'ng2DCircle'],
+
+    $addEntity: ['$entity', '$world', function($entity, $world) {
+        this._emit($entity, $entity.ng2D, $entity.ng2DCircle, $entity.ngEmitter.generate, $world);
+    }],
+
+    _emit: function($entity, ng2D, ng2DCircle, generate, $world) {
+        if (darlingutil.isFunction(generate)) {
+            generate = generate($entity);
+        }
+
+        var emitCount = $entity.ngEmit.count;
+        if (darlingutil.isArray(generate)) {
+            for(var i = 0, count = generate.length; i < count; i++) {
+                this._emitOne($entity, ng2D, ng2DCircle, generate[i], $world, emitCount);
+            }
+        } else {
+            this._emitOne($entity, ng2D, ng2DCircle, generate, $world, emitCount);
+        }
+
+        $entity.$remove('ngEmit');
+    },
+
+    _emitOne: function($entity, ng2D, ng2DCircle, generate, $world, count) {
+        if (generate === null || darlingutil.isUndefined(generate)) {
+            throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
+        }
+
+        generate.ng2D = generate.ng2D || {};
+        var angle = 2 * Math.random() * Math.PI;
+        generate.ng2D.x = ng2D.x + ng2DCircle.radius * Math.random() * Math.cos(angle);
+        generate.ng2D.y = ng2D.y + ng2DCircle.radius * Math.random() * Math.sin(angle);
+        while(--count>=0) {
+            $world.$e(generate);
+        }
+    }
+});
+
+/**
+ * Emit Particle in cubic area
+ */
+m.$s('ngCubicEmitterSystem', {
+    $require: ['ngEmit', 'ngEmitter', 'ng3D', 'ng3DSize'],
+
+    $addEntity: ['$entity', '$world', function($entity, $world) {
+        this._emit($entity, $entity.ng3D, $entity.ng3DSize, $entity.ngEmitter.generate, $world);
+    }],
+
+    _emit: function($entity, ng3D, ng3DSize, generate, $world) {
+        if (darlingutil.isFunction(generate)) {
+            generate = generate($entity);
+        }
+
+        if (generate === null || darlingutil.isUndefined(generate)) {
+            throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
+        }
+
+        generate.ng3D = generate.ng3D || {};
+        generate.ng3D.x = ng3D.x + ng3DSize.width * Math.random();
+        generate.ng3D.y = ng3D.y + ng3DSize.height * Math.random();
+        generate.ng3D.z = ng3D.z + ng3DSize.depth * Math.random();
+        var count = $entity.ngEmit.count;
+        while(--count>=0) {
+            $world.$e(generate);
+        }
+        $entity.$remove('ngEmit');
+    }
+});
+
+/**
+ * The Random counter causes the emitter to emit particles continuously
+ * at a variable random rate between two limits.
+ */
+m.$c('ngEmitterRandomCounter', {
+    //The maximum number of particles to emit per second.
+    maxRate: 0,
+    //The minimum number of particles to emit per second.
+    minRate: 0
+});
+
+m.$s('ngRandomEmitterSystem', {
+    $require: ['ngEmitterRandomCounter'],
+
+    $update: ['$entity', '$time', function($entity, $time) {
+        var counter = $entity.ngEmitterRandomCounter;
+        if (!counter._timeout) {
+            counter._timeout = this._timeInterval(counter);
+        }
+
+        counter._timeout -= $time;
+        while (counter._timeout <= 0) {
+            if ($entity.ngEmit) {
+                $entity.ngEmit.count++;
             } else {
-                this._emitOne($entity, ng2D, ng2DSize, generate, $world, emitCount);
+                $entity.$add('ngEmit', {
+                    count: 1
+                });
             }
 
-            $entity.$remove('ngEmit');
-        },
+            counter._timeout += this._timeInterval(counter);
+        }
+        //ngEmitter._timeout = ngEmitter.intervalMin + (ngEmitter.intervalMax - ngEmitter.intervalMin) * Math.random();
+    }],
 
-        _emitOne: function($entity, ng2D, ng2DSize, generate, $world, count) {
-            if (generate === null || darlingutil.isUndefined(generate)) {
-                throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
+    _timeInterval: function(counter) {
+        return 1000.0 / (counter.minRate + (counter.maxRate - counter.minRate) * Math.random());
+    }
+});
+
+m.$c('ngRectangleZone', {
+    right: 0.0,
+    left: 0.0,
+    top: 0.0,
+    bottom: 0.0
+});
+
+m.$s('ngRectangleZone', {
+    $require: ['ngRectangleZone', 'ng2D'],
+
+    $update: ['$entity', function($entity) {
+        if(this._isInside($entity.ngRectangleZone, $entity.ng2D)) {
+            $entity.$remove('ngOutOfZone');
+            if (!$entity.ngInsideZone) {
+                $entity.$add('ngInsideZone');
             }
-
-            generate.ng2D = generate.ng2D || {};
-            generate.ng2D.x = ng2D.x + ng2DSize.width * Math.random();
-            generate.ng2D.y = ng2D.y + ng2DSize.height * Math.random();
-            while(--count>=0) {
-                $world.$e(generate);
+        } else {
+            $entity.$remove('ngInsideZone');
+            if (!$entity.ngOutOfZone) {
+                $entity.$add('ngOutOfZone');
             }
         }
-    });
+    }],
 
-    /**
-     * Emit Particle in circle area
-     */
-    m.$s('ngSquareEmitterSystem', {
-        $require: ['ngEmit', 'ngEmitter', 'ng2D', 'ng2DCircle'],
+    _isInside: function(zone, ng2D) {
+        return zone.left < ng2D.x && ng2D.x < zone.right &&
+            zone.top < ng2D.y && ng2D.y < zone.bottom;
+    }
+});
 
-        $addEntity: ['$entity', '$world', function($entity, $world) {
-            this._emit($entity, $entity.ng2D, $entity.ng2DCircle, $entity.ngEmitter.generate, $world);
-        }],
+m.$c('ngOutOfZone', {});
 
-        _emit: function($entity, ng2D, ng2DCircle, generate, $world) {
-            if (darlingutil.isFunction(generate)) {
-                generate = generate($entity);
-            }
+m.$c('ngInsideZone', {});
 
-            var emitCount = $entity.ngEmit.count;
-            if (darlingutil.isArray(generate)) {
-                for(var i = 0, count = generate.length; i < count; i++) {
-                    this._emitOne($entity, ng2D, ng2DCircle, generate[i], $world, emitCount);
-                }
-            } else {
-                this._emitOne($entity, ng2D, ng2DCircle, generate, $world, emitCount);
-            }
+m.$c('ngLifeZone', {
+    lifeReduce: 0.1
+});
 
-            $entity.$remove('ngEmit');
-        },
+m.$c('ngDeathZone', {});
 
-        _emitOne: function($entity, ng2D, ng2DCircle, generate, $world, count) {
-            if (generate === null || darlingutil.isUndefined(generate)) {
-                throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
-            }
+m.$c('ngLife', {
+    life: 1.0
+});
 
-            generate.ng2D = generate.ng2D || {};
-            var angle = 2 * Math.random() * Math.PI;
-            generate.ng2D.x = ng2D.x + ng2DCircle.radius * Math.random() * Math.cos(angle);
-            generate.ng2D.y = ng2D.y + ng2DCircle.radius * Math.random() * Math.sin(angle);
-            while(--count>=0) {
-                $world.$e(generate);
-            }
+m.$c('ngDamage', {
+    damage: 0.1
+});
+
+m.$c('ngContinuousDamage', {
+    damage: 0.1
+});
+
+m.$c('ngLifeIsGrooving', {
+    delta: 0.1,
+    max: 1.0
+});
+
+m.$s('ngDecreaseLifeOnDamage', {
+    $require: ['ngLife', 'ngDamage', 'ngLive'],
+
+    $addEntity: function($entity) {
+        $entity.ngLife.life -= $entity.ngDamage.damage;
+        $entity.$remove('ngDamage');
+    }
+});
+
+m.$s('ngDecreaseLifeOnContinuousDamage', {
+    $require: ['ngLife', 'ngContinuousDamage', 'ngLive'],
+
+    $update: ['$entity', '$time', function($entity, $time) {
+        $entity.ngLife.life -= 0.001 * $time * $entity.ngContinuousDamage.damage;
+    }]
+});
+
+m.$s('ngLifeIsGrooving', {
+    $require: ['ngLifeIsGrooving', 'ngLife', 'ngLive'],
+
+    $update: ['$entity', '$time', function($entity, $time) {
+        $entity.ngLife.life += 0.001 * $time * $entity.ngLifeIsGrooving.delta;
+        if ($entity.ngLife.life >= $entity.ngLifeIsGrooving.max) {
+            $entity.ngLife.life = $entity.ngLifeIsGrooving.max;
+            $entity.$remove('ngLifeIsGrooving');
         }
-    });
+    }]
+});
 
-    /**
-     * Emit Particle in cubic area
-     */
-    m.$s('ngCubicEmitterSystem', {
-        $require: ['ngEmit', 'ngEmitter', 'ng3D', 'ng3DSize'],
+/**
+ * FIXME: Better use event-based approach
+ */
 
-        $addEntity: ['$entity', '$world', function($entity, $world) {
-            this._emit($entity, $entity.ng3D, $entity.ng3DSize, $entity.ngEmitter.generate, $world);
-        }],
+m.$c('ngOnLifeChange', {
+    handler: null
+});
 
-        _emit: function($entity, ng3D, ng3DSize, generate, $world) {
-            if (darlingutil.isFunction(generate)) {
-                generate = generate($entity);
-            }
+/**
+ * Handle life changing
+ */
+m.$s('ngLifeHandler', {
+    $require: ['ngLife', 'ngOnLifeChange'],
 
-            if (generate === null || darlingutil.isUndefined(generate)) {
-                throw new Error('generate factory should be defined as config object with components or like factory function that return same object.');
-            }
-
-            generate.ng3D = generate.ng3D || {};
-            generate.ng3D.x = ng3D.x + ng3DSize.width * Math.random();
-            generate.ng3D.y = ng3D.y + ng3DSize.height * Math.random();
-            generate.ng3D.z = ng3D.z + ng3DSize.depth * Math.random();
-            var count = $entity.ngEmit.count;
-            while(--count>=0) {
-                $world.$e(generate);
-            }
-            $entity.$remove('ngEmit');
+    $update: ['$entity', function($entity) {
+        var ngOnLifeChange = $entity.ngOnLifeChange;
+        var ngLife = $entity.ngLife;
+        if (ngLife.life !== ngOnLifeChange.previousLife) {
+            ngOnLifeChange.handler($entity, ngLife.life);
+            ngOnLifeChange.previousLife = ngLife.life;
         }
-    });
+    }]
+});
 
-    /**
-     * The Random counter causes the emitter to emit particles continuously
-     * at a variable random rate between two limits.
-     */
-    m.$c('ngEmitterRandomCounter', {
-        //The maximum number of particles to emit per second.
-        maxRate: 0,
-        //The minimum number of particles to emit per second.
-        minRate: 0
-    });
+m.$c('ngLive', {});
 
-    m.$s('ngRandomEmitterSystem', {
-        $require: ['ngEmitterRandomCounter'],
+m.$c('ngDead', {});
 
-        $update: ['$entity', '$time', function($entity, $time) {
-            var counter = $entity.ngEmitterRandomCounter;
-            if (!counter._timeout) {
-                counter._timeout = this._timeInterval(counter);
-            }
+m.$c('ngRemoveIfDead', {
+});
 
-            counter._timeout -= $time;
-            while (counter._timeout <= 0) {
-                if ($entity.ngEmit) {
-                    $entity.ngEmit.count++;
-                } else {
-                    $entity.$add('ngEmit', {
-                        count: 1
-                    });
-                }
+m.$s('ngRemoveIfDead', {
+    $require: ['ngRemoveIfDead', 'ngDead'],
 
-                counter._timeout += this._timeInterval(counter);
-            }
-            //ngEmitter._timeout = ngEmitter.intervalMin + (ngEmitter.intervalMax - ngEmitter.intervalMin) * Math.random();
-        }],
+    $addEntity: ['$world', '$entity', function($world, $entity) {
+        setTimeout(function(){
+            $world.$remove($entity);
+        }, 0);
+    }]
+});
 
-        _timeInterval: function(counter) {
-            return 1000.0 / (counter.minRate + (counter.maxRate - counter.minRate) * Math.random());
-        }
-    });
+m.$s('ngReduceLifeIfOutOfLifeZone', {
+    $require: ['ngLifeZone', 'ngOutOfZone', 'ngLife', 'ngLive'],
 
-    m.$c('ngRectangleZone', {
-        right: 0.0,
-        left: 0.0,
-        top: 0.0,
-        bottom: 0.0
-    });
+    $update: ['$entity', '$time', function($entity, $time) {
+        $entity.ngLife.life -= 0.001 * $entity.ngLifeZone.lifeReduce * $time;
+    }]
+});
 
-    m.$s('ngRectangleZone', {
-        $require: ['ngRectangleZone', 'ng2D'],
+m.$s('ngDeadIfOutOfLife', {
+    $require: ['ngLife', 'ngLive'],
 
-        $update: ['$entity', function($entity) {
-            if(this._isInside($entity.ngRectangleZone, $entity.ng2D)) {
-                $entity.$remove('ngOutOfZone');
-                if (!$entity.ngInsideZone) {
-                    $entity.$add('ngInsideZone');
-                }
-            } else {
-                $entity.$remove('ngInsideZone');
-                if (!$entity.ngOutOfZone) {
-                    $entity.$add('ngOutOfZone');
-                }
-            }
-        }],
-
-        _isInside: function(zone, ng2D) {
-            return zone.left < ng2D.x && ng2D.x < zone.right &&
-                zone.top < ng2D.y && ng2D.y < zone.bottom;
-        }
-    });
-
-    m.$c('ngOutOfZone', {});
-
-    m.$c('ngInsideZone', {});
-
-    m.$c('ngLifeZone', {
-        lifeReduce: 0.1
-    });
-
-    m.$c('ngDeathZone', {});
-
-    m.$c('ngLife', {
-        life: 1.0
-    });
-
-    m.$c('ngDamage', {
-        damage: 0.1
-    });
-
-    m.$c('ngContinuousDamage', {
-        damage: 0.1
-    });
-
-    m.$c('ngLifeIsGrooving', {
-        delta: 0.1,
-        max: 1.0
-    });
-
-    m.$s('ngDecreaseLifeOnDamage', {
-        $require: ['ngLife', 'ngDamage', 'ngLive'],
-
-        $addEntity: function($entity) {
-            $entity.ngLife.life -= $entity.ngDamage.damage;
-            $entity.$remove('ngDamage');
-        }
-    });
-
-    m.$s('ngDecreaseLifeOnContinuousDamage', {
-        $require: ['ngLife', 'ngContinuousDamage', 'ngLive'],
-
-        $update: ['$entity', '$time', function($entity, $time) {
-            $entity.ngLife.life -= 0.001 * $time * $entity.ngContinuousDamage.damage;
-        }]
-    });
-
-    m.$s('ngLifeIsGrooving', {
-        $require: ['ngLifeIsGrooving', 'ngLife', 'ngLive'],
-
-        $update: ['$entity', '$time', function($entity, $time) {
-            $entity.ngLife.life += 0.001 * $time * $entity.ngLifeIsGrooving.delta;
-            if ($entity.ngLife.life >= $entity.ngLifeIsGrooving.max) {
-                $entity.ngLife.life = $entity.ngLifeIsGrooving.max;
-                $entity.$remove('ngLifeIsGrooving');
-            }
-        }]
-    });
-
-    /**
-     * FIXME: Better use event-based approach
-     */
-
-    m.$c('ngOnLifeChange', {
-        handler: null
-    });
-
-    /**
-     * Handle life changing
-     */
-    m.$s('ngLifeHandler', {
-        $require: ['ngLife', 'ngOnLifeChange'],
-
-        $update: ['$entity', function($entity) {
-            var ngOnLifeChange = $entity.ngOnLifeChange;
-            var ngLife = $entity.ngLife;
-            if (ngLife.life !== ngOnLifeChange.previousLife) {
-                ngOnLifeChange.handler($entity, ngLife.life);
-                ngOnLifeChange.previousLife = ngLife.life;
-            }
-        }]
-    });
-
-    m.$c('ngLive', {});
-
-    m.$c('ngDead', {});
-
-    m.$c('ngRemoveIfDead', {
-    });
-
-    m.$s('ngRemoveIfDead', {
-        $require: ['ngRemoveIfDead', 'ngDead'],
-
-        $addEntity: ['$world', '$entity', function($world, $entity) {
-            setTimeout(function(){
-                $world.$remove($entity);
-            }, 0);
-        }]
-    });
-
-    m.$s('ngReduceLifeIfOutOfLifeZone', {
-        $require: ['ngLifeZone', 'ngOutOfZone', 'ngLife', 'ngLive'],
-
-        $update: ['$entity', '$time', function($entity, $time) {
-            $entity.ngLife.life -= 0.001 * $entity.ngLifeZone.lifeReduce * $time;
-        }]
-    });
-
-    m.$s('ngDeadIfOutOfLife', {
-        $require: ['ngLife', 'ngLive'],
-
-        $update: ['$entity', function($entity) {
-            if ($entity.ngLife.life <= 0) {
-                $entity.$add('ngDead');
-                $entity.$remove('ngLive');
-            }
-        }]
-    });
-
-    m.$s('ngDeathIfOutOfLifeZone', {
-        $require: ['ngLifeZone', 'ngOutOfZone', 'ngLive'],
-
-        $addEntity: function($entity) {
+    $update: ['$entity', function($entity) {
+        if ($entity.ngLife.life <= 0) {
             $entity.$add('ngDead');
             $entity.$remove('ngLive');
         }
-    });
+    }]
+});
 
-    m.$s('ngDeathIfInsideZone', {
-        $require: ['ngDeathZone', 'ngInsideZone'],
+m.$s('ngDeathIfOutOfLifeZone', {
+    $require: ['ngLifeZone', 'ngOutOfZone', 'ngLive'],
 
-        $addEntity: function($entity) {
-            $entity.$add('ngDead');
-        }
-    });
-})(darlingjs);
+    $addEntity: function($entity) {
+        $entity.$add('ngDead');
+        $entity.$remove('ngLive');
+    }
+});
+
+m.$s('ngDeathIfInsideZone', {
+    $require: ['ngDeathZone', 'ngInsideZone'],
+
+    $addEntity: function($entity) {
+        $entity.$add('ngDead');
+    }
+});

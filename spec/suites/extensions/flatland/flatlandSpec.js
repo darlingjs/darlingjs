@@ -4,6 +4,10 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var darlingjs = require('./../../../../');
+var sinon = require('sinon');
+require('./../../../../src/extensions/space/flatland.js');
+
 describe('flatland', function() {
     var world;
 

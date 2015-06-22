@@ -3,7 +3,12 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-(function(darlingjs, darlingutil) {
+var darlingjs = require('./../../../');
+var darlingutil = require('./../../../src/utils/utils');
+
+//TODO:
+//request Box2D module
+
     'use strict';
 
     var m = darlingjs.module('ngBox2D');
@@ -12,6 +17,7 @@
     var Vec2 = Box2D.Common.Math.b2Vec2;
     var BodyDef = Box2D.Dynamics.b2BodyDef;
     var Body = Box2D.Dynamics.b2Body;
+    var ContactListener = Box2D.Dynamics.b2ContactListener;
     var FixtureDef = Box2D.Dynamics.b2FixtureDef;
     var Fixture = Box2D.Dynamics.b2Fixture;
     var World = Box2D.Dynamics.b2World;
@@ -872,7 +878,7 @@
         },
 
         _addContactListener: function (callbacks) {
-            var listener = new Box2D.Dynamics.b2ContactListener();
+            var listener = new ContactListener();
 
             if(callbacks.PostSolve) {
                 listener.PostSolve = function (contact, impulse) {
@@ -887,5 +893,3 @@
             this._world.SetContactListener(listener);
         }
     });
-
-})(darlingjs, darlingutil);

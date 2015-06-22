@@ -1,8 +1,19 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
+
+'use strict';
+
+var Events = require('./../utils/events');
+var isArray = require('./../utils/utils').isArray;
+var isDefined = require('./../utils/utils').isDefined;
+var isFunction = require('./../utils/utils').isFunction;
+var isObject = require('./../utils/utils').isObject;
+var isString = require('./../utils/utils').isString;
+var isUndefined = require('./../utils/utils').isUndefined;
+var List = require('./../utils/list');
+var mixin = require('./../utils/utils').mixin;
 
 /**
  * @class System
@@ -87,3 +98,5 @@ System.prototype.$$updateEveryNode = function(handler, context) {
         this.$nodes.forEach(handler, context, time);
     };
 };
+
+module.exports = System;

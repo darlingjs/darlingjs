@@ -3,6 +3,9 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var darlingjs = require('./../../../');
+var sinon = require('sinon');
+
 describe('system', function() {
     'use strict';
 

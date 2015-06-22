@@ -3,8 +3,13 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var darlingjs = require('./../../../');
+var sinon = require('sinon');
+
 describe('darling', function() {
+
     'use strict';
+
     afterEach(function() {
         darlingjs.removeModule('theModule');
         darlingjs.removeModule('theModule1');

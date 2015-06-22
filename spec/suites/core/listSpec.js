@@ -1,10 +1,14 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var List = require('./../../../src/utils/list');
+var sinon = require('sinon');
+
 describe('list', function() {
+    'use strict';
+
     it('should be empty', function() {
         var list = new List();
         expect(list.length()).toBe(0);

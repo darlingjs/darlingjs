@@ -1,12 +1,16 @@
 /*jslint node: true */
-'use strict';
 
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var darlingjs = require('./../../../');
+var requestAnimationFrame = require('./../../../src/utils/animationFrame').request;
+var sinon = require('sinon');
+
 describe('World', function() {
+    'use strict';
     var world;
     var module;
 
@@ -288,7 +292,7 @@ describe('World', function() {
         }
 
         function subscribeRequestAnimationFrame() {
-            window.requestAnimationFrame(increase);
+            requestAnimationFrame(increase);
         }
 
         subscribeRequestAnimationFrame();

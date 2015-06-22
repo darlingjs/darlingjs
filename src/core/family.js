@@ -1,4 +1,3 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
@@ -8,6 +7,11 @@
  * Optimization: User $marker based on used component in family to mark is entity added to Family.
  * We can calculate it in real-time as in addIfMatch, but it's not good for performance.
  */
+
+'use strict';
+
+var List = require('./../utils/list');
+var isDefined = require('./../utils/utils').isDefined;
 
 /**
  * @private
@@ -70,3 +74,5 @@ Family.prototype.removeIfMatch = function(e, component) {
 Family.prototype.isInList = function(e) {
     return e.$$familyMarker && e.$$familyMarker[this.$$marker];
 };
+
+module.exports = Family;

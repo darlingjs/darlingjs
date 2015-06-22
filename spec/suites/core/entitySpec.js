@@ -1,10 +1,14 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
+var darlingjs = require('./../../../');
+var sinon = require('sinon');
+
 describe('entity', function() {
+    'use strict';
+
     var module,
         world;
 

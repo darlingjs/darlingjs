@@ -1,8 +1,12 @@
-'use strict';
 /**
  * Project: GameEngine.
  * Copyright (c) 2013, Eugene-Krevenets
  */
+
+'use strict';
+
+var isDefined = require('./../utils/utils').isDefined;
+var isUndefined = require('./../utils/utils').isUndefined;
 
 /**
  * @class Module
@@ -129,3 +133,5 @@ Module.prototype.$s = Module.prototype.$system = function(name, config) {
     this.$$systems[name] = config;
     return this;
 };
+
+module.exports = Module;

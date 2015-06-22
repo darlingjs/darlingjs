@@ -1,18 +1,26 @@
 module.exports = function(grunt) {
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        concat: {
-            options: {
-                banner: grunt.file.read('src/core/core.banner')
+        browserify: {
+            engine: {
+                files: {
+                    'build/<%= pkg.shortName %>.js': [
+                        'index.js',
+                        'src/utils/**/*.js',
+                        'src/core/**/*.js'
+                    ]
+                }
             },
-            dist: {
-                src: [
-                    'src/core/core.prefix',
-                    'src/utils/**/*.js',
-                    'src/core/**/*.js',
-                    'src/core/core.suffix'
-                ],
-                dest: 'build/<%= pkg.shortName %>.js'
+            tests: {
+                files: {
+                    'build/test_bundle.js': [
+                        //'index.js',
+                        //'src/utils/**/*.js',
+                        //'src/core/**/*.js',
+                        'spec/**/*.js'
+                    ]
+                }
             }
         },
         uglify: {
@@ -31,21 +39,22 @@ module.exports = function(grunt) {
             ]
         },
         jasmine: {
-            pivotal: {
+            engine: {
                 src: [
-                    'src/utils/**/*.js',
-                    'src/core/**/*.js',
-                    'spec/lib/**/*.js'
+                    'build/<%= pkg.shortName %>.js'
                 ],
                 options: {
-                    specs: 'spec/suites/core/**/*Spec.js',
-                    helpers: ['spec/**/*Helper.js', 'node_modules/jasmine-sinon/lib/jasmine-sinon.js']
+                    specs: 'build/test_bundle.js',
+                    helpers: [
+                        'node_modules/jasmine-sinon/lib/jasmine-sinon.js'
+                    ]
                 }
             }
         },
         clean: {
             docs: ['docs/'],
-            build: ['build/**/*', 'build/.git']
+            engine: ['build/**/*', 'build/.git'],
+            test: ['build/test_bundle.js']
         },
         copy: {
             bowerfile: {
@@ -93,13 +102,13 @@ module.exports = function(grunt) {
     });
 
     // Default task(s).
-    grunt.registerTask('default', ['jasmine', 'concat', 'uglify', 'copy', 'version']);
-    grunt.registerTask('build', ['clean:build', 'concat', 'uglify', 'copy', 'version']);
-    grunt.registerTask('test', ['concat', 'jasmine']);
+    grunt.registerTask('default', ['test', 'build']);
+    grunt.registerTask('build', ['clean:engine', 'browserify:engine', 'uglify', 'copy', 'version']);
+    grunt.registerTask('test', ['browserify', 'jasmine', 'clean:test']);
     //grunt.registerTask('docs', ['clean', 'yuidoc']);
-    grunt.registerTask('docs', ['clean', 'jsdoc']);
+    grunt.registerTask('docs', ['clean:docs', 'jsdoc']);
 
-    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');

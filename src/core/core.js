@@ -3,14 +3,15 @@
  * @copyright (c) 2013, Eugene-Krevenets
  */
 
-/**
- * Previous instance of facade of darlingjs engine
- *
- * @ignore
- * @type {darlingjs}
- * @private
- */
-var _darlingjs = window.darlingjs;
+var List = require('./../utils/list');
+var isArray = require('./../utils/utils').isArray;
+var isDefined = require('./../utils/utils').isDefined;
+var isString = require('./../utils/utils').isString;
+var isUndefined = require('./../utils/utils').isUndefined;
+var utils = require('./../utils/utils');
+var Module = require('./module');
+var World = require('./world');
+
 
 /**
  * @class darlingjs
@@ -19,25 +20,14 @@ var _darlingjs = window.darlingjs;
  * The static facade of darlinjg engine.
  * Uses for creating modules and game world.
  */
-var darlingjs = window.darlingjs || (window.darlingjs = {});
+var darlingjs = {};
 darlingjs.version = '0.0.0';
 
 var worlds = {};
 
 var modules = {};
 
-/**
- * Restores the previous global value of darlingjs and returns the current instance. Other libraries may already use the
- * darlingjs namespace. Or a previous version of darlingjs is already loaded on the page. In these cases you may want to
- * restore the previous namespace and keep a reference to darlingjs.
- *
- * @return {darlingjs} The current darlingjs namespace
- */
-darlingjs.noConflict = function() {
-    var a = window.darlingjs;
-    window.darlingjs = _darlingjs;
-    return a;
-};
+darlingjs.List = List;
 
 /**
  * Create new Module
@@ -47,16 +37,16 @@ darlingjs.noConflict = function() {
  var m = darlingjs.module('theModule');
  *</pre>
  * @param {String} name The name of new module
- * @param {Array} [requires] The array of modules that new module it depends on
+ * @param {Array} [deps] The array of modules that new module it depends on
  * @return {Module}
  */
-darlingjs.m = darlingjs.module = function(name, requires) {
+darlingjs.m = darlingjs.module = function(name, deps) {
     if (isDefined(modules[name])) {
         throw new Error('Module "' + name + '" has already been defined.');
     }
     var moduleInstance = new Module();
     moduleInstance.$name = name;
-    moduleInstance.requires = requires;
+    moduleInstance.requires = deps;
 
     modules[name] = moduleInstance;
 
@@ -79,7 +69,7 @@ darlingjs.m = darlingjs.module = function(name, requires) {
  *
  * @return {World} The new World;
  */
-darlingjs.w = darlingjs.world = function(name, requires) {
+darlingjs.w = darlingjs.world = function(name, deps) {
     if (isDefined(worlds[name])) {
         throw new Error('World "' + name + '" has already been defined.');
     }
@@ -88,9 +78,9 @@ darlingjs.w = darlingjs.world = function(name, requires) {
     worldInstance.$name = name;
     worlds[name] = worldInstance;
 
-    if (isArray(requires)) {
-        for (var index = 0, count = requires.length; index < count; index++) {
-            var moduleName = requires[index];
+    if (isArray(deps)) {
+        for (var index = 0, count = deps.length; index < count; index++) {
+            var moduleName = deps[index];
             var moduleInstance = modules[moduleName];
             if (isUndefined(moduleInstance)) {
                 throw new Error('Can\'t find module: "' + moduleName + '"');
@@ -176,4 +166,6 @@ darlingjs.removeAllWorlds = function() {
     worlds = {};
 };
 
+darlingjs.utils = utils;
 
+module.exports = darlingjs;

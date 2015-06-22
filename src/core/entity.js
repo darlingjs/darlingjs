@@ -3,6 +3,17 @@
  * @copyright (c) 2013, Eugene-Krevenets
  */
 
+'use strict';
+
+var Events = require('./../utils/events');
+var isArray = require('./../utils/utils').isArray;
+var isDefined = require('./../utils/utils').isDefined;
+var isFunction = require('./../utils/utils').isFunction;
+var isObject = require('./../utils/utils').isObject;
+var isString = require('./../utils/utils').isString;
+var isUndefined = require('./../utils/utils').isUndefined;
+var mixin = require('./../utils/utils').mixin;
+
 /**
  * @class Entity
  * @classdesc
@@ -142,14 +153,14 @@ Entity.prototype.$has = function(value) {
  * @param modifier
  */
 Entity.prototype.$applyModifier = function(modifier) {
-    if (darlingutil.isFunction(modifier)) {
+    if (isFunction(modifier)) {
         this.$$applyModifierFunction(modifier);
     } else {
-        if (darlingutil.isString(modifier)) {
+        if (isString(modifier)) {
             this.$add(modifier);
-        } else if (darlingutil.isArray(modifier)) {
+        } else if (isArray(modifier)) {
             this.$applyModifierArray(modifier);
-        } else if (darlingutil.isObject(modifier)) {
+        } else if (isObject(modifier)) {
             this.$applyModifierObject(modifier);
         } else {
             throw new Error('Unknown modifier')
@@ -162,7 +173,7 @@ Entity.prototype.$applyModifier = function(modifier) {
  */
 Entity.prototype.$$applyModifierFunction = function(modifier) {
     modifier = modifier.call(this);
-    if (darlingutil.isDefined(modifier)) {
+    if (isDefined(modifier)) {
         this.$applyModifier(modifier);
     }
 };
@@ -184,7 +195,7 @@ Entity.prototype.$applyModifierArray = function(modifier) {
 Entity.prototype.$applyModifierObject = function(modifier) {
     for(var key in modifier) {
         var config = modifier[key];
-        if (darlingutil.isFunction(config)) {
+        if (isFunction(config)) {
             config = config.call(this);
         }
         this.$add(key, config)
@@ -203,12 +214,12 @@ Entity.prototype.$applyModifierObject = function(modifier) {
  * @param handler
  */
 Entity.prototype.$revertModifier = function(modifier) {
-    if (!darlingutil.isFunction(modifier)) {
-        if (darlingutil.isString(modifier)) {
+    if (!isFunction(modifier)) {
+        if (isString(modifier)) {
             this.$remove(modifier);
-        } else if (darlingutil.isArray(modifier)) {
+        } else if (isArray(modifier)) {
             this.$revertModifierArray(modifier);
-        } else if (darlingutil.isObject(modifier)) {
+        } else if (isObject(modifier)) {
             this.$revertModifierObject(modifier);
         } else {
             throw new Error('Unknown modifier')
@@ -239,3 +250,5 @@ Entity.prototype.$revertModifierObject = function(modifier) {
 function isComponent(value) {
     return isObject(value) && isDefined(value.$name);
 }
+
+module.exports = Entity;
