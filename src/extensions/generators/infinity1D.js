@@ -17,7 +17,7 @@
 
 var darlingjs = require('./../../../');
 var darlingutil = require('./../../utils/utils');
-var List = require('./../../utils/List');
+var List = require('./../../utils/list');
 
 'use strict';
 
