@@ -1,4 +1,16 @@
 # Change Log
+
+> **Tags:**
+> - [New Feature]
+> - [Bug Fix]
+> - [Spec Compliancy]
+> - [Breaking Change]
+> - [Documentation]
+> - [Internal]
+> - [Polish]
+>
+> inspire by [babel's CHANGELOG](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 Based on [http://keepachangelog.com/](http://keepachangelog.com/) 
@@ -9,8 +21,8 @@ Beta-0
 
 ## [0.7.2] - 2015-06-22 
 Wake up kissing
-- [#11](https://github.com/darlingjs/darlingjs/issues/11) [feature] add npm support - organize source in node way with `require` of deps
-- [#3](https://github.com/darlingjs/darlingjs/issues/3) [fix] fix travis ci
+- [#11](https://github.com/darlingjs/darlingjs/issues/11) [New Feature] add npm support - organize source in node way with `require` of deps
+- [#3](https://github.com/darlingjs/darlingjs/issues/3) [Bug Fix] fix travis ci
 - [#4](https://github.com/darlingjs/darlingjs/issues/4) update libs
 - [#6](https://github.com/darlingjs/darlingjs/issues/6) add CHANGELOG.md file
 
