@@ -1,5 +1,8 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
 > **Tags:**
 > - [New Feature]
 > - [Bug Fix]
@@ -28,3 +31,7 @@ Wake up kissing
 
 ## [0.7.1] - 2013-07-17
 - It is final stable version of game engine that was exist for a long time
+
+[unreleased]: https://github.com/darlingjs/darlingjs/compare/v0.7.2...HEAD
+[0.7.2]: https://github.com/darlingjs/darlingjs/compare/v0.7.1...v0.7.2
+[0.7.1]: https://github.com/darlingjs/darlingjs/compare/7b61c5d3b33034f22a44566b531c493067088945...v0.7.1
