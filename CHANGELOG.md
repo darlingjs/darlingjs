@@ -21,6 +21,7 @@ and [Changelogs convention](https://github.com/tech-angels/vandamme/#changelogs-
 
 ## [Unreleased][unreleased]
 Beta-0
+- [#15](https://github.com/darlingjs/darlingjs/issues/15) [Bug Fix] url of this changelog file
 
 ## [0.7.2] - 2015-06-22 
 Wake up kissing
