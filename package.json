@@ -17,12 +17,7 @@
   "bugs": {
     "url": "https://github.com/darlingjs/darlingjs/issues"
   },
-  "licenses": [
-    {
-      "type": "Simplified BSD License",
-      "url": "https://github.com/darlingjs/darlingjs/blob/master/LICENSE.md"
-    }
-  ],
+  "license": "BSD-2-Clause",
   "keywords": [
     "entity",
     "gamedev",
