@@ -22,57 +22,57 @@ var isDefined = require('./../utils/utils').isDefined;
  * @constructor
  */
 function Family() {
-    this.components = [];
-    this.componentsString = '';
-    this.componentsHash = {};
-    this.nodes = new List();
-    this.$$marker = null;
+  this.components = [];
+  this.componentsString = '';
+  this.componentsHash = {};
+  this.nodes = new List();
+  this.$$marker = null;
 }
 
-Family.prototype.$marker = function() {
-    if (this.$$marker === null) {
-        this.$$marker = '$$family_' + this.componentsString;
-        this.nodes.PROPERTY_LINK_TO_NODE =  '$$listNode_of_' + this.$$marker;
-    }
-    return this.$$marker;
+Family.prototype.$marker = function () {
+  if (this.$$marker === null) {
+    this.$$marker = '$$family_' + this.componentsString;
+    this.nodes.PROPERTY_LINK_TO_NODE = '$$listNode_of_' + this.$$marker;
+  }
+  return this.$$marker;
 };
 
-Family.prototype.newEntity = function(e) {
-    this.addIfMatch(e);
+Family.prototype.newEntity = function (e) {
+  this.addIfMatch(e);
 };
 
-Family.prototype.addIfMatch = function(e) {
-    if (this.isInList(e)) {
-        return;
+Family.prototype.addIfMatch = function (e) {
+  if (this.isInList(e)) {
+    return;
+  }
+
+  for (var i = 0, count = this.components.length; i < count; i++) {
+    var componentName = this.components[i];
+    if (!e.$has(componentName)) {
+      return;
     }
+  }
 
-    for (var i = 0, count = this.components.length; i < count; i++) {
-        var componentName = this.components[i];
-        if (!e.$has(componentName)) {
-            return;
-        }
-    }
+  if (!e.$$familyMarker) {
+    e.$$familyMarker = {};
+  }
 
-    if (!e.$$familyMarker) {
-        e.$$familyMarker = {};
-    }
+  e.$$familyMarker[this.$marker()] = true;
 
-    e.$$familyMarker[this.$marker()] = true;
-
-    this.nodes.add(e);
+  this.nodes.add(e);
 };
 
-Family.prototype.removeIfMatch = function(e, component) {
-    if (isDefined(component) && !this.componentsHash[component.$name] || !this.isInList(e)) {
-        return;
-    }
+Family.prototype.removeIfMatch = function (e, component) {
+  if (isDefined(component) && !this.componentsHash[component.$name] || !this.isInList(e)) {
+    return;
+  }
 
-    e.$$familyMarker[this.$$marker] = false;
-    this.nodes.remove(e);
+  e.$$familyMarker[this.$$marker] = false;
+  this.nodes.remove(e);
 };
 
-Family.prototype.isInList = function(e) {
-    return e.$$familyMarker && e.$$familyMarker[this.$$marker];
+Family.prototype.isInList = function (e) {
+  return e.$$familyMarker && e.$$familyMarker[this.$$marker];
 };
 
 module.exports = Family;

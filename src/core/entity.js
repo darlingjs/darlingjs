@@ -15,6 +15,16 @@ var isUndefined = require('./../utils/utils').isUndefined;
 var mixin = require('./../utils/utils').mixin;
 
 /**
+ * @private
+ *
+ * @param value
+ * @returns {*}
+ */
+function isComponent(value) {
+  return isObject(value) && isDefined(value.$name);
+}
+
+/**
  * @class Entity
  * @classdesc
  *
@@ -23,7 +33,7 @@ var mixin = require('./../utils/utils').mixin;
  *
  * @constructor
  */
-var Entity = function() {
+var Entity = function () {
 
 };
 
@@ -56,34 +66,34 @@ Entity.prototype.$$world = null;
  * @param {object} [config] The config of adding Component
  * @return {Component}
  */
-Entity.prototype.$add = function(value, config) {
-    var instance;
-    var name;
+Entity.prototype.$add = function (value, config) {
+  var instance;
+  var name;
 
-    if (isString(value)) {
-        instance = this.$$world.$component(value, config);
-        name = value;
-    } else if (isComponent(value)) {
-        instance = value;
-        name = instance.$name;
-    } else if (isUndefined(value)) {
-        throw new Error('Can\'t add component with null name.');
-    } else {
-        throw new Error('Can\'t add ' + value + ' to entity');
-    }
+  if (isString(value)) {
+    instance = this.$$world.$component(value, config);
+    name = value;
+  } else if (isComponent(value)) {
+    instance = value;
+    name = instance.$name;
+  } else if (isUndefined(value)) {
+    throw new Error('Can\'t add component with null name.');
+  } else {
+    throw new Error('Can\'t add ' + value + ' to entity');
+  }
 
-    if (isUndefined(instance)) {
-        throw new Error('Can\'t add null component.');
-    }
+  if (isUndefined(instance)) {
+    throw new Error('Can\'t add null component.');
+  }
 
-    if (this[name]) {
-        this.$remove(name);
-    }
+  if (this[name]) {
+    this.$remove(name);
+  }
 
-    this[name] = instance;
+  this[name] = instance;
 
-    this.trigger('add', this, instance);
-    return instance;
+  this.trigger('add', this, instance);
+  return instance;
 };
 
 /**
@@ -96,30 +106,30 @@ Entity.prototype.$add = function(value, config) {
  * @param {string|Component} value The name or instance of component
  * @return {Component}
  */
-Entity.prototype.$remove = function(value) {
-    var instance;
-    var name;
-    if (isComponent(value)) {
-        name = value.$name;
-        instance = value;
-    } else if (isString(value)) {
-        name = value;
-        instance = this[value];
-    } else {
-        throw new Error('Can\'t remove from component ' + value);
-    }
+Entity.prototype.$remove = function (value) {
+  var instance;
+  var name;
+  if (isComponent(value)) {
+    name = value.$name;
+    instance = value;
+  } else if (isString(value)) {
+    name = value;
+    instance = this[value];
+  } else {
+    throw new Error('Can\'t remove from component ' + value);
+  }
 
-    if (!this[name]) {
-        return null;
-    }
+  if (!this[name]) {
+    return null;
+  }
 
-    this.trigger('remove', this, instance);
+  this.trigger('remove', this, instance);
 
-    //nullity optimization
-    //delete this[name];
-    this[name] = null;
+  //nullity optimization
+  //delete this[name];
+  this[name] = null;
 
-    return instance;
+  return instance;
 };
 
 /**
@@ -128,14 +138,13 @@ Entity.prototype.$remove = function(value) {
  * @param {string|Component} value The name or instance of component test
  * @return {boolean}
  */
-Entity.prototype.$has = function(value) {
-    if (isString(value)) {
-        return !!this[value];
-    } else {
-        return !!this[value.$name];
-    }
+Entity.prototype.$has = function (value) {
+  if (isString(value)) {
+    return !!this[value];
+  } else {
+    return !!this[value.$name];
+  }
 };
-
 
 
 /**
@@ -152,54 +161,54 @@ Entity.prototype.$has = function(value) {
  *
  * @param modifier
  */
-Entity.prototype.$applyModifier = function(modifier) {
-    if (isFunction(modifier)) {
-        this.$$applyModifierFunction(modifier);
+Entity.prototype.$applyModifier = function (modifier) {
+  if (isFunction(modifier)) {
+    this.$$applyModifierFunction(modifier);
+  } else {
+    if (isString(modifier)) {
+      this.$add(modifier);
+    } else if (isArray(modifier)) {
+      this.$applyModifierArray(modifier);
+    } else if (isObject(modifier)) {
+      this.$applyModifierObject(modifier);
     } else {
-        if (isString(modifier)) {
-            this.$add(modifier);
-        } else if (isArray(modifier)) {
-            this.$applyModifierArray(modifier);
-        } else if (isObject(modifier)) {
-            this.$applyModifierObject(modifier);
-        } else {
-            throw new Error('Unknown modifier')
-        }
+      throw new Error('Unknown modifier');
     }
+  }
 };
 
 /**
  * @ignore
  */
-Entity.prototype.$$applyModifierFunction = function(modifier) {
-    modifier = modifier.call(this);
-    if (isDefined(modifier)) {
-        this.$applyModifier(modifier);
-    }
+Entity.prototype.$$applyModifierFunction = function (modifier) {
+  modifier = modifier.call(this);
+  if (isDefined(modifier)) {
+    this.$applyModifier(modifier);
+  }
 };
 
 /**
  * @ignore
  * @param modifier
  */
-Entity.prototype.$applyModifierArray = function(modifier) {
-    for(var i = 0, count = modifier.length; i < count; i++) {
-        this.$applyModifier(modifier[i]);
-    }
+Entity.prototype.$applyModifierArray = function (modifier) {
+  for (var i = 0, count = modifier.length; i < count; i++) {
+    this.$applyModifier(modifier[i]);
+  }
 };
 
 /**
  * @ignore
  * @param modifier
  */
-Entity.prototype.$applyModifierObject = function(modifier) {
-    for(var key in modifier) {
-        var config = modifier[key];
-        if (isFunction(config)) {
-            config = config.call(this);
-        }
-        this.$add(key, config)
+Entity.prototype.$applyModifierObject = function (modifier) {
+  for (var key in modifier) {
+    var config = modifier[key];
+    if (isFunction(config)) {
+      config = config.call(this);
     }
+    this.$add(key, config);
+  }
 };
 
 /**
@@ -213,42 +222,38 @@ Entity.prototype.$applyModifierObject = function(modifier) {
  *
  * @param handler
  */
-Entity.prototype.$revertModifier = function(modifier) {
-    if (!isFunction(modifier)) {
-        if (isString(modifier)) {
-            this.$remove(modifier);
-        } else if (isArray(modifier)) {
-            this.$revertModifierArray(modifier);
-        } else if (isObject(modifier)) {
-            this.$revertModifierObject(modifier);
-        } else {
-            throw new Error('Unknown modifier')
-        }
+Entity.prototype.$revertModifier = function (modifier) {
+  if (!isFunction(modifier)) {
+    if (isString(modifier)) {
+      this.$remove(modifier);
+    } else if (isArray(modifier)) {
+      this.$revertModifierArray(modifier);
+    } else if (isObject(modifier)) {
+      this.$revertModifierObject(modifier);
+    } else {
+      throw new Error('Unknown modifier');
     }
+  }
 };
 
 /**
  * @ignore
  * @param modifier
  */
-Entity.prototype.$revertModifierArray = function(modifier) {
-    for(var i = 0, count = modifier.length; i < count; i++) {
-        this.$revertModifier(modifier[i]);
-    }
+Entity.prototype.$revertModifierArray = function (modifier) {
+  for (var i = 0, count = modifier.length; i < count; i++) {
+    this.$revertModifier(modifier[i]);
+  }
 };
 
 /**
  * @ignore
  * @param modifier
  */
-Entity.prototype.$revertModifierObject = function(modifier) {
-    for(var key in modifier) {
-        this.$remove(key)
-    }
+Entity.prototype.$revertModifierObject = function (modifier) {
+  for (var key in modifier) {
+    this.$remove(key);
+  }
 };
-
-function isComponent(value) {
-    return isObject(value) && isDefined(value.$name);
-}
 
 module.exports = Entity;

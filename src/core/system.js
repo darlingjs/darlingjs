@@ -6,12 +6,6 @@
 'use strict';
 
 var Events = require('./../utils/events');
-var isArray = require('./../utils/utils').isArray;
-var isDefined = require('./../utils/utils').isDefined;
-var isFunction = require('./../utils/utils').isFunction;
-var isObject = require('./../utils/utils').isObject;
-var isString = require('./../utils/utils').isString;
-var isUndefined = require('./../utils/utils').isUndefined;
 var List = require('./../utils/list');
 var mixin = require('./../utils/utils').mixin;
 
@@ -24,7 +18,7 @@ var mixin = require('./../utils/utils').mixin;
  * @constructor
  */
 var System = function () {
-    this.$$init();
+  this.$$init();
 };
 
 mixin(System.prototype, Events);
@@ -52,8 +46,8 @@ System.prototype.$$removeEntityHandler = null;
  * @ignore
  * @private
  */
-System.prototype.$$init = function() {
-    this.$$setNodes(new List());
+System.prototype.$$init = function () {
+  this.$$setNodes(new List());
 };
 
 /**
@@ -62,25 +56,25 @@ System.prototype.$$init = function() {
  * @private
  * @param {List} $nodes
  */
-System.prototype.$$setNodes = function($nodes) {
-    if (this.$nodes) {
-        this.$nodes.off('add');
-        this.$nodes.off('remove');
-    }
+System.prototype.$$setNodes = function ($nodes) {
+  if (this.$nodes) {
+    this.$nodes.off('add');
+    this.$nodes.off('remove');
+  }
 
-    this.$nodes = $nodes;
+  this.$nodes = $nodes;
 
-    var self = this;
+  var self = this;
 
-    if (this.$nodes) {
-        this.$nodes.on('add', function(node) {
-            self.$$addEntityHandler(node);
-        });
+  if (this.$nodes) {
+    this.$nodes.on('add', function (node) {
+      self.$$addEntityHandler(node);
+    });
 
-        this.$nodes.on('remove', function(node) {
-            self.$$removeEntityHandler(node);
-        });
-    }
+    this.$nodes.on('remove', function (node) {
+      self.$$removeEntityHandler(node);
+    });
+  }
 };
 
 /**
@@ -93,10 +87,10 @@ System.prototype.$$setNodes = function($nodes) {
  * @param context
  * @return {Function}
  */
-System.prototype.$$updateEveryNode = function(handler, context) {
-    return function(time) {
-        this.$nodes.forEach(handler, context, time);
-    };
+System.prototype.$$updateEveryNode = function (handler, context) {
+  return function (time) {
+    this.$nodes.forEach(handler, context, time);
+  };
 };
 
 module.exports = System;

@@ -21,9 +21,9 @@ var isUndefined = require('./../utils/utils').isUndefined;
  *
  * @constructor
  */
-var Module = function(){
-    this.$$components = {};
-    this.$$systems = {};
+var Module = function () {
+  this.$$components = {};
+  this.$$systems = {};
 };
 
 /**
@@ -38,9 +38,9 @@ Module.prototype.$name = '';
  * @param {string} name of component or system
  * @return {boolean}
  */
-Module.prototype.$has = function(name) {
-    return isDefined(this.$$components[name]) ||
-           isDefined(this.$$systems[name]);
+Module.prototype.$has = function (name) {
+  return isDefined(this.$$components[name]) ||
+    isDefined(this.$$systems[name]);
 };
 
 /**
@@ -57,11 +57,11 @@ Module.prototype.$has = function(name) {
  * @param {Object} [component] The bag of properties of component
  * @return {Module}
  */
-Module.prototype.$c = Module.prototype.$component = function(name, component) {
-    component = component || {};
-    component.$name = component.$name || name;
-    this.$$components[name] = component;
-    return this;
+Module.prototype.$c = Module.prototype.$component = function (name, component) {
+  component = component || {};
+  component.$name = component.$name || name;
+  this.$$components[name] = component;
+  return this;
 };
 
 /**
@@ -120,18 +120,18 @@ Module.prototype.$c = Module.prototype.$component = function(name, component) {
  *
  * @return {Module}
  */
-Module.prototype.$s = Module.prototype.$system = function(name, config) {
-    if (isUndefined(name)) {
-        throw new Error('System name must to be defined.');
-    }
-    config = config || {};
-    config.$name = name;
+Module.prototype.$s = Module.prototype.$system = function (name, config) {
+  if (isUndefined(name)) {
+    throw new Error('System name must to be defined.');
+  }
+  config = config || {};
+  config.$name = name;
 
-    if (isDefined(this.$$systems[name])) {
-        throw new Error('Module "' + this.$name + '" already has system with name "' + name + '".');
-    }
-    this.$$systems[name] = config;
-    return this;
+  if (isDefined(this.$$systems[name])) {
+    throw new Error('Module "' + this.$name + '" already has system with name "' + name + '".');
+  }
+  this.$$systems[name] = config;
+  return this;
 };
 
 module.exports = Module;

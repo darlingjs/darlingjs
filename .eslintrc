@@ -12,8 +12,10 @@
   "globals": {
   },
   "rules": {
+    "no-loop-func": 0,
+    "no-underscore-dangle": 0,
     "strict": 0,
-    "indent": [1, 4],
+    "indent": [1, 2],
     "quotes": [2, "single"]
   }
 }
