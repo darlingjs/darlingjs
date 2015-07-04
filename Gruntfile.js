@@ -98,6 +98,12 @@ module.exports = function(grunt) {
             bowerfile: {
                 src: 'build/bower.json'
             }
+        },
+        watch: {
+            tests: {
+                files: 'src/**/*.js',
+                tasks: ['test']
+            }
         }
     });
 
@@ -107,14 +113,16 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['browserify', 'jasmine', 'clean:test']);
     //grunt.registerTask('docs', ['clean', 'yuidoc']);
     grunt.registerTask('docs', ['clean:docs', 'jsdoc']);
+    //grunt.reqisterTask('watch:test', ['watch']);
 
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jsdoc');
     //grunt.loadNpmTasks('grunt-contrib-yuidoc');
-    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-version');
 };
