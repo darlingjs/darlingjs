@@ -23,6 +23,9 @@ module.exports = function(grunt) {
                 }
             }
         },
+        eslint: {
+            target: 'src/**/*.js'
+        },
         uglify: {
             options: {
                 banner: grunt.file.read('src/core/core.banner')
@@ -122,6 +125,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-jsdoc');
     //grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-version');

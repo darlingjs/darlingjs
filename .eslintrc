@@ -1,0 +1,19 @@
+{
+  "plugins": [
+  ],
+  "ecmaFeatures": {
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jasmine": true,
+    "node": true
+  },
+  "globals": {
+  },
+  "rules": {
+    "strict": 0,
+    "indent": [1, 4],
+    "quotes": [2, "single"]
+  }
+}
