@@ -7,8 +7,8 @@ module.exports = function (grunt) {
         files: {
           'build/<%= pkg.shortName %>.js': [
             'index.js',
-            'src/utils/**/*.js',
-            'src/core/**/*.js'
+            'lib/utils/**/*.js',
+            'lib/core/**/*.js'
           ]
         }
       },
@@ -16,30 +16,30 @@ module.exports = function (grunt) {
         files: {
           'build/test_bundle.js': [
             //'index.js',
-            //'src/utils/**/*.js',
-            //'src/core/**/*.js',
+            //'lib/utils/**/*.js',
+            //'lib/core/**/*.js',
             'spec/**/*.js'
           ]
         }
       }
     },
     eslint: {
-      target: 'src/core/**/*.js'
+      engine: 'lib/core/**/*.js',
+      tests: 'test/**/*.js'
+    },
+    mochaTest: {
+      test: {
+        src: ['test/**/*Spec.js']
+      }
     },
     uglify: {
       options: {
-        banner: grunt.file.read('src/core/core.banner')
+        banner: grunt.file.read('lib/core/core.banner')
       },
       build: {
         src: 'build/<%= pkg.shortName %>.js',
         dest: 'build/<%= pkg.shortName %>.min.js'
       }
-    },
-    jshint: {
-      all: [
-        'Gruntfile.js',
-        'src/**/*.js'
-      ]
     },
     jasmine: {
       engine: {
@@ -76,7 +76,7 @@ module.exports = function (grunt) {
       }
     },
     jsdoc: {
-      src: ['src/core/**/*.js', 'src/utils/**/*.js', 'README.md'],
+      src: ['lib/core/**/*.js', 'lib/utils/**/*.js', 'README.md'],
       options: {
         configure: '.jsdocrc',
         destination: 'docs'
@@ -89,7 +89,7 @@ module.exports = function (grunt) {
         version: '<%= pkg.version %>',
         url: '<%= pkg.homepage %>',
         options: {
-          paths: 'src/',
+          paths: 'lib/',
           outdir: 'docs/'
         }
       }
@@ -104,12 +104,20 @@ module.exports = function (grunt) {
     },
     watch: {
       tests: {
-        files: 'src/**/*.js',
+        files: 'lib/**/*.js',
         tasks: ['test']
       },
-      eslint: {
-        files: 'src/**/*.js',
-        tasks: ['eslint']
+      mochaTest: {
+        files: ['lib/**/*.js', 'test/**/*.js'],
+        tasks: ['mochaTest']
+      },
+      eslintEngine: {
+        files: 'lib/**/*.js',
+        tasks: ['eslint:engine']
+      },
+      eslintTests: {
+        files: 'test/**/*.js',
+        tasks: ['eslint:tests']
       }
     }
   });
@@ -117,7 +125,7 @@ module.exports = function (grunt) {
   // Default task(s).
   grunt.registerTask('default', ['test', 'build']);
   grunt.registerTask('build', ['clean:engine', 'browserify:engine', 'uglify', 'copy', 'version']);
-  grunt.registerTask('test', ['browserify', 'jasmine', 'clean:test']);
+  grunt.registerTask('test', ['eslint', 'mochaTest']);
   //grunt.registerTask('docs', ['clean', 'yuidoc']);
   grunt.registerTask('docs', ['clean:docs', 'jsdoc']);
   //grunt.reqisterTask('watch:test', ['watch']);
@@ -131,6 +139,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-jsdoc');
+  // Add the grunt-mocha-test tasks.
+  grunt.loadNpmTasks('grunt-mocha-test');
+
   //grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-version');
 };

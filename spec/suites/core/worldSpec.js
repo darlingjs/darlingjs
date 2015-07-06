@@ -6,7 +6,7 @@
  */
 
 var darlingjs = require('./../../../');
-var requestAnimationFrame = require('./../../../src/utils/animationFrame').request;
+var requestAnimationFrame = require('./../utils/animationFrame').request;
 var sinon = require('sinon');
 
 describe('World', function() {

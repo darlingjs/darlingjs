@@ -15,7 +15,7 @@ describe('entity', function() {
     beforeEach(function () {
         module = darlingjs.module('theModule', {})
                            .$s('theSystem')
-                           .$c('theComponent', {
+                           .$c('theCoamponent', {
                                 z: 99
                             })
                             .$c('theComponent2', {

@@ -29,6 +29,8 @@
     "test": "grunt test --verbose"
   },
   "devDependencies": {
+    "chai": "^3.0.0",
+    "faker": "^2.1.5",
     "grunt": "~0.4.5",
     "grunt-browserify": "^3.8.0",
     "grunt-cli": "~0.1",
@@ -41,10 +43,16 @@
     "grunt-contrib-yuidoc": "~0.4.0",
     "grunt-eslint": "^16.0.0",
     "grunt-jsdoc": "~0.6.0",
+    "grunt-mocha-test": "^0.12.7",
     "grunt-version": "~1.0.0",
     "jasmine": "^2.3.1",
     "jasmine-sinon": "^0.4.0",
+    "lodash": "^3.10.0",
+    "mocha": "^2.2.5",
     "sinon": "^1.15.3",
     "to-have-property": "^0.2.2"
+  },
+  "dependencies": {
+    "lodash": "^3.10.0"
   }
 }

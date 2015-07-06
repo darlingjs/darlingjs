@@ -3,7 +3,7 @@
  * Copyright (c) 2013, Eugene-Krevenets
  */
 
-var List = require('./../../../src/utils/list');
+var List = require('./../../../lib/utils/list');
 var sinon = require('sinon');
 
 describe('list', function() {
