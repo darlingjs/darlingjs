@@ -72,6 +72,14 @@ module.exports = function(createWorld) {
       expect(list.value()).to.have.members([e1, e2, e3]);
     });
 
+    it('should filter by name', function() {
+      world.e('entity1', ['c1']);
+      var e2 = world.e('entity2', ['c1', 'c2']);
+      world.e('entity3', ['c1', 'c2', 'c3']);
+
+      expect(world.filterByName('entity2')).to.be.equal(e2);
+    });
+
     it('should use components that passed as object', function() {
       var e = world.e({
         comp1: {},
