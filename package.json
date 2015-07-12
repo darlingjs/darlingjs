@@ -50,6 +50,7 @@
     "lodash": "^3.10.0",
     "mocha": "^2.2.5",
     "sinon": "^1.15.3",
+    "sinon-chai": "^2.8.0",
     "to-have-property": "^0.2.2"
   },
   "dependencies": {
