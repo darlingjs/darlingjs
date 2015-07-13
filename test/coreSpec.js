@@ -29,8 +29,4 @@ describe('core', function () {
       expect(s).to.not.be.undefined;
     });
   });
-
-  afterEach(function() {
-    core.removeAllWorlds();
-  });
 });
