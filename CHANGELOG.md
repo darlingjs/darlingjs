@@ -20,7 +20,12 @@ Based on [http://keepachangelog.com/](http://keepachangelog.com/)
 and [Changelogs convention](https://github.com/tech-angels/vandamme/#changelogs-convention)
 
 ## [Unreleased][unreleased]
-Beta-0
+v1.0
+- Make API more fluent
+- Stop using `$` notation
+- Move test from Jasmine to Mocha
+- add `eslint` validation
+- Decoupled module for update of system and system itself
 - [#15](https://github.com/darlingjs/darlingjs/issues/15) [Bug Fix] url of this changelog file
 
 ## [0.7.2] - 2015-06-22 
