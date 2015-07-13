@@ -212,4 +212,20 @@ describe('system', function() {
 
     expect(updateOneHandler).to.not.have.been.called;
   });
+
+  it('should init initial state on create', function() {
+    var getInitialStateStub = sinon.stub().returns({
+      value1: 12345,
+      value2: 'qwerty'
+    });
+
+    var stream = pipeline
+      .pipe({
+        getInitialState: getInitialStateStub
+      });
+
+    expect(getInitialStateStub).to.have.been.calledOnce;
+    expect(stream.system.state).to.have.property('value1', 12345);
+    expect(stream.system.state).to.have.property('value2', 'qwerty');
+  });
 });
