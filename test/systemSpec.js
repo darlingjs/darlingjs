@@ -10,7 +10,7 @@ var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
 describe('system', function() {
-  var emptyEntity, world, system, systemConfig, interval, pipeline;
+  var emptyEntity, world, system, systemConfig, pipeline;
 
   beforeEach(function() {
     pipeline = darling.world();
@@ -144,11 +144,11 @@ describe('system', function() {
       .pipe(system())
       .live(updater);
 
-    makeStep(interval);
+    makeStep(100);
 
     expect(systemConfig.updateOne).to.have.been.calledOnce;
 
-    expect(systemConfig.updateOne).to.have.been.calledWith(emptyEntity, interval, world);
+    expect(systemConfig.updateOne).to.have.been.calledWith(emptyEntity, 100, world);
   });
 
   it('should update all if match does not defined', function() {
