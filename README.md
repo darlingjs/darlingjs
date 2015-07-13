@@ -1,4 +1,4 @@
-darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=master)](https://travis-ci.org/darlingjs/darlingjs) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/darlingjs/heart?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=1.0)](https://travis-ci.org/darlingjs/darlingjs) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/darlingjs/heart?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 =========
 
 ![Logo](http://darlingjs.github.io/images/logo-oldschool.png)
