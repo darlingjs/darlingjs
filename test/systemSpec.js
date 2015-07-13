@@ -228,4 +228,24 @@ describe('system', function() {
     expect(stream.system.state).to.have.property('value1', 12345);
     expect(stream.system.state).to.have.property('value2', 'qwerty');
   });
+
+  it('should mutate initial state by options passed to system builder', function() {
+    var s = darling.system({
+      getInitialState: function() {
+        return {
+          value1: 12345,
+          value2: 'qwerty'
+        };
+      }
+    });
+
+    pipeline = pipeline.pipe(s({
+      value1: 54321,
+      value3: 'hello world'
+    }));
+
+    expect(pipeline.system.state).to.have.property('value1', 54321);
+    expect(pipeline.system.state).to.have.property('value2', 'qwerty');
+    expect(pipeline.system.state).to.have.property('value3', 'hello world');
+  });
 });
