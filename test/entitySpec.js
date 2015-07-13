@@ -39,7 +39,7 @@ describe('entity', function() {
 
     beforeEach(function() {
       w = darling.w();
-      w.c('theComponent', {
+      darling.c('theComponent', {
         x: 11,
         z: 99
       });
@@ -92,7 +92,7 @@ describe('entity', function() {
 
     it('should has component after it was added can check by component', function() {
       var e = w.e();
-      var c = w.c('theComponent', {});
+      var c = darling.c('theComponent', {});
 
       e.add('theComponent');
 
@@ -147,7 +147,7 @@ describe('entity', function() {
     });
 
     it('should add component by instance', function() {
-      var c = w.c('theComponent', {});
+      var c = darling.c('theComponent', {});
       var e = w.e('theEntity');
       e.add(c);
       expect(e.has(c)).to.be.true;

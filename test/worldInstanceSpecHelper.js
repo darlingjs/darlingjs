@@ -1,5 +1,6 @@
 'use strict';
 
+var darling = require('../');
 var expect = require('chai').expect;
 var faker = require('faker');
 
@@ -126,17 +127,17 @@ module.exports = function(createWorld) {
 
   describe('components', function() {
     it('should return predefined component with _name', function() {
-      world.c('component', {
+      darling.c('component', {
         value: 123
       });
-      var c = world.c('component');
+      var c = darling.c('component');
       expect(c).to.not.be.undefined;
       expect(c.value).to.be.equal(123);
       expect(c._name).to.be.equal('component');
     });
 
     it('should return empty component if there no predefined, with _name', function() {
-      var c = world.c('unknownComponent');
+      var c = darling.c('unknownComponent');
       expect(c).to.not.be.undefined;
       expect(c).to.have.property('_name', 'unknownComponent');
     });
