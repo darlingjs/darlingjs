@@ -21,11 +21,11 @@ and [Changelogs convention](https://github.com/tech-angels/vandamme/#changelogs-
 
 ## [Unreleased][unreleased]
 v1.0
-- Make API more fluent
-- Stop using `$` notation
-- Move test from Jasmine to Mocha
+- [#16](https://github.com/darlingjs/darlingjs/issues/16) make API more fluent
+- [#12](https://github.com/darlingjs/darlingjs/issues/12) make modules more opinionated
+- move test from Jasmine to Mocha
 - add `eslint` validation
-- Decoupled module for update of system and system itself
+- decoupled module for update of system and system itself
 - [#15](https://github.com/darlingjs/darlingjs/issues/15) [Bug Fix] url of this changelog file
 
 ## [0.7.2] - 2015-06-22 
