@@ -134,6 +134,102 @@ describe('system', function() {
     expect(updateOneHandler3).to.have.been.calledOnce;
   });
 
+  it('should call right update one handler with mixed requirement for each system', function() {
+    var updateOneHandler1 = sinon.spy(),
+      updateOneHandler2 = sinon.spy(),
+      updateOneHandler3 = sinon.spy();
+
+    var stream = pipeline
+      .pipe({
+        require: ['c1'],
+        updateOne: updateOneHandler1
+      })
+      .pipe({
+        require: ['c2'],
+        updateOne: updateOneHandler2
+      })
+      .pipe({
+        require: ['c1', 'c2'],
+        updateOne: updateOneHandler3
+      });
+
+    var e1 = world.e(['c1']);
+    var e2 = world.e(['c2']);
+    var e3 = world.e(['c1', 'c2']);
+
+    stream.step(100);
+
+    expect(updateOneHandler1).to.have.been.calledWith(e1, 100, world);
+    expect(updateOneHandler1).to.have.been.calledWith(e3, 100, world);
+    expect(updateOneHandler2).to.have.been.calledWith(e2, 100, world);
+    expect(updateOneHandler2).to.have.been.calledWith(e3, 100, world);
+    expect(updateOneHandler3).to.have.been.calledWith(e3, 100, world);
+  });
+
+  it('should call right before update  handler with mixed requirement for each system', function() {
+    var updateOneHandler1 = sinon.spy(),
+      updateOneHandler2 = sinon.spy(),
+      updateOneHandler3 = sinon.spy();
+
+    var stream = pipeline
+      .pipe({
+        require: ['c1'],
+        beforeUpdate: updateOneHandler1
+      })
+      .pipe({
+        require: ['c2'],
+        beforeUpdate: updateOneHandler2
+      })
+      .pipe({
+        require: ['c1', 'c2'],
+        beforeUpdate: updateOneHandler3
+      });
+
+    var e1 = world.e(['c1']);
+    var e2 = world.e(['c2']);
+    var e3 = world.e(['c1', 'c2']);
+
+    stream.step(100);
+
+    expect(updateOneHandler1).to.have.been.calledWith(e1, 100, world);
+    expect(updateOneHandler1).to.have.been.calledWith(e3, 100, world);
+    expect(updateOneHandler2).to.have.been.calledWith(e2, 100, world);
+    expect(updateOneHandler2).to.have.been.calledWith(e3, 100, world);
+    expect(updateOneHandler3).to.have.been.calledWith(e3, 100, world);
+  });
+
+  it('should call right after update  handler with mixed requirement for each system', function() {
+    var updateOneHandler1 = sinon.spy(),
+      updateOneHandler2 = sinon.spy(),
+      updateOneHandler3 = sinon.spy();
+
+    var stream = pipeline
+      .pipe({
+        require: ['c1'],
+        afterUpdate: updateOneHandler1
+      })
+      .pipe({
+        require: ['c2'],
+        afterUpdate: updateOneHandler2
+      })
+      .pipe({
+        require: ['c1', 'c2'],
+        afterUpdate: updateOneHandler3
+      });
+
+    var e1 = world.e(['c1']);
+    var e2 = world.e(['c2']);
+    var e3 = world.e(['c1', 'c2']);
+
+    stream.step(100);
+
+    expect(updateOneHandler1).to.have.been.calledWith(e1, 100, world);
+    expect(updateOneHandler1).to.have.been.calledWith(e3, 100, world);
+    expect(updateOneHandler2).to.have.been.calledWith(e2, 100, world);
+    expect(updateOneHandler2).to.have.been.calledWith(e3, 100, world);
+    expect(updateOneHandler3).to.have.been.calledWith(e3, 100, world);
+  });
+
   it('should call update of system in a pipe line if there any entity', function() {
     var makeStep = _.noop;
     var updater = function(_step_) {
