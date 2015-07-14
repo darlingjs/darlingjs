@@ -134,4 +134,24 @@ describe('List', function() {
     expect(i.next()).to.be.equal('a3');
     expect(i.hasNext()).to.be.false;
   });
+
+  it('should restart on each quickIterator call', function() {
+    var i = list.quickIterator();
+
+    expect(i.hasNext()).to.be.true;
+    i.next();
+    expect(i.hasNext()).to.be.true;
+    i.next();
+    expect(i.hasNext()).to.be.true;
+    i.next();
+    expect(i.hasNext()).to.be.false;
+    i = list.quickIterator();
+    expect(i.hasNext()).to.be.true;
+    i.next();
+    expect(i.hasNext()).to.be.true;
+    i.next();
+    expect(i.hasNext()).to.be.true;
+    i.next();
+    expect(i.hasNext()).to.be.false;
+  });
 });
