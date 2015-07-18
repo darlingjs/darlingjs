@@ -24,6 +24,7 @@ v1.0
 - [#16](https://github.com/darlingjs/darlingjs/issues/16) make API more fluent
 - [#12](https://github.com/darlingjs/darlingjs/issues/12) make modules more opinionated
 - [#10](https://github.com/darlingjs/darlingjs/issues/10) Stop using `$` notation
+- [#8](https://github.com/darlingjs/darlingjs/issues/8) decoupled update system from game world
 - move test from Jasmine to Mocha
 - add `eslint` validation
 - decoupled module for update of system and system itself
