@@ -4,6 +4,7 @@ var chai = require('chai');
 var darling = require('../');
 var expect = chai.expect;
 var _ = require('lodash');
+var Promise = require('bluebird');
 var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 
@@ -343,5 +344,181 @@ describe('system', function() {
     expect(pipeline.system.state).to.have.property('value1', 54321);
     expect(pipeline.system.state).to.have.property('value2', 'qwerty');
     expect(pipeline.system.state).to.have.property('value3', 'hello world');
+  });
+
+  describe('laziness', function() {
+    it('should call lazy update handlers as well ', function(done) {
+      var promise = new Promise(function() {
+      });
+      var handler = sinon.stub().returns(promise);
+      var stream = pipeline.pipe({
+          lazy: true,
+          updateAll: handler
+        });
+
+      stream.step(100);
+
+      setTimeout(function() {
+        expect(handler).to.have.been.calledOnce;
+        done();
+      }, 100);
+    });
+
+    it('should call lazy update all 1-by-1 and wait until previous will resolve', function(done) {
+      var resolve1;
+      var promise1 = new Promise(function(_resolve_) {
+        resolve1 = _resolve_;
+      });
+      var promise2 = new Promise(function() {});
+
+      var handler1 = sinon.stub().returns(promise1);
+      var handler2 = sinon.stub().returns(promise2);
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          updateAll: handler1
+        })
+        .pipe({
+          lazy: true,
+          updateAll: handler2
+        });
+
+      stream.step(100);
+
+      setTimeout(function() {
+        expect(handler1).to.have.been.calledOnce;
+        expect(handler2).to.not.have.been.called;
+        resolve1();
+        setTimeout(function() {
+          expect(handler2).to.have.been.calledOnce;
+          done();
+        }, 100);
+      }, 100);
+    });
+
+    it('should call lazy update one systems 1-by-1 and wait until previous will resolve', function(done) {
+      var resolve1;
+      var promise1 = new Promise(function(_resolve_) {
+        resolve1 = _resolve_;
+      });
+      var promise2 = new Promise(function() {});
+
+      var handler1 = sinon.stub().returns(promise1);
+      var handler2 = sinon.stub().returns(promise2);
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          updateOne: handler1
+        })
+        .pipe({
+          lazy: true,
+          updateOne: handler2
+        });
+
+      stream.step(100);
+
+      setTimeout(function() {
+        expect(handler1).to.have.been.calledOnce;
+        expect(handler2).to.not.have.been.called;
+        resolve1();
+        setTimeout(function() {
+          expect(handler2).to.have.been.calledOnce;
+          done();
+        }, 100);
+      }, 100);
+    });
+
+    it('should call lazy update one entities 1-by-1 and wait until previous will resolve', function(done) {
+      var resolve1;
+      var promise1 = new Promise(function(_resolve_) {
+        resolve1 = _resolve_;
+      });
+
+      var handler1 = sinon.stub().returns(promise1);
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          updateOne: handler1
+        });
+
+      var emptyEntity2 = pipeline.e({});
+
+      stream.step(100);
+
+      setTimeout(function() {
+        expect(handler1).to.have.been.calledOnce;
+        expect(handler1).to.have.been.calledWith(emptyEntity, 100, world);
+        expect(handler1).to.not.have.been.calledWith(emptyEntity2, 100, world);
+        resolve1();
+        setTimeout(function() {
+          expect(handler1).to.have.been.calledWith(emptyEntity2, 100, world);
+          done();
+        }, 100);
+      }, 100);
+    });
+
+    it('should call lazy before update systems 1-by-1 and wait until previous will resolve', function(done) {
+      var resolve1;
+      var promise1 = new Promise(function(_resolve_) {
+        resolve1 = _resolve_;
+      });
+      var promise2 = new Promise(function() {});
+
+      var handler1 = sinon.stub().returns(promise1);
+      var handler2 = sinon.stub().returns(promise2);
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          beforeUpdate: handler1
+        })
+        .pipe({
+          lazy: true,
+          beforeUpdate: handler2
+        });
+
+      stream.step(100);
+
+      setTimeout(function() {
+        expect(handler1).to.have.been.calledOnce;
+        expect(handler2).to.not.have.been.called;
+        resolve1();
+        setTimeout(function() {
+          expect(handler2).to.have.been.calledOnce;
+          done();
+        }, 100);
+      }, 100);
+    });
+
+    it('should call lazy after update systems 1-by-1 and wait until previous will resolve', function(done) {
+      var resolve1;
+      var promise1 = new Promise(function(_resolve_) {
+        resolve1 = _resolve_;
+      });
+      var promise2 = new Promise(function() {});
+
+      var handler1 = sinon.stub().returns(promise1);
+      var handler2 = sinon.stub().returns(promise2);
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          afterUpdate: handler1
+        })
+        .pipe({
+          lazy: true,
+          afterUpdate: handler2
+        });
+
+      stream.step(100);
+
+      setTimeout(function() {
+        expect(handler1).to.have.been.calledOnce;
+        expect(handler2).to.not.have.been.called;
+        resolve1();
+        setTimeout(function() {
+          expect(handler2).to.have.been.calledOnce;
+          done();
+        }, 100);
+      }, 100);
+    });
   });
 });
