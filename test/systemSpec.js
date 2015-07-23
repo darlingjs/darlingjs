@@ -456,5 +456,37 @@ describe('system', function() {
         }, 100);
       }, 100);
     });
+
+    it('should call lazy before update systems 1-by-1 and wait until previous will resolve', function(done) {
+      var resolve1;
+      var promise1 = new Promise(function(_resolve_) {
+        resolve1 = _resolve_;
+      });
+      var promise2 = new Promise(function() {});
+
+      var handler1 = sinon.stub().returns(promise1);
+      var handler2 = sinon.stub().returns(promise2);
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          beforeUpdate: handler1
+        })
+        .pipe({
+          lazy: true,
+          beforeUpdate: handler2
+        });
+
+      stream.step(100);
+
+      setTimeout(function() {
+        expect(handler1).to.have.been.calledOnce;
+        expect(handler2).to.not.have.been.called;
+        resolve1();
+        setTimeout(function() {
+          expect(handler2).to.have.been.calledOnce;
+          done();
+        }, 100);
+      }, 100);
+    });
   });
 });
