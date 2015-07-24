@@ -5,6 +5,37 @@ darlingjs [![Build Status](https://travis-ci.org/darlingjs/darlingjs.png?branch=
 
 Lightweight entity, component, system based game engine. With flexible architecture. Decupled from any dependecy. So all interaction with Box2D, Render system, Particle System and so on put in pluggable modules. Use fluent API [Crafty.js](craftyjs.com), [jQuery](http://jquery.com) like.
 
+## 1.0
+
+### Recipes
+Create your own pipeline recipe
+
+```javascript
+var darling = require('darlingjs');
+var system1 = require('system1');
+var system2 = require('system2');
+var system3 = require('system3');
+
+module.exports = {
+  myRecipe: darling.recipe.sequence([
+    system1(),
+    system2(),
+    system3()
+  ]) 
+};
+
+```
+
+Usage as common system
+```javascript
+var darling = require('darlingjs');
+var myRecipe = require('myRecipes').myRecipe;
+
+var pipeline = darling.world()
+  pipe(myRecipe());
+  
+```
+
 ## Support
 
 * [documentation](http://darlingjs.github.io/docs/)
