@@ -36,6 +36,27 @@ var pipeline = darling.world()
   
 ```
 
+## Extentions
+
+### Pipe
+
+[darlingjs/darlingjs-pipe](https://github.com/darlingjs/darlingjs-pipe) advance utils for pipeline
+
+#### Repeat
+
+Repeat sequence of system in pipeline.  
+
+```javascript
+//will repeat system1, system2 in pipeline of the world
+darling.world('the-world')
+  .pipe(repeat(3)
+    .pipe(system1())
+    .pipe(system2())
+  );
+
+```
+
+
 ## Support
 
 * [documentation](http://darlingjs.github.io/docs/)
