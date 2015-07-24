@@ -346,6 +346,39 @@ describe('system', function() {
     expect(pipeline.system.state).to.have.property('value3', 'hello world');
   });
 
+  describe('recipe', function() {
+    it('should be in api', function() {
+      expect(darling).to.have.property('recipe');
+      expect(darling.recipe).to.have.property('sequence');
+      expect(darling.recipe.sequence).to.be.a('function');
+    });
+
+    it('should add sequence of systems as object with property `systems`', function() {
+      var handler1 = sinon.spy();
+      var handler2 = sinon.spy();
+      var handler3 = sinon.spy();
+
+      var recipe = darling.recipe.sequence([
+          {
+            updateOne: handler1
+          },
+          {
+            updateOne: handler2
+          },
+          {
+            updateOne: handler3
+          }
+      ]);
+
+      pipeline = pipeline.pipe(recipe());
+      pipeline.step(100);
+
+      expect(handler1).to.have.been.calledOnce;
+      expect(handler2).to.have.been.calledOnce;
+      expect(handler3).to.have.been.calledOnce;
+    });
+  });
+
   describe('laziness', function() {
     it('should call lazy update handlers as well ', function(done) {
       var promise = new Promise(function() {
