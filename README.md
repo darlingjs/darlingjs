@@ -56,6 +56,11 @@ darling.world('the-world')
 
 ```
 
+### Runners
+Use for run world in a circle of pipelines
+
+- [live-on-animation-frame](https://github.com/darlingjs/darlingjs-live-on-animation-frame) to update 60 times in second on Animation Frame
+- [live-on-promise](https://github.com/darlingjs/darlingjs-live-on-promise) to update once last lazy system resolves its Promise
 
 ## Support
 
