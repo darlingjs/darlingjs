@@ -1,3 +1,6 @@
+cache:
+  directories:
+    - node_modules
 language: node_js
 node_js:
 - '0.12'
@@ -8,3 +11,4 @@ env:
   global:
   - GH_REF: github.com/darlingjs/bower-darlingjs.git
   - secure: HKKhepZ7ZWa0xZQQTBAzdugMmFE9MtTwJhaOllcfTeZwc8B2OFtV7qVtnaK3xP1VZud78jGJ+hQ8rAeJFqR0xkbosqFVvbf1FBd2czV4s9LZz8ZyqVMM940b9Wmd4b4ySsjtayBbfH8CcBem9EF1VoQBU3WXrDuGgODQU77fIls=
+sudo: false
