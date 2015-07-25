@@ -62,6 +62,21 @@ Use for run world in a circle of pipelines
 - [live-on-animation-frame](https://github.com/darlingjs/darlingjs-live-on-animation-frame) to update 60 times in second on Animation Frame
 - [live-on-promise](https://github.com/darlingjs/darlingjs-live-on-promise) to update once last lazy system resolves its Promise
 
+Usage
+
+```javascript
+var onFrame = require('darlingjs-live-on-animation-frame');
+
+var w = darling.world('the-world')
+  .pipe(box2d())
+  .pipe(pixijs())
+  .live(onFrame({
+    autostart: true
+  }));
+
+//world lives now, only need to add entities to it
+```
+
 ## Support
 
 * [documentation](http://darlingjs.github.io/docs/)
