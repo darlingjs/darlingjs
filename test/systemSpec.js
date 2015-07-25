@@ -16,7 +16,7 @@ describe('system', function() {
   beforeEach(function() {
     pipeline = darling.world();
     world = pipeline.world;
-    emptyEntity = pipeline.e({});
+    emptyEntity = pipeline.e('first', {});
 
     systemConfig = {
       //(entity, interval, world)
@@ -554,7 +554,7 @@ describe('system', function() {
       }, 100);
     });
 
-    it('should return number of passed updates', function(done) {
+    it('should return number of passed updates if there are more than zero', function(done) {
       var resolve1 = null;
       var resolve2 = null;
       var stepHandler = sinon.spy();
@@ -585,6 +585,73 @@ describe('system', function() {
         .delay(100)
         .then(function() {
           expect(stepHandler).to.have.been.calledWith(2);
+        })
+        .done(done);
+    });
+
+    it('should return number of passed updates if systems does not match', function(done) {
+      var stepHandler = sinon.spy();
+      var handler1 = sinon.stub().returns(new Promise(function() {}));
+      var handler2 = sinon.stub().returns(new Promise(function() {}));
+      var handler3 = sinon.stub().returns(new Promise(function() {}));
+
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          require: 'uknown',
+          afterUpdate: handler1
+        })
+        .pipe({
+          lazy: true,
+          require: 'uknown',
+          afterUpdate: handler2
+        })
+        .pipe({
+          lazy: true,
+          require: 'uknown',
+          afterUpdate: handler3
+        });
+
+      stream.step(100)
+        .then(stepHandler);
+
+      Promise
+        .delay(100)
+        .then(function() {
+          expect(stepHandler).to.have.been.calledWith(0);
+        })
+        .done(done);
+    });
+
+    it('should return number of passed updates if there no any entities', function(done) {
+      var stepHandler = sinon.spy();
+      var handler1 = sinon.stub().returns(new Promise(function() {}));
+      var handler2 = sinon.stub().returns(new Promise(function() {}));
+      var handler3 = sinon.stub().returns(new Promise(function() {}));
+
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          updateAll: handler1
+        })
+        .pipe({
+          lazy: true,
+          updateAll: handler2
+        })
+        .pipe({
+          lazy: true,
+          updateAll: handler3
+        });
+
+      stream.removeAllEntities();
+
+      stream.step(100)
+        .then(stepHandler);
+
+      Promise
+        .delay(100)
+        .then(function() {
+          expect(stepHandler).to.have.been.calledWith(0);
         })
         .done(done);
     });
