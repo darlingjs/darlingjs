@@ -553,5 +553,40 @@ describe('system', function() {
         }, 100);
       }, 100);
     });
+
+    it('should return number of passed updates', function(done) {
+      var resolve1 = null;
+      var resolve2 = null;
+      var stepHandler = sinon.spy();
+      var handler1 = sinon.stub().returns(new Promise(function(_resolve_) {
+        resolve1 = _resolve_;
+      }));
+      var handler2 = sinon.stub().returns(new Promise(function(_resolve_) {
+        resolve2 = _resolve_;
+      }));
+
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          afterUpdate: handler1
+        })
+        .pipe({
+          lazy: true,
+          afterUpdate: handler2
+        });
+
+      stream.step(100)
+        .then(stepHandler);
+
+      resolve1();
+      resolve2();
+
+      Promise
+        .delay(100)
+        .then(function() {
+          expect(stepHandler).to.have.been.calledWith(2);
+        })
+        .done(done);
+    });
   });
 });
