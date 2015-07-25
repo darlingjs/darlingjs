@@ -21,6 +21,7 @@ and [Changelogs convention](https://github.com/tech-angels/vandamme/#changelogs-
 
 ## [Unreleased][unreleased]
 v1.0
+- [#25](https://github.com/darlingjs/darlingjs/issues/25) live mixin start/stop methods of runner to the pipeline
 - [#22](https://github.com/darlingjs/darlingjs/issues/22) recipes from sequenced pipeline of systems
 - [#16](https://github.com/darlingjs/darlingjs/issues/16) make API more fluent
 - [#12](https://github.com/darlingjs/darlingjs/issues/12) make modules more opinionated
