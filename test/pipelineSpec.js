@@ -39,7 +39,7 @@ describe('pipeline', function() {
       var start = sinon.spy(),
         stop = sinon.spy();
 
-      pipeline = pipeline.live(function(step) {
+      pipeline = pipeline.live(function() {
         return {
           start: start,
           stop: stop
