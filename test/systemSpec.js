@@ -346,6 +346,42 @@ describe('system', function() {
     expect(pipeline.system.state).to.have.property('value3', 'hello world');
   });
 
+  describe('tap handler', function() {
+    it('should tap each sync system in pipeline', function() {
+      var tapHandler = sinon.spy();
+
+      var stream = pipeline
+        .pipe({
+          tap: tapHandler
+        });
+
+      stream.removeAllEntities();
+      stream.step(100);
+
+      expect(tapHandler).to.have.been.calledOnce;
+    });
+
+    it('should tap each async system in pipeline', function(done) {
+      var tapHandler = sinon.stub().returns(new Promise(function(){}));
+
+      var stream = pipeline
+        .pipe({
+          lazy: true,
+          tap: tapHandler
+        });
+
+      stream.removeAllEntities();
+      stream.step(100);
+
+      Promise
+        .delay(100)
+        .then(function() {
+          expect(tapHandler).to.have.been.calledOnce;
+        })
+        .done(done);
+    });
+  });
+
   describe('recipe', function() {
     it('should be in api', function() {
       expect(darling).to.have.property('recipe');
@@ -543,15 +579,18 @@ describe('system', function() {
 
       stream.step(100);
 
-      setTimeout(function() {
-        expect(handler1).to.have.been.calledOnce;
-        expect(handler2).to.not.have.been.called;
-        resolve1();
-        setTimeout(function() {
+      Promise
+        .delay(100)
+        .then(function() {
+          expect(handler1).to.have.been.calledOnce;
+          expect(handler2).to.not.have.been.called;
+        })
+        .then(resolve1)
+        .delay(100)
+        .then(function() {
           expect(handler2).to.have.been.calledOnce;
-          done();
-        }, 100);
-      }, 100);
+        })
+        .done(done);
     });
 
     it('should return number of passed updates if there are more than zero', function(done) {
