@@ -366,7 +366,7 @@ describe('system', function() {
 
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           tap: tapHandler
         });
 
@@ -416,12 +416,12 @@ describe('system', function() {
   });
 
   describe('laziness', function() {
-    it('should call lazy update handlers as well ', function(done) {
+    it('should call async update handlers as well ', function(done) {
       var promise = new Promise(function() {
       });
       var handler = sinon.stub().returns(promise);
       var stream = pipeline.pipe({
-          lazy: true,
+          async: true,
           updateAll: handler
         });
 
@@ -433,7 +433,7 @@ describe('system', function() {
       }, 100);
     });
 
-    it('should call lazy update all 1-by-1 and wait until previous will resolve', function(done) {
+    it('should call async update all 1-by-1 and wait until previous will resolve', function(done) {
       var resolve1;
       var promise1 = new Promise(function(_resolve_) {
         resolve1 = _resolve_;
@@ -444,11 +444,11 @@ describe('system', function() {
       var handler2 = sinon.stub().returns(promise2);
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           updateAll: handler1
         })
         .pipe({
-          lazy: true,
+          async: true,
           updateAll: handler2
         });
 
@@ -465,7 +465,7 @@ describe('system', function() {
       }, 100);
     });
 
-    it('should call lazy update one systems 1-by-1 and wait until previous will resolve', function(done) {
+    it('should call async update one systems 1-by-1 and wait until previous will resolve', function(done) {
       var resolve1;
       var promise1 = new Promise(function(_resolve_) {
         resolve1 = _resolve_;
@@ -476,11 +476,11 @@ describe('system', function() {
       var handler2 = sinon.stub().returns(promise2);
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           updateOne: handler1
         })
         .pipe({
-          lazy: true,
+          async: true,
           updateOne: handler2
         });
 
@@ -497,7 +497,7 @@ describe('system', function() {
       }, 100);
     });
 
-    it('should call lazy update one entities 1-by-1 and wait until previous will resolve', function(done) {
+    it('should call async update one entities 1-by-1 and wait until previous will resolve', function(done) {
       var resolve1;
       var promise1 = new Promise(function(_resolve_) {
         resolve1 = _resolve_;
@@ -506,7 +506,7 @@ describe('system', function() {
       var handler1 = sinon.stub().returns(promise1);
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           updateOne: handler1
         });
 
@@ -526,7 +526,7 @@ describe('system', function() {
       }, 100);
     });
 
-    it('should call lazy before update systems 1-by-1 and wait until previous will resolve', function(done) {
+    it('should call async before update systems 1-by-1 and wait until previous will resolve', function(done) {
       var resolve1;
       var promise1 = new Promise(function(_resolve_) {
         resolve1 = _resolve_;
@@ -537,11 +537,11 @@ describe('system', function() {
       var handler2 = sinon.stub().returns(promise2);
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           beforeUpdate: handler1
         })
         .pipe({
-          lazy: true,
+          async: true,
           beforeUpdate: handler2
         });
 
@@ -558,7 +558,7 @@ describe('system', function() {
       }, 100);
     });
 
-    it('should call lazy after update systems 1-by-1 and wait until previous will resolve', function(done) {
+    it('should call async after update systems 1-by-1 and wait until previous will resolve', function(done) {
       var resolve1;
       var promise1 = new Promise(function(_resolve_) {
         resolve1 = _resolve_;
@@ -569,11 +569,11 @@ describe('system', function() {
       var handler2 = sinon.stub().returns(promise2);
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           afterUpdate: handler1
         })
         .pipe({
-          lazy: true,
+          async: true,
           afterUpdate: handler2
         });
 
@@ -606,11 +606,11 @@ describe('system', function() {
 
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           afterUpdate: handler1
         })
         .pipe({
-          lazy: true,
+          async: true,
           afterUpdate: handler2
         });
 
@@ -636,17 +636,17 @@ describe('system', function() {
 
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           require: 'uknown',
           afterUpdate: handler1
         })
         .pipe({
-          lazy: true,
+          async: true,
           require: 'uknown',
           afterUpdate: handler2
         })
         .pipe({
-          lazy: true,
+          async: true,
           require: 'uknown',
           afterUpdate: handler3
         });
@@ -670,15 +670,15 @@ describe('system', function() {
 
       var stream = pipeline
         .pipe({
-          lazy: true,
+          async: true,
           updateAll: handler1
         })
         .pipe({
-          lazy: true,
+          async: true,
           updateAll: handler2
         })
         .pipe({
-          lazy: true,
+          async: true,
           updateAll: handler3
         });
 
